@@ -1,5 +1,8 @@
-import footerBackground from '@/assets/img/footer.svg';
 import { Globe, HelpCircle, MapPin, Phone } from 'lucide-react';
+
+import footerBackground from '@/assets/img/footer.svg';
+import NishonLogo from '@/components/nishon-logo';
+
 const Footer = () => {
     return (
         <footer className="border-t bg-white pt-16 pb-8">
@@ -7,9 +10,7 @@ const Footer = () => {
                 <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
                     <div>
                         <div className="mb-6 flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white">
-                                <Globe className="h-5 w-5" />
-                            </div>
+                            <NishonLogo />
                             <span className="text-lg font-bold text-slate-900">
                                 DIGITAL TAJIKISTAN
                             </span>
@@ -107,7 +108,8 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-slate-500 md:flex-row">
+                <div
+                    className="flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-slate-500 md:flex-row">
                     <div>
                         © {`${new Date().getFullYear()}`} Основы цифровизации
                         Таджикистана. Все права защищены.
@@ -121,9 +123,10 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-4 pt-8 text-sm text-slate-500 md:flex-row">
+                <div
+                    className="flex flex-col items-center justify-center gap-4 pt-8 text-sm text-slate-500 md:flex-row">
                     <div>
-                        <img className={'w-150'} src={footerBackground} />
+                        <img className={'w-150'} src={footerBackground} alt={'FooterBackground'} />
                     </div>
                 </div>
             </div>

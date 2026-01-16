@@ -1,6 +1,7 @@
 import { Globe, Menu, Search, User } from 'lucide-react';
 import { useState } from 'react';
 
+import NishonLogo from '@/components/nishon-logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -12,7 +13,6 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,9 +23,7 @@ const Header = () => {
                     <div className="flex items-center justify-between gap-8">
                         {/* Logo */}
                         <div className="flex shrink-0 items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white">
-                                <Globe className="h-6 w-6" />
-                            </div>
+                            <NishonLogo />
                             <div className="hidden md:block">
                                 <div className="text-lg leading-none font-bold text-slate-900">
                                     DIGITAL

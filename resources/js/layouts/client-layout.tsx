@@ -1,9 +1,9 @@
 import { Head } from '@inertiajs/react';
 import { PropsWithChildren } from 'react';
 
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 import TopBar from '@/components/top-bar';
-import Footer from '@/components/footer';
 
 const ClientLayout = ({ children }: PropsWithChildren) => {
     return (
