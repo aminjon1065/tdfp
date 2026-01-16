@@ -109,11 +109,8 @@ const Footer = () => {
 
                 <div className="flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-slate-500 md:flex-row">
                     <div>
-                        © {`${new Date().getFullYear()}`} Основы цифровизации Таджикистана. Все права
-                        защищены.
-                    </div>
-                    <div>
-                        <img className={'w-150'} src={footerBackground} />
+                        © {`${new Date().getFullYear()}`} Основы цифровизации
+                        Таджикистана. Все права защищены.
                     </div>
                     <div className="flex gap-6">
                         <a href="#" className="hover:text-slate-900">
@@ -122,6 +119,11 @@ const Footer = () => {
                         <a href="#" className="hover:text-slate-900">
                             Условия использования
                         </a>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center justify-center gap-4 pt-8 text-sm text-slate-500 md:flex-row">
+                    <div>
+                        <img className={'w-150'} src={footerBackground} />
                     </div>
                 </div>
             </div>
