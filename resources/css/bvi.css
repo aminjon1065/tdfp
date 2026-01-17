@@ -1,0 +1,99 @@
+/* src/styles/bvi.css */
+
+:root {
+    --font-scale: 1;
+    --line-height: 1.5;
+}
+
+/* Включён BVI */
+html[data-bvi='on'] {
+    font-size: calc(16px * var(--font-scale));
+}
+
+/* Размеры шрифта */
+html[data-font-size='large'] {
+    --font-scale: 1.25;
+}
+
+html[data-font-size='xlarge'] {
+    --font-scale: 1.5;
+}
+
+/* Межстрочный */
+html[data-line-height='wide'] {
+    --line-height: 2;
+}
+
+html[data-bvi='on'] body {
+    line-height: var(--line-height);
+}
+
+/* Контраст: Высокий (Черный фон, белый текст) */
+html[data-contrast='high'] {
+    /* Переопределяем переменные shadcn/tailwind */
+    --background: oklch(0 0 0);
+    --foreground: oklch(1 0 0);
+
+    --card: oklch(0 0 0);
+    --card-foreground: oklch(1 0 0);
+
+    --popover: oklch(0 0 0);
+    --popover-foreground: oklch(1 0 0);
+
+    --primary: oklch(1 0 0);
+    --primary-foreground: oklch(0 0 0);
+
+    --secondary: oklch(0.2 0 0);
+    --secondary-foreground: oklch(1 0 0);
+
+    --muted: oklch(0.2 0 0);
+    --muted-foreground: oklch(0.8 0 0);
+
+    --accent: oklch(0.2 0 0);
+    --accent-foreground: oklch(1 0 0);
+
+    --destructive: oklch(0.6 0.2 20);
+    --destructive-foreground: oklch(1 0 0);
+
+    --border: oklch(1 0 0);
+    --input: oklch(1 0 0);
+    --ring: oklch(1 0 0);
+
+    --sidebar: oklch(0 0 0);
+    --sidebar-foreground: oklch(1 0 0);
+    --sidebar-primary: oklch(1 0 0);
+    --sidebar-primary-foreground: oklch(0 0 0);
+    --sidebar-accent: oklch(0.2 0 0);
+    --sidebar-accent-foreground: oklch(1 0 0);
+    --sidebar-border: oklch(1 0 0);
+    --sidebar-ring: oklch(1 0 0);
+}
+
+/* Инверсия */
+html[data-contrast='invert'] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html[data-contrast='invert'] img,
+html[data-contrast='invert'] video,
+html[data-contrast='invert'] picture {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Изображения */
+html[data-images='off'] img,
+html[data-images='off'] picture,
+html[data-images='off'] svg:not([class*='lucide']), /* Исключаем иконки интерфейса, если нужно, или скрываем всё */
+html[data-images='off'] video {
+    display: none !important;
+}
+
+/* Дополнительно для BVI панели, чтобы она всегда была видна корректно */
+html[data-contrast='high'] .bvi-panel {
+    border-bottom: 1px solid #fff;
+}
+
+/* Стили для логотипа при высоком контрасте */
+html[data-contrast='high'] img[alt="Nishon"] {
+    filter: grayscale(1) brightness(100);
+}
