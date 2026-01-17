@@ -189,6 +189,14 @@ const Header = () => {
                                             href="#"
                                             className={navigationMenuTriggerStyle()}
                                         >
+                                            Обратная связь
+                                        </a>
+                                    </NavigationMenuItem>
+                                    <NavigationMenuItem>
+                                        <a
+                                            href="#"
+                                            className={navigationMenuTriggerStyle()}
+                                        >
                                             Контакты
                                         </a>
                                     </NavigationMenuItem>
