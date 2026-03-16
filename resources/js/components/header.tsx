@@ -221,10 +221,10 @@ const Header = () => {
                             >
                                 <Search className="h-5 w-5" />
                             </Button>
-                            <Button className="hidden bg-blue-600 hover:bg-blue-700 sm:flex">
+                            {/* <Button className="hidden bg-blue-600 hover:bg-blue-700 sm:flex">
                                 <User className="mr-2 h-4 w-4" />
                                 Кабинет
-                            </Button>
+                            </Button> */}
                             <Button
                                 variant="ghost"
                                 size="icon"

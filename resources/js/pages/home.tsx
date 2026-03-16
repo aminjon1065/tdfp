@@ -185,10 +185,10 @@ const Home = () => {
                     <div className="container mx-auto px-4">
                         <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
                             {[
-                                { number: '500+', label: 'Электронных услуг' },
-                                { number: '2M+', label: 'Пользователей' },
-                                { number: '95%', label: 'Охват интернетом' },
-                                { number: '24/7', label: 'Поддержка' },
+                                { number: '25+', label: 'Электронных услуг' },
+                                { number: '1M+', label: 'Пользователей' },
+                                { number: '100+', label: 'Подключение школ к интернету' },
+                                { number: '24/7', label: 'Поддержка (МРЖ)' },
                             ].map((stat, i) => (
                                 <div key={i}>
                                     <div className="mb-2 text-4xl font-bold text-blue-500 md:text-5xl">

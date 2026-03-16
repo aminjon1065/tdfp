@@ -102,7 +102,7 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center gap-3">
                                 <HelpCircle className="h-5 w-5 shrink-0 text-blue-600" />
-                                <span>info@digital.tj</span>
+                                <span>info@dt.tj</span>
                             </li>
                         </ul>
                     </div>
