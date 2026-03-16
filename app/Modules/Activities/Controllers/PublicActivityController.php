@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\Activities\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Modules\Activities\Repositories\ActivityRepository;
 use Illuminate\Http\Request;
@@ -12,16 +14,19 @@ class PublicActivityController extends Controller
 
     public function index(Request $request): Response
     {
+        $filters = $request->only('status');
+
         return Inertia::render('public/activities/index', [
-            'activities' => $this->repository->paginateWithTranslations(12, $request->only('status')),
-            'filters' => $request->only('status'),
+            'activities' => $this->repository->paginatePublicWithTranslations(12, $filters),
+            'filters' => $filters,
         ]);
     }
 
     public function show(string $slug): Response
     {
         $activity = $this->repository->findPublishedBySlug($slug);
-        abort_if(!$activity, 404);
+        abort_if(! $activity, 404);
+
         return Inertia::render('public/activities/show', ['activity' => $activity]);
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GrmStatusHistory extends Model
 {
+    protected $table = 'grm_status_history';
+
     protected $fillable = [
         'case_id',
         'status',

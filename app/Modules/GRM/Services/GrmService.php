@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Modules\GRM\Services;
+
 use App\Core\Helpers\FileHelper;
+use App\Mail\GrmSubmittedMail;
 use App\Models\GrmAttachment;
 use App\Models\GrmCase;
 use App\Models\GrmMessage;
@@ -8,6 +11,7 @@ use App\Models\GrmStatusHistory;
 use App\Modules\GRM\Repositories\GrmRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class GrmService
@@ -17,9 +21,9 @@ class GrmService
     public function submit(array $data): GrmCase
     {
         return DB::transaction(function () use ($data) {
-            $ticketNumber = 'GRM-' . date('Y') . '-' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
+            $ticketNumber = 'GRM-'.date('Y').'-'.str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
             while (GrmCase::where('ticket_number', $ticketNumber)->exists()) {
-                $ticketNumber = 'GRM-' . date('Y') . '-' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $ticketNumber = 'GRM-'.date('Y').'-'.str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
             }
 
             $case = GrmCase::create([
@@ -39,7 +43,7 @@ class GrmService
                 'notes' => 'Case submitted by complainant.',
             ]);
 
-            if (!empty($data['attachments'])) {
+            if (! empty($data['attachments'])) {
                 foreach ($data['attachments'] as $file) {
                     if ($file instanceof UploadedFile) {
                         GrmAttachment::create([
@@ -52,11 +56,12 @@ class GrmService
                 }
             }
 
-            // Send confirmation email
             try {
-                Mail::to($case->email)->send(new \App\Mail\GrmSubmittedMail($case));
+                Mail::to($case->email)->queue(
+                    (new GrmSubmittedMail($case))->afterCommit()
+                );
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('GRM email failed: ' . $e->getMessage());
+                Log::error('GRM email queueing failed: '.$e->getMessage());
             }
 
             return $case;

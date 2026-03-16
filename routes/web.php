@@ -10,18 +10,24 @@ use App\Modules\News\Controllers\PublicNewsController;
 use App\Modules\Procurement\Controllers\PublicProcurementController;
 use App\Modules\Search\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 // Language switcher
 Route::get('/language/{locale}', function (string $locale) {
     if (in_array($locale, ['en', 'ru', 'tj'])) {
         session(['locale' => $locale]);
     }
+
     return redirect()->back();
 })->name('language.switch');
 
 // Public website
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+
+Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
+    return Inertia::render('dashboard');
+})->name('dashboard');
 
 // CMS static pages
 Route::get('/about', [PublicPageController::class, 'show'])->defaults('slug', 'about')->name('about');

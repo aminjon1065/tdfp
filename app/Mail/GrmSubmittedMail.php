@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Mail;
+
 use App\Models\GrmCase;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class GrmSubmittedMail extends Mailable
+class GrmSubmittedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -16,7 +19,7 @@ class GrmSubmittedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your complaint has been received - Ticket: ' . $this->case->ticket_number,
+            subject: 'Your complaint has been received - Ticket: '.$this->case->ticket_number,
         );
     }
 

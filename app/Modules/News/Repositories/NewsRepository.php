@@ -1,28 +1,52 @@
 <?php
+
 namespace App\Modules\News\Repositories;
+
 use App\Core\Repositories\BaseRepository;
 use App\Models\News;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class NewsRepository extends BaseRepository
 {
+    /**
+     * @var list<string>
+     */
+    private array $publicStatuses = ['published'];
+
     public function __construct()
     {
-        parent::__construct(new News());
+        parent::__construct(new News);
     }
 
     public function paginateWithTranslations(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         $query = News::with('translations', 'category', 'author')->latest();
 
-        if (!empty($filters['status'])) {
+        if (! empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
-        if (!empty($filters['category_id'])) {
+        if (! empty($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
         }
-        if (!empty($filters['search'])) {
-            $query->whereHas('translations', fn($q) => $q->where('title', 'like', '%'.$filters['search'].'%'));
+        if (! empty($filters['search'])) {
+            $query->whereHas('translations', fn ($q) => $q->where('title', 'like', '%'.$filters['search'].'%'));
+        }
+
+        return $query->paginate($perPage);
+    }
+
+    public function paginatePublishedWithTranslations(int $perPage = 15, array $filters = []): LengthAwarePaginator
+    {
+        $query = News::with('translations', 'category', 'author')
+            ->whereIn('status', $this->publicStatuses)
+            ->latest();
+
+        if (! empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        if (! empty($filters['search'])) {
+            $query->whereHas('translations', fn ($builder) => $builder->where('title', 'like', '%'.$filters['search'].'%'));
         }
 
         return $query->paginate($perPage);

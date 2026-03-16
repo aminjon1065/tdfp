@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\Procurement\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Modules\Procurement\Repositories\ProcurementRepository;
 use Illuminate\Http\Request;
@@ -12,16 +14,19 @@ class PublicProcurementController extends Controller
 
     public function index(Request $request): Response
     {
+        $filters = $request->only('search');
+
         return Inertia::render('public/procurement/index', [
-            'procurements' => $this->repository->paginateWithRelations(15, $request->only('status', 'search')),
-            'filters' => $request->only('status', 'search'),
+            'procurements' => $this->repository->paginateOpenWithRelations(15, $filters),
+            'filters' => $filters,
         ]);
     }
 
     public function show(string $ref): Response
     {
-        $procurement = $this->repository->findByRefOrId($ref);
-        abort_if(!$procurement, 404);
+        $procurement = $this->repository->findOpenByRef($ref);
+        abort_if(! $procurement, 404);
+
         return Inertia::render('public/procurement/show', ['procurement' => $procurement]);
     }
 }

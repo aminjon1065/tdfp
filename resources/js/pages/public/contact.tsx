@@ -1,14 +1,16 @@
 import PublicLayout from '@/layouts/public-layout';
-import { Head } from '@inertiajs/react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { t } from '@/lib/i18n';
+import { usePage } from '@inertiajs/react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 
 export default function Contact({ settings }: { settings: Record<string, string> }) {
-    return (
-        <PublicLayout title="Contact">
-            <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">Contact Us</h1>
-                <p className="mb-10 text-gray-600">Get in touch with the Projects Implementation Center</p>
+    const locale = (usePage().props as any).locale ?? 'en';
 
+    return (
+        <PublicLayout title={t(locale, 'contact.title')}>
+            <div className="container mx-auto px-4 py-12 max-w-4xl">
+                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'contact.heading')}</h1>
+                <p className="mb-10 text-gray-600">{t(locale, 'contact.description')}</p>
                 <div className="grid gap-8 sm:grid-cols-3">
                     <div className="flex items-start gap-3">
                         <Mail className="h-5 w-5 text-blue-700 mt-0.5" />

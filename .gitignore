@@ -2,6 +2,8 @@
 /bootstrap/ssr
 /node_modules
 /public/build
+/public_html/build
+/public_html/hot
 /public/hot
 /public/storage
 /resources/js/actions

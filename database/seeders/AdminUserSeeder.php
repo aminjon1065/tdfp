@@ -14,7 +14,7 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@pic.tj'],
             [
                 'name' => 'Super Admin',
-                'password' => Hash::make('Admin@12345'),
+                'password' => Hash::make('Momajon10'),
                 'is_active' => true,
                 'email_verified_at' => now(),
             ]

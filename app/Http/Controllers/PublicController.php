@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
+
+use App\Models\Setting;
 use App\Modules\Activities\Repositories\ActivityRepository;
 use App\Modules\Documents\Repositories\DocumentRepository;
 use App\Modules\News\Repositories\NewsRepository;
 use App\Modules\Procurement\Repositories\ProcurementRepository;
-use App\Models\Setting;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,7 +23,7 @@ class PublicController extends Controller
     {
         return Inertia::render('public/home', [
             'latestNews' => $this->newsRepository->latestPublished(6),
-            'activities' => $this->activityRepository->allWithTranslations(),
+            'activities' => $this->activityRepository->allPublicWithTranslations(),
             'latestDocuments' => $this->documentRepository->latestPublished(4),
             'openProcurements' => $this->procurementRepository->openProcurements(4),
             'settings' => Setting::all()->pluck('value', 'key'),

@@ -1,12 +1,16 @@
 <?php
+
 namespace App\Modules\GRM\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\GrmCase;
 use App\Models\User;
 use App\Modules\GRM\Repositories\GrmRepository;
+use App\Modules\GRM\Requests\AddGrmMessageRequest;
+use App\Modules\GRM\Requests\UpdateGrmStatusRequest;
 use App\Modules\GRM\Services\GrmService;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,6 +23,8 @@ class AdminGrmController extends Controller
 
     public function index(Request $request): Response
     {
+        $this->authorize('viewAny', GrmCase::class);
+
         return Inertia::render('admin/grm/index', [
             'cases' => $this->repository->paginateWithRelations(15, $request->only('status', 'category', 'search')),
             'filters' => $request->only('status', 'category', 'search'),
@@ -27,27 +33,31 @@ class AdminGrmController extends Controller
 
     public function show(GrmCase $grmCase): Response
     {
+        $this->authorize('view', $grmCase);
+
         $grmCase->load('messages.officer', 'attachments', 'statusHistory.changedBy', 'assignee');
         $officers = User::role('grm_officer')->get(['id', 'name']);
+
         return Inertia::render('admin/grm/show', ['case' => $grmCase, 'officers' => $officers]);
     }
 
-    public function updateStatus(Request $request, GrmCase $grmCase): RedirectResponse
+    public function updateStatus(UpdateGrmStatusRequest $request, GrmCase $grmCase): RedirectResponse
     {
-        $request->validate([
-            'status' => 'required|in:submitted,under_review,investigation,resolved,closed',
-            'officer_id' => 'nullable|exists:users,id',
-            'notes' => 'nullable|string|max:1000',
-        ]);
+        $this->authorize('updateStatus', $grmCase);
 
-        $this->service->updateStatus($grmCase, $request->status, $request->officer_id, $request->notes);
+        $validated = $request->validated();
+
+        $this->service->updateStatus($grmCase, $validated['status'], $validated['officer_id'] ?? null, $validated['notes'] ?? null);
+
         return back()->with('success', 'Status updated.');
     }
 
-    public function addMessage(Request $request, GrmCase $grmCase): RedirectResponse
+    public function addMessage(AddGrmMessageRequest $request, GrmCase $grmCase): RedirectResponse
     {
-        $request->validate(['message' => 'required|string|max:2000']);
-        $this->service->addMessage($grmCase, $request->message);
+        $this->authorize('message', $grmCase);
+
+        $this->service->addMessage($grmCase, $request->validated('message'));
+
         return back()->with('success', 'Message sent.');
     }
 }

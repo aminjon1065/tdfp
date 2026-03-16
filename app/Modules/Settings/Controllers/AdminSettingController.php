@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Modules\Settings\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
-use Illuminate\Http\Request;
+use App\Modules\Settings\Requests\UpdateSettingRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,14 +18,9 @@ class AdminSettingController extends Controller
         ]);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateSettingRequest $request): RedirectResponse
     {
-        $request->validate([
-            'settings' => 'required|array',
-            'settings.*' => 'nullable|string',
-        ]);
-
-        foreach ($request->settings as $key => $value) {
+        foreach ($request->validated('settings') as $key => $value) {
             Setting::set($key, $value);
         }
 

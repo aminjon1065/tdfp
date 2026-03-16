@@ -12,7 +12,11 @@ use App\Modules\Settings\Controllers\AdminSettingController;
 use App\Modules\Users\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware([
+    'auth',
+    'verified',
+    'role_or_permission:super_admin|editor|content_manager|procurement_officer|grm_officer|pages.view|news.view|activities.view|documents.view|procurement.view|media.view|users.view|settings.view|audit_logs.view|grm.view',
+])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -48,13 +52,17 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('users', AdminUserController::class)->except(['show']);
 
     // Settings
-    Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
-    Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+    Route::get('settings', [AdminSettingController::class, 'index'])
+        ->middleware('permission:settings.view')
+        ->name('settings.index');
+    Route::post('settings', [AdminSettingController::class, 'update'])
+        ->middleware('permission:settings.edit')
+        ->name('settings.update');
 
     // Audit Logs
     Route::get('audit-logs', function () {
         return \Inertia\Inertia::render('admin/audit-logs/index', [
             'logs' => \App\Models\AuditLog::with('user')->latest('created_at')->paginate(50),
         ]);
-    })->name('audit-logs.index');
+    })->middleware('permission:audit_logs.view')->name('audit-logs.index');
 });

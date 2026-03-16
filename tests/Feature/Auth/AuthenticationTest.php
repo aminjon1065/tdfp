@@ -82,3 +82,16 @@ test('users are rate limited', function () {
 
     $response->assertTooManyRequests();
 });
+
+test('inactive users can not authenticate', function () {
+    $user = User::factory()->create([
+        'is_active' => false,
+    ]);
+
+    $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertGuest();
+});

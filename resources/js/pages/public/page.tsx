@@ -1,6 +1,6 @@
 import PublicLayout from '@/layouts/public-layout';
+import { getTranslation, t as translate } from '@/lib/i18n';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { getTranslation } from '@/lib/i18n';
 import { ChevronRight } from 'lucide-react';
 
 interface Props {
@@ -20,59 +20,50 @@ interface Props {
 export default function Page({ page }: Props) {
     const locale = (usePage().props as any).locale ?? 'en';
 
-    if (!page) {
+    if (! page) {
         return (
-            <PublicLayout title="Page Not Found">
+            <PublicLayout title={translate(locale, 'common.notFound')}>
                 <div className="container mx-auto px-4 py-24 text-center">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-4">404 – Page Not Found</h1>
-                    <p className="text-gray-500 mb-8">The page you are looking for does not exist or has been removed.</p>
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
-                        style={{ color: '#1B3A6B' }}
-                    >
-                        Return to Homepage
+                    <h1 className="text-4xl font-bold text-gray-800 mb-4">404 - {translate(locale, 'common.notFound')}</h1>
+                    <p className="text-gray-500 mb-8">{translate(locale, 'common.notFoundDescription')}</p>
+                    <Link href="/" className="inline-flex items-center gap-1 text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
+                        {translate(locale, 'common.returnHome')}
                     </Link>
                 </div>
             </PublicLayout>
         );
     }
 
-    const t = getTranslation(page, locale);
-    const pageTitle = t.meta_title ?? t.title ?? 'Page';
+    const pageTranslation = getTranslation(page, locale);
+    const pageTitle = pageTranslation.meta_title ?? pageTranslation.title ?? translate(locale, 'page.title');
 
     return (
         <PublicLayout title={pageTitle}>
-            {t.meta_title && <Head title={`${t.meta_title} | PIC TDFP`} />}
-            {t.meta_description && (
+            {pageTranslation.meta_title && <Head title={`${pageTranslation.meta_title} | PIC TDFP`} />}
+            {pageTranslation.meta_description && (
                 <Head>
-                    <meta name="description" content={t.meta_description} />
+                    <meta name="description" content={pageTranslation.meta_description} />
                 </Head>
             )}
 
-            {/* Breadcrumb */}
             <div style={{ backgroundColor: '#1B3A6B' }} className="py-8">
                 <div className="container mx-auto px-4">
                     <nav className="mb-2 flex items-center gap-1 text-xs text-blue-300">
                         <Link href="/" className="hover:text-white transition-colors">
-                            Home
+                            {translate(locale, 'common.home')}
                         </Link>
                         <ChevronRight className="h-3 w-3" />
-                        <span className="text-white">{t.title}</span>
+                        <span className="text-white">{pageTranslation.title}</span>
                     </nav>
-                    <h1 className="text-2xl font-bold text-white sm:text-3xl">{t.title}</h1>
+                    <h1 className="text-2xl font-bold text-white sm:text-3xl">{pageTranslation.title}</h1>
                 </div>
             </div>
 
-            {/* Content */}
             <div className="container mx-auto px-4 py-12 max-w-4xl">
-                {t.content ? (
-                    <div
-                        className="prose prose-lg max-w-none text-gray-700"
-                        dangerouslySetInnerHTML={{ __html: t.content }}
-                    />
+                {pageTranslation.content ? (
+                    <div className="prose prose-lg max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: pageTranslation.content }} />
                 ) : (
-                    <p className="text-gray-500">No content available for this page.</p>
+                    <p className="text-gray-500">{translate(locale, 'common.noContent')}</p>
                 )}
             </div>
         </PublicLayout>

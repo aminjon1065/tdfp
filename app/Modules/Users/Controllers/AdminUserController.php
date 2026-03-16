@@ -1,16 +1,23 @@
 <?php
+
 namespace App\Modules\Users\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Modules\Users\Requests\StoreUserRequest;
+use App\Modules\Users\Requests\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
 class AdminUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index(): Response
     {
         return Inertia::render('admin/users/index', [
@@ -25,25 +32,19 @@ class AdminUserController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|exists:roles,name',
-            'is_active' => 'boolean',
-        ]);
+        $validated = $request->validated();
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
             'is_active' => $request->boolean('is_active', true),
-            'email_verified_at' => now(),
         ]);
+        $user->forceFill(['email_verified_at' => now()])->save();
 
-        $user->assignRole($request->role);
+        $user->assignRole($validated['role']);
 
         return redirect()->route('admin.users.index')->with('success', 'User created.');
     }
@@ -51,33 +52,29 @@ class AdminUserController extends Controller
     public function edit(User $user): Response
     {
         $user->load('roles');
+
         return Inertia::render('admin/users/edit', [
             'user' => $user,
             'roles' => Role::all(['id', 'name']),
         ]);
     }
 
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|string|exists:roles,name',
-            'is_active' => 'boolean',
-        ]);
+        $validated = $request->validated();
 
         $updateData = [
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
             'is_active' => $request->boolean('is_active', true),
         ];
-        if ($request->filled('password')) {
-            $updateData['password'] = Hash::make($request->password);
+
+        if (! empty($validated['password'])) {
+            $updateData['password'] = $validated['password'];
         }
 
         $user->update($updateData);
-        $user->syncRoles([$request->role]);
+        $user->syncRoles([$validated['role']]);
 
         return redirect()->route('admin.users.index')->with('success', 'User updated.');
     }
@@ -88,6 +85,7 @@ class AdminUserController extends Controller
             return back()->with('error', 'Cannot delete your own account.');
         }
         $user->delete();
+
         return redirect()->route('admin.users.index')->with('success', 'User deleted.');
     }
 }
