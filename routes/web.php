@@ -1,19 +1,64 @@
 <?php
 
+use App\Http\Controllers\PublicController;
+use App\Modules\Activities\Controllers\PublicActivityController;
+use App\Modules\CMS\Controllers\PublicPageController;
+use App\Modules\Documents\Controllers\PublicDocumentController;
+use App\Modules\GRM\Controllers\PublicGrmController;
+use App\Modules\Media\Controllers\PublicMediaController;
+use App\Modules\News\Controllers\PublicNewsController;
+use App\Modules\Procurement\Controllers\PublicProcurementController;
+use App\Modules\Search\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return Inertia::render('home', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
-})->name('home');
+// Language switcher
+Route::get('/language/{locale}', function (string $locale) {
+    if (in_array($locale, ['en', 'ru', 'tj'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('language.switch');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
+// Public website
+Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 
+// CMS static pages
+Route::get('/about', [PublicPageController::class, 'show'])->defaults('slug', 'about')->name('about');
+Route::get('/project', [PublicPageController::class, 'show'])->defaults('slug', 'project')->name('project');
+Route::get('/pages/{slug}', [PublicPageController::class, 'show'])->name('pages.show');
+
+// Activities
+Route::get('/activities', [PublicActivityController::class, 'index'])->name('activities.index');
+Route::get('/activities/{slug}', [PublicActivityController::class, 'show'])->name('activities.show');
+
+// News
+Route::get('/news', [PublicNewsController::class, 'index'])->name('news.index');
+Route::get('/news/{slug}', [PublicNewsController::class, 'show'])->name('news.show');
+
+// Documents
+Route::get('/documents', [PublicDocumentController::class, 'index'])->name('documents.index');
+Route::get('/documents/{document}/download', [PublicDocumentController::class, 'download'])->name('documents.download');
+
+// Procurement
+Route::get('/procurement', [PublicProcurementController::class, 'index'])->name('procurement.index');
+Route::get('/procurement/{ref}', [PublicProcurementController::class, 'show'])->name('procurement.show');
+
+// Media
+Route::get('/media', [PublicMediaController::class, 'index'])->name('media.index');
+
+// GRM
+Route::get('/grm', [PublicGrmController::class, 'index'])->name('grm.index');
+Route::get('/grm/submit', [PublicGrmController::class, 'submit'])->name('grm.submit');
+Route::post('/grm/submit', [PublicGrmController::class, 'store'])->name('grm.store');
+Route::get('/grm/submitted/{ticket}', [PublicGrmController::class, 'submitted'])->name('grm.submitted');
+Route::get('/grm/track', [PublicGrmController::class, 'track'])->name('grm.track');
+Route::post('/grm/track', [PublicGrmController::class, 'trackSearch'])->name('grm.track.search');
+
+// Search
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+// Auth / Settings (from Fortify)
 require __DIR__.'/settings.php';
+
+require __DIR__.'/admin.php';
