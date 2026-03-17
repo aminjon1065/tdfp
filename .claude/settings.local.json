@@ -5,7 +5,14 @@
       "Bash(php artisan:*)",
       "Bash(npm run:*)",
       "Bash(grep -E \"\\\\.tsx$\")",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(find /Users/aminjon/Herd/tdfp/app -name *Policy*.php -o -name *Gate*.php)",
+      "Bash(grep -v \"^$\")",
+      "Bash(grep -rn any /Users/aminjon/Herd/tdfp/resources/js/pages/admin --include=*.tsx -l)",
+      "Bash(git -C /Users/aminjon/Herd/tdfp log --oneline --all)",
+      "Bash(git -C /Users/aminjon/Herd/tdfp ls-files)",
+      "Bash(git -C /Users/aminjon/Herd/tdfp status --short)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

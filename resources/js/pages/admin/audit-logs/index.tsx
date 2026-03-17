@@ -2,10 +2,11 @@ import AdminLayout from '@/layouts/admin-layout';
 import { DataTable } from '@/components/admin/data-table';
 import { Badge } from '@/components/ui/badge';
 import { Head, router } from '@inertiajs/react';
+import { AuditLogEntry, Paginator } from '@/types';
 
 interface Props {
-    logs: any;
-    filters: any;
+    logs: Paginator<AuditLogEntry>;
+    filters: { search?: string };
 }
 
 const ACTION_COLORS: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
@@ -21,14 +22,14 @@ export default function AdminAuditLogsIndex({ logs }: Props) {
         {
             key: 'user',
             header: 'User',
-            render: (row: any) => (
+            render: (row: AuditLogEntry) => (
                 <span className="font-medium">{row.user?.name ?? 'System'}</span>
             ),
         },
         {
             key: 'action',
             header: 'Action',
-            render: (row: any) => (
+            render: (row: AuditLogEntry) => (
                 <Badge variant={ACTION_COLORS[row.action] ?? 'secondary'}>
                     {row.action}
                 </Badge>
@@ -37,7 +38,7 @@ export default function AdminAuditLogsIndex({ logs }: Props) {
         {
             key: 'entity_type',
             header: 'Entity Type',
-            render: (row: any) => (
+            render: (row: AuditLogEntry) => (
                 <span className="text-xs font-mono text-muted-foreground">
                     {row.entity_type ?? '—'}
                 </span>
@@ -46,14 +47,14 @@ export default function AdminAuditLogsIndex({ logs }: Props) {
         {
             key: 'entity_id',
             header: 'Entity ID',
-            render: (row: any) => (
+            render: (row: AuditLogEntry) => (
                 <span className="text-xs font-mono">{row.entity_id ?? '—'}</span>
             ),
         },
         {
             key: 'ip_address',
             header: 'IP Address',
-            render: (row: any) => (
+            render: (row: AuditLogEntry) => (
                 <span className="text-xs font-mono text-muted-foreground">
                     {row.ip_address ?? '—'}
                 </span>
@@ -62,7 +63,7 @@ export default function AdminAuditLogsIndex({ logs }: Props) {
         {
             key: 'created_at',
             header: 'Date',
-            render: (row: any) =>
+            render: (row: AuditLogEntry) =>
                 row.created_at ? new Date(row.created_at).toLocaleString() : '—',
         },
     ];

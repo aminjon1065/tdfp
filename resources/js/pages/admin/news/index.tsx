@@ -4,11 +4,17 @@ import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
 import { Head, Link, router } from '@inertiajs/react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { NewsItem, Paginator } from '@/types';
+
+interface NewsCategory {
+    id: number;
+    name: string;
+}
 
 interface Props {
-    news: any;
-    categories: any[];
-    filters: any;
+    news: Paginator<NewsItem>;
+    categories: NewsCategory[];
+    filters: { search?: string; category_id?: number };
 }
 
 export default function AdminNewsIndex({ news }: Props) {
@@ -16,7 +22,7 @@ export default function AdminNewsIndex({ news }: Props) {
         {
             key: 'title',
             header: 'Title',
-            render: (row: any) =>
+            render: (row: NewsItem) =>
                 row.translations?.find((t: any) => t.language === 'en')?.title ?? 'Untitled',
         },
         {
@@ -32,13 +38,13 @@ export default function AdminNewsIndex({ news }: Props) {
         {
             key: 'published_at',
             header: 'Published',
-            render: (row: any) =>
+            render: (row: NewsItem) =>
                 row.published_at ? new Date(row.published_at).toLocaleDateString() : '—',
         },
         {
             key: 'actions',
             header: 'Actions',
-            render: (row: any) => (
+            render: (row: NewsItem) => (
                 <div className="flex gap-2">
                     <Button asChild variant="outline" size="sm">
                         <Link href={`/admin/news/${row.id}/edit`}>

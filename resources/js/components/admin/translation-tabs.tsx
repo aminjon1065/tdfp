@@ -1,5 +1,6 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { SupportedLocale } from '@/types';
 
 interface TranslationField {
     name: string;
@@ -11,7 +12,7 @@ interface TranslationField {
 interface TranslationTabsProps {
     fields: TranslationField[];
     data: Record<string, Record<string, string>>;
-    onChange: (lang: string, field: string, value: string) => void;
+    onChange: (lang: SupportedLocale, field: string, value: string) => void;
     errors?: Record<string, string>;
 }
 
@@ -66,7 +67,7 @@ export function TranslationTabs({ fields, data, onChange, errors = {} }: Transla
                                 <textarea
                                     id={`${lang.code}-${field.name}`}
                                     value={data[lang.code]?.[field.name] ?? ''}
-                                    onChange={(e) => onChange(lang.code, field.name, e.target.value)}
+                                    onChange={(e) => onChange(lang.code as SupportedLocale, field.name, e.target.value)}
                                     rows={field.type === 'richtext' ? 10 : 4}
                                     className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -74,7 +75,7 @@ export function TranslationTabs({ fields, data, onChange, errors = {} }: Transla
                                 <Input
                                     id={`${lang.code}-${field.name}`}
                                     value={data[lang.code]?.[field.name] ?? ''}
-                                    onChange={(e) => onChange(lang.code, field.name, e.target.value)}
+                                    onChange={(e) => onChange(lang.code as SupportedLocale, field.name, e.target.value)}
                                 />
                             )}
                             {errors[`translations.${lang.code}.${field.name}`] && (

@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Activities\Controllers\AdminActivityController;
+use App\Modules\Admin\Controllers\AdminAuditLogController;
 use App\Modules\Admin\Controllers\AdminDashboardController;
 use App\Modules\CMS\Controllers\AdminPageController;
 use App\Modules\Documents\Controllers\AdminDocumentController;
@@ -60,9 +61,7 @@ Route::middleware([
         ->name('settings.update');
 
     // Audit Logs
-    Route::get('audit-logs', function () {
-        return \Inertia\Inertia::render('admin/audit-logs/index', [
-            'logs' => \App\Models\AuditLog::with('user')->latest('created_at')->paginate(50),
-        ]);
-    })->middleware('permission:audit_logs.view')->name('audit-logs.index');
+    Route::get('audit-logs', [AdminAuditLogController::class, 'index'])
+        ->middleware('permission:audit_logs.view')
+        ->name('audit-logs.index');
 });

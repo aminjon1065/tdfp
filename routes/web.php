@@ -14,7 +14,7 @@ use Inertia\Inertia;
 
 // Language switcher
 Route::get('/language/{locale}', function (string $locale) {
-    if (in_array($locale, ['en', 'ru', 'tj'])) {
+    if (in_array($locale, config('app.supported_locales'))) {
         session(['locale' => $locale]);
     }
 
@@ -56,10 +56,10 @@ Route::get('/media', [PublicMediaController::class, 'index'])->name('media.index
 // GRM
 Route::get('/grm', [PublicGrmController::class, 'index'])->name('grm.index');
 Route::get('/grm/submit', [PublicGrmController::class, 'submit'])->name('grm.submit');
-Route::post('/grm/submit', [PublicGrmController::class, 'store'])->name('grm.store');
+Route::post('/grm/submit', [PublicGrmController::class, 'store'])->middleware('throttle:5,1')->name('grm.store');
 Route::get('/grm/submitted/{ticket}', [PublicGrmController::class, 'submitted'])->name('grm.submitted');
 Route::get('/grm/track', [PublicGrmController::class, 'track'])->name('grm.track');
-Route::post('/grm/track', [PublicGrmController::class, 'trackSearch'])->name('grm.track.search');
+Route::post('/grm/track', [PublicGrmController::class, 'trackSearch'])->middleware('throttle:20,1')->name('grm.track.search');
 
 // Search
 Route::get('/search', [SearchController::class, 'index'])->name('search');

@@ -4,9 +4,10 @@ import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
 import { Head, Link, router } from '@inertiajs/react';
 import { Eye } from 'lucide-react';
+import { GrmCase, Paginator } from '@/types';
 
 interface Props {
-    cases: any;
+    cases: Paginator<GrmCase>;
     filters: { status?: string };
 }
 
@@ -24,7 +25,7 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
         {
             key: 'ticket_number',
             header: 'Ticket',
-            render: (row: any) => (
+            render: (row: GrmCase) => (
                 <span className="font-mono text-xs font-medium">{row.ticket_number}</span>
             ),
         },
@@ -46,13 +47,13 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
         {
             key: 'created_at',
             header: 'Submitted',
-            render: (row: any) =>
+            render: (row: GrmCase) =>
                 row.created_at ? new Date(row.created_at).toLocaleDateString() : '—',
         },
         {
             key: 'actions',
             header: 'Actions',
-            render: (row: any) => (
+            render: (row: GrmCase) => (
                 <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/grm/${row.id}`}>
                         <Eye className="h-3.5 w-3.5" />

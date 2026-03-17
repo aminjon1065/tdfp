@@ -13,8 +13,8 @@ class SetLocale
     {
         $locale = $request->session()->get('locale', config('app.locale', 'en'));
 
-        if (!in_array($locale, ['en', 'ru', 'tj'])) {
-            $locale = 'en';
+        if (!in_array($locale, config('app.supported_locales'))) {
+            $locale = config('app.fallback_locale', 'en');
         }
 
         App::setLocale($locale);

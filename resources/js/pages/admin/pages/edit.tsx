@@ -3,6 +3,7 @@ import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Head, useForm } from '@inertiajs/react';
+import { SupportedLocale } from '@/types';
 
 interface Props {
     page: any;
@@ -45,7 +46,7 @@ export default function AdminPagesEdit({ page }: Props) {
         },
     });
 
-    const handleTranslationChange = (lang: string, field: string, value: string) => {
+    const handleTranslationChange = (lang: SupportedLocale, field: string, value: string) => {
         setData('translations', {
             ...data.translations,
             [lang]: { ...data.translations[lang], [field]: value },

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,7 +21,10 @@ return new class extends Migration
 
             $table->index(['entity_type', 'entity_id']);
             $table->index('language');
-            $table->fullText(['title', 'content']);
+
+            if (DB::getDriverName() === 'mysql') {
+                $table->fullText(['title', 'content']);
+            }
         });
     }
 

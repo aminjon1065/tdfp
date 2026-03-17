@@ -21,10 +21,13 @@ class GrmService
     public function submit(array $data): GrmCase
     {
         return DB::transaction(function () use ($data) {
-            $ticketNumber = 'GRM-'.date('Y').'-'.str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
-            while (GrmCase::where('ticket_number', $ticketNumber)->exists()) {
-                $ticketNumber = 'GRM-'.date('Y').'-'.str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
-            }
+            $year = date('Y');
+            $lastCase = GrmCase::whereYear('created_at', $year)
+                ->lockForUpdate()
+                ->orderByDesc('id')
+                ->first();
+            $sequence = $lastCase ? ((int) substr($lastCase->ticket_number, -5)) + 1 : 1;
+            $ticketNumber = 'GRM-'.$year.'-'.str_pad($sequence, 5, '0', STR_PAD_LEFT);
 
             $case = GrmCase::create([
                 'ticket_number' => $ticketNumber,
