@@ -12,6 +12,9 @@
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-serif:
+        'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Garamond,
+        'Times New Roman', serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -95,6 +98,15 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
+    --gov-navy: #14325c;
+    --gov-navy-strong: #0b2342;
+    --gov-blue: #214f86;
+    --gov-gold: #b78a2f;
+    --gov-gold-soft: #e1c88c;
+    --gov-ink: #1f2a37;
+    --gov-paper: #f5f2e8;
+    --gov-mist: #edf2f7;
+    --gov-line: #d4dbe5;
 }
 
 .dark {
@@ -139,5 +151,63 @@
 
     body {
         @apply bg-background text-foreground;
+        background:
+            radial-gradient(
+                circle at top left,
+                rgba(33, 79, 134, 0.08),
+                transparent 24%
+            ),
+            linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        color: var(--gov-ink);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--font-sans);
+        letter-spacing: -0.02em;
+    }
+}
+
+@layer components {
+    .gov-shell {
+        position: relative;
+        overflow-x: clip;
+    }
+
+    .gov-shell::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(20, 50, 92, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20, 50, 92, 0.02) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.12),
+            transparent 72%
+        );
+    }
+
+    .gov-container {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .gov-kicker {
+        @apply text-[0.72rem] font-semibold tracking-[0.28em] uppercase;
+        color: var(--gov-blue);
+    }
+
+    .gov-panel {
+        @apply rounded-xl border bg-white shadow-sm;
+        border-color: var(--gov-line);
+    }
+
+    .gov-section-title {
+        @apply text-3xl leading-tight font-semibold md:text-4xl;
+        color: var(--gov-navy-strong);
     }
 }
