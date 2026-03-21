@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
 import { Link, usePage } from '@inertiajs/react';
@@ -16,6 +17,9 @@ export default function NewsShow({
     const locale = (usePage().props as any).locale ?? 'en';
     const currentUrl = (usePage().props as any).ziggy?.location ?? '';
     const translation = getTranslation(news, locale);
+    const imageUrl = news.featured_image && currentUrl
+        ? new URL(`/storage/${news.featured_image}`, currentUrl).toString()
+        : undefined;
     const structuredData = [
         {
             '@context': 'https://schema.org',
@@ -61,6 +65,7 @@ export default function NewsShow({
         <PublicLayout
             title={translation.title ?? t(locale, 'news.title')}
             description={translation.summary}
+            imageUrl={imageUrl}
             structuredData={structuredData}
             seoType="article"
         >
@@ -83,6 +88,12 @@ export default function NewsShow({
                         </div>
                         {translation.summary && <p className="mb-6 text-lg text-gray-600 font-medium border-l-4 border-blue-700 pl-4">{translation.summary}</p>}
                         <div className="prose max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: translation.content ?? '' }} />
+                        <SocialShare
+                            className="mt-8"
+                            title={translation.title ?? t(locale, 'news.title')}
+                            url={currentUrl}
+                            description={translation.summary}
+                        />
                     </article>
 
                     <aside aria-labelledby="latest-news-heading" className="space-y-6">

@@ -32,15 +32,12 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { SharedData } from '@/types';
 
 interface RichTextEditorProps {
     id: string;
     value: string;
     onChange: (value: string) => void;
-}
-
-interface EditorPageProps {
-    csrf_token?: string;
 }
 
 export function RichTextEditor({
@@ -57,7 +54,7 @@ export function RichTextEditor({
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imageUploadError, setImageUploadError] = useState('');
     const [uploadingImage, setUploadingImage] = useState(false);
-    const { csrf_token: csrfToken } = usePage<EditorPageProps>().props;
+    const { csrf_token: csrfToken } = usePage<SharedData & { csrf_token?: string }>().props;
 
     const editor = useEditor({
         extensions: [

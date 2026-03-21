@@ -2,7 +2,13 @@
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+
+beforeEach(function () {
+    Config::set('cache.default', 'array');
+    Cache::flush();
+});
 
 test('Setting::get reads from cache on second call', function () {
     Setting::create(['key' => 'test_key', 'value' => 'test_value', 'group' => 'test', 'type' => 'string']);

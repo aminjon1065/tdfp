@@ -106,6 +106,51 @@ test('public pages receive shared site settings for seo and analytics', function
         );
 });
 
+test('shareable public detail pages remain available for news and pages', function () {
+    $page = Page::create([
+        'slug' => 'share-ready-page',
+        'status' => 'published',
+    ]);
+
+    PageTranslation::create([
+        'page_id' => $page->id,
+        'language' => 'en',
+        'title' => 'Share Ready Page',
+        'content' => '<p>Share ready content.</p>',
+        'meta_description' => 'Page prepared for sharing.',
+    ]);
+
+    $news = News::create([
+        'slug' => 'share-ready-news',
+        'status' => 'published',
+        'featured_image' => 'news/share-ready.jpg',
+        'published_at' => now(),
+    ]);
+
+    NewsTranslation::create([
+        'news_id' => $news->id,
+        'language' => 'en',
+        'title' => 'Share Ready News',
+        'summary' => 'News prepared for sharing.',
+        'content' => '<p>Share ready news content.</p>',
+    ]);
+
+    $this->get(route('pages.show', ['slug' => 'share-ready-page']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/page')
+            ->where('page.slug', 'share-ready-page')
+        );
+
+    $this->get(route('news.show', ['slug' => 'share-ready-news']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/news/show')
+            ->where('news.slug', 'share-ready-news')
+            ->where('news.featured_image', 'news/share-ready.jpg')
+        );
+});
+
 test('documents index filters published archive by year and search term', function () {
     $category = DocumentCategory::create([
         'name' => 'Policies',

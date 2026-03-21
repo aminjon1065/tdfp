@@ -2,6 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { SharedData } from '@/types';
 
 interface EditorialPreviewButtonProps {
     endpoint: string;
@@ -9,16 +10,12 @@ interface EditorialPreviewButtonProps {
     disabled?: boolean;
 }
 
-interface SharedPageProps {
-    csrf_token?: string;
-}
-
 export function EditorialPreviewButton({
     endpoint,
     payload,
     disabled = false,
 }: EditorialPreviewButtonProps) {
-    const { csrf_token: csrfToken } = usePage<SharedPageProps>().props;
+    const { csrf_token: csrfToken } = usePage<SharedData & { csrf_token?: string }>().props;
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -27,7 +24,7 @@ export function EditorialPreviewButton({
         setErrorMessage(null);
 
         try {
-            const formData = payload instanceof FormData ? new FormData(payload) : toFormData(payload);
+            const formData = payload instanceof FormData ? cloneFormData(payload) : toFormData(payload);
 
             if (csrfToken && !formData.has('_token')) {
                 formData.append('_token', csrfToken);
@@ -76,6 +73,16 @@ export function EditorialPreviewButton({
             )}
         </div>
     );
+}
+
+function cloneFormData(source: FormData): FormData {
+    const formData = new FormData();
+
+    source.forEach((value, key) => {
+        formData.append(key, value);
+    });
+
+    return formData;
 }
 
 function toFormData(payload: Record<string, unknown>): FormData {

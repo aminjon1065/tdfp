@@ -44,6 +44,7 @@ const languages = [
 interface PublicLayoutProps extends PropsWithChildren {
     title?: string;
     description?: string;
+    imageUrl?: string;
     structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
     seoType?: string;
 }
@@ -77,6 +78,7 @@ export default function PublicLayout({
     children,
     title,
     description,
+    imageUrl,
     structuredData,
     seoType,
 }: PublicLayoutProps) {
@@ -141,6 +143,7 @@ export default function PublicLayout({
                 description={siteDescription}
                 canonicalUrl={currentUrl || undefined}
                 siteName={siteTitle}
+                imageUrl={imageUrl}
                 type={seoType}
                 locale={currentLocale}
                 structuredData={[
@@ -477,6 +480,14 @@ export default function PublicLayout({
                                         className="hover:text-[var(--gov-blue)]"
                                     >
                                         Submit a grievance
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/subscribe"
+                                        className="hover:text-[var(--gov-blue)]"
+                                    >
+                                        Email subscriptions
                                     </Link>
                                 </li>
                             </ul>

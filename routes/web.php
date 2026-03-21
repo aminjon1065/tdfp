@@ -10,6 +10,8 @@ use App\Modules\Media\Controllers\PublicMediaController;
 use App\Modules\News\Controllers\PublicNewsController;
 use App\Modules\Procurement\Controllers\PublicProcurementController;
 use App\Modules\Search\Controllers\SearchController;
+use App\Modules\Staff\Controllers\PublicStaffController;
+use App\Modules\Subscriptions\Controllers\PublicSubscriptionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +29,11 @@ Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 // Public website
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+Route::get('/team', [PublicStaffController::class, 'index'])->name('team.index');
+Route::get('/subscribe', [PublicSubscriptionController::class, 'show'])->name('subscriptions.show');
+Route::post('/subscribe', [PublicSubscriptionController::class, 'store'])->middleware('throttle:5,1')->name('subscriptions.store');
+Route::get('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::class, 'confirm'])->name('subscriptions.confirm');
+Route::get('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribe'])->name('subscriptions.unsubscribe');
 
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return Inertia::render('dashboard');

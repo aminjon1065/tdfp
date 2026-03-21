@@ -24,6 +24,8 @@ class SitemapController extends Controller
             $this->makeUrl(route('procurement.index'), $this->procurementLastModified()),
             $this->makeUrl(route('media.index'), now()),
             $this->makeUrl(route('contact'), now()),
+            $this->makeUrl(route('team.index'), now()),
+            $this->makeUrl(route('subscriptions.show'), now()),
             $this->makeUrl(route('grm.index'), now()),
             $this->makeUrl(route('grm.submit'), now()),
         ])

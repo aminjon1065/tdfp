@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getProcurementProcessLabel, getStatusLabel, getTranslation, t } from '@/lib/i18n';
 import { Link, usePage } from '@inertiajs/react';
@@ -173,6 +174,12 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
                         </div>
                     </div>
                 )}
+                <SocialShare
+                    className="mt-8"
+                    title={translation.title ?? t(locale, 'procurement.notice')}
+                    url={currentUrl}
+                    description={translation.description}
+                />
             </article>
         </PublicLayout>
     );

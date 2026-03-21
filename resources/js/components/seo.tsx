@@ -5,6 +5,7 @@ interface SeoProps {
     description?: string;
     canonicalUrl?: string;
     siteName?: string;
+    imageUrl?: string;
     type?: string;
     locale?: string;
     noIndex?: boolean;
@@ -22,6 +23,7 @@ export default function Seo({
     description,
     canonicalUrl,
     siteName,
+    imageUrl,
     type = 'website',
     locale = 'en',
     noIndex = false,
@@ -79,6 +81,13 @@ export default function Seo({
                     content={canonicalUrl}
                 />
             )}
+            {imageUrl && (
+                <meta
+                    head-key="og:image"
+                    property="og:image"
+                    content={imageUrl}
+                />
+            )}
             <meta head-key="og:type" property="og:type" content={type} />
             {siteName && (
                 <meta
@@ -109,6 +118,13 @@ export default function Seo({
                     head-key="twitter:description"
                     name="twitter:description"
                     content={description}
+                />
+            )}
+            {imageUrl && (
+                <meta
+                    head-key="twitter:image"
+                    name="twitter:image"
+                    content={imageUrl}
                 />
             )}
             {schemas.map((schema, index) => (

@@ -4,12 +4,17 @@ namespace App\Providers;
 
 use App\Core\Observers\AuditObserver;
 use App\Models\Activity;
+use App\Models\ActivityTranslation;
 use App\Models\Document;
 use App\Models\GrmCase;
 use App\Models\MediaItem;
 use App\Models\News;
+use App\Models\NewsTranslation;
 use App\Models\Page;
+use App\Models\PageTranslation;
 use App\Models\Procurement;
+use App\Models\ProcurementTranslation;
+use App\Models\StaffMember;
 use App\Models\User;
 use App\Modules\Activities\Policies\ActivityPolicy;
 use App\Modules\CMS\Policies\PagePolicy;
@@ -18,7 +23,9 @@ use App\Modules\GRM\Policies\GrmPolicy;
 use App\Modules\Media\Policies\MediaPolicy;
 use App\Modules\News\Policies\NewsPolicy;
 use App\Modules\Procurement\Policies\ProcurementPolicy;
+use App\Modules\Staff\Policies\StaffMemberPolicy;
 use App\Modules\Users\Policies\UserPolicy;
+use App\Observers\SearchIndexObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +56,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Procurement::class, ProcurementPolicy::class);
         Gate::policy(MediaItem::class, MediaPolicy::class);
         Gate::policy(GrmCase::class, GrmPolicy::class);
+        Gate::policy(StaffMember::class, StaffMemberPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
     }
 
@@ -60,6 +68,15 @@ class AppServiceProvider extends ServiceProvider
         Document::observe(AuditObserver::class);
         Procurement::observe(AuditObserver::class);
         GrmCase::observe(AuditObserver::class);
+
+        Page::observe(SearchIndexObserver::class);
+        News::observe(SearchIndexObserver::class);
+        Activity::observe(SearchIndexObserver::class);
+        Procurement::observe(SearchIndexObserver::class);
+        PageTranslation::observe(SearchIndexObserver::class);
+        NewsTranslation::observe(SearchIndexObserver::class);
+        ActivityTranslation::observe(SearchIndexObserver::class);
+        ProcurementTranslation::observe(SearchIndexObserver::class);
     }
 
     protected function configureDefaults(): void

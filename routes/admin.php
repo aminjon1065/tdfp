@@ -11,13 +11,15 @@ use App\Modules\Media\Controllers\AdminMediaController;
 use App\Modules\News\Controllers\AdminNewsController;
 use App\Modules\Procurement\Controllers\AdminProcurementController;
 use App\Modules\Settings\Controllers\AdminSettingController;
+use App\Modules\Staff\Controllers\AdminStaffMemberController;
+use App\Modules\Subscriptions\Controllers\AdminSubscriptionController;
 use App\Modules\Users\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([
     'auth',
     'verified',
-    'role_or_permission:super_admin|editor|content_manager|procurement_officer|grm_officer|pages.view|news.view|activities.view|documents.view|procurement.view|media.view|users.view|settings.view|audit_logs.view|grm.view',
+    'role_or_permission:super_admin|editor|content_manager|procurement_officer|grm_officer|pages.view|news.view|activities.view|documents.view|procurement.view|media.view|staff.view|subscriptions.view|users.view|settings.view|audit_logs.view|grm.view',
 ])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard
@@ -53,6 +55,17 @@ Route::middleware([
     Route::post('media', [AdminMediaController::class, 'store'])->name('media.store');
     Route::post('media/editor-image', [AdminMediaController::class, 'storeEditorImage'])->name('media.editor-image');
     Route::delete('media/{mediaItem}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
+
+    // Staff Directory
+    Route::resource('staff-members', AdminStaffMemberController::class)->except(['show']);
+
+    // Email Subscriptions
+    Route::get('subscriptions', [AdminSubscriptionController::class, 'index'])
+        ->middleware('permission:subscriptions.view')
+        ->name('subscriptions.index');
+    Route::get('subscriptions/export', [AdminSubscriptionController::class, 'export'])
+        ->middleware('permission:subscriptions.view')
+        ->name('subscriptions.export');
 
     // GRM Cases
     Route::get('grm', [AdminGrmController::class, 'index'])->name('grm.index');

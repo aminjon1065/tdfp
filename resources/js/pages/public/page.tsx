@@ -1,4 +1,5 @@
 import PublicLayout from '@/layouts/public-layout';
+import SocialShare from '@/components/social-share';
 import { getTranslation, t as translate } from '@/lib/i18n';
 import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
@@ -100,7 +101,15 @@ export default function Page({ page, previewMeta }: Props) {
 
             <article className="container mx-auto max-w-4xl px-4 py-12">
                 {pageTranslation.content ? (
-                    <div className="prose prose-lg max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: pageTranslation.content }} />
+                    <>
+                        <div className="prose prose-lg max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: pageTranslation.content }} />
+                        <SocialShare
+                            className="mt-8"
+                            title={pageTranslation.title ?? pageTitle}
+                            url={currentUrl}
+                            description={pageTranslation.meta_description}
+                        />
+                    </>
                 ) : (
                     <p className="text-gray-500">{translate(locale, 'common.noContent')}</p>
                 )}

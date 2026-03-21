@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $modules = ['pages', 'news', 'activities', 'documents', 'procurement', 'media', 'users', 'settings', 'audit_logs'];
+        $modules = ['pages', 'news', 'activities', 'documents', 'procurement', 'media', 'staff', 'subscriptions', 'users', 'settings', 'audit_logs'];
         $actions = ['view', 'create', 'edit', 'delete', 'publish'];
 
         foreach ($modules as $module) {
@@ -43,6 +43,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'news.view', 'news.create', 'news.edit', 'news.publish',
             'activities.view', 'activities.create', 'activities.edit', 'activities.publish',
             'documents.view', 'documents.create', 'documents.edit', 'documents.publish',
+            'staff.view', 'staff.create', 'staff.edit', 'staff.publish',
+            'subscriptions.view',
             'media.view', 'media.create', 'media.edit', 'media.delete',
         ]);
 
