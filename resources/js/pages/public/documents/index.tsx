@@ -30,14 +30,29 @@ export default function DocumentsIndex({
     tags: { id: number; name: string; slug: string }[];
 }) {
     const locale = (usePage().props as any).locale ?? 'en';
+    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
     const [search, setSearch] = useState(filters.search ?? '');
-    const structuredData = {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        name: t(locale, 'documents.indexTitle'),
-        description: t(locale, 'documents.indexDescription'),
-        inLanguage: locale,
-    };
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: t(locale, 'documents.indexTitle'),
+            description: t(locale, 'documents.indexDescription'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: t(locale, 'documents.indexTitle'),
+            itemListElement: documents.data.map((document: any, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: getTranslation(document, locale).title ?? t(locale, 'common.document'),
+                url: currentUrl ? new URL(`/documents/${document.id}/download`, currentUrl).toString() : undefined,
+            })),
+        },
+    ];
 
     return (
         <PublicLayout
@@ -49,35 +64,50 @@ export default function DocumentsIndex({
             <div className="container mx-auto px-4 py-12">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'documents.indexTitle')}</h1>
                 <p className="mb-8 text-gray-500">{t(locale, 'documents.indexDescription')}</p>
-                <div className="mb-6 flex flex-wrap gap-3">
-                    <form onSubmit={(event) => { event.preventDefault(); router.get('/documents', { search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type, tag: filters.tag }); }} className="flex gap-2">
-                        <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t(locale, 'documents.searchPlaceholder')} className="w-64" />
-                        <Button type="submit" variant="outline" size="icon"><Search className="h-4 w-4" /></Button>
+                <div className="mb-6 space-y-3">
+                    <form onSubmit={(event) => { event.preventDefault(); router.get('/documents', { search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type, tag: filters.tag }); }} className="flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'documents.indexTitle')}>
+                        <label htmlFor="document-search-query" className="sr-only">
+                            {t(locale, 'documents.searchPlaceholder')}
+                        </label>
+                        <Input id="document-search-query" name="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t(locale, 'documents.searchPlaceholder')} className="w-full sm:w-64" />
+                        <Button type="submit" variant="outline" size="icon" aria-label={t(locale, 'documents.indexTitle')} className="w-full sm:w-10">
+                            <Search className="h-4 w-4" aria-hidden="true" />
+                        </Button>
                     </form>
-                    <select
-                        value={filters.year ?? ''}
-                        onChange={(event) => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: event.target.value || undefined, file_type: filters.file_type, tag: filters.tag })}
-                        className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    >
-                        <option value="">{t(locale, 'common.all')}</option>
-                        {years.map((year) => (
-                            <option key={year} value={year}>
-                                {year}
-                            </option>
-                        ))}
-                    </select>
-                    <select
-                        value={filters.file_type ?? ''}
-                        onChange={(event) => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: filters.year, file_type: event.target.value || undefined, tag: filters.tag })}
-                        className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm uppercase"
-                    >
-                        <option value="">{t(locale, 'common.all')}</option>
-                        {fileTypes.map((fileType) => (
-                            <option key={fileType} value={fileType}>
-                                {fileType}
-                            </option>
-                        ))}
-                    </select>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <div>
+                            <label htmlFor="document-year-filter" className="sr-only">Filter by year</label>
+                            <select
+                                id="document-year-filter"
+                                value={filters.year ?? ''}
+                                onChange={(event) => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: event.target.value || undefined, file_type: filters.file_type, tag: filters.tag })}
+                                className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            >
+                                <option value="">{t(locale, 'common.all')}</option>
+                                {years.map((year) => (
+                                    <option key={year} value={year}>
+                                        {year}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="document-file-type-filter" className="sr-only">Filter by file type</label>
+                            <select
+                                id="document-file-type-filter"
+                                value={filters.file_type ?? ''}
+                                onChange={(event) => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: filters.year, file_type: event.target.value || undefined, tag: filters.tag })}
+                                className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm uppercase"
+                            >
+                                <option value="">{t(locale, 'common.all')}</option>
+                                {fileTypes.map((fileType) => (
+                                    <option key={fileType} value={fileType}>
+                                        {fileType}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                     <div className="flex gap-2 flex-wrap">
                         <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { search: filters.search, year: filters.year, file_type: filters.file_type, tag: filters.tag })}>{t(locale, 'common.all')}</Button>
                         {categories.map((category) => <Button key={category.id} variant={filters.category_id == category.id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { category_id: category.id, search: filters.search, year: filters.year, file_type: filters.file_type, tag: filters.tag })}>{category.name}</Button>)}
@@ -87,14 +117,14 @@ export default function DocumentsIndex({
                         {tags.map((tag) => <Button key={tag.id} variant={filters.tag === tag.slug ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { tag: tag.slug, search: filters.search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type })}>{tag.name}</Button>)}
                     </div>
                 </div>
-                <div className="space-y-3">
+                <ul className="space-y-3">
                     {documents.data.map((document: any) => {
                         const translation = getTranslation(document, locale);
 
                         return (
-                            <div key={document.id} className="flex items-start justify-between gap-4 rounded-lg border p-4 hover:border-blue-300 transition-colors">
+                            <li key={document.id} className="flex items-start justify-between gap-4 rounded-lg border p-4 transition-colors hover:border-blue-300">
                                 <div className="flex items-start gap-3">
-                                    <FileText className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+                                    <FileText className="mt-0.5 h-5 w-5 shrink-0 text-blue-600" aria-hidden="true" />
                                     <div>
                                         <p className="font-medium text-gray-900">{translation.title ?? t(locale, 'common.document')}</p>
                                         {translation.description && <p className="text-sm text-gray-500 mt-0.5">{translation.description}</p>}
@@ -119,10 +149,10 @@ export default function DocumentsIndex({
                                         <Download className="mr-1.5 h-4 w-4" /> {t(locale, 'common.download')}
                                     </Link>
                                 </Button>
-                            </div>
+                            </li>
                         );
                     })}
-                </div>
+                </ul>
                 {documents.data.length === 0 && <p className="py-12 text-center text-gray-500">{t(locale, 'documents.empty')}</p>}
             </div>
         </PublicLayout>

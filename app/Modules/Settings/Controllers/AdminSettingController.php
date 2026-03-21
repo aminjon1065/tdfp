@@ -14,7 +14,7 @@ class AdminSettingController extends Controller
     public function index(): Response
     {
         return Inertia::render('admin/settings/index', [
-            'settings' => Setting::all()->groupBy('group'),
+            'settings' => Setting::query()->orderBy('group')->orderBy('id')->get(),
         ]);
     }
 

@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
 import { Link, router, usePage } from '@inertiajs/react';
@@ -13,14 +14,36 @@ const statusVariant: Record<string, any> = {
 
 export default function ActivitiesIndex({ activities, filters }: { activities: any; filters: any }) {
     const locale = (usePage().props as any).locale ?? 'en';
+    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: t(locale, 'activities.title'),
+            description: t(locale, 'activities.description'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: t(locale, 'activities.title'),
+            itemListElement: activities.data.map((activity: any, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: getTranslation(activity, locale).title ?? t(locale, 'activities.title'),
+                url: currentUrl ? new URL(`/activities/${activity.slug}`, currentUrl).toString() : undefined,
+            })),
+        },
+    ];
 
     return (
-        <PublicLayout title={t(locale, 'nav.activities')}>
+        <PublicLayout title={t(locale, 'nav.activities')} description={t(locale, 'activities.description')} structuredData={structuredData}>
             <div className="container mx-auto px-4 py-12">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'activities.title')}</h1>
                 <p className="mb-8 text-gray-500">{t(locale, 'activities.description')}</p>
 
-                <div className="mb-6 flex gap-2">
+                <div className="mb-6 flex flex-wrap gap-2">
                     {['', 'planned', 'in_progress', 'completed'].map((status) => (
                         <Button key={status} variant={filters.status === status || (! status && ! filters.status) ? 'default' : 'outline'} size="sm" onClick={() => router.get('/activities', status ? { status } : {})}>
                             {status ? getStatusLabel(status, locale) : t(locale, 'common.all')}
@@ -36,7 +59,12 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                             <Card key={activity.id} className="hover:shadow-md transition-shadow">
                                 {activity.featured_image && (
                                     <div className="aspect-video overflow-hidden bg-gray-100">
-                                        <img src={`/storage/${activity.featured_image}`} alt={translation.title} className="h-full w-full object-cover" />
+                                        <PublicImage
+                                            src={`/storage/${activity.featured_image}`}
+                                            alt={translation.title}
+                                            className="h-full w-full object-cover"
+                                            sizes="(min-width: 1024px) 20vw, (min-width: 640px) 40vw, 100vw"
+                                        />
                                     </div>
                                 )}
                                 <CardHeader className="pb-2">

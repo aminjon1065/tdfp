@@ -2,19 +2,40 @@ import PublicLayout from '@/layouts/public-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { Link, router, useForm, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
-import { getTranslation } from '@/lib/i18n';
+import { t } from '@/lib/i18n';
 
 interface Props {
     results: any;
     query: string;
     filters: any;
+    entityTypes: { value: string; label_key: string }[];
 }
 
-export default function SearchPage({ results, query, filters }: Props) {
+export default function SearchPage({ results, query, filters, entityTypes }: Props) {
     const locale = (usePage().props as any).locale ?? 'en';
-    const { data, setData, get, processing } = useForm({ q: query ?? '', entity_type: filters.entity_type ?? '' });
+    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const { data, setData, processing } = useForm({ q: query ?? '', entity_type: filters.entity_type ?? '' });
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'SearchResultsPage',
+            name: t(locale, 'search.title'),
+            description: t(locale, 'search.description'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+            mainEntity: results?.data?.length ? {
+                '@type': 'ItemList',
+                itemListElement: results.data.map((item: any, index: number) => ({
+                    '@type': 'ListItem',
+                    position: index + 1,
+                    name: item.title,
+                    url: item.url,
+                })),
+            } : undefined,
+        },
+    ];
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -22,38 +43,77 @@ export default function SearchPage({ results, query, filters }: Props) {
     };
 
     return (
-        <PublicLayout title="Search">
+        <PublicLayout
+            title={t(locale, 'search.title')}
+            description={t(locale, 'search.description')}
+            structuredData={structuredData}
+        >
             <div className="container mx-auto px-4 py-12 max-w-3xl">
-                <h1 className="mb-6 text-2xl font-bold text-gray-900">Search</h1>
+                <h1 className="mb-2 text-2xl font-bold text-gray-900">{t(locale, 'search.title')}</h1>
+                <p className="mb-6 text-gray-500">{t(locale, 'search.description')}</p>
 
-                <form onSubmit={handleSearch} className="flex gap-2 mb-8">
-                    <Input value={data.q} onChange={(e) => setData('q', e.target.value)} placeholder="Search..." className="flex-1" autoFocus />
-                    <Button type="submit" disabled={processing}><Search className="h-4 w-4" /></Button>
+                <form onSubmit={handleSearch} className="mb-8 flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'search.title')}>
+                    <label htmlFor="site-search-query" className="sr-only">
+                        {t(locale, 'search.title')}
+                    </label>
+                    <Input
+                        id="site-search-query"
+                        name="q"
+                        value={data.q}
+                        onChange={(e) => setData('q', e.target.value)}
+                        placeholder={t(locale, 'search.placeholder')}
+                        className="w-full flex-1"
+                        autoFocus
+                    />
+                    <label htmlFor="site-search-entity-type" className="sr-only">
+                        {t(locale, 'search.filterByType')}
+                    </label>
+                    <select
+                        id="site-search-entity-type"
+                        name="entity_type"
+                        value={data.entity_type}
+                        onChange={(e) => setData('entity_type', e.target.value)}
+                        className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm sm:w-56"
+                    >
+                        <option value="">{t(locale, 'common.all')}</option>
+                        {entityTypes.map((entityType) => (
+                            <option key={entityType.value} value={entityType.value}>
+                                {t(locale, entityType.label_key)}
+                            </option>
+                        ))}
+                    </select>
+                    <Button type="submit" disabled={processing} aria-label={t(locale, 'search.title')} className="w-full sm:w-auto">
+                        <Search className="h-4 w-4" aria-hidden="true" />
+                    </Button>
                 </form>
 
                 {query && results && (
-                    <p className="mb-4 text-sm text-gray-500">{results.total} results for <strong>"{query}"</strong></p>
+                    <p className="mb-4 text-sm text-gray-500" role="status" aria-live="polite">
+                        {results.total} {t(locale, 'search.resultsFor')} <strong>"{query}"</strong>
+                    </p>
                 )}
 
                 {results?.data?.length > 0 ? (
-                    <div className="space-y-4">
+                    <ol className="space-y-4">
                         {results.data.map((item: any) => (
-                            <div key={item.id} className="rounded-lg border p-4 hover:border-blue-300 transition-colors">
+                            <li key={item.id} className="rounded-lg border p-4 transition-colors hover:border-blue-300">
                                 <div className="flex items-center gap-2 mb-1">
-                                    <Badge variant="outline" className="text-xs">{item.entity_type?.split('\\').pop()}</Badge>
+                                    <Badge variant="outline" className="text-xs">{t(locale, item.entity_label_key ?? '')}</Badge>
                                 </div>
                                 <h3 className="font-medium text-gray-900">{item.title}</h3>
-                                {item.content && <p className="text-sm text-gray-500 line-clamp-2 mt-1">{item.content}</p>}
+                                {item.snippet && <p className="text-sm text-gray-500 line-clamp-3 mt-1">{item.snippet}</p>}
                                 {item.url && (
                                     <Link href={item.url} className="mt-2 flex items-center text-sm text-blue-700 hover:underline">
-                                        View →
+                                        {t(locale, 'common.view')} →
                                     </Link>
                                 )}
-                            </div>
+                            </li>
                         ))}
-                    </div>
+                    </ol>
                 ) : query ? (
-                    <p className="text-center py-12 text-gray-500">No results found for "{query}".</p>
+                    <p className="py-12 text-center text-gray-500" role="status" aria-live="polite">
+                        {t(locale, 'search.noResults')} "{query}".
+                    </p>
                 ) : null}
             </div>
         </PublicLayout>

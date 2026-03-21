@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EditorialPreviewController;
 use App\Modules\Activities\Controllers\AdminActivityController;
 use App\Modules\Admin\Controllers\AdminAuditLogController;
 use App\Modules\Admin\Controllers\AdminDashboardController;
@@ -25,8 +26,17 @@ Route::middleware([
     // CMS Pages
     Route::resource('pages', AdminPageController::class)->except(['show']);
 
+    Route::post('editorial-preview/pages', [EditorialPreviewController::class, 'storePage'])
+        ->name('editorial-preview.pages.store');
+    Route::get('editorial-preview/pages/{token}', [EditorialPreviewController::class, 'showPage'])
+        ->name('editorial-preview.pages.show');
+
     // News
     Route::resource('news', AdminNewsController::class)->except(['show']);
+    Route::post('editorial-preview/news', [EditorialPreviewController::class, 'storeNews'])
+        ->name('editorial-preview.news.store');
+    Route::get('editorial-preview/news/{token}', [EditorialPreviewController::class, 'showNews'])
+        ->name('editorial-preview.news.show');
 
     // Activities
     Route::resource('activities', AdminActivityController::class)->except(['show']);

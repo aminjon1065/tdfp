@@ -10,7 +10,7 @@ interface Setting {
     id: number;
     key: string;
     value: string;
-    type: 'text' | 'textarea' | 'boolean' | 'number';
+    type: 'text' | 'textarea' | 'boolean' | 'number' | 'email' | 'url';
     label: string;
     group: string;
 }
@@ -20,15 +20,15 @@ interface Props {
 }
 
 export default function AdminSettingsIndex({ settings }: Props) {
-    // Build initial values map from settings
     const initialValues = settings.reduce<Record<string, string>>((acc, s) => {
         acc[s.key] = s.value ?? '';
         return acc;
     }, {});
 
-    const { data, setData, post, processing, errors } = useForm<Record<string, string>>(initialValues);
+    const { data, setData, post, processing, errors } = useForm<{ settings: Record<string, string> }>({
+        settings: initialValues,
+    });
 
-    // Group settings by their group key
     const groups = settings.reduce<Record<string, Setting[]>>((acc, s) => {
         const g = s.group ?? 'General';
         if (!acc[g]) acc[g] = [];
@@ -64,9 +64,12 @@ export default function AdminSettingsIndex({ settings }: Props) {
                                             {setting.type === 'textarea' ? (
                                                 <textarea
                                                     id={setting.key}
-                                                    value={data[setting.key] ?? ''}
+                                                    value={data.settings[setting.key] ?? ''}
                                                     onChange={(e) =>
-                                                        setData(setting.key, e.target.value)
+                                                        setData('settings', {
+                                                            ...data.settings,
+                                                            [setting.key]: e.target.value,
+                                                        })
                                                     }
                                                     rows={4}
                                                     className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -76,9 +79,12 @@ export default function AdminSettingsIndex({ settings }: Props) {
                                                     <input
                                                         id={setting.key}
                                                         type="checkbox"
-                                                        checked={data[setting.key] === '1' || data[setting.key] === 'true'}
+                                                        checked={data.settings[setting.key] === '1' || data.settings[setting.key] === 'true'}
                                                         onChange={(e) =>
-                                                            setData(setting.key, e.target.checked ? '1' : '0')
+                                                            setData('settings', {
+                                                                ...data.settings,
+                                                                [setting.key]: e.target.checked ? '1' : '0',
+                                                            })
                                                         }
                                                         className="h-4 w-4 rounded border-input"
                                                     />
@@ -89,16 +95,19 @@ export default function AdminSettingsIndex({ settings }: Props) {
                                             ) : (
                                                 <Input
                                                     id={setting.key}
-                                                    type={setting.type === 'number' ? 'number' : 'text'}
-                                                    value={data[setting.key] ?? ''}
+                                                    type={setting.type}
+                                                    value={data.settings[setting.key] ?? ''}
                                                     onChange={(e) =>
-                                                        setData(setting.key, e.target.value)
+                                                        setData('settings', {
+                                                            ...data.settings,
+                                                            [setting.key]: e.target.value,
+                                                        })
                                                     }
                                                 />
                                             )}
-                                            {errors[setting.key] && (
+                                            {errors[`settings.${setting.key}`] && (
                                                 <p className="text-sm text-destructive">
-                                                    {errors[setting.key]}
+                                                    {errors[`settings.${setting.key}`]}
                                                 </p>
                                             )}
                                         </div>

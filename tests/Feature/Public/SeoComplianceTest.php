@@ -78,6 +78,8 @@ test('sitemap includes key public records and returns xml', function () {
 test('public pages receive shared site settings for seo and analytics', function () {
     Setting::set('site_title', 'PIC Portal');
     Setting::set('site_description', 'Compliance-ready public portal');
+    Setting::set('analytics_enabled', '1');
+    Setting::set('analytics_provider', 'ga4');
     Setting::set('google_analytics_id', 'G-TEST1234');
 
     $page = Page::create([
@@ -98,6 +100,8 @@ test('public pages receive shared site settings for seo and analytics', function
             ->component('public/page')
             ->where('siteSettings.site_title', 'PIC Portal')
             ->where('siteSettings.site_description', 'Compliance-ready public portal')
+            ->where('siteSettings.analytics_enabled', true)
+            ->where('siteSettings.analytics_provider', 'ga4')
             ->where('siteSettings.google_analytics_id', 'G-TEST1234')
         );
 });

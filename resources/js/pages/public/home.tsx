@@ -9,6 +9,7 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import {
     formatLocalizedDate,
@@ -247,10 +248,12 @@ export default function Home({
                                 >
                                     {item.featured_image && (
                                         <div className="aspect-[16/9] bg-slate-200">
-                                            <img
+                                            <PublicImage
                                                 src={`/storage/${item.featured_image}`}
                                                 alt={translation.title}
                                                 className="h-full w-full object-cover"
+                                                priority={false}
+                                                sizes="(min-width: 1024px) 30vw, 100vw"
                                             />
                                         </div>
                                     )}

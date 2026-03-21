@@ -25,7 +25,14 @@ class PublicGrmController extends Controller
 
     public function submit(): Response
     {
-        return Inertia::render('public/grm/submit');
+        return Inertia::render('public/grm/submit', [
+            'attachmentConstraints' => [
+                'accept' => SubmitGrmRequest::attachmentAcceptAttribute(),
+                'allowed_extensions' => SubmitGrmRequest::ALLOWED_ATTACHMENT_EXTENSIONS,
+                'max_files' => SubmitGrmRequest::MAX_ATTACHMENTS,
+                'max_file_size_mb' => SubmitGrmRequest::maxAttachmentSizeMb(),
+            ],
+        ]);
     }
 
     public function store(SubmitGrmRequest $request): RedirectResponse
@@ -50,7 +57,12 @@ class PublicGrmController extends Controller
 
     public function track(): Response
     {
-        return Inertia::render('public/grm/track');
+        return Inertia::render('public/grm/track', [
+            'trackingRequirements' => [
+                'ticket_number_pattern' => '^GRM-\\d{4}-\\d{5}$',
+                'tracking_token_length' => 32,
+            ],
+        ]);
     }
 
     public function trackSearch(Request $request): Response
@@ -66,6 +78,10 @@ class PublicGrmController extends Controller
         $trackingExpired = $case?->hasExpiredPublicTracking() ?? false;
 
         return Inertia::render('public/grm/track', [
+            'trackingRequirements' => [
+                'ticket_number_pattern' => '^GRM-\\d{4}-\\d{5}$',
+                'tracking_token_length' => 32,
+            ],
             'case' => $case && ! $trackingExpired ? [
                 'ticket_number' => $case->ticket_number,
                 'status' => $case->status,

@@ -1,26 +1,31 @@
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { CheckCircle } from 'lucide-react';
 
 export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string; trackingToken: string }) {
     return (
         <PublicLayout title="Complaint Submitted">
-            <div className="container mx-auto px-4 py-20 text-center max-w-lg">
-                <CheckCircle className="mx-auto mb-4 h-16 w-16 text-green-500" />
+            <div className="container mx-auto max-w-lg px-4 py-20 text-center">
+                <CheckCircle className="mx-auto mb-4 h-16 w-16 text-green-500" aria-hidden="true" />
                 <h1 className="mb-2 text-2xl font-bold text-gray-900">Complaint Submitted</h1>
-                <p className="mb-4 text-gray-600">Your complaint has been received. A confirmation email has been sent.</p>
-                <div className="mb-8 rounded-lg bg-gray-50 border p-4 space-y-4">
+                <p className="mb-4 text-gray-600" role="status" aria-live="polite">Your complaint has been received. A confirmation email has been sent.</p>
+                <section aria-labelledby="tracking-details-heading" className="mb-8 rounded-lg border bg-gray-50 p-4">
+                    <h2 id="tracking-details-heading" className="sr-only">
+                        Tracking details
+                    </h2>
+                    <dl className="space-y-4">
                     <div>
-                        <p className="text-sm text-gray-500">Your ticket number:</p>
-                        <p className="text-2xl font-mono font-bold text-blue-700 mt-1">{ticket}</p>
+                        <dt className="text-sm text-gray-500">Your ticket number:</dt>
+                        <dd className="mt-1 text-2xl font-mono font-bold text-blue-700">{ticket}</dd>
                     </div>
                     <div>
-                        <p className="text-sm text-gray-500">Your tracking token:</p>
-                        <p className="text-xl font-mono font-bold text-slate-800 mt-1 break-all">{trackingToken}</p>
+                        <dt className="text-sm text-gray-500">Your tracking token:</dt>
+                        <dd className="mt-1 break-all text-xl font-mono font-bold text-slate-800">{trackingToken}</dd>
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">Save both values to track your complaint status securely.</p>
-                </div>
+                    </dl>
+                    <p className="mt-1 text-xs text-gray-400">Save both values to track your complaint status securely.</p>
+                </section>
                 <div className="flex gap-3 justify-center">
                     <Button asChild>
                         <Link href="/grm/track">Track Status</Link>

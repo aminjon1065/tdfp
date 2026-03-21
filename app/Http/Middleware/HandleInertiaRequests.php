@@ -63,6 +63,8 @@ class HandleInertiaRequests extends Middleware
                 'facebook_url' => Setting::get('facebook_url'),
                 'twitter_url' => Setting::get('twitter_url'),
                 'youtube_url' => Setting::get('youtube_url'),
+                'analytics_enabled' => filter_var(Setting::get('analytics_enabled', false), FILTER_VALIDATE_BOOLEAN),
+                'analytics_provider' => Setting::get('analytics_provider', 'ga4'),
                 'google_analytics_id' => Setting::get('google_analytics_id'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',

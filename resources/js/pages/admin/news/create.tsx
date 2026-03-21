@@ -1,4 +1,5 @@
 import AdminLayout from '@/layouts/admin-layout';
+import { EditorialPreviewButton } from '@/components/admin/editorial-preview-button';
 import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -38,6 +39,21 @@ export default function AdminNewsCreate({ categories }: Props) {
         e.preventDefault();
         post('/admin/news');
     };
+
+    const previewPayload = new FormData();
+
+    previewPayload.append('status', data.status);
+    previewPayload.append('is_featured', data.is_featured ? '1' : '0');
+
+    if (data.category_id !== '') {
+        previewPayload.append('category_id', data.category_id);
+    }
+
+    Object.entries(data.translations).forEach(([language, translation]) => {
+        previewPayload.append(`translations[${language}][title]`, translation.title);
+        previewPayload.append(`translations[${language}][summary]`, translation.summary);
+        previewPayload.append(`translations[${language}][content]`, translation.content);
+    });
 
     return (
         <AdminLayout
@@ -111,6 +127,11 @@ export default function AdminNewsCreate({ categories }: Props) {
                         <Button type="submit" disabled={processing}>
                             {processing ? 'Saving…' : 'Create Article'}
                         </Button>
+                        <EditorialPreviewButton
+                            endpoint="/admin/editorial-preview/news"
+                            payload={previewPayload}
+                            disabled={processing}
+                        />
                         <Button type="button" variant="outline" onClick={() => history.back()}>
                             Cancel
                         </Button>

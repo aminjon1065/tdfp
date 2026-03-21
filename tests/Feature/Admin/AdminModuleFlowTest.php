@@ -180,6 +180,96 @@ test('content managers can upload editor images through the media endpoint', fun
     expect($media->type)->toBe('image');
 });
 
+test('content managers can generate owner scoped editorial previews for pages and news', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $user->assignRole('content_manager');
+
+    $otherUser = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $otherUser->assignRole('content_manager');
+
+    $category = NewsCategory::create([
+        'name' => 'Editorial',
+        'slug' => 'editorial',
+    ]);
+
+    $pagePreviewResponse = $this->actingAs($user)
+        ->post(route('admin.editorial-preview.pages.store'), [
+            'status' => 'draft',
+            'translations' => [
+                'en' => [
+                    'title' => 'Preview Page Title',
+                    'content' => '<p>Preview page body.</p>',
+                    'meta_title' => 'Preview Page Meta',
+                    'meta_description' => 'Preview page description.',
+                ],
+            ],
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+    $pagePreviewResponse
+        ->assertOk()
+        ->assertJsonStructure(['preview_url']);
+
+    $pagePreviewUrl = $pagePreviewResponse->json('preview_url');
+
+    $this->actingAs($user)
+        ->get($pagePreviewUrl)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/page')
+            ->where('page.translations.0.title', 'Preview Page Title')
+            ->where('previewMeta.label', 'Editorial preview')
+        );
+
+    $this->actingAs($otherUser)
+        ->get($pagePreviewUrl)
+        ->assertNotFound();
+
+    $newsPreviewResponse = $this->actingAs($user)
+        ->post(route('admin.editorial-preview.news.store'), [
+            'category_id' => $category->id,
+            'status' => 'draft',
+            'is_featured' => true,
+            'featured_image_url' => 'https://example.com/preview-news.jpg',
+            'translations' => [
+                'en' => [
+                    'title' => 'Preview News Title',
+                    'summary' => 'Preview news summary.',
+                    'content' => '<p>Preview news body.</p>',
+                ],
+            ],
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+    $newsPreviewResponse
+        ->assertOk()
+        ->assertJsonStructure(['preview_url']);
+
+    $newsPreviewUrl = $newsPreviewResponse->json('preview_url');
+
+    $this->actingAs($user)
+        ->get($newsPreviewUrl)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/news/show')
+            ->where('news.translations.0.title', 'Preview News Title')
+            ->where('news.featured_image_url', 'https://example.com/preview-news.jpg')
+            ->where('previewMeta.label', 'Editorial preview')
+        );
+
+    $this->actingAs($otherUser)
+        ->get($newsPreviewUrl)
+        ->assertNotFound();
+});
+
 test('procurement officers can create procurements linked to documents', function () {
     $user = User::factory()->create([
         'email_verified_at' => now(),

@@ -13,15 +13,43 @@ function formatSize(bytes: number): string {
 
 export default function ProcurementShow({ procurement }: { procurement: any }) {
     const locale = (usePage().props as any).locale ?? 'en';
+    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
     const translation = getTranslation(procurement, locale);
-    const structuredData = {
-        '@context': 'https://schema.org',
-        '@type': 'GovernmentService',
-        name: translation.title ?? t(locale, 'procurement.notice'),
-        description: translation.description ?? undefined,
-        identifier: procurement.reference_number,
-        inLanguage: locale,
-    };
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'GovernmentService',
+            name: translation.title ?? t(locale, 'procurement.notice'),
+            description: translation.description ?? undefined,
+            identifier: procurement.reference_number,
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: t(locale, 'common.home'),
+                    item: currentUrl ? new URL('/', currentUrl).toString() : undefined,
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: t(locale, 'procurement.title'),
+                    item: currentUrl ? new URL('/procurement', currentUrl).toString() : undefined,
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 3,
+                    name: translation.title ?? procurement.reference_number,
+                    item: currentUrl || undefined,
+                },
+            ],
+        },
+    ];
 
     return (
         <PublicLayout
@@ -32,18 +60,18 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
         >
             <div style={{ backgroundColor: '#1B3A6B' }} className="py-8">
                 <div className="container mx-auto px-4">
-                    <nav className="mb-2 flex items-center gap-1 text-xs text-blue-300">
+                    <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-1 text-xs text-blue-300">
                         <Link href="/" className="hover:text-white transition-colors">{t(locale, 'common.home')}</Link>
-                        <ChevronRight className="h-3 w-3" />
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
                         <Link href="/procurement" className="hover:text-white transition-colors">{t(locale, 'procurement.title')}</Link>
-                        <ChevronRight className="h-3 w-3" />
-                        <span className="text-white">{procurement.reference_number}</span>
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                        <span className="text-white" aria-current="page">{procurement.reference_number}</span>
                     </nav>
                     <h1 className="text-2xl font-bold text-white sm:text-3xl">{translation.title ?? t(locale, 'procurement.notice')}</h1>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-12 max-w-4xl">
+            <article className="container mx-auto max-w-4xl px-4 py-12">
                 <Link href="/procurement" className="mb-6 inline-flex items-center text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
                     {t(locale, 'procurement.back')}
                 </Link>
@@ -67,14 +95,14 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {procurement.publication_date && (
                             <div className="flex items-center gap-2 text-sm text-gray-600">
-                                <Calendar className="h-4 w-4 shrink-0" style={{ color: '#1B3A6B' }} />
-                                <span><span className="font-medium">{t(locale, 'common.published')}:</span> {formatLocalizedDate(procurement.publication_date, locale)}</span>
+                                <Calendar className="h-4 w-4 shrink-0" style={{ color: '#1B3A6B' }} aria-hidden="true" />
+                                <span><span className="font-medium">{t(locale, 'common.published')}:</span> <time dateTime={procurement.publication_date}>{formatLocalizedDate(procurement.publication_date, locale)}</time></span>
                             </div>
                         )}
                         {procurement.deadline && (
                             <div className="flex items-center gap-2 text-sm font-medium" style={{ color: '#C4922A' }}>
-                                <Calendar className="h-4 w-4 shrink-0" />
-                                <span><span>{t(locale, 'common.deadline')}:</span> {formatLocalizedDate(procurement.deadline, locale)}</span>
+                                <Calendar className="h-4 w-4 shrink-0" aria-hidden="true" />
+                                <span><span>{t(locale, 'common.deadline')}:</span> <time dateTime={procurement.deadline}>{formatLocalizedDate(procurement.deadline, locale)}</time></span>
                             </div>
                         )}
                         <div className="text-sm text-gray-600">
@@ -145,7 +173,7 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
                         </div>
                     </div>
                 )}
-            </div>
+            </article>
         </PublicLayout>
     );
 }

@@ -88,10 +88,12 @@ class ProcurementRepository extends BaseRepository
         return Procurement::query()
             ->whereIn('status', $this->publicStatuses)
             ->whereNotNull('publication_date')
-            ->selectRaw('DISTINCT YEAR(publication_date) as year')
-            ->orderByDesc('year')
-            ->pluck('year')
-            ->map(fn ($year) => (int) $year)
+            ->orderByDesc('publication_date')
+            ->pluck('publication_date')
+            ->filter()
+            ->map(fn ($publicationDate) => (int) \Illuminate\Support\Carbon::parse($publicationDate)->format('Y'))
+            ->unique()
+            ->values()
             ->all();
     }
 }

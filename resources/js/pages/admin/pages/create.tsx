@@ -1,4 +1,5 @@
 import AdminLayout from '@/layouts/admin-layout';
+import { EditorialPreviewButton } from '@/components/admin/editorial-preview-button';
 import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -83,6 +84,11 @@ export default function AdminPagesCreate() {
                         <Button type="submit" disabled={processing}>
                             {processing ? 'Saving…' : 'Create Page'}
                         </Button>
+                        <EditorialPreviewButton
+                            endpoint="/admin/editorial-preview/pages"
+                            payload={data}
+                            disabled={processing}
+                        />
                         <Button type="button" variant="outline" onClick={() => history.back()}>
                             Cancel
                         </Button>

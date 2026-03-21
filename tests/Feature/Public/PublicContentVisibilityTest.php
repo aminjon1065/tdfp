@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Models\NewsTranslation;
 use App\Models\Procurement;
 use App\Models\ProcurementTranslation;
+use App\Models\SearchIndex;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Collection;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -232,6 +233,48 @@ test('public news prioritizes featured announcements and shares a whats new stre
                 'recent-update',
             ])
             ->where('newsRecentWindowDays', 14)
+        );
+});
+
+test('public search uses the current locale, exposes entity filters, and returns snippets', function () {
+    SearchIndex::create([
+        'entity_type' => \App\Models\News::class,
+        'entity_id' => 101,
+        'title' => 'Digital Identity Rollout',
+        'content' => str_repeat('Intro text. ', 8).'The digital identity rollout expands online access for citizens.'.str_repeat(' Closing note.', 8),
+        'language' => 'en',
+        'url' => '/news/digital-identity-rollout',
+    ]);
+
+    SearchIndex::create([
+        'entity_type' => \App\Models\Page::class,
+        'entity_id' => 202,
+        'title' => 'Project Overview',
+        'content' => 'General project overview content.',
+        'language' => 'en',
+        'url' => '/project',
+    ]);
+
+    SearchIndex::create([
+        'entity_type' => \App\Models\News::class,
+        'entity_id' => 303,
+        'title' => 'Запуск цифровой идентификации',
+        'content' => 'Русскоязычный материал не должен попасть в английскую выдачу.',
+        'language' => 'ru',
+        'url' => '/news/ru-digital-identity',
+    ]);
+
+    $this->get('/search?q=digital&lang=en&entity_type='.urlencode(\App\Models\News::class))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/search')
+            ->where('query', 'digital')
+            ->where('filters.lang', 'en')
+            ->where('entityTypes', fn (Collection $items) => $items->pluck('value')->contains(\App\Models\News::class))
+            ->where('results.total', 1)
+            ->where('results.data.0.title', 'Digital Identity Rollout')
+            ->where('results.data.0.entity_label_key', 'search.entity.news')
+            ->where('results.data.0.snippet', fn (string $snippet) => str_contains($snippet, 'digital identity rollout'))
         );
 });
 

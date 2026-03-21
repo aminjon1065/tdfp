@@ -9,9 +9,17 @@ import {
     Search,
     X,
 } from 'lucide-react';
-import { type PropsWithChildren, useState } from 'react';
+import { type PropsWithChildren, useEffect, useState } from 'react';
 
 import Seo from '@/components/seo';
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { t } from '@/lib/i18n';
 
@@ -59,6 +67,8 @@ interface LayoutPageProps extends PageProps {
         facebook_url?: string;
         twitter_url?: string;
         youtube_url?: string;
+        analytics_enabled?: boolean;
+        analytics_provider?: string;
         google_analytics_id?: string;
     };
 }
@@ -98,10 +108,27 @@ export default function PublicLayout({
         url: currentUrl || undefined,
         description: siteSettings.site_description || undefined,
         inLanguage: currentLocale,
+        potentialAction: currentUrl
+            ? {
+                '@type': 'SearchAction',
+                target: `${new URL('/search', currentUrl).toString()}?q={search_term_string}`,
+                'query-input': 'required name=search_term_string',
+            }
+            : undefined,
     };
     const analyticsId = siteSettings.google_analytics_id?.trim();
+    const analyticsEnabled = siteSettings.analytics_enabled === true
+        && siteSettings.analytics_provider === 'ga4'
+        && !!analyticsId
+        && /^G-[A-Z0-9]+$/.test(analyticsId);
+
+    useEffect(() => {
+        setMobileOpen(false);
+    }, [currentUrl]);
 
     function switchLanguage(code: string): void {
+        setMobileOpen(false);
+
         router.visit(`/language/${code}`, {
             preserveScroll: true,
         });
@@ -126,7 +153,7 @@ export default function PublicLayout({
                           : []),
                 ]}
             />
-            {analyticsId && (
+            {analyticsEnabled && analyticsId && (
                 <Head>
                     <script
                         async
@@ -194,6 +221,7 @@ export default function PublicLayout({
                                 {languages.map((language) => (
                                     <button
                                         key={language.code}
+                                        type="button"
                                         onClick={() =>
                                             switchLanguage(language.code)
                                         }
@@ -227,19 +255,112 @@ export default function PublicLayout({
                             </Button>
                         </div>
 
-                        <button
-                            onClick={() => setMobileOpen(!mobileOpen)}
-                            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 lg:hidden"
-                            aria-expanded={mobileOpen}
-                            aria-label="Toggle navigation"
-                        >
-                            {mobileOpen ? (
-                                <X className="h-4 w-4" />
-                            ) : (
-                                <Menu className="h-4 w-4" />
-                            )}
-                            Menu
-                        </button>
+                        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                            <SheetTrigger asChild>
+                                <button
+                                    type="button"
+                                    className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 lg:hidden"
+                                    aria-label="Toggle navigation"
+                                    aria-controls="mobile-primary-navigation"
+                                >
+                                    {mobileOpen ? (
+                                        <X className="h-4 w-4" aria-hidden="true" />
+                                    ) : (
+                                        <Menu className="h-4 w-4" aria-hidden="true" />
+                                    )}
+                                    Menu
+                                </button>
+                            </SheetTrigger>
+                            <SheetContent
+                                id="mobile-primary-navigation"
+                                side="right"
+                                className="w-full max-w-sm border-l border-slate-200 bg-white p-0"
+                            >
+                                <SheetHeader className="border-b border-slate-200 px-6 py-5 text-left">
+                                    <SheetTitle className="text-base text-[var(--gov-navy-strong)]">
+                                        Site navigation
+                                    </SheetTitle>
+                                    <SheetDescription>
+                                        Browse public sections, switch language, or access search and grievance services.
+                                    </SheetDescription>
+                                </SheetHeader>
+
+                                <div className="space-y-5 px-6 py-5">
+                                    <nav aria-label="Mobile">
+                                        <ul className="space-y-2">
+                                            {navLinks.map((link) => {
+                                                const active =
+                                                    currentUrl === link.href ||
+                                                    (link.href !== '/' &&
+                                                        currentUrl.startsWith(link.href));
+
+                                                return (
+                                                    <li key={link.href}>
+                                                        <Link
+                                                            href={link.href}
+                                                            aria-current={active ? 'page' : undefined}
+                                                            className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium text-[var(--gov-navy)]"
+                                                            onClick={() =>
+                                                                setMobileOpen(false)
+                                                            }
+                                                        >
+                                                            {t(currentLocale, link.key)}
+                                                            <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                                        </Link>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </nav>
+
+                                    <div className="flex flex-wrap gap-2">
+                                        {languages.map((language) => (
+                                            <button
+                                                key={language.code}
+                                                type="button"
+                                                onClick={() =>
+                                                    switchLanguage(language.code)
+                                                }
+                                                className={`rounded-md border px-3 py-2 text-xs font-semibold ${
+                                                    currentLocale === language.code
+                                                        ? 'border-[var(--gov-navy)] bg-[var(--gov-navy)] text-white'
+                                                        : 'border-slate-200 bg-white text-slate-600'
+                                                }`}
+                                            >
+                                                {language.label}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex gap-3">
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            className="flex-1 rounded-lg border-slate-300"
+                                        >
+                                            <Link
+                                                href="/search"
+                                                onClick={() => setMobileOpen(false)}
+                                            >
+                                                <Search className="mr-2 h-4 w-4" aria-hidden="true" />
+                                                Search
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            asChild
+                                            className="flex-1 rounded-lg bg-[var(--gov-blue)] hover:bg-[var(--gov-navy)]"
+                                        >
+                                            <Link
+                                                href="/grm/submit"
+                                                onClick={() => setMobileOpen(false)}
+                                            >
+                                                Submit
+                                            </Link>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </SheetContent>
+                        </Sheet>
                     </div>
                 </div>
 
@@ -257,6 +378,7 @@ export default function PublicLayout({
                                         <li key={link.href}>
                                             <Link
                                                 href={link.href}
+                                                aria-current={active ? 'page' : undefined}
                                                 className={`rounded-md px-4 py-2 text-sm font-medium transition ${
                                                     active
                                                         ? 'bg-[var(--gov-mist)] text-[var(--gov-navy-strong)]'
@@ -277,78 +399,9 @@ export default function PublicLayout({
                     </div>
                 </div>
 
-                {mobileOpen && (
-                    <div className="border-t border-slate-200 bg-white lg:hidden">
-                        <div className="gov-container space-y-5 py-5">
-                            <nav aria-label="Mobile">
-                                <ul className="space-y-2">
-                                    {navLinks.map((link) => (
-                                        <li key={link.href}>
-                                            <Link
-                                                href={link.href}
-                                                className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium text-[var(--gov-navy)]"
-                                                onClick={() =>
-                                                    setMobileOpen(false)
-                                                }
-                                            >
-                                                {t(currentLocale, link.key)}
-                                                <ChevronRight className="h-4 w-4 text-slate-400" />
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
-
-                            <div className="flex flex-wrap gap-2">
-                                {languages.map((language) => (
-                                    <button
-                                        key={language.code}
-                                        onClick={() =>
-                                            switchLanguage(language.code)
-                                        }
-                                        className={`rounded-md border px-3 py-2 text-xs font-semibold ${
-                                            currentLocale === language.code
-                                                ? 'border-[var(--gov-navy)] bg-[var(--gov-navy)] text-white'
-                                                : 'border-slate-200 bg-white text-slate-600'
-                                        }`}
-                                    >
-                                        {language.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="flex gap-3">
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    className="flex-1 rounded-lg border-slate-300"
-                                >
-                                    <Link
-                                        href="/search"
-                                        onClick={() => setMobileOpen(false)}
-                                    >
-                                        <Search className="mr-2 h-4 w-4" />
-                                        Search
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    className="flex-1 rounded-lg bg-[var(--gov-blue)] hover:bg-[var(--gov-navy)]"
-                                >
-                                    <Link
-                                        href="/grm/submit"
-                                        onClick={() => setMobileOpen(false)}
-                                    >
-                                        Submit
-                                    </Link>
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </header>
 
-            <main id="main-content" className="flex-1">
+            <main id="main-content" tabIndex={-1} className="flex-1">
                 {children}
             </main>
 

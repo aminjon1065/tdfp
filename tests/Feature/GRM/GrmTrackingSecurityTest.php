@@ -67,6 +67,26 @@ test('grm submission rejects unsafe attachment types', function () {
     $response->assertSessionHasErrors('attachments.0');
 });
 
+test('public grm pages expose submission and tracking constraints for the frontend', function () {
+    $this->get(route('grm.submit'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/grm/submit')
+            ->where('attachmentConstraints.accept', '.pdf,.jpg,.jpeg,.png,.doc,.docx')
+            ->where('attachmentConstraints.allowed_extensions', ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx'])
+            ->where('attachmentConstraints.max_files', 5)
+            ->where('attachmentConstraints.max_file_size_mb', 10)
+        );
+
+    $this->get(route('grm.track'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/grm/track')
+            ->where('trackingRequirements.ticket_number_pattern', '^GRM-\\d{4}-\\d{5}$')
+            ->where('trackingRequirements.tracking_token_length', 32)
+        );
+});
+
 test('grm status assignment rejects non officer assignees', function () {
     $officer = User::factory()->create([
         'email_verified_at' => now(),

@@ -9,15 +9,30 @@ import { useState } from 'react';
 
 export default function ProcurementIndex({ procurements, filters, years }: { procurements: any; filters: any; years: number[] }) {
     const locale = (usePage().props as any).locale ?? 'en';
+    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
     const statuses = ['', 'open', 'closed', 'awarded', 'archived'];
     const [search, setSearch] = useState(filters.search ?? '');
-    const structuredData = {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        name: t(locale, 'procurement.title'),
-        description: t(locale, 'procurement.indexDescription'),
-        inLanguage: locale,
-    };
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: t(locale, 'procurement.title'),
+            description: t(locale, 'procurement.indexDescription'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: t(locale, 'procurement.title'),
+            itemListElement: procurements.data.map((item: any, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                url: currentUrl ? new URL(`/procurement/${item.reference_number}`, currentUrl).toString() : undefined,
+                name: getTranslation(item, locale).title ?? item.reference_number,
+            })),
+        },
+    ];
 
     return (
         <PublicLayout
@@ -30,7 +45,7 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'procurement.title')}</h1>
                 <p className="mb-8 text-gray-500">{t(locale, 'procurement.indexDescription')}</p>
 
-                <div className="mb-4 flex flex-wrap gap-3">
+                <div className="mb-4 space-y-3">
                     <form
                         onSubmit={(event) => {
                             event.preventDefault();
@@ -40,36 +55,47 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                                 year: filters.year,
                             });
                         }}
-                        className="flex gap-2"
+                        className="flex flex-col gap-3 sm:flex-row"
+                        role="search"
+                        aria-label={t(locale, 'procurement.title')}
                     >
+                        <label htmlFor="procurement-search-query" className="sr-only">
+                            {t(locale, 'procurement.searchPlaceholder')}
+                        </label>
                         <Input
+                            id="procurement-search-query"
+                            name="search"
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
                             placeholder={t(locale, 'procurement.searchPlaceholder')}
-                            className="w-64"
+                            className="w-full sm:w-64"
                         />
-                        <Button type="submit" variant="outline" size="icon">
-                            <Search className="h-4 w-4" />
+                        <Button type="submit" variant="outline" size="icon" aria-label={t(locale, 'procurement.title')} className="w-full sm:w-10">
+                            <Search className="h-4 w-4" aria-hidden="true" />
                         </Button>
                     </form>
 
-                    <select
-                        value={filters.year ?? ''}
-                        onChange={(event) =>
-                            router.get('/procurement', {
-                                search: filters.search,
-                                status: filters.status,
-                                year: event.target.value || undefined,
-                            })}
-                        className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    >
-                        <option value="">{t(locale, 'common.all')}</option>
-                        {years.map((year) => (
-                            <option key={year} value={year}>
-                                {year}
-                            </option>
-                        ))}
-                    </select>
+                    <div className="sm:max-w-xs">
+                        <label htmlFor="procurement-year-filter" className="sr-only">Filter by year</label>
+                        <select
+                            id="procurement-year-filter"
+                            value={filters.year ?? ''}
+                            onChange={(event) =>
+                                router.get('/procurement', {
+                                    search: filters.search,
+                                    status: filters.status,
+                                    year: event.target.value || undefined,
+                                })}
+                            className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        >
+                            <option value="">{t(locale, 'common.all')}</option>
+                            {years.map((year) => (
+                                <option key={year} value={year}>
+                                    {year}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
                 <div className="mb-6 flex gap-2 flex-wrap">
@@ -80,12 +106,12 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                     ))}
                 </div>
 
-                <div className="space-y-4">
+                <ul className="space-y-4">
                     {procurements.data.map((item: any) => {
                         const translation = getTranslation(item, locale);
 
                         return (
-                            <div key={item.id} className="rounded-lg border p-5 hover:border-blue-300 transition-colors">
+                            <li key={item.id} className="rounded-lg border p-5 transition-colors hover:border-blue-300">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
@@ -99,12 +125,12 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                                         <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
                                             {item.publication_date && (
                                                 <span className="flex items-center gap-1">
-                                                    <Calendar className="h-3 w-3" /> {t(locale, 'common.published')}: {formatLocalizedDate(item.publication_date, locale)}
+                                                    <Calendar className="h-3 w-3" aria-hidden="true" /> {t(locale, 'common.published')}: <time dateTime={item.publication_date}>{formatLocalizedDate(item.publication_date, locale)}</time>
                                                 </span>
                                             )}
                                             {item.deadline && (
                                                 <span className="flex items-center gap-1 text-orange-600 font-medium">
-                                                    <Calendar className="h-3 w-3" /> {t(locale, 'common.deadline')}: {formatLocalizedDate(item.deadline, locale)}
+                                                    <Calendar className="h-3 w-3" aria-hidden="true" /> {t(locale, 'common.deadline')}: <time dateTime={item.deadline}>{formatLocalizedDate(item.deadline, locale)}</time>
                                                 </span>
                                             )}
                                             {item.days_until_deadline !== null && (
@@ -125,10 +151,10 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                                         </Link>
                                     </Button>
                                 </div>
-                            </div>
+                            </li>
                         );
                     })}
-                </div>
+                </ul>
 
                 {procurements.data.length === 0 && (
                     <p className="py-12 text-center text-gray-500">{t(locale, 'procurement.empty')}</p>

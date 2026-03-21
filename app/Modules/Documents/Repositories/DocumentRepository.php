@@ -97,10 +97,12 @@ class DocumentRepository extends BaseRepository
     {
         return Document::query()
             ->whereNotNull('published_at')
-            ->selectRaw('DISTINCT YEAR(published_at) as year')
-            ->orderByDesc('year')
-            ->pluck('year')
-            ->map(fn ($year) => (int) $year)
+            ->orderByDesc('published_at')
+            ->pluck('published_at')
+            ->filter()
+            ->map(fn ($publishedAt) => (int) \Illuminate\Support\Carbon::parse($publishedAt)->format('Y'))
+            ->unique()
+            ->values()
             ->all();
     }
 

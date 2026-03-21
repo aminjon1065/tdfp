@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
 import { Link, router, usePage } from '@inertiajs/react';
@@ -24,17 +25,18 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                 <p className="mb-8 text-gray-500">{t(locale, 'news.indexDescription')}</p>
 
                 {featuredAnnouncements.length > 0 && (
-                    <div className="mb-8 rounded-2xl border border-blue-100 bg-blue-50/50 p-5">
+                    <section aria-labelledby="featured-announcements-heading" className="mb-8 rounded-2xl border border-blue-100 bg-blue-50/50 p-5">
                         <div className="mb-4">
                             <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">{t(locale, 'news.whatsNew')}</p>
-                            <p className="text-sm text-slate-600">{t(locale, 'news.whatsNewDescription')}</p>
+                            <h2 id="featured-announcements-heading" className="text-sm text-slate-600">{t(locale, 'news.whatsNewDescription')}</h2>
                         </div>
-                        <div className="grid gap-4 lg:grid-cols-3">
+                        <ul className="grid gap-4 lg:grid-cols-3">
                             {featuredAnnouncements.map((item: any) => {
                                 const translation = getTranslation(item, locale);
 
                                 return (
-                                    <Link key={item.id} href={`/news/${item.slug}`} className="rounded-xl border bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
+                                    <li key={item.id}>
+                                    <Link href={`/news/${item.slug}`} className="block rounded-xl border bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
                                         <div className="mb-2 flex items-center gap-2">
                                             {item.is_featured && <Badge>{t(locale, 'news.featured')}</Badge>}
                                             {isRecent(item.published_at) && <Badge variant="outline">{t(locale, 'news.new')}</Badge>}
@@ -42,16 +44,22 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                         <p className="font-medium text-gray-900">{translation.title}</p>
                                         <p className="mt-2 line-clamp-2 text-sm text-gray-500">{translation.summary}</p>
                                     </Link>
+                                    </li>
                                 );
                             })}
-                        </div>
-                    </div>
+                        </ul>
+                    </section>
                 )}
 
-                <div className="mb-8 flex flex-wrap gap-3">
-                    <form onSubmit={(event) => { event.preventDefault(); router.get('/news', { search, category_id: filters.category_id }); }} className="flex gap-2">
-                        <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t(locale, 'news.searchPlaceholder')} className="w-64" />
-                        <Button type="submit" variant="outline" size="icon"><Search className="h-4 w-4" /></Button>
+                <div className="mb-8 space-y-3">
+                    <form onSubmit={(event) => { event.preventDefault(); router.get('/news', { search, category_id: filters.category_id }); }} className="flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'news.indexTitle')}>
+                        <label htmlFor="news-search-query" className="sr-only">
+                            {t(locale, 'news.searchPlaceholder')}
+                        </label>
+                        <Input id="news-search-query" name="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t(locale, 'news.searchPlaceholder')} className="w-full sm:w-64" />
+                        <Button type="submit" variant="outline" size="icon" aria-label={t(locale, 'news.indexTitle')} className="w-full sm:w-10">
+                            <Search className="h-4 w-4" aria-hidden="true" />
+                        </Button>
                     </form>
                     <div className="flex gap-2 flex-wrap">
                         <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { search: filters.search })}>{t(locale, 'common.all')}</Button>
@@ -63,15 +71,21 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                     </div>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {news.data.map((item: any) => {
                         const translation = getTranslation(item, locale);
 
                         return (
-                            <Card key={item.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                            <li key={item.id}>
+                            <Card className="overflow-hidden transition-shadow hover:shadow-md">
                                 {item.featured_image && (
                                     <div className="aspect-video bg-gray-100 overflow-hidden">
-                                        <img src={`/storage/${item.featured_image}`} alt={translation.title} className="h-full w-full object-cover" />
+                                        <PublicImage
+                                            src={`/storage/${item.featured_image}`}
+                                            alt={translation.title}
+                                            className="h-full w-full object-cover"
+                                            sizes="(min-width: 1024px) 20vw, (min-width: 640px) 40vw, 100vw"
+                                        />
                                     </div>
                                 )}
                                 <CardHeader className="pb-2">
@@ -85,14 +99,17 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                 <CardContent>
                                     <p className="text-sm text-gray-500 line-clamp-2">{translation.summary}</p>
                                     <div className="mt-3 flex items-center justify-between">
-                                        <span className="text-xs text-gray-400">{formatLocalizedDate(item.published_at, locale)}</span>
+                                        <time dateTime={item.published_at ?? undefined} className="text-xs text-gray-400">
+                                            {formatLocalizedDate(item.published_at, locale)}
+                                        </time>
                                         <Link href={`/news/${item.slug}`} className="text-sm text-blue-700 hover:underline">{t(locale, 'common.readMore')}</Link>
                                     </div>
                                 </CardContent>
                             </Card>
+                            </li>
                         );
                     })}
-                </div>
+                </ul>
 
                 {news.data.length === 0 && (
                     <p className="py-12 text-center text-gray-500">{t(locale, 'news.empty')}</p>
