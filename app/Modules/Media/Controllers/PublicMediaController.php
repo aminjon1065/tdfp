@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\Media\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Modules\Media\Repositories\MediaRepository;
 use Illuminate\Http\Request;
@@ -13,7 +15,7 @@ class PublicMediaController extends Controller
     public function index(Request $request): Response
     {
         return Inertia::render('public/media/index', [
-            'items' => $this->repository->paginateWithRelations(24, $request->only('type')),
+            'items' => $this->repository->paginatePublicWithRelations(24, $request->only('type')),
             'filters' => $request->only('type'),
         ]);
     }

@@ -41,14 +41,21 @@ const statusMessages: Record<string, { tone: string; title: string; body: string
 
 export default function SubscriptionPage({
     subscriptionStatus,
+    subscriptionAction,
 }: {
     subscriptionStatus?: string | null;
+    subscriptionAction?: {
+        intent: 'confirm' | 'unsubscribe';
+        email: string;
+        action_url: string;
+    } | null;
 }) {
     const locale = (usePage().props as any).locale ?? 'en';
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         locale,
     });
+    const actionForm = useForm({});
 
     const statusMessage = subscriptionStatus ? statusMessages[subscriptionStatus] : null;
 
@@ -73,6 +80,37 @@ export default function SubscriptionPage({
                         {t(locale, 'subscriptions.description')}
                     </p>
                 </div>
+
+                {subscriptionAction && (
+                    <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">
+                            {subscriptionAction.intent === 'confirm' ? 'Confirm request' : 'Unsubscribe request'}
+                        </p>
+                        <h2 className="mt-2 text-2xl font-semibold text-slate-900">
+                            {subscriptionAction.intent === 'confirm'
+                                ? 'Review and confirm your email subscription'
+                                : 'Review and confirm unsubscribe request'}
+                        </h2>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
+                            {subscriptionAction.intent === 'confirm'
+                                ? `Activate project update emails for ${subscriptionAction.email}.`
+                                : `Stop sending project update emails to ${subscriptionAction.email}.`}
+                        </p>
+                        <div className="mt-5 flex flex-wrap gap-3">
+                            <Button
+                                type="button"
+                                disabled={actionForm.processing}
+                                onClick={() => actionForm.post(subscriptionAction.action_url)}
+                            >
+                                {actionForm.processing
+                                    ? 'Processing…'
+                                    : subscriptionAction.intent === 'confirm'
+                                      ? 'Confirm subscription'
+                                      : 'Unsubscribe'}
+                            </Button>
+                        </div>
+                    </div>
+                )}
 
                 {statusMessage && (
                     <div className={`mb-6 rounded-xl border px-4 py-4 ${statusMessage.tone}`}>

@@ -2,13 +2,18 @@
 
 use App\Models\Activity;
 use App\Models\ActivityTranslation;
+use App\Models\Document;
+use App\Models\DocumentCategory;
+use App\Models\DocumentTranslation;
 use App\Models\News;
 use App\Models\NewsTranslation;
 use App\Models\Procurement;
 use App\Models\ProcurementTranslation;
 use App\Models\SearchIndex;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('public news index only returns published news even if a draft status is requested', function () {
@@ -278,6 +283,35 @@ test('public search uses the current locale, exposes entity filters, and returns
         );
 });
 
+test('public search includes document and media entity filters for indexed public records', function () {
+    SearchIndex::create([
+        'entity_type' => \App\Models\Document::class,
+        'entity_id' => 404,
+        'title' => 'Implementation Handbook',
+        'content' => 'Public implementation handbook for project delivery.',
+        'language' => 'en',
+        'url' => '/documents/404/download',
+    ]);
+
+    SearchIndex::create([
+        'entity_type' => \App\Models\MediaItem::class,
+        'entity_id' => 505,
+        'title' => 'Launch Gallery',
+        'content' => 'Official gallery from the launch event.',
+        'language' => 'en',
+        'url' => '/media#media-item-505',
+    ]);
+
+    $this->get('/search?q=launch&lang=en')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/search')
+            ->where('entityTypes', fn (Collection $items) => $items->pluck('value')->contains(\App\Models\Document::class)
+                && $items->pluck('value')->contains(\App\Models\MediaItem::class))
+            ->where('results.data', fn (Collection $items) => $items->pluck('entity_type')->contains(\App\Models\MediaItem::class))
+        );
+});
+
 test('language switch stores the locale in session and shares it with inertia', function () {
     $this->seed(DatabaseSeeder::class);
 
@@ -293,4 +327,33 @@ test('language switch stores the locale in session and shares it with inertia', 
             ->where('locale', 'ru')
             ->where('page.slug', 'about')
         );
+});
+
+test('document downloads preserve a safe filename with the original extension', function () {
+    Storage::fake('public');
+
+    $category = DocumentCategory::create([
+        'name' => 'Policies',
+        'slug' => 'policies',
+    ]);
+
+    $file = UploadedFile::fake()->create('implementation-guidelines.pdf', 32, 'application/pdf');
+    $storedPath = $file->storeAs('documents', 'implementation-guidelines.pdf', 'public');
+
+    $document = Document::create([
+        'category_id' => $category->id,
+        'file_path' => $storedPath,
+        'file_type' => 'pdf',
+        'published_at' => now(),
+    ]);
+
+    DocumentTranslation::create([
+        'document_id' => $document->id,
+        'language' => 'en',
+        'title' => 'Implementation Guidelines 2026',
+    ]);
+
+    $this->get(route('documents.download', $document))
+        ->assertOk()
+        ->assertDownload('Implementation Guidelines 2026.pdf');
 });

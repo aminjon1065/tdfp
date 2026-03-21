@@ -3,6 +3,7 @@
 use App\Models\AuditLog;
 use App\Models\Setting;
 use App\Models\User;
+use Database\Seeders\CmsPageSeeder;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -149,11 +150,15 @@ test('admin dashboard exposes operational readiness summary', function () {
     ]);
     $user->assignRole('super_admin');
 
+    $this->seed(CmsPageSeeder::class);
+
     Setting::set('analytics_owner_name', 'Digital Team');
     Setting::set('analytics_owner_email', 'analytics@example.com');
     Setting::set('google_analytics_id', 'G-TEST1234');
     Setting::set('support_contact_name', 'Operations Desk');
     Setting::set('support_contact_email', 'support@example.com');
+    Setting::set('support_contact_phone', '+992 123 456 789');
+    Setting::set('support_hours', 'Mon-Fri 09:00-18:00');
     Setting::set('incident_contact_email', 'incident@example.com');
     Setting::set('maintenance_report_email', 'reports@example.com');
     Setting::set('backup_frequency', 'daily');
@@ -167,7 +172,10 @@ test('admin dashboard exposes operational readiness summary', function () {
             ->where('operational_readiness.completion_percentage', 100)
             ->where('operational_readiness.is_ready', true)
             ->where('operational_readiness.missing_count', 0)
-            ->where('operational_readiness.items', fn ($items) => count($items) === 9)
+            ->where('operational_readiness.items', fn ($items) => count($items) === 11)
+            ->where('automated_checks.failing_count', 0)
+            ->where('automated_checks.passing_count', 3)
+            ->where('operational_audit.is_ready', true)
         );
 });
 

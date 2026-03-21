@@ -4,6 +4,10 @@ namespace App\Observers;
 
 use App\Models\Activity;
 use App\Models\ActivityTranslation;
+use App\Models\Document;
+use App\Models\DocumentTranslation;
+use App\Models\MediaItem;
+use App\Models\MediaItemTranslation;
 use App\Models\News;
 use App\Models\NewsTranslation;
 use App\Models\Page;
@@ -35,7 +39,7 @@ class SearchIndexObserver
 
     private function sync(mixed $model): void
     {
-        if ($model instanceof Page || $model instanceof News || $model instanceof Activity || $model instanceof Procurement) {
+        if ($model instanceof Page || $model instanceof News || $model instanceof Activity || $model instanceof Procurement || $model instanceof Document || $model instanceof MediaItem) {
             if ($model->exists) {
                 $this->searchService->syncModel($model);
             } else {
@@ -50,6 +54,8 @@ class SearchIndexObserver
             $model instanceof NewsTranslation => $model->news()->with('translations')->first(),
             $model instanceof ActivityTranslation => $model->activity()->with('translations')->first(),
             $model instanceof ProcurementTranslation => $model->procurement()->with('translations')->first(),
+            $model instanceof DocumentTranslation => $model->document()->with('translations')->first(),
+            $model instanceof MediaItemTranslation => $model->mediaItem()->with('translations')->first(),
             default => null,
         };
 

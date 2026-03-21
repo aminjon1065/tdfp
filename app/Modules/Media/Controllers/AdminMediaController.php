@@ -52,6 +52,7 @@ class AdminMediaController extends Controller
 
         $mediaItem = MediaItem::create([
             'type' => 'image',
+            'is_public' => false,
             'file_path' => $path,
             'uploaded_by' => $request->user()?->id,
         ]);

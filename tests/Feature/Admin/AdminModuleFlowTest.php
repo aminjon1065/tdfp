@@ -5,6 +5,8 @@ use App\Models\AuditLog;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\GrmCase;
+use App\Models\MediaItem;
+use App\Models\MediaItemTranslation;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Page;
@@ -177,7 +179,92 @@ test('content managers can upload editor images through the media endpoint', fun
     $media = \App\Models\MediaItem::query()->findOrFail($payload['id']);
 
     Storage::disk('public')->assertExists($media->file_path);
-    expect($media->type)->toBe('image');
+    expect($media->type)->toBe('image')
+        ->and($media->is_public)->toBeFalse();
+});
+
+test('content managers can create embedded public video media without uploading a file', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $user->assignRole('content_manager');
+
+    $this->actingAs($user)
+        ->post(route('admin.media.store'), [
+            'type' => 'video',
+            'embed_url' => 'https://www.youtube.com/embed/example-video',
+            'translations' => [
+                'en' => [
+                    'title' => 'Public briefing video',
+                    'description' => 'Embedded project briefing',
+                ],
+            ],
+        ])
+        ->assertRedirect(route('admin.media.index'));
+
+    $media = MediaItem::query()
+        ->where('embed_url', 'https://www.youtube.com/embed/example-video')
+        ->firstOrFail();
+
+    expect($media->type)->toBe('video')
+        ->and($media->file_path)->toBeNull()
+        ->and($media->is_public)->toBeTrue();
+});
+
+test('image media validation fails gracefully when no file is uploaded', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $user->assignRole('content_manager');
+
+    $this->actingAs($user)
+        ->from(route('admin.media.create'))
+        ->post(route('admin.media.store'), [
+            'type' => 'image',
+            'translations' => [
+                'en' => [
+                    'title' => 'Missing file image',
+                    'description' => 'Should fail validation',
+                ],
+            ],
+        ])
+        ->assertRedirect(route('admin.media.create'))
+        ->assertSessionHasErrors('file');
+});
+
+test('public media gallery excludes non public editor assets', function () {
+    $publicMedia = MediaItem::create([
+        'type' => 'image',
+        'is_public' => true,
+        'file_path' => 'media/images/public-image.jpg',
+    ]);
+
+    MediaItemTranslation::create([
+        'media_item_id' => $publicMedia->id,
+        'language' => 'en',
+        'title' => 'Public image',
+    ]);
+
+    $editorAsset = MediaItem::create([
+        'type' => 'image',
+        'is_public' => false,
+        'file_path' => 'media/editor-images/internal-inline-image.jpg',
+    ]);
+
+    MediaItemTranslation::create([
+        'media_item_id' => $editorAsset->id,
+        'language' => 'en',
+        'title' => 'Internal inline image',
+    ]);
+
+    $this->get(route('media.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/media/index')
+            ->where('items.data', fn ($items) => count($items) === 1
+                && $items[0]['id'] === $publicMedia->id
+                && $items[0]['file_path'] === 'media/images/public-image.jpg')
+        );
 });
 
 test('content managers can generate owner scoped editorial previews for pages and news', function () {

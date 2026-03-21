@@ -19,6 +19,7 @@ class PublicSubscriptionController extends Controller
     {
         return Inertia::render('public/subscriptions/show', [
             'subscriptionStatus' => $request->query('status'),
+            'subscriptionAction' => null,
         ]);
     }
 
@@ -37,6 +38,20 @@ class PublicSubscriptionController extends Controller
         return redirect()->route('subscriptions.show', ['status' => $status]);
     }
 
+    public function confirmReview(Request $request, EmailSubscriber $subscriber): Response
+    {
+        abort_unless($request->hasValidSignature(), 403);
+
+        return Inertia::render('public/subscriptions/show', [
+            'subscriptionStatus' => null,
+            'subscriptionAction' => [
+                'intent' => 'confirm',
+                'email' => $subscriber->email,
+                'action_url' => $request->fullUrl(),
+            ],
+        ]);
+    }
+
     public function confirm(Request $request, EmailSubscriber $subscriber): RedirectResponse
     {
         abort_unless($request->hasValidSignature(), 403);
@@ -49,6 +64,20 @@ class PublicSubscriptionController extends Controller
 
         return redirect()->route('subscriptions.show', [
             'status' => $confirmed ? 'confirmed' : 'invalid-confirmation',
+        ]);
+    }
+
+    public function unsubscribeReview(Request $request, EmailSubscriber $subscriber): Response
+    {
+        abort_unless($request->hasValidSignature(), 403);
+
+        return Inertia::render('public/subscriptions/show', [
+            'subscriptionStatus' => null,
+            'subscriptionAction' => [
+                'intent' => 'unsubscribe',
+                'email' => $subscriber->email,
+                'action_url' => $request->fullUrl(),
+            ],
         ]);
     }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\Media\Services;
+
 use App\Core\Helpers\FileHelper;
 use App\Models\MediaItem;
 use App\Models\MediaItemTranslation;
@@ -22,6 +24,7 @@ class MediaService
 
             $mediaItem = $this->repository->create([
                 'type' => $data['type'] ?? 'image',
+                'is_public' => true,
                 'file_path' => $filePath,
                 'embed_url' => $data['embed_url'] ?? null,
                 'uploaded_by' => auth()->id(),

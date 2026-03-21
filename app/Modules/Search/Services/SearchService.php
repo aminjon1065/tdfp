@@ -3,6 +3,8 @@
 namespace App\Modules\Search\Services;
 
 use App\Models\Activity;
+use App\Models\Document;
+use App\Models\MediaItem;
 use App\Models\News;
 use App\Models\Page;
 use App\Models\Procurement;
@@ -77,6 +79,8 @@ class SearchService
             News::class => 'search.entity.news',
             Activity::class => 'search.entity.activity',
             Procurement::class => 'search.entity.procurement',
+            Document::class => 'search.entity.document',
+            MediaItem::class => 'search.entity.media',
             default => null,
         };
     }
@@ -137,6 +141,8 @@ class SearchService
         $this->reindexQuery(News::query()->with('translations'));
         $this->reindexQuery(Activity::query()->with('translations'));
         $this->reindexQuery(Procurement::query()->with('translations'));
+        $this->reindexQuery(Document::query()->with('translations'));
+        $this->reindexQuery(MediaItem::query()->with('translations'));
     }
 
     private function reindexQuery($query): void
@@ -153,6 +159,8 @@ class SearchService
             News::class,
             Activity::class,
             Procurement::class,
+            Document::class,
+            MediaItem::class,
         ], true);
     }
 
@@ -163,6 +171,8 @@ class SearchService
             News::class => $model->status === 'published',
             Activity::class => in_array($model->status, ['planned', 'in_progress', 'completed'], true),
             Procurement::class => in_array($model->status, ['open', 'closed', 'awarded', 'archived'], true),
+            Document::class => $model->published_at !== null,
+            MediaItem::class => $model->is_public === true,
             default => false,
         };
     }
@@ -187,6 +197,14 @@ class SearchService
                 $model->reference_number,
                 $translation->description ?? null,
             ]),
+            Document::class => $this->joinContent([
+                $translation->description ?? null,
+                $model->file_type,
+            ]),
+            MediaItem::class => $this->joinContent([
+                $translation->description ?? null,
+                $model->type,
+            ]),
             default => null,
         };
     }
@@ -202,6 +220,8 @@ class SearchService
             News::class => route('news.show', ['slug' => $model->slug]),
             Activity::class => route('activities.show', ['slug' => $model->slug]),
             Procurement::class => route('procurement.show', ['ref' => $model->reference_number]),
+            Document::class => route('documents.download', ['document' => $model->getKey()]),
+            MediaItem::class => route('media.index').'#media-item-'.$model->getKey(),
             default => '/',
         };
     }

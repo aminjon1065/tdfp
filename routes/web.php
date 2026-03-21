@@ -32,8 +32,10 @@ Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/team', [PublicStaffController::class, 'index'])->name('team.index');
 Route::get('/subscribe', [PublicSubscriptionController::class, 'show'])->name('subscriptions.show');
 Route::post('/subscribe', [PublicSubscriptionController::class, 'store'])->middleware('throttle:5,1')->name('subscriptions.store');
-Route::get('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::class, 'confirm'])->name('subscriptions.confirm');
-Route::get('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribe'])->name('subscriptions.unsubscribe');
+Route::get('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::class, 'confirmReview'])->name('subscriptions.confirm');
+Route::post('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::class, 'confirm'])->middleware('throttle:5,1')->name('subscriptions.confirm.process');
+Route::get('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribeReview'])->name('subscriptions.unsubscribe');
+Route::post('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribe'])->middleware('throttle:5,1')->name('subscriptions.unsubscribe.process');
 
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return Inertia::render('dashboard');

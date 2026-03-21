@@ -43,7 +43,15 @@ test('subscription confirmation activates pending subscribers', function () {
 
     $url = app(SubscriptionService::class)->confirmationUrl($subscriber);
 
-    $response = $this->get($url);
+    $this->get($url)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/subscriptions/show')
+            ->where('subscriptionAction.intent', 'confirm')
+            ->where('subscriptionAction.email', 'confirm@example.com')
+        );
+
+    $response = $this->post($url);
 
     $response->assertRedirect(route('subscriptions.show', ['status' => 'confirmed']));
 
@@ -53,6 +61,32 @@ test('subscription confirmation activates pending subscribers', function () {
         ->and($subscriber->confirmation_token)->toBeNull()
         ->and($subscriber->unsubscribe_token)->not->toBeNull()
         ->and($subscriber->confirmed_at)->not->toBeNull();
+});
+
+test('subscription unsubscribe requires explicit post after signed review page', function () {
+    $subscriber = EmailSubscriber::factory()->active()->create([
+        'email' => 'unsubscribe@example.com',
+    ]);
+
+    $url = app(SubscriptionService::class)->unsubscribeUrl($subscriber);
+
+    expect($url)->not->toBeNull();
+
+    $this->get($url)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/subscriptions/show')
+            ->where('subscriptionAction.intent', 'unsubscribe')
+            ->where('subscriptionAction.email', 'unsubscribe@example.com')
+        );
+
+    $this->post($url)
+        ->assertRedirect(route('subscriptions.show', ['status' => 'unsubscribed']));
+
+    $subscriber->refresh();
+
+    expect($subscriber->status)->toBe('unsubscribed')
+        ->and($subscriber->unsubscribed_at)->not->toBeNull();
 });
 
 test('already active subscribers are not duplicated or re-queued', function () {
@@ -80,6 +114,7 @@ test('subscription page renders current status state', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/subscriptions/show')
             ->where('subscriptionStatus', 'confirmation-sent')
+            ->where('subscriptionAction', null)
         );
 });
 
@@ -108,4 +143,23 @@ test('admin users with permission can review and export subscribers', function (
     $this->get('/admin/subscriptions/export?status=active')
         ->assertOk()
         ->assertHeader('content-type', 'text/csv; charset=UTF-8');
+});
+
+test('subscriber export streams all matching rows without truncating after the first thousand', function () {
+    $admin = User::factory()->create();
+    $admin->assignRole('content_manager');
+
+    EmailSubscriber::factory()->count(1001)->active()->create();
+
+    $this->actingAs($admin);
+
+    $response = $this->get('/admin/subscriptions/export?status=active');
+
+    $response->assertOk()
+        ->assertHeader('content-type', 'text/csv; charset=UTF-8');
+
+    $content = $response->streamedContent();
+
+    expect(substr_count($content, PHP_EOL))->toBe(1002)
+        ->and($content)->toContain('email,status,locale,confirmed_at,unsubscribed_at');
 });

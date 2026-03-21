@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Document;
+use App\Models\DocumentTranslation;
+use App\Models\MediaItem;
+use App\Models\MediaItemTranslation;
 use App\Models\News;
 use App\Models\NewsTranslation;
 use App\Models\Page;
@@ -164,5 +168,78 @@ test('search reindex command rebuilds the index from current public content only
         ->and(SearchIndex::query()
             ->where('entity_type', News::class)
             ->where('entity_id', $draftNews->id)
+            ->exists())->toBeFalse();
+});
+
+test('published documents and public media are indexed while hidden records stay out of search', function () {
+    $document = Document::create([
+        'file_path' => 'documents/public-guidelines.pdf',
+        'file_type' => 'pdf',
+        'published_at' => now(),
+    ]);
+
+    DocumentTranslation::create([
+        'document_id' => $document->id,
+        'language' => 'en',
+        'title' => 'Public Guidelines',
+        'description' => 'Searchable project handbook',
+    ]);
+
+    $privateDocument = Document::create([
+        'file_path' => 'documents/draft-guidelines.pdf',
+        'file_type' => 'pdf',
+        'published_at' => null,
+    ]);
+
+    DocumentTranslation::create([
+        'document_id' => $privateDocument->id,
+        'language' => 'en',
+        'title' => 'Draft Guidelines',
+        'description' => 'Should remain private',
+    ]);
+
+    $mediaItem = MediaItem::create([
+        'type' => 'image',
+        'is_public' => true,
+        'file_path' => 'media/images/public-gallery.jpg',
+    ]);
+
+    MediaItemTranslation::create([
+        'media_item_id' => $mediaItem->id,
+        'language' => 'en',
+        'title' => 'Gallery Opening',
+        'description' => 'Official launch gallery image',
+    ]);
+
+    $privateMediaItem = MediaItem::create([
+        'type' => 'image',
+        'is_public' => false,
+        'file_path' => 'media/editor-images/internal-image.jpg',
+    ]);
+
+    MediaItemTranslation::create([
+        'media_item_id' => $privateMediaItem->id,
+        'language' => 'en',
+        'title' => 'Internal Asset',
+        'description' => 'Should not be indexed',
+    ]);
+
+    expect(SearchIndex::query()
+        ->where('entity_type', Document::class)
+        ->where('entity_id', $document->id)
+        ->where('language', 'en')
+        ->value('url'))->toBe(route('documents.download', ['document' => $document->id]))
+        ->and(SearchIndex::query()
+            ->where('entity_type', Document::class)
+            ->where('entity_id', $privateDocument->id)
+            ->exists())->toBeFalse()
+        ->and(SearchIndex::query()
+            ->where('entity_type', MediaItem::class)
+            ->where('entity_id', $mediaItem->id)
+            ->where('language', 'en')
+            ->value('url'))->toBe(route('media.index').'#media-item-'.$mediaItem->id)
+        ->and(SearchIndex::query()
+            ->where('entity_type', MediaItem::class)
+            ->where('entity_id', $privateMediaItem->id)
             ->exists())->toBeFalse();
 });

@@ -6,8 +6,10 @@ use App\Core\Observers\AuditObserver;
 use App\Models\Activity;
 use App\Models\ActivityTranslation;
 use App\Models\Document;
+use App\Models\DocumentTranslation;
 use App\Models\GrmCase;
 use App\Models\MediaItem;
+use App\Models\MediaItemTranslation;
 use App\Models\News;
 use App\Models\NewsTranslation;
 use App\Models\Page;
@@ -72,10 +74,14 @@ class AppServiceProvider extends ServiceProvider
         Page::observe(SearchIndexObserver::class);
         News::observe(SearchIndexObserver::class);
         Activity::observe(SearchIndexObserver::class);
+        Document::observe(SearchIndexObserver::class);
+        MediaItem::observe(SearchIndexObserver::class);
         Procurement::observe(SearchIndexObserver::class);
         PageTranslation::observe(SearchIndexObserver::class);
         NewsTranslation::observe(SearchIndexObserver::class);
         ActivityTranslation::observe(SearchIndexObserver::class);
+        DocumentTranslation::observe(SearchIndexObserver::class);
+        MediaItemTranslation::observe(SearchIndexObserver::class);
         ProcurementTranslation::observe(SearchIndexObserver::class);
     }
 

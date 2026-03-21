@@ -26,7 +26,7 @@ export default function MediaIndex({ items, filters }: { items: any; filters: an
                     {items.data.map((item: any) => {
                         const t = getTranslation(item, locale);
                         return (
-                            <li key={item.id} className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                            <li id={`media-item-${item.id}`} key={item.id} className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100">
                                 <figure className="h-full w-full">
                                 {item.type === 'image' && item.file_path ? (
                                     <PublicImage

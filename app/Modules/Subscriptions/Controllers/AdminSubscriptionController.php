@@ -31,14 +31,14 @@ class AdminSubscriptionController extends Controller
     {
         abort_unless($request->user()?->hasPermissionTo('subscriptions.view'), 403);
 
-        $subscribers = $this->repository->paginate(1000, $request->only('status', 'search'))->getCollection();
+        $filters = $request->only('status', 'search');
 
-        return response()->streamDownload(function () use ($subscribers): void {
+        return response()->streamDownload(function () use ($filters): void {
             $handle = fopen('php://output', 'w');
 
             fputcsv($handle, ['email', 'status', 'locale', 'confirmed_at', 'unsubscribed_at']);
 
-            foreach ($subscribers as $subscriber) {
+            foreach ($this->repository->streamExport($filters) as $subscriber) {
                 fputcsv($handle, [
                     $subscriber->email,
                     $subscriber->status,

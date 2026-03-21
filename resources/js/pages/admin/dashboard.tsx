@@ -23,17 +23,47 @@ interface Props {
             value: string | null;
         }[];
     };
+    automated_checks: {
+        passing_count: number;
+        failing_count: number;
+        items: {
+            key: string;
+            label: string;
+            is_passing: boolean;
+            issue_count: number;
+            checked_count: number;
+            summary: string;
+        }[];
+    };
+    operational_audit: {
+        completion_percentage: number;
+        is_ready: boolean;
+        missing_count: number;
+        failing_checks_count: number;
+    };
     recent_news: any[];
     recent_grm: any[];
     recent_logs: any[];
 }
 
-export default function AdminDashboard({ stats, operational_readiness, recent_news, recent_grm }: Props) {
+export default function AdminDashboard({
+    stats,
+    operational_readiness,
+    automated_checks,
+    operational_audit,
+    recent_news,
+    recent_grm,
+}: Props) {
     return (
         <AdminLayout breadcrumbs={[{ title: 'Dashboard', href: '/admin' }]}>
             <Head title="Admin Dashboard" />
             <div className="space-y-6">
-                <h1 className="text-2xl font-bold">Dashboard</h1>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                    <h1 className="text-2xl font-bold">Dashboard</h1>
+                    <Badge variant={operational_audit.is_ready ? 'default' : 'outline'}>
+                        Operations audit: {operational_audit.completion_percentage}% complete
+                    </Badge>
+                </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <Card>
@@ -125,6 +155,26 @@ export default function AdminDashboard({ stats, operational_readiness, recent_ne
                     </Card>
 
                     <div className="grid gap-6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Automated Checks</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                {automated_checks.items.map((item) => (
+                                    <div key={item.key} className="rounded-md border p-3">
+                                        <div className="flex items-start justify-between gap-4">
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-medium">{item.label}</p>
+                                                <p className="text-xs text-muted-foreground">{item.summary}</p>
+                                            </div>
+                                            <Badge variant={item.is_passing ? 'default' : 'outline'}>
+                                                {item.is_passing ? 'Pass' : 'Fail'}
+                                            </Badge>
+                                        </div>
+                                    </div>
+                                ))}
+                            </CardContent>
+                        </Card>
                     <Card>
                         <CardHeader>
                             <CardTitle>Recent News</CardTitle>
