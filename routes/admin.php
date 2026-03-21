@@ -41,11 +41,13 @@ Route::middleware([
     Route::get('media', [AdminMediaController::class, 'index'])->name('media.index');
     Route::get('media/create', [AdminMediaController::class, 'create'])->name('media.create');
     Route::post('media', [AdminMediaController::class, 'store'])->name('media.store');
+    Route::post('media/editor-image', [AdminMediaController::class, 'storeEditorImage'])->name('media.editor-image');
     Route::delete('media/{mediaItem}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
 
     // GRM Cases
     Route::get('grm', [AdminGrmController::class, 'index'])->name('grm.index');
     Route::get('grm/{grmCase}', [AdminGrmController::class, 'show'])->name('grm.show');
+    Route::get('grm/{grmCase}/attachments/{attachment}', [AdminGrmController::class, 'downloadAttachment'])->name('grm.attachments.download');
     Route::patch('grm/{grmCase}/status', [AdminGrmController::class, 'updateStatus'])->name('grm.update-status');
     Route::post('grm/{grmCase}/messages', [AdminGrmController::class, 'addMessage'])->name('grm.add-message');
 

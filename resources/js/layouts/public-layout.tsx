@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { type PropsWithChildren, useState } from 'react';
 
+import Seo from '@/components/seo';
 import { Button } from '@/components/ui/button';
 import { t } from '@/lib/i18n';
 
@@ -34,6 +35,9 @@ const languages = [
 
 interface PublicLayoutProps extends PropsWithChildren {
     title?: string;
+    description?: string;
+    structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+    seoType?: string;
 }
 
 interface LayoutPageProps extends PageProps {
@@ -46,13 +50,56 @@ interface LayoutPageProps extends PageProps {
         contact_phone?: string;
         contact_email?: string;
     };
+    siteSettings?: {
+        site_title?: string;
+        site_description?: string;
+        contact_address?: string;
+        contact_phone?: string;
+        contact_email?: string;
+        facebook_url?: string;
+        twitter_url?: string;
+        youtube_url?: string;
+        google_analytics_id?: string;
+    };
 }
 
-export default function PublicLayout({ children, title }: PublicLayoutProps) {
+export default function PublicLayout({
+    children,
+    title,
+    description,
+    structuredData,
+    seoType,
+}: PublicLayoutProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const page = usePage<LayoutPageProps>().props;
     const currentLocale = page.locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
+    const siteSettings = page.siteSettings ?? {};
+    const siteTitle = siteSettings.site_title ?? 'PIC TDFP';
+    const siteDescription = description ?? siteSettings.site_description;
+    const organizationSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'GovernmentOrganization',
+        name: siteTitle,
+        url: currentUrl || undefined,
+        email: siteSettings.contact_email || undefined,
+        telephone: siteSettings.contact_phone || undefined,
+        address: siteSettings.contact_address || undefined,
+        sameAs: [
+            siteSettings.facebook_url,
+            siteSettings.twitter_url,
+            siteSettings.youtube_url,
+        ].filter(Boolean),
+    };
+    const websiteSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteTitle,
+        url: currentUrl || undefined,
+        description: siteSettings.site_description || undefined,
+        inLanguage: currentLocale,
+    };
+    const analyticsId = siteSettings.google_analytics_id?.trim();
 
     function switchLanguage(code: string): void {
         router.visit(`/language/${code}`, {
@@ -62,11 +109,40 @@ export default function PublicLayout({ children, title }: PublicLayoutProps) {
 
     return (
         <div className="gov-shell flex min-h-screen flex-col">
-            {title && <Head title={`${title} | PIC TDFP`} />}
+            <Seo
+                title={title}
+                description={siteDescription}
+                canonicalUrl={currentUrl || undefined}
+                siteName={siteTitle}
+                type={seoType}
+                locale={currentLocale}
+                structuredData={[
+                    organizationSchema,
+                    websiteSchema,
+                    ...(Array.isArray(structuredData)
+                        ? structuredData
+                        : structuredData
+                          ? [structuredData]
+                          : []),
+                ]}
+            />
+            {analyticsId && (
+                <Head>
+                    <script
+                        async
+                        src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
+                    />
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${analyticsId}');`,
+                        }}
+                    />
+                </Head>
+            )}
 
             <a
-                href="#main-content"
-                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium"
+                href={"#main-content"}
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-60 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium"
             >
                 Skip to main content
             </a>
@@ -104,9 +180,6 @@ export default function PublicLayout({ children, title }: PublicLayoutProps) {
                             </div>
 
                             <div className="min-w-0">
-                                <p className="gov-kicker mb-1">
-                                    Official Portal
-                                </p>
                                 <p className="truncate text-lg font-semibold text-[var(--gov-navy-strong)] md:text-xl">
                                     {t(currentLocale, 'site.center')}
                                 </p>

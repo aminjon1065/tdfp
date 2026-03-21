@@ -7,9 +7,27 @@ import { Calendar, User } from 'lucide-react';
 export default function NewsShow({ news, latest }: { news: any; latest: any[] }) {
     const locale = (usePage().props as any).locale ?? 'en';
     const translation = getTranslation(news, locale);
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: translation.title ?? t(locale, 'news.title'),
+        description: translation.summary ?? undefined,
+        datePublished: news.published_at ?? undefined,
+        dateModified: news.updated_at ?? news.published_at ?? undefined,
+        author: news.author ? {
+            '@type': 'Person',
+            name: news.author.name,
+        } : undefined,
+        inLanguage: locale,
+    };
 
     return (
-        <PublicLayout title={translation.title ?? t(locale, 'news.title')}>
+        <PublicLayout
+            title={translation.title ?? t(locale, 'news.title')}
+            description={translation.summary}
+            structuredData={structuredData}
+            seoType="article"
+        >
             <div className="container mx-auto px-4 py-12">
                 <div className="grid gap-8 lg:grid-cols-3">
                     <article className="lg:col-span-2">

@@ -17,8 +17,10 @@ class PublicNewsController extends Controller
     {
         return Inertia::render('public/news/index', [
             'news' => $this->repository->paginatePublishedWithTranslations(12, $request->only('category_id', 'search')),
+            'featuredAnnouncements' => $this->repository->featuredAnnouncements(3),
             'categories' => NewsCategory::all(),
             'filters' => $request->only('category_id', 'search'),
+            'recentWindowDays' => $this->repository->recentWindowDays(),
         ]);
     }
 

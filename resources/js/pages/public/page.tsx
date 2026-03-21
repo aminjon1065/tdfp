@@ -1,6 +1,6 @@
 import PublicLayout from '@/layouts/public-layout';
 import { getTranslation, t as translate } from '@/lib/i18n';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 
 interface Props {
@@ -36,16 +36,21 @@ export default function Page({ page }: Props) {
 
     const pageTranslation = getTranslation(page, locale);
     const pageTitle = pageTranslation.meta_title ?? pageTranslation.title ?? translate(locale, 'page.title');
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: pageTranslation.title ?? pageTitle,
+        description: pageTranslation.meta_description ?? undefined,
+        inLanguage: locale,
+    };
 
     return (
-        <PublicLayout title={pageTitle}>
-            {pageTranslation.meta_title && <Head title={`${pageTranslation.meta_title} | PIC TDFP`} />}
-            {pageTranslation.meta_description && (
-                <Head>
-                    <meta name="description" content={pageTranslation.meta_description} />
-                </Head>
-            )}
-
+        <PublicLayout
+            title={pageTitle}
+            description={pageTranslation.meta_description}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <div style={{ backgroundColor: '#1B3A6B' }} className="py-8">
                 <div className="container mx-auto px-4">
                     <nav className="mb-2 flex items-center gap-1 text-xs text-blue-300">

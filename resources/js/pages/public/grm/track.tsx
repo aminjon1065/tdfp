@@ -10,15 +10,18 @@ interface Props {
     case?: {
         ticket_number: string;
         status: string;
-        category: string;
         created_at: string;
-        statusHistory: { status: string; notes: string; created_at: string }[];
+        statusHistory: { status: string; created_at: string }[];
     };
     notFound?: boolean;
+    trackingExpired?: boolean;
 }
 
-export default function GrmTrack({ case: grmCase, notFound }: Props) {
-    const { data, setData, post, processing } = useForm({ ticket_number: '' });
+export default function GrmTrack({ case: grmCase, notFound, trackingExpired }: Props) {
+    const { data, setData, processing } = useForm({
+        ticket_number: '',
+        tracking_token: '',
+    });
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,12 +35,18 @@ export default function GrmTrack({ case: grmCase, notFound }: Props) {
                 <p className="mb-8 text-gray-600">Enter your ticket number to check the current status of your complaint.</p>
 
                 <form onSubmit={handleSearch} className="mb-8 flex gap-3">
-                    <Input
-                        value={data.ticket_number}
-                        onChange={(e) => setData('ticket_number', e.target.value)}
-                        placeholder="e.g. GRM-2025-00001"
-                        className="flex-1"
-                    />
+                    <div className="grid flex-1 gap-3 sm:grid-cols-2">
+                        <Input
+                            value={data.ticket_number}
+                            onChange={(e) => setData('ticket_number', e.target.value)}
+                            placeholder="Ticket number"
+                        />
+                        <Input
+                            value={data.tracking_token}
+                            onChange={(e) => setData('tracking_token', e.target.value)}
+                            placeholder="Tracking token"
+                        />
+                    </div>
                     <Button type="submit" disabled={processing}>
                         {processing ? 'Searching…' : 'Track'}
                     </Button>
@@ -45,7 +54,13 @@ export default function GrmTrack({ case: grmCase, notFound }: Props) {
 
                 {notFound && (
                     <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                        No complaint found with ticket number <strong>{data.ticket_number}</strong>. Please check the ticket number and try again.
+                        No complaint matched the ticket number and tracking token provided. Please check both values and try again.
+                    </div>
+                )}
+
+                {trackingExpired && (
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                        Public tracking for this closed complaint has expired. Please contact the GRM team if you need additional follow-up.
                     </div>
                 )}
 
@@ -57,8 +72,8 @@ export default function GrmTrack({ case: grmCase, notFound }: Props) {
                                 <Badge>{grmCase.status?.replace('_', ' ')}</Badge>
                             </div>
                             <div className="grid sm:grid-cols-2 gap-3 text-sm">
-                                <div><span className="text-gray-500">Category:</span> <span className="font-medium">{grmCase.category?.replace('_', ' ')}</span></div>
                                 <div><span className="text-gray-500">Submitted:</span> <span className="font-medium">{new Date(grmCase.created_at).toLocaleDateString()}</span></div>
+                                <div><span className="text-gray-500">Progress:</span> <span className="font-medium">{grmCase.statusHistory.length} updates</span></div>
                             </div>
                         </div>
 
@@ -73,7 +88,6 @@ export default function GrmTrack({ case: grmCase, notFound }: Props) {
                                         </div>
                                         <div className="pb-3">
                                             <p className="font-medium text-sm">{h.status?.replace('_', ' ')}</p>
-                                            {h.notes && <p className="text-sm text-gray-500">{h.notes}</p>}
                                             <p className="text-xs text-gray-400 mt-0.5">{new Date(h.created_at).toLocaleString()}</p>
                                         </div>
                                     </div>

@@ -23,6 +23,8 @@ class PublicController extends Controller
     {
         return Inertia::render('public/home', [
             'latestNews' => $this->newsRepository->latestPublished(6),
+            'whatsNew' => $this->newsRepository->featuredAnnouncements(4),
+            'newsRecentWindowDays' => $this->newsRepository->recentWindowDays(),
             'activities' => $this->activityRepository->allPublicWithTranslations(),
             'latestDocuments' => $this->documentRepository->latestPublished(4),
             'openProcurements' => $this->procurementRepository->openProcurements(4),

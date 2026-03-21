@@ -2,11 +2,14 @@
 
 namespace App\Modules\Media\Controllers;
 
+use App\Core\Helpers\FileHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MediaItem;
 use App\Modules\Media\Repositories\MediaRepository;
+use App\Modules\Media\Requests\StoreEditorImageRequest;
 use App\Modules\Media\Requests\StoreMediaRequest;
 use App\Modules\Media\Services\MediaService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,6 +42,25 @@ class AdminMediaController extends Controller
         $this->service->store($request->validated());
 
         return redirect()->route('admin.media.index')->with('success', 'Media uploaded.');
+    }
+
+    public function storeEditorImage(StoreEditorImageRequest $request): JsonResponse
+    {
+        $this->authorize('create', MediaItem::class);
+
+        $path = FileHelper::store($request->file('image'), 'media/editor-images');
+
+        $mediaItem = MediaItem::create([
+            'type' => 'image',
+            'file_path' => $path,
+            'uploaded_by' => $request->user()?->id,
+        ]);
+
+        return response()->json([
+            'id' => $mediaItem->id,
+            'url' => FileHelper::url($path),
+            'alt' => $request->validated('alt'),
+        ]);
     }
 
     public function destroy(MediaItem $mediaItem): RedirectResponse

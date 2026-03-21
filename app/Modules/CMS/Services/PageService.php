@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Modules\CMS\Services;
+
+use App\Core\Helpers\HtmlSanitizer;
 use App\Core\Helpers\SlugHelper;
 use App\Models\Page;
 use App\Models\PageTranslation;
@@ -8,7 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class PageService
 {
-    public function __construct(private PageRepository $repository) {}
+    public function __construct(
+        private PageRepository $repository,
+        private HtmlSanitizer $htmlSanitizer,
+    ) {}
 
     public function store(array $data): Page
     {
@@ -26,7 +32,7 @@ class PageService
                     'page_id' => $page->id,
                     'language' => $lang,
                     'title' => $translation['title'] ?? '',
-                    'content' => $translation['content'] ?? null,
+                    'content' => $this->htmlSanitizer->sanitize($translation['content'] ?? null),
                     'meta_title' => $translation['meta_title'] ?? null,
                     'meta_description' => $translation['meta_description'] ?? null,
                 ]);
@@ -41,7 +47,7 @@ class PageService
         return DB::transaction(function () use ($page, $data) {
             $page->update([
                 'status' => $data['status'] ?? $page->status,
-                'published_at' => $data['status'] === 'published' && !$page->published_at ? now() : $page->published_at,
+                'published_at' => $data['status'] === 'published' && ! $page->published_at ? now() : $page->published_at,
             ]);
 
             foreach ($data['translations'] as $lang => $translation) {
@@ -49,7 +55,7 @@ class PageService
                     ['page_id' => $page->id, 'language' => $lang],
                     [
                         'title' => $translation['title'] ?? '',
-                        'content' => $translation['content'] ?? null,
+                        'content' => $this->htmlSanitizer->sanitize($translation['content'] ?? null),
                         'meta_title' => $translation['meta_title'] ?? null,
                         'meta_description' => $translation['meta_description'] ?? null,
                     ]

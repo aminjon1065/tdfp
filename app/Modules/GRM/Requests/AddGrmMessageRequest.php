@@ -9,7 +9,7 @@ class AddGrmMessageRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->can('message', $this->grmCase) ?? false;
     }
 
     /**

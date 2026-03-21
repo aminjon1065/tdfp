@@ -40,24 +40,25 @@ This should be clarified with the client, because acceptance and support obligat
 - Role/permission system exists
 - News, pages, documents, procurement, media, GRM, search modules exist
 - Audit logs exist
+- Public SEO baseline now exists: sitemap, canonical/meta coverage, JSON-LD baseline, analytics hook
 
 ### Partially Implemented
 
 - CMS features required by RFQ are only partially covered
+- CMS preview workflow, richer editorial controls, inline image upload, and server-side HTML sanitization now exist for HTML-based authoring, but there is still no block-based editor
 - SEO is only partially covered
 - Procurement workflow is only partially covered
 - Search/document archive is only partially covered
 - Accessibility is only partially covered
 - Dashboard/activity tracking is only partially covered
+- GRM tracking is now hardened with ticket + tracking token verification, reduced public disclosure, stricter attachment validation, private attachment storage, protected admin-only attachment downloads, masked PII for read-only admin access, assignment-aware operational permissions, explicit audit logging for key workflow actions, lifecycle-based public tracking retention for closed cases, and safer officer assignment checks
 
 ### Not Found or Not Confirmed
 
-- Google Analytics or equivalent
+- Production analytics configuration and reporting ownership
 - Email subscriptions
 - Push notifications
 - Social media sharing
-- Sitemap generation
-- Structured data / JSON-LD
 - Staff directory with hierarchy
 - MIS / result indicators integration
 - Automated broken-link detection
@@ -75,21 +76,21 @@ This should be clarified with the client, because acceptance and support obligat
 | Responsive design | Partial | Public pages and layouts exist in [resources/js/pages/public](/Users/aminjon/Herd/tdfp/resources/js/pages/public) | Run complete mobile review across all public pages |
 | Low-bandwidth optimization | Not confirmed | No explicit implementation found | Add optimization strategy and testing |
 | CMS for content management | Partial | Admin modules in [app/Modules](/Users/aminjon/Herd/tdfp/app/Modules) | Expand CMS to match RFQ capabilities |
-| WYSIWYG / block-based editing | Partial | `richtext` is rendered as textarea in [resources/js/components/admin/translation-tabs.tsx](/Users/aminjon/Herd/tdfp/resources/js/components/admin/translation-tabs.tsx) | Introduce real editor and preview |
+| WYSIWYG / block-based editing | Partial | Tiptap-based rich text editing, preview, inline image upload, and editorial controls now exist in [resources/js/components/admin/rich-text-editor.tsx](/Users/aminjon/Herd/tdfp/resources/js/components/admin/rich-text-editor.tsx), [resources/js/components/admin/translation-tabs.tsx](/Users/aminjon/Herd/tdfp/resources/js/components/admin/translation-tabs.tsx), and [app/Modules/Media/Controllers/AdminMediaController.php](/Users/aminjon/Herd/tdfp/app/Modules/Media/Controllers/AdminMediaController.php) | Expand toward block-based authoring only if RFQ/client explicitly requires it beyond a full rich text CMS editor |
 | Role-based permissions | Implemented | Policies and admin middleware in [routes/admin.php](/Users/aminjon/Herd/tdfp/routes/admin.php) | Review exact role mapping against RFQ |
-| Searchable document archive | Partial | [app/Modules/Documents/Repositories/DocumentRepository.php](/Users/aminjon/Herd/tdfp/app/Modules/Documents/Repositories/DocumentRepository.php) | Add tags, richer filters, better UX |
+| Searchable document archive | Partial | Public archive filtering now covers year, category, file type, text search, and tag facets through [app/Modules/Documents/Repositories/DocumentRepository.php](/Users/aminjon/Herd/tdfp/app/Modules/Documents/Repositories/DocumentRepository.php), [app/Modules/Documents/Controllers/PublicDocumentController.php](/Users/aminjon/Herd/tdfp/app/Modules/Documents/Controllers/PublicDocumentController.php), and [resources/js/pages/public/documents/index.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/documents/index.tsx) | Confirm whether additional archive taxonomy or sorting rules are required by RFQ/client |
 | Media section | Implemented | [app/Modules/Media/Controllers/PublicMediaController.php](/Users/aminjon/Herd/tdfp/app/Modules/Media/Controllers/PublicMediaController.php), [resources/js/pages/public/media/index.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/media/index.tsx) | Expand metadata and public storytelling if required |
-| Procurement section with filters/status/process | Partial | [app/Modules/Procurement/Controllers/PublicProcurementController.php](/Users/aminjon/Herd/tdfp/app/Modules/Procurement/Controllers/PublicProcurementController.php), [resources/js/pages/public/procurement/index.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/procurement/index.tsx) | Add process tracking, archive logic, compliant filtering |
-| GRM / feedback section | Partial | [app/Modules/GRM/Controllers/PublicGrmController.php](/Users/aminjon/Herd/tdfp/app/Modules/GRM/Controllers/PublicGrmController.php), [resources/js/pages/public/grm/submit.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/grm/submit.tsx) | Close privacy/security gaps and align UX with RFQ |
-| What’s New / announcements | Partial | News/home blocks exist | Add explicit “What’s New” treatment and time-sensitive publishing behavior |
-| SEO support | Partial | Meta fields for pages in [resources/js/pages/public/page.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/page.tsx) | Add sitemap, structured data, per-module SEO coverage |
-| Google Analytics or equivalent | Not found | No implementation found | Add analytics integration |
+| Procurement section with filters/status/process | Partial | Public filtering by status/year/search now exists, and public lifecycle/process visibility is serialized through [app/Modules/Procurement/Controllers/PublicProcurementController.php](/Users/aminjon/Herd/tdfp/app/Modules/Procurement/Controllers/PublicProcurementController.php), [app/Modules/Procurement/Repositories/ProcurementRepository.php](/Users/aminjon/Herd/tdfp/app/Modules/Procurement/Repositories/ProcurementRepository.php), [resources/js/pages/public/procurement/index.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/procurement/index.tsx), and [resources/js/pages/public/procurement/show.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/procurement/show.tsx) | Confirm any remaining client-specific process disclosure rules and expand archive visibility only if required |
+| GRM / feedback section | Partial | Public tracking now requires `ticket + tracking token`, with reduced public disclosure in [app/Modules/GRM/Controllers/PublicGrmController.php](/Users/aminjon/Herd/tdfp/app/Modules/GRM/Controllers/PublicGrmController.php) and [resources/js/pages/public/grm/track.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/grm/track.tsx); attachments are now stored on a private disk and exposed only through authorized admin downloads, read-only admin access receives masked contact data, operational actions are assignment-aware, key workflow actions now generate explicit audit log entries, and closed cases now have lifecycle-based public tracking expiry through [app/Modules/GRM/Services/GrmService.php](/Users/aminjon/Herd/tdfp/app/Modules/GRM/Services/GrmService.php), [app/Models/GrmCase.php](/Users/aminjon/Herd/tdfp/app/Models/GrmCase.php), and [config/grm.php](/Users/aminjon/Herd/tdfp/config/grm.php) | Confirm final retention periods and any closure policy details with the client if stricter rules are required |
+| What’s New / announcements | Partial | News now uses featured-first public ordering and an explicit `What’s New` announcement stream on home and news index via [app/Modules/News/Repositories/NewsRepository.php](/Users/aminjon/Herd/tdfp/app/Modules/News/Repositories/NewsRepository.php), [app/Http/Controllers/PublicController.php](/Users/aminjon/Herd/tdfp/app/Http/Controllers/PublicController.php), [app/Modules/News/Controllers/PublicNewsController.php](/Users/aminjon/Herd/tdfp/app/Modules/News/Controllers/PublicNewsController.php), [resources/js/pages/public/home.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/home.tsx), and [resources/js/pages/public/news/index.tsx](/Users/aminjon/Herd/tdfp/resources/js/pages/public/news/index.tsx) | Confirm whether any additional announcement-specific workflow is required beyond featured/recent editorial treatment |
+| SEO support | Partial | Meta fields, shared SEO component, canonical/OG/Twitter tags, and JSON-LD now exist in [resources/js/components/seo.tsx](/Users/aminjon/Herd/tdfp/resources/js/components/seo.tsx) | Expand per-module SEO coverage and media/social metadata strategy |
+| Google Analytics or equivalent | Partial | Configurable analytics hook now exists through shared site settings in [resources/js/layouts/public-layout.tsx](/Users/aminjon/Herd/tdfp/resources/js/layouts/public-layout.tsx) | Confirm production analytics ID and reporting ownership |
 | Accessibility / WCAG 2.1 AA | Partial | BVI functionality exists in [resources/js/components/bvi](/Users/aminjon/Herd/tdfp/resources/js/components/bvi) | Perform real WCAG remediation and testing |
 | Browser compatibility | Not confirmed | No explicit browser testing evidence | Add browser/device test coverage |
 | Audit logging | Implemented | [app/Core/Observers/AuditObserver.php](/Users/aminjon/Herd/tdfp/app/Core/Observers/AuditObserver.php) | Expand if needed for CMS activity reporting |
 | CMS activity dashboard | Partial | [app/Modules/Admin/Controllers/AdminDashboardController.php](/Users/aminjon/Herd/tdfp/app/Modules/Admin/Controllers/AdminDashboardController.php), audit logs | Add filtering by user/date/content type |
-| Sitemap generation | Not found | No implementation found | Add sitemap generation |
-| Structured data | Not found | No implementation found | Add JSON-LD/schema markup |
+| Sitemap generation | Implemented | [app/Http/Controllers/SitemapController.php](/Users/aminjon/Herd/tdfp/app/Http/Controllers/SitemapController.php), [routes/web.php](/Users/aminjon/Herd/tdfp/routes/web.php), [resources/views/sitemap.blade.php](/Users/aminjon/Herd/tdfp/resources/views/sitemap.blade.php) | Review final sitemap coverage against approved information architecture |
+| Structured data | Partial | JSON-LD baseline exists through [resources/js/components/seo.tsx](/Users/aminjon/Herd/tdfp/resources/js/components/seo.tsx) and public page/article templates | Expand schema coverage for all important public entities |
 | Email subscriptions | Not found | No implementation found | Add subscriptions module |
 | Push notifications | Not found | No implementation found | Implement or formally exclude |
 | Social media sharing | Not found | No implementation found | Add public share actions |
@@ -109,8 +110,11 @@ Current state:
 
 - admin content forms exist
 - multilingual content entry exists
-- no true WYSIWYG/block editor
-- no real preview workflow
+- rich text editor now exists for HTML-based authoring
+- preview workflow now exists for richtext authoring
+- inline image upload now exists for editorial content
+- server-side sanitization now protects saved page/news HTML content
+- no block-based editor
 
 Impact:
 
@@ -118,39 +122,39 @@ Impact:
 
 Needed:
 
-- integrate a real rich content editor
-- support preview before publish
+- extend the current rich content editor with any missing editorial capabilities
+- preserve and refine preview before publish
 - improve editor UX for multilingual content teams
+- decide whether block-based authoring is a contractual requirement or only a nice-to-have beyond the current editor
 
 ### 2. SEO requirements are incomplete
 
 Current state:
 
-- pages support `meta_title` and `meta_description`
-- no sitemap found
-- no structured data found
-- no analytics found
+- shared SEO layer now provides canonical, meta description, Open Graph, Twitter card, and JSON-LD baseline
+- sitemap exists
+- analytics hook exists but is not yet configured for production
+- per-module SEO coverage has improved, but is not yet comprehensive
 
 Needed:
 
-- sitemap generation
-- schema / JSON-LD
 - per-page/module SEO strategy
-- analytics integration
+- expand metadata and structured data coverage where it is still thin
+- production analytics integration and reporting
 
 ### 3. Procurement flow is underpowered versus RFQ
 
 Current state:
 
 - procurement listing and detail pages exist
-- public filtering is limited
-- process-following requirements are not fully reflected
+- public status/year/search filtering and lifecycle handling are stronger than before
+- public process visibility now exposes meaningful lifecycle states such as submission open, deadline passed, under evaluation, awarded, and archived
+- process-following requirements may still need additional client-specific disclosure rules
 
 Needed:
 
-- status-aware filtering aligned with business rules
-- archive and lifecycle handling
-- better public process visibility if required by RFQ
+- confirm archive and disclosure rules against business requirements
+- confirm whether any additional public process milestones are contractually required beyond the current lifecycle view
 
 ### 4. GRM exists but needs compliance hardening
 
@@ -158,13 +162,21 @@ Current state:
 
 - public complaint submission exists
 - tracking exists
-- prior review identified privacy/security concerns
+- tracking token protection now exists
+- attachment validation is stricter
+- attachments now live on private storage and are downloadable only through authorized admin routes
+- read-only admin viewers now receive masked complainant contact data
+- operational actions now respect case assignment, not just generic GRM permissions
+- key operational actions now create explicit audit log entries
+- closed cases now have a configurable public tracking retention window
+- public tracking now exposes less case detail
+- officer assignment is checked more strictly
+- final retention periods and closure policy details may still require client confirmation
 
 Needed:
 
-- close privacy leaks
-- review public tracking behavior
-- align with complaint-handling expectations
+- confirm whether additional masking, expiry, or citizen-authenticated follow-up is required
+- align the remaining workflow with complaint-handling expectations
 
 ### 5. Accessibility is present as a feature, but not yet proven as compliance
 
@@ -200,6 +212,14 @@ Priority:
 
 - `P1`
 
+Current implementation note:
+
+- content preview and state-driven multilingual authoring tabs are now implemented
+- a real rich text editor is now implemented for HTML-based editorial content
+- inline editorial image upload is now implemented through the media subsystem
+- saved editorial HTML is now sanitized server-side before persistence
+- the main remaining open item in this phase is whether RFQ requires block-based authoring rather than a conventional rich text editor
+
 ### Phase 2. Public Modules Compliance
 
 Goal:
@@ -208,9 +228,9 @@ Goal:
 
 Tasks:
 
-- expand procurement filters and lifecycle logic
-- improve document repository search/filter/tagging
-- formalize “What’s New” and public updates
+- deepen procurement compliance only where RFQ/client requires more than the current public lifecycle baseline
+- improve document repository archive UX or taxonomy only where RFQ/client needs more than the current search/filter/tag baseline
+- refine public updates only if RFQ/client needs more than the current featured/recent announcement treatment
 - confirm whether staff directory is required in MVP and implement if yes
 
 Priority:
@@ -226,9 +246,9 @@ Goal:
 Tasks:
 
 - improve search indexing and filtering
-- add sitemap generation
-- add structured data / JSON-LD
-- implement analytics
+- expand sitemap coverage only where content types or IA still need it
+- expand structured data / JSON-LD coverage
+- complete analytics production configuration and ownership
 - review metadata strategy for all public modules
 
 Priority:
@@ -245,8 +265,8 @@ Tasks:
 
 - fix privacy/security weaknesses in GRM
 - review public/private content boundaries
-- review assignment and status update permissions
-- verify audit logging coverage
+- refine remaining assignment and status update business rules if needed
+- confirm final client-approved retention/privacy periods for long-lived GRM cases and attachments
 
 Priority:
 
@@ -305,15 +325,12 @@ The first sprint should focus on the highest-value gaps:
 
 ### P1
 
-- Real CMS editor
-- Content preview workflow
+- Remaining CMS/editorial compliance work
 - Procurement compliance improvements
 - Document archive improvements
 - Search improvements
-- Sitemap
-- Structured data
-- Analytics
-- GRM security/privacy fixes
+- Remaining SEO/schema/analytics work
+- Remaining GRM workflow/privacy fixes
 
 ### P2
 

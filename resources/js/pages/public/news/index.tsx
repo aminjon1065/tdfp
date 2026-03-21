@@ -11,12 +11,42 @@ import { useState } from 'react';
 export default function NewsIndex({ news, categories, filters }: { news: any; categories: any[]; filters: any }) {
     const locale = (usePage().props as any).locale ?? 'en';
     const [search, setSearch] = useState(filters.search ?? '');
+    const featuredAnnouncements = (usePage().props as any).featuredAnnouncements ?? [];
+    const recentWindowDays = (usePage().props as any).recentWindowDays ?? 14;
+    const isRecent = (publishedAt?: string | null) =>
+        publishedAt
+        && ((Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60 * 24)) <= recentWindowDays;
 
     return (
         <PublicLayout title={t(locale, 'news.title')}>
             <div className="container mx-auto px-4 py-12">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'news.indexTitle')}</h1>
                 <p className="mb-8 text-gray-500">{t(locale, 'news.indexDescription')}</p>
+
+                {featuredAnnouncements.length > 0 && (
+                    <div className="mb-8 rounded-2xl border border-blue-100 bg-blue-50/50 p-5">
+                        <div className="mb-4">
+                            <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">{t(locale, 'news.whatsNew')}</p>
+                            <p className="text-sm text-slate-600">{t(locale, 'news.whatsNewDescription')}</p>
+                        </div>
+                        <div className="grid gap-4 lg:grid-cols-3">
+                            {featuredAnnouncements.map((item: any) => {
+                                const translation = getTranslation(item, locale);
+
+                                return (
+                                    <Link key={item.id} href={`/news/${item.slug}`} className="rounded-xl border bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
+                                        <div className="mb-2 flex items-center gap-2">
+                                            {item.is_featured && <Badge>{t(locale, 'news.featured')}</Badge>}
+                                            {isRecent(item.published_at) && <Badge variant="outline">{t(locale, 'news.new')}</Badge>}
+                                        </div>
+                                        <p className="font-medium text-gray-900">{translation.title}</p>
+                                        <p className="mt-2 line-clamp-2 text-sm text-gray-500">{translation.summary}</p>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
 
                 <div className="mb-8 flex flex-wrap gap-3">
                     <form onSubmit={(event) => { event.preventDefault(); router.get('/news', { search, category_id: filters.category_id }); }} className="flex gap-2">
@@ -45,7 +75,11 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                     </div>
                                 )}
                                 <CardHeader className="pb-2">
-                                    {item.category && <Badge variant="outline" className="w-fit text-xs">{item.category.name}</Badge>}
+                                    <div className="flex flex-wrap gap-2">
+                                        {item.category && <Badge variant="outline" className="w-fit text-xs">{item.category.name}</Badge>}
+                                        {item.is_featured && <Badge className="w-fit text-xs">{t(locale, 'news.featured')}</Badge>}
+                                        {isRecent(item.published_at) && <Badge variant="outline" className="w-fit text-xs border-emerald-200 bg-emerald-50 text-emerald-700">{t(locale, 'news.new')}</Badge>}
+                                    </div>
                                     <CardTitle className="text-base">{translation.title}</CardTitle>
                                 </CardHeader>
                                 <CardContent>

@@ -1,10 +1,16 @@
 <?php
+
 namespace App\Modules\GRM\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class SubmitGrmRequest extends FormRequest
 {
-    public function authorize(): bool { return true; }
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
@@ -14,7 +20,7 @@ class SubmitGrmRequest extends FormRequest
             'category' => 'required|in:procurement,project_implementation,environment_social,corruption,other',
             'description' => 'required|string|min:20|max:5000',
             'attachments' => 'nullable|array|max:5',
-            'attachments.*' => 'file|max:10240',
+            'attachments.*' => 'file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240',
         ];
     }
 }

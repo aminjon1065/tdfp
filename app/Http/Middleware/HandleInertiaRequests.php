@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -51,6 +52,18 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
+            ],
+            'csrf_token' => csrf_token(),
+            'siteSettings' => [
+                'site_title' => Setting::get('site_title', config('app.name')),
+                'site_description' => Setting::get('site_description'),
+                'contact_email' => Setting::get('contact_email'),
+                'contact_phone' => Setting::get('contact_phone'),
+                'contact_address' => Setting::get('contact_address'),
+                'facebook_url' => Setting::get('facebook_url'),
+                'twitter_url' => Setting::get('twitter_url'),
+                'youtube_url' => Setting::get('youtube_url'),
+                'google_analytics_id' => Setting::get('google_analytics_id'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale' => app()->getLocale(),

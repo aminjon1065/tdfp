@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\SitemapController;
 use App\Modules\Activities\Controllers\PublicActivityController;
 use App\Modules\CMS\Controllers\PublicPageController;
 use App\Modules\Documents\Controllers\PublicDocumentController;
@@ -20,6 +21,8 @@ Route::get('/language/{locale}', function (string $locale) {
 
     return redirect()->back();
 })->name('language.switch');
+
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 // Public website
 Route::get('/', [PublicController::class, 'home'])->name('home');

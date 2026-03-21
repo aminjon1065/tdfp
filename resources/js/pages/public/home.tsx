@@ -28,6 +28,7 @@ interface ContentItem {
     id: number;
     slug: string;
     status: string;
+    is_featured?: boolean;
     featured_image?: string | null;
     published_at?: string | null;
     category?: {
@@ -46,6 +47,8 @@ interface ProcurementItem {
 
 interface Props {
     latestNews: ContentItem[];
+    whatsNew: ContentItem[];
+    newsRecentWindowDays: number;
     activities: ContentItem[];
     latestDocuments: Record<string, unknown>[];
     openProcurements: ProcurementItem[];
@@ -78,12 +81,17 @@ const serviceCards = [
 
 export default function Home({
     latestNews,
+    whatsNew,
+    newsRecentWindowDays,
     activities,
     latestDocuments,
     openProcurements,
     settings,
 }: Props) {
     const locale = usePage<{ locale?: string }>().props.locale ?? 'en';
+    const isRecent = (publishedAt?: string | null) =>
+        publishedAt
+        && ((Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60 * 24)) <= newsRecentWindowDays;
 
     return (
         <PublicLayout title={t(locale, 'common.home')}>
@@ -215,9 +223,9 @@ export default function Home({
                 <div className="gov-container py-14">
                     <div className="mb-8 flex items-end justify-between gap-4">
                         <div>
-                            <p className="gov-kicker mb-3">Latest News</p>
+                            <p className="gov-kicker mb-3">{t(locale, 'news.whatsNew')}</p>
                             <h2 className="gov-section-title">
-                                Recent official updates.
+                                {t(locale, 'news.whatsNewDescription')}
                             </h2>
                         </div>
                         <Link
@@ -229,7 +237,7 @@ export default function Home({
                     </div>
 
                     <div className="grid gap-5 lg:grid-cols-3">
-                        {latestNews.slice(0, 3).map((item) => {
+                        {whatsNew.slice(0, 3).map((item) => {
                             const translation = getTranslation(item, locale);
 
                             return (
@@ -249,15 +257,24 @@ export default function Home({
 
                                     <div className="p-6">
                                         <div className="flex items-center justify-between gap-3">
-                                            <Badge className="rounded-md bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
-                                                {item.category?.name ??
-                                                    'Update'}
-                                            </Badge>
-                                            <span className="text-xs text-slate-400">
-                                                {formatLocalizedDate(
-                                                    item.published_at,
-                                                    locale,
+                                            <div className="flex items-center gap-2">
+                                                <Badge className="rounded-md bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
+                                                    {item.category?.name ??
+                                                        'Update'}
+                                                </Badge>
+                                                {item.is_featured && (
+                                                    <Badge className="rounded-md bg-[var(--gov-blue)] text-white shadow-none">
+                                                        {t(locale, 'news.featured')}
+                                                    </Badge>
                                                 )}
+                                                {isRecent(item.published_at) && (
+                                                    <Badge variant="outline" className="rounded-md border-emerald-200 bg-emerald-50 text-emerald-700 shadow-none">
+                                                        {t(locale, 'news.new')}
+                                                    </Badge>
+                                                )}
+                                            </div>
+                                            <span className="text-xs text-slate-400">
+                                                {formatLocalizedDate(item.published_at, locale)}
                                             </span>
                                         </div>
 

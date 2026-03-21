@@ -13,6 +13,8 @@ class NewsRepository extends BaseRepository
      */
     private array $publicStatuses = ['published'];
 
+    private const RECENT_DAYS_WINDOW = 14;
+
     public function __construct()
     {
         parent::__construct(new News);
@@ -39,7 +41,8 @@ class NewsRepository extends BaseRepository
     {
         $query = News::with('translations', 'category', 'author')
             ->whereIn('status', $this->publicStatuses)
-            ->latest();
+            ->orderByDesc('is_featured')
+            ->orderByDesc('published_at');
 
         if (! empty($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
@@ -66,8 +69,28 @@ class NewsRepository extends BaseRepository
     {
         return News::with('translations', 'category')
             ->where('status', 'published')
+            ->orderByDesc('is_featured')
             ->orderBy('published_at', 'desc')
             ->limit($limit)
             ->get();
+    }
+
+    public function featuredAnnouncements(int $limit = 4): \Illuminate\Database\Eloquent\Collection
+    {
+        return News::with('translations', 'category')
+            ->where('status', 'published')
+            ->where(function ($query) {
+                $query->where('is_featured', true)
+                    ->orWhere('published_at', '>=', now()->subDays(self::RECENT_DAYS_WINDOW));
+            })
+            ->orderByDesc('is_featured')
+            ->orderByDesc('published_at')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function recentWindowDays(): int
+    {
+        return self::RECENT_DAYS_WINDOW;
     }
 }

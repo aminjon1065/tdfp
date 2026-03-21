@@ -17,10 +17,15 @@ class PublicDocumentController extends Controller
 
     public function index(Request $request): Response
     {
+        $filters = $request->only('category_id', 'search', 'year', 'file_type', 'tag');
+
         return Inertia::render('public/documents/index', [
-            'documents' => $this->repository->paginatePublishedWithRelations(15, $request->only('category_id', 'search')),
+            'documents' => $this->repository->paginatePublishedWithRelations(15, $filters),
             'categories' => DocumentCategory::all(),
-            'filters' => $request->only('category_id', 'search'),
+            'filters' => $filters,
+            'years' => $this->repository->publicArchiveYears(),
+            'fileTypes' => $this->repository->publicFileTypes(),
+            'tags' => $this->repository->publicTags(),
         ]);
     }
 

@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Modules\News\Services;
+
 use App\Core\Helpers\FileHelper;
+use App\Core\Helpers\HtmlSanitizer;
 use App\Core\Helpers\SlugHelper;
 use App\Models\News;
 use App\Models\NewsTranslation;
@@ -10,7 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class NewsService
 {
-    public function __construct(private NewsRepository $repository) {}
+    public function __construct(
+        private NewsRepository $repository,
+        private HtmlSanitizer $htmlSanitizer,
+    ) {}
 
     public function store(array $data): News
     {
@@ -39,7 +45,7 @@ class NewsService
                     'language' => $lang,
                     'title' => $translation['title'] ?? '',
                     'summary' => $translation['summary'] ?? null,
-                    'content' => $translation['content'] ?? null,
+                    'content' => $this->htmlSanitizer->sanitize($translation['content'] ?? null),
                 ]);
             }
 
@@ -54,7 +60,7 @@ class NewsService
                 'category_id' => $data['category_id'] ?? $news->category_id,
                 'is_featured' => $data['is_featured'] ?? $news->is_featured,
                 'status' => $data['status'] ?? $news->status,
-                'published_at' => ($data['status'] ?? $news->status) === 'published' && !$news->published_at ? now() : $news->published_at,
+                'published_at' => ($data['status'] ?? $news->status) === 'published' && ! $news->published_at ? now() : $news->published_at,
             ];
 
             if (isset($data['featured_image']) && $data['featured_image'] instanceof UploadedFile) {
@@ -70,7 +76,7 @@ class NewsService
                     [
                         'title' => $translation['title'] ?? '',
                         'summary' => $translation['summary'] ?? null,
-                        'content' => $translation['content'] ?? null,
+                        'content' => $this->htmlSanitizer->sanitize($translation['content'] ?? null),
                     ]
                 );
             }

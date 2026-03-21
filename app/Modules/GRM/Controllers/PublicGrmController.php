@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Modules\GRM\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Modules\GRM\Repositories\GrmRepository;
 use App\Modules\GRM\Requests\SubmitGrmRequest;
 use App\Modules\GRM\Services\GrmService;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,12 +31,21 @@ class PublicGrmController extends Controller
     public function store(SubmitGrmRequest $request): RedirectResponse
     {
         $case = $this->service->submit($request->validated());
-        return redirect()->route('grm.submitted', ['ticket' => $case->ticket_number]);
+
+        return redirect()->route('grm.submitted', [
+            'ticket' => $case->ticket_number,
+            'token' => $case->tracking_token,
+        ]);
     }
 
     public function submitted(string $ticket): Response
     {
-        return Inertia::render('public/grm/submitted', ['ticket' => $ticket]);
+        abort_unless(request()->filled('token'), 404);
+
+        return Inertia::render('public/grm/submitted', [
+            'ticket' => $ticket,
+            'trackingToken' => request()->string('token')->value(),
+        ]);
     }
 
     public function track(): Response
@@ -44,22 +55,28 @@ class PublicGrmController extends Controller
 
     public function trackSearch(Request $request): Response
     {
-        $request->validate(['ticket_number' => 'required|string']);
-        $case = $this->repository->findByTicket($request->ticket_number);
+        $validated = $request->validate([
+            'ticket_number' => ['required', 'string', 'regex:/^GRM-\d{4}-\d{5}$/'],
+            'tracking_token' => ['required', 'string', 'size:32'],
+        ]);
+        $case = $this->repository->findForTracking(
+            strtoupper($validated['ticket_number']),
+            strtoupper($validated['tracking_token']),
+        );
+        $trackingExpired = $case?->hasExpiredPublicTracking() ?? false;
 
         return Inertia::render('public/grm/track', [
-            'case' => $case ? [
+            'case' => $case && ! $trackingExpired ? [
                 'ticket_number' => $case->ticket_number,
                 'status' => $case->status,
-                'category' => $case->category,
                 'created_at' => $case->created_at,
-                'statusHistory' => $case->statusHistory->map(fn($h) => [
+                'statusHistory' => $case->statusHistory->map(fn ($h) => [
                     'status' => $h->status,
-                    'notes' => $h->notes,
                     'created_at' => $h->created_at,
                 ]),
             ] : null,
-            'notFound' => !$case,
+            'notFound' => ! $case,
+            'trackingExpired' => $trackingExpired,
         ]);
     }
 }

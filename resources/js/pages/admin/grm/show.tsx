@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Head, useForm } from '@inertiajs/react';
-import { Send, Clock } from 'lucide-react';
+import { Download, Send, Clock } from 'lucide-react';
 
 interface GrmMessage {
     id: number;
@@ -34,10 +34,15 @@ interface GrmCase {
     category: string | null;
     description: string;
     status: string;
+    assigned_officer_id: number | null;
     assigned_officer: string | null;
     created_at: string;
+    can_view_sensitive_data: boolean;
+    can_update_status: boolean;
+    can_message: boolean;
     messages: GrmMessage[];
     status_history: GrmStatusHistory[];
+    attachments?: { id: number; original_name: string | null; uploaded_at: string }[];
 }
 
 interface Props {
@@ -49,7 +54,7 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
     const messageForm = useForm({ message: '' });
     const statusForm = useForm({
         status: grm.status,
-        assigned_officer_id: '',
+        officer_id: grm.assigned_officer_id ? String(grm.assigned_officer_id) : '',
         notes: '',
     });
 
@@ -117,6 +122,11 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                         </div>
                                     )}
                                 </div>
+                                {!grm.can_view_sensitive_data && (
+                                    <p className="text-xs text-muted-foreground">
+                                        Contact details are masked for read-only GRM access.
+                                    </p>
+                                )}
                                 <Separator />
                                 <div>
                                     <p className="text-xs text-muted-foreground mb-1">Description</p>
@@ -173,21 +183,61 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                 <Separator />
 
                                 {/* Send message form */}
-                                <form onSubmit={handleSendMessage} className="flex gap-2">
-                                    <Input
-                                        value={messageForm.data.message}
-                                        onChange={(e) => messageForm.setData('message', e.target.value)}
-                                        placeholder="Type a message…"
-                                        className="flex-1"
-                                    />
-                                    <Button
-                                        type="submit"
-                                        size="icon"
-                                        disabled={messageForm.processing}
-                                    >
-                                        <Send className="h-4 w-4" />
-                                    </Button>
-                                </form>
+                                {grm.can_message ? (
+                                    <form onSubmit={handleSendMessage} className="flex gap-2">
+                                        <Input
+                                            value={messageForm.data.message}
+                                            onChange={(e) => messageForm.setData('message', e.target.value)}
+                                            placeholder="Type a message…"
+                                            className="flex-1"
+                                        />
+                                        <Button
+                                            type="submit"
+                                            size="icon"
+                                            disabled={messageForm.processing}
+                                        >
+                                            <Send className="h-4 w-4" />
+                                        </Button>
+                                    </form>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground">
+                                        Messaging is available only to GRM staff with operational permissions.
+                                    </p>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-base">Attachments</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                {!grm.can_view_sensitive_data ? (
+                                    <p className="text-sm text-muted-foreground">
+                                        Attachment downloads are restricted to GRM staff with operational permissions.
+                                    </p>
+                                ) : !grm.attachments || grm.attachments.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">No attachments uploaded.</p>
+                                ) : (
+                                    grm.attachments.map((attachment) => (
+                                        <div key={attachment.id} className="flex items-center justify-between rounded-lg border p-3">
+                                            <div>
+                                                <p className="text-sm font-medium">
+                                                    {attachment.original_name ?? `Attachment ${attachment.id}`}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    Uploaded {new Date(attachment.uploaded_at).toLocaleString()}
+                                                </p>
+                                            </div>
+                                            <Button asChild variant="outline" size="sm">
+                                                <a href={`/admin/grm/${grm.id}/attachments/${attachment.id}`}>
+                                                    <Download className="mr-1.5 h-4 w-4" />
+                                                    Download
+                                                </a>
+                                            </Button>
+                                        </div>
+                                    ))
+                                )}
                             </CardContent>
                         </Card>
                     </div>
@@ -200,55 +250,61 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                 <CardTitle className="text-base">Update Status</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <form onSubmit={handleUpdateStatus} className="space-y-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="new_status">Status</Label>
-                                        <select
-                                            id="new_status"
-                                            value={statusForm.data.status}
-                                            onChange={(e) => statusForm.setData('status', e.target.value)}
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                        >
-                                            <option value="submitted">Submitted</option>
-                                            <option value="under_review">Under Review</option>
-                                            <option value="investigation">Investigation</option>
-                                            <option value="resolved">Resolved</option>
-                                            <option value="closed">Closed</option>
-                                        </select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="officer">Assign Officer</Label>
-                                        <select
-                                            id="officer"
-                                            value={statusForm.data.assigned_officer_id}
+                                {grm.can_update_status ? (
+                                    <form onSubmit={handleUpdateStatus} className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="new_status">Status</Label>
+                                            <select
+                                                id="new_status"
+                                                value={statusForm.data.status}
+                                                onChange={(e) => statusForm.setData('status', e.target.value)}
+                                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                            >
+                                                <option value="submitted">Submitted</option>
+                                                <option value="under_review">Under Review</option>
+                                                <option value="investigation">Investigation</option>
+                                                <option value="resolved">Resolved</option>
+                                                <option value="closed">Closed</option>
+                                            </select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="officer">Assign Officer</Label>
+                                            <select
+                                                id="officer"
+                                            value={statusForm.data.officer_id}
                                             onChange={(e) =>
-                                                statusForm.setData('assigned_officer_id', e.target.value)
+                                                statusForm.setData('officer_id', e.target.value)
                                             }
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                        >
-                                            <option value="">— Unassigned —</option>
-                                            {officers.map((o) => (
-                                                <option key={o.id} value={o.id}>
-                                                    {o.name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="notes">Notes</Label>
-                                        <textarea
-                                            id="notes"
-                                            value={statusForm.data.notes}
-                                            onChange={(e) => statusForm.setData('notes', e.target.value)}
-                                            rows={3}
-                                            placeholder="Optional notes for this status change…"
-                                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                        />
-                                    </div>
-                                    <Button type="submit" className="w-full" disabled={statusForm.processing}>
-                                        {statusForm.processing ? 'Updating…' : 'Update Status'}
-                                    </Button>
-                                </form>
+                                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                            >
+                                                <option value="">— Unassigned —</option>
+                                                {officers.map((o) => (
+                                                    <option key={o.id} value={o.id}>
+                                                        {o.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="notes">Notes</Label>
+                                            <textarea
+                                                id="notes"
+                                                value={statusForm.data.notes}
+                                                onChange={(e) => statusForm.setData('notes', e.target.value)}
+                                                rows={3}
+                                                placeholder="Optional notes for this status change…"
+                                                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                            />
+                                        </div>
+                                        <Button type="submit" className="w-full" disabled={statusForm.processing}>
+                                            {statusForm.processing ? 'Updating…' : 'Update Status'}
+                                        </Button>
+                                    </form>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground">
+                                        Status changes are restricted to GRM staff with operational permissions.
+                                    </p>
+                                )}
                             </CardContent>
                         </Card>
 
