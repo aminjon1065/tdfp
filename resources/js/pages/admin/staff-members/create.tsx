@@ -1,5 +1,7 @@
 import AdminLayout from '@/layouts/admin-layout';
-import { Head } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 import StaffMemberForm from './form';
 
@@ -8,19 +10,22 @@ export default function AdminStaffMembersCreate({
 }: {
     parentOptions: any[];
 }) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Staff Directory', href: '/admin/staff-members' },
-                { title: 'Create', href: '/admin/staff-members/create' },
+                { title: t(locale, 'admin.nav.staff'), href: '/admin/staff-members' },
+                { title: t(locale, 'admin.form.create'), href: '/admin/staff-members/create' },
             ]}
         >
-            <Head title="Create Staff Member" />
+            <Head title={`${t(locale, 'admin.form.create')} ${t(locale, 'admin.nav.staff')}`} />
             <div className="max-w-4xl space-y-6">
                 <div>
-                    <h1 className="text-2xl font-bold">Add Staff Member</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.form.create')} {t(locale, 'admin.nav.staff')}</h1>
                     <p className="text-sm text-muted-foreground">
-                        Create a public profile and place it in the reporting hierarchy.
+                        {t(locale, 'admin.form.staffCreateHint')}
                     </p>
                 </div>
 
@@ -28,7 +33,7 @@ export default function AdminStaffMembersCreate({
                     action="/admin/staff-members"
                     method="post"
                     parentOptions={parentOptions}
-                    submitLabel="Create staff member"
+                    submitLabel={`${t(locale, 'common.create')} ${t(locale, 'admin.nav.staff')}`}
                 />
             </div>
         </AdminLayout>

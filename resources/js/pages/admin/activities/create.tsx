@@ -3,9 +3,13 @@ import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 export default function AdminActivitiesCreate() {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const { data, setData, post, processing, errors } = useForm<{
         status: string;
         start_date: string;
@@ -42,33 +46,33 @@ export default function AdminActivitiesCreate() {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Activities', href: '/admin/activities' },
-                { title: 'Create', href: '/admin/activities/create' },
+                { title: t(locale, 'admin.nav.activities'), href: '/admin/activities' },
+                { title: t(locale, 'admin.form.create'), href: '/admin/activities/create' },
             ]}
         >
-            <Head title="Create Activity" />
+            <Head title={`${t(locale, 'admin.form.create')} ${t(locale, 'admin.nav.activities')}`} />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">Create Activity</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.form.create')} {t(locale, 'admin.nav.activities')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid gap-4 sm:grid-cols-3">
                         <div className="space-y-2">
-                            <Label htmlFor="status">Status</Label>
+                            <Label htmlFor="status">{t(locale, 'admin.form.status')}</Label>
                             <select
                                 id="status"
                                 value={data.status}
                                 onChange={(e) => setData('status', e.target.value)}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             >
-                                <option value="planned">Planned</option>
-                                <option value="in_progress">In Progress</option>
-                                <option value="completed">Completed</option>
+                                <option value="planned">{t(locale, 'status.planned')}</option>
+                                <option value="in_progress">{t(locale, 'status.in_progress')}</option>
+                                <option value="completed">{t(locale, 'status.completed')}</option>
                             </select>
                             {errors.status && (
                                 <p className="text-sm text-destructive">{errors.status}</p>
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="start_date">Start Date</Label>
+                            <Label htmlFor="start_date">{t(locale, 'admin.form.startDate')}</Label>
                             <Input
                                 id="start_date"
                                 type="date"
@@ -80,7 +84,7 @@ export default function AdminActivitiesCreate() {
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="end_date">End Date</Label>
+                            <Label htmlFor="end_date">{t(locale, 'admin.form.endDate')}</Label>
                             <Input
                                 id="end_date"
                                 type="date"
@@ -94,7 +98,7 @@ export default function AdminActivitiesCreate() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="featured_image">Featured Image</Label>
+                        <Label htmlFor="featured_image">{t(locale, 'admin.form.featuredImage')}</Label>
                         <input
                             id="featured_image"
                             type="file"
@@ -105,12 +109,12 @@ export default function AdminActivitiesCreate() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Translations</Label>
+                        <Label>{t(locale, 'common.translations')}</Label>
                         <TranslationTabs
                             fields={[
-                                { name: 'title', label: 'Title', type: 'input', required: true },
-                                { name: 'description', label: 'Description', type: 'textarea' },
-                                { name: 'objectives', label: 'Objectives', type: 'textarea' },
+                                { name: 'title', label: t(locale, 'common.title'), type: 'input', required: true },
+                                { name: 'description', label: t(locale, 'common.descriptionLabel'), type: 'textarea' },
+                                { name: 'objectives', label: t(locale, 'common.objectives'), type: 'textarea' },
                             ]}
                             data={data.translations}
                             onChange={handleTranslationChange}
@@ -120,10 +124,10 @@ export default function AdminActivitiesCreate() {
 
                     <div className="flex gap-3">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving…' : 'Create Activity'}
+                            {processing ? t(locale, 'admin.content.saving') : `${t(locale, 'common.create')} ${t(locale, 'admin.nav.activities')}`}
                         </Button>
                         <Button type="button" variant="outline" onClick={() => history.back()}>
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                     </div>
                 </form>

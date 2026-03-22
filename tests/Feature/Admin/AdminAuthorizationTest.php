@@ -179,6 +179,23 @@ test('admin dashboard exposes operational readiness summary', function () {
         );
 });
 
+test('admin dashboard shares russian locale for translated admin ui', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $user->assignRole('super_admin');
+
+    $this->withSession(['locale' => 'ru']);
+
+    $this->actingAs($user)
+        ->get(route('admin.dashboard'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/dashboard')
+            ->where('locale', 'ru')
+        );
+});
+
 test('super admins can filter audit logs by user action entity type and date', function () {
     $admin = User::factory()->create([
         'email_verified_at' => now(),

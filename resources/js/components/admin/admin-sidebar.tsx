@@ -26,25 +26,28 @@ import {
     Settings,
     ScrollText,
 } from 'lucide-react';
+import { t } from '@/lib/i18n';
+import { type SharedData } from '@/types';
 
 const navItems = [
-    { title: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { title: 'Pages', href: '/admin/pages', icon: FileText },
-    { title: 'News', href: '/admin/news', icon: Newspaper },
-    { title: 'Activities', href: '/admin/activities', icon: Activity },
-    { title: 'Documents', href: '/admin/documents', icon: FolderOpen },
-    { title: 'Procurement', href: '/admin/procurement', icon: ShoppingBag },
-    { title: 'Media', href: '/admin/media', icon: Image },
-    { title: 'Staff Directory', href: '/admin/staff-members', icon: Network },
-    { title: 'Subscriptions', href: '/admin/subscriptions', icon: Bell },
-    { title: 'GRM Cases', href: '/admin/grm', icon: MessageCircle },
-    { title: 'Users', href: '/admin/users', icon: Users },
-    { title: 'Settings', href: '/admin/settings', icon: Settings },
-    { title: 'Audit Logs', href: '/admin/audit-logs', icon: ScrollText },
+    { titleKey: 'admin.nav.dashboard', href: '/admin', icon: LayoutDashboard },
+    { titleKey: 'admin.nav.pages', href: '/admin/pages', icon: FileText },
+    { titleKey: 'admin.nav.news', href: '/admin/news', icon: Newspaper },
+    { titleKey: 'admin.nav.activities', href: '/admin/activities', icon: Activity },
+    { titleKey: 'admin.nav.documents', href: '/admin/documents', icon: FolderOpen },
+    { titleKey: 'admin.nav.procurement', href: '/admin/procurement', icon: ShoppingBag },
+    { titleKey: 'admin.nav.media', href: '/admin/media', icon: Image },
+    { titleKey: 'admin.nav.staff', href: '/admin/staff-members', icon: Network },
+    { titleKey: 'admin.nav.subscriptions', href: '/admin/subscriptions', icon: Bell },
+    { titleKey: 'admin.nav.grm', href: '/admin/grm', icon: MessageCircle },
+    { titleKey: 'admin.nav.users', href: '/admin/users', icon: Users },
+    { titleKey: 'admin.nav.settings', href: '/admin/settings', icon: Settings },
+    { titleKey: 'admin.nav.auditLogs', href: '/admin/audit-logs', icon: ScrollText },
 ];
 
 export function AdminSidebar() {
-    const { url } = usePage();
+    const { url, props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
 
     return (
         <Sidebar>
@@ -54,14 +57,14 @@ export function AdminSidebar() {
                         <span className="text-sm font-bold text-primary-foreground">PIC</span>
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-sm font-semibold">PIC Admin</span>
+                        <span className="text-sm font-semibold">{t(locale, 'admin.brand')}</span>
                         <span className="text-xs text-muted-foreground">TDFP</span>
                     </div>
                 </div>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                    <SidebarGroupLabel>{t(locale, 'admin.navigation')}</SidebarGroupLabel>
                     <SidebarMenu>
                         {navItems.map((item) => (
                             <SidebarMenuItem key={item.href}>
@@ -75,7 +78,7 @@ export function AdminSidebar() {
                                 >
                                     <Link href={item.href}>
                                         <item.icon className="h-4 w-4" />
-                                        <span>{item.title}</span>
+                                        <span>{t(locale, item.titleKey)}</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

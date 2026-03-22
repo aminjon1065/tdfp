@@ -2,7 +2,9 @@ import AdminLayout from '@/layouts/admin-layout';
 import { DataTable } from '@/components/admin/data-table';
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
-import { Head, Link, router } from '@inertiajs/react';
+import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
+import { type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
@@ -11,34 +13,37 @@ interface Props {
 }
 
 export default function AdminProcurementIndex({ procurements }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const columns = [
         {
             key: 'reference_number',
-            header: 'Reference',
+            header: t(locale, 'common.reference'),
             render: (row: any) => (
                 <span className="font-mono text-xs">{row.reference_number ?? '—'}</span>
             ),
         },
         {
             key: 'title',
-            header: 'Title',
+            header: t(locale, 'common.title'),
             render: (row: any) =>
-                row.translations?.find((t: any) => t.language === 'en')?.title ?? 'Untitled',
+                getTranslation(row, locale).title ?? t(locale, 'admin.content.untitled'),
         },
         {
             key: 'status',
-            header: 'Status',
+            header: t(locale, 'common.status'),
             render: (row: any) => <StatusBadge status={row.status} />,
         },
         {
             key: 'deadline',
-            header: 'Deadline',
+            header: t(locale, 'admin.content.deadline'),
             render: (row: any) =>
-                row.deadline ? new Date(row.deadline).toLocaleDateString() : '—',
+                row.deadline ? formatLocalizedDate(row.deadline, locale) : '—',
         },
         {
             key: 'actions',
-            header: 'Actions',
+            header: t(locale, 'common.actions'),
             render: (row: any) => (
                 <div className="flex gap-2">
                     <Button asChild variant="outline" size="sm">
@@ -50,7 +55,7 @@ export default function AdminProcurementIndex({ procurements }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm('Delete this procurement?')) {
+                            if (confirm(t(locale, 'admin.content.deleteProcurement'))) {
                                 router.delete(`/admin/procurement/${row.id}`);
                             }
                         }}
@@ -63,15 +68,15 @@ export default function AdminProcurementIndex({ procurements }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Procurement', href: '/admin/procurement' }]}>
-            <Head title="Procurement" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.procurement'), href: '/admin/procurement' }]}>
+            <Head title={t(locale, 'admin.content.procurement')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Procurement</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.procurement')}</h1>
                     <Button asChild>
                         <Link href="/admin/procurement/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            Add Procurement
+                            {t(locale, 'admin.content.addProcurement')}
                         </Link>
                     </Button>
                 </div>

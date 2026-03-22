@@ -1,8 +1,10 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { DataTable } from '@/components/admin/data-table';
 import { Button } from '@/components/ui/button';
-import { Head, Link, router } from '@inertiajs/react';
+import { getTranslation, t } from '@/lib/i18n';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { type SharedData } from '@/types';
 
 interface StaffMemberRow {
     id: number;
@@ -25,34 +27,37 @@ export default function AdminStaffMembersIndex({
 }: {
     staffMembers: any;
 }) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const columns = [
         {
             key: 'full_name',
-            header: 'Name',
-            render: (row: StaffMemberRow) => row.translations?.find((translation) => translation.language === 'en')?.full_name ?? 'Untitled',
+            header: t(locale, 'common.name'),
+            render: (row: StaffMemberRow) => getTranslation(row, locale).full_name ?? t(locale, 'admin.content.untitled'),
         },
         {
             key: 'job_title',
-            header: 'Job title',
-            render: (row: StaffMemberRow) => row.translations?.find((translation) => translation.language === 'en')?.job_title ?? '—',
+            header: t(locale, 'admin.form.jobTitle'),
+            render: (row: StaffMemberRow) => getTranslation(row, locale).job_title ?? '—',
         },
         {
             key: 'reports_to',
-            header: 'Reports to',
-            render: (row: StaffMemberRow) => row.parent?.translations?.find((translation) => translation.language === 'en')?.full_name ?? 'Top level',
+            header: t(locale, 'admin.form.reportsTo'),
+            render: (row: StaffMemberRow) => getTranslation(row.parent, locale).full_name ?? t(locale, 'admin.form.topLevel'),
         },
         {
             key: 'status',
-            header: 'Status',
+            header: t(locale, 'common.status'),
             render: (row: StaffMemberRow) => (
                 <span className={row.is_published ? 'text-emerald-700' : 'text-slate-500'}>
-                    {row.is_published ? 'Published' : 'Draft'}
+                    {row.is_published ? t(locale, 'status.published') : t(locale, 'status.draft')}
                 </span>
             ),
         },
         {
             key: 'actions',
-            header: 'Actions',
+            header: t(locale, 'common.actions'),
             render: (row: StaffMemberRow) => (
                 <div className="flex gap-2">
                     <Button asChild variant="outline" size="sm">
@@ -64,7 +69,7 @@ export default function AdminStaffMembersIndex({
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm('Delete this staff record?')) {
+                            if (confirm(t(locale, 'admin.form.deleteStaffRecord'))) {
                                 router.delete(`/admin/staff-members/${row.id}`);
                             }
                         }}
@@ -77,20 +82,20 @@ export default function AdminStaffMembersIndex({
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Staff Directory', href: '/admin/staff-members' }]}>
-            <Head title="Staff Directory" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.nav.staff'), href: '/admin/staff-members' }]}>
+            <Head title={t(locale, 'admin.nav.staff')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold">Staff Directory</h1>
+                        <h1 className="text-2xl font-bold">{t(locale, 'admin.nav.staff')}</h1>
                         <p className="text-sm text-muted-foreground">
-                            Maintain the public leadership and reporting structure.
+                            {t(locale, 'admin.form.staffDirectoryHint')}
                         </p>
                     </div>
                     <Button asChild>
                         <Link href="/admin/staff-members/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            Add staff member
+                            {t(locale, 'admin.form.addStaffMember')}
                         </Link>
                     </Button>
                 </div>

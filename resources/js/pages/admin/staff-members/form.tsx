@@ -3,7 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { useForm, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 interface ParentOption {
     id: number;
@@ -45,6 +47,9 @@ export default function StaffMemberForm({
     submitLabel,
     staffMember,
 }: StaffMemberFormProps) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const { data, setData, post, put, processing, errors } = useForm<{
         parent_id: string;
         email: string;
@@ -100,14 +105,14 @@ export default function StaffMemberForm({
         <form onSubmit={submit} className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                    <Label htmlFor="parent_id">Reports to</Label>
+                    <Label htmlFor="parent_id">{t(locale, 'admin.form.reportsTo')}</Label>
                     <select
                         id="parent_id"
                         value={data.parent_id}
                         onChange={(event) => setData('parent_id', event.target.value)}
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">Top level</option>
+                        <option value="">{t(locale, 'admin.form.topLevel')}</option>
                         {parentOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.translations.find((translation) => translation.language === 'en')?.full_name
@@ -120,7 +125,7 @@ export default function StaffMemberForm({
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="sort_order">Sort order</Label>
+                    <Label htmlFor="sort_order">{t(locale, 'admin.form.sortOrder')}</Label>
                     <Input
                         id="sort_order"
                         type="number"
@@ -132,7 +137,7 @@ export default function StaffMemberForm({
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t(locale, 'common.email')}</Label>
                     <Input
                         id="email"
                         type="email"
@@ -143,7 +148,7 @@ export default function StaffMemberForm({
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
+                    <Label htmlFor="phone">{t(locale, 'common.phone')}</Label>
                     <Input
                         id="phone"
                         value={data.phone}
@@ -153,7 +158,7 @@ export default function StaffMemberForm({
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="photo">Photo</Label>
+                    <Label htmlFor="photo">{t(locale, 'common.photo')}</Label>
                     <Input
                         id="photo"
                         type="file"
@@ -161,7 +166,7 @@ export default function StaffMemberForm({
                         onChange={(event) => setData('photo', event.target.files?.[0] ?? null)}
                     />
                     {staffMember?.photo_path && ! data.photo && (
-                        <p className="text-sm text-muted-foreground">Current photo is already uploaded.</p>
+                        <p className="text-sm text-muted-foreground">{t(locale, 'admin.form.currentPhotoUploaded')}</p>
                     )}
                     {errors.photo && <p className="text-sm text-destructive">{errors.photo}</p>}
                 </div>
@@ -174,9 +179,9 @@ export default function StaffMemberForm({
                         onCheckedChange={(checked) => setData('is_leadership', checked === true)}
                     />
                     <span>
-                        <span className="block text-sm font-medium">Leadership</span>
+                        <span className="block text-sm font-medium">{t(locale, 'admin.form.leadership')}</span>
                         <span className="block text-sm text-muted-foreground">
-                            Highlight this profile in the leadership section.
+                            {t(locale, 'admin.form.leadershipHint')}
                         </span>
                     </span>
                 </label>
@@ -187,22 +192,22 @@ export default function StaffMemberForm({
                         onCheckedChange={(checked) => setData('is_published', checked === true)}
                     />
                     <span>
-                        <span className="block text-sm font-medium">Published</span>
+                        <span className="block text-sm font-medium">{t(locale, 'admin.form.published')}</span>
                         <span className="block text-sm text-muted-foreground">
-                            Unpublished staff stay in admin only.
+                            {t(locale, 'admin.form.publishedHint')}
                         </span>
                     </span>
                 </label>
             </div>
 
             <div className="space-y-2">
-                <Label>Translations</Label>
+                <Label>{t(locale, 'common.translations')}</Label>
                 <TranslationTabs
                     fields={[
-                        { name: 'full_name', label: 'Full name', type: 'input', required: true },
-                        { name: 'job_title', label: 'Job title', type: 'input', required: true },
-                        { name: 'department', label: 'Department', type: 'input' },
-                        { name: 'biography', label: 'Biography', type: 'textarea' },
+                        { name: 'full_name', label: t(locale, 'admin.form.fullName'), type: 'input', required: true },
+                        { name: 'job_title', label: t(locale, 'admin.form.jobTitle'), type: 'input', required: true },
+                        { name: 'department', label: t(locale, 'admin.form.department'), type: 'input' },
+                        { name: 'biography', label: t(locale, 'admin.form.biography'), type: 'textarea' },
                     ]}
                     data={data.translations}
                     onChange={handleTranslationChange}
@@ -212,10 +217,10 @@ export default function StaffMemberForm({
 
             <div className="flex gap-3">
                 <Button type="submit" disabled={processing}>
-                    {processing ? 'Saving…' : submitLabel}
+                    {processing ? t(locale, 'admin.content.saving') : submitLabel}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => history.back()}>
-                    Cancel
+                    {t(locale, 'common.cancel')}
                 </Button>
             </div>
         </form>

@@ -13,7 +13,6 @@ use App\Modules\Search\Controllers\SearchController;
 use App\Modules\Staff\Controllers\PublicStaffController;
 use App\Modules\Subscriptions\Controllers\PublicSubscriptionController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // Language switcher
 Route::get('/language/{locale}', function (string $locale) {
@@ -36,10 +35,6 @@ Route::get('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::cla
 Route::post('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::class, 'confirm'])->middleware('throttle:5,1')->name('subscriptions.confirm.process');
 Route::get('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribeReview'])->name('subscriptions.unsubscribe');
 Route::post('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribe'])->middleware('throttle:5,1')->name('subscriptions.unsubscribe.process');
-
-Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('dashboard');
-})->name('dashboard');
 
 // CMS static pages
 Route::get('/about', [PublicPageController::class, 'show'])->defaults('slug', 'about')->name('about');

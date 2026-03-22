@@ -2,9 +2,10 @@ import AdminLayout from '@/layouts/admin-layout';
 import { DataTable } from '@/components/admin/data-table';
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
-import { Head, Link, router } from '@inertiajs/react';
+import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { NewsItem, Paginator } from '@/types';
+import { NewsItem, Paginator, type SharedData } from '@/types';
 
 interface NewsCategory {
     id: number;
@@ -18,32 +19,35 @@ interface Props {
 }
 
 export default function AdminNewsIndex({ news }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const columns = [
         {
             key: 'title',
-            header: 'Title',
+            header: t(locale, 'common.title'),
             render: (row: NewsItem) =>
-                row.translations?.find((t: any) => t.language === 'en')?.title ?? 'Untitled',
+                getTranslation(row, locale).title ?? t(locale, 'admin.content.untitled'),
         },
         {
             key: 'category',
-            header: 'Category',
+            header: t(locale, 'common.category'),
             render: (row: any) => row.category?.name ?? '—',
         },
         {
             key: 'status',
-            header: 'Status',
+            header: t(locale, 'common.status'),
             render: (row: any) => <StatusBadge status={row.status} />,
         },
         {
             key: 'published_at',
-            header: 'Published',
+            header: t(locale, 'admin.content.published'),
             render: (row: NewsItem) =>
-                row.published_at ? new Date(row.published_at).toLocaleDateString() : '—',
+                row.published_at ? formatLocalizedDate(row.published_at, locale) : '—',
         },
         {
             key: 'actions',
-            header: 'Actions',
+            header: t(locale, 'common.actions'),
             render: (row: NewsItem) => (
                 <div className="flex gap-2">
                     <Button asChild variant="outline" size="sm">
@@ -55,7 +59,7 @@ export default function AdminNewsIndex({ news }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm('Delete this article?')) {
+                            if (confirm(t(locale, 'admin.content.deleteArticle'))) {
                                 router.delete(`/admin/news/${row.id}`);
                             }
                         }}
@@ -68,15 +72,15 @@ export default function AdminNewsIndex({ news }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'News', href: '/admin/news' }]}>
-            <Head title="News" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.news'), href: '/admin/news' }]}>
+            <Head title={t(locale, 'admin.content.news')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">News</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.news')}</h1>
                     <Button asChild>
                         <Link href="/admin/news/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            Add Article
+                            {t(locale, 'admin.content.addArticle')}
                         </Link>
                     </Button>
                 </div>

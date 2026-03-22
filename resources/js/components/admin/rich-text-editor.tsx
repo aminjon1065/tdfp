@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
 
 import { Button } from '@/components/ui/button';
+import { t } from '@/lib/i18n';
 import {
     Dialog,
     DialogContent,
@@ -54,7 +55,7 @@ export function RichTextEditor({
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imageUploadError, setImageUploadError] = useState('');
     const [uploadingImage, setUploadingImage] = useState(false);
-    const { csrf_token: csrfToken } = usePage<SharedData & { csrf_token?: string }>().props;
+    const { csrf_token: csrfToken, locale } = usePage<SharedData & { csrf_token?: string }>().props;
 
     const editor = useEditor({
         extensions: [
@@ -164,7 +165,7 @@ export function RichTextEditor({
                 setImageUploadError(
                     Array.isArray(firstError)
                         ? String(firstError[0])
-                        : 'Image upload failed.',
+                        : t(locale, 'admin.form.imageUploadFailed'),
                 );
 
                 return;
@@ -188,7 +189,7 @@ export function RichTextEditor({
                 })
                 .run();
         } else {
-            setImageUploadError('Provide an image URL or upload a file.');
+            setImageUploadError(t(locale, 'admin.form.imageSourceRequired'));
 
             return;
         }
@@ -315,7 +316,7 @@ export function RichTextEditor({
                         data-active={!previewMode}
                         onClick={() => setPreviewMode(false)}
                     >
-                        Write
+                        {t(locale, 'admin.form.write')}
                     </button>
                     <button
                         type="button"
@@ -323,7 +324,7 @@ export function RichTextEditor({
                         data-active={previewMode}
                         onClick={() => setPreviewMode(true)}
                     >
-                        Preview
+                        {t(locale, 'admin.form.previewTab')}
                     </button>
                 </div>
             </div>
@@ -338,7 +339,7 @@ export function RichTextEditor({
                     dangerouslySetInnerHTML={{
                         __html:
                             value ||
-                            '<p class="text-slate-500">Nothing to preview yet.</p>',
+                            `<p class="text-slate-500">${t(locale, 'admin.form.nothingToPreview')}</p>`,
                     }}
                 />
             )}
@@ -346,14 +347,14 @@ export function RichTextEditor({
             <Dialog open={linkDialogOpen} onOpenChange={setLinkDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Insert link</DialogTitle>
+                        <DialogTitle>{t(locale, 'admin.form.insertLink')}</DialogTitle>
                         <DialogDescription>
-                            Add or update a URL for the selected text.
+                            {t(locale, 'admin.form.linkDescription')}
                         </DialogDescription>
                     </DialogHeader>
 
                     <div className="space-y-2">
-                        <Label htmlFor={`${id}-link-url`}>URL</Label>
+                        <Label htmlFor={`${id}-link-url`}>{t(locale, 'admin.form.url')}</Label>
                         <Input
                             id={`${id}-link-url`}
                             value={linkUrl}
@@ -368,10 +369,10 @@ export function RichTextEditor({
                             variant="outline"
                             onClick={() => setLinkDialogOpen(false)}
                         >
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                         <Button type="button" onClick={saveLink}>
-                            Save link
+                            {t(locale, 'admin.form.saveLink')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -380,15 +381,15 @@ export function RichTextEditor({
             <Dialog open={imageDialogOpen} onOpenChange={setImageDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Insert image</DialogTitle>
+                        <DialogTitle>{t(locale, 'admin.form.insertImage')}</DialogTitle>
                         <DialogDescription>
-                            Upload an image to the media library or provide a public URL.
+                            {t(locale, 'admin.form.imageDescription')}
                         </DialogDescription>
                     </DialogHeader>
 
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor={`${id}-image-file`}>Upload image</Label>
+                            <Label htmlFor={`${id}-image-file`}>{t(locale, 'admin.form.uploadImage')}</Label>
                             <Input
                                 id={`${id}-image-file`}
                                 type="file"
@@ -401,7 +402,7 @@ export function RichTextEditor({
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor={`${id}-image-url`}>Image URL</Label>
+                            <Label htmlFor={`${id}-image-url`}>{t(locale, 'admin.form.imageUrl')}</Label>
                             <Input
                                 id={`${id}-image-url`}
                                 value={imageUrl}
@@ -414,12 +415,12 @@ export function RichTextEditor({
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor={`${id}-image-alt`}>Alt text</Label>
+                            <Label htmlFor={`${id}-image-alt`}>{t(locale, 'admin.form.altText')}</Label>
                             <Input
                                 id={`${id}-image-alt`}
                                 value={imageAlt}
                                 onChange={(event) => setImageAlt(event.target.value)}
-                                placeholder="Describe the image"
+                                placeholder={t(locale, 'admin.form.describeImage')}
                             />
                         </div>
 
@@ -436,14 +437,14 @@ export function RichTextEditor({
                             variant="outline"
                             onClick={() => setImageDialogOpen(false)}
                         >
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                         <Button
                             type="button"
                             onClick={insertImage}
                             disabled={uploadingImage}
                         >
-                            {uploadingImage ? 'Uploading…' : 'Insert image'}
+                            {uploadingImage ? t(locale, 'admin.form.currentlyUploading') : t(locale, 'admin.form.insertImage')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

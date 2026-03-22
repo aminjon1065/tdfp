@@ -3,8 +3,9 @@ import { DataTable } from '@/components/admin/data-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Head, router } from '@inertiajs/react';
-import { AuditLogEntry, Paginator } from '@/types';
+import { t } from '@/lib/i18n';
+import { Head, router, usePage } from '@inertiajs/react';
+import { AuditLogEntry, Paginator, type SharedData } from '@/types';
 import { useState } from 'react';
 
 interface Props {
@@ -31,18 +32,20 @@ const ACTION_COLORS: Record<string, 'default' | 'secondary' | 'destructive' | 'o
 };
 
 export default function AdminAuditLogsIndex({ logs, filters, actions, entityTypes, users }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const [search, setSearch] = useState(filters.search ?? '');
     const columns = [
         {
             key: 'user',
-            header: 'User',
+            header: t(locale, 'common.user'),
             render: (row: AuditLogEntry) => (
-                <span className="font-medium">{row.user?.name ?? 'System'}</span>
+                <span className="font-medium">{row.user?.name ?? t(locale, 'common.system')}</span>
             ),
         },
         {
             key: 'action',
-            header: 'Action',
+            header: t(locale, 'common.action'),
             render: (row: AuditLogEntry) => (
                 <Badge variant={ACTION_COLORS[row.action] ?? 'secondary'}>
                     {row.action}
@@ -51,7 +54,7 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
         },
         {
             key: 'entity_type',
-            header: 'Entity Type',
+            header: t(locale, 'common.entityType'),
             render: (row: AuditLogEntry) => (
                 <span className="text-xs font-mono text-muted-foreground">
                     {row.entity_type ?? '—'}
@@ -60,14 +63,14 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
         },
         {
             key: 'entity_id',
-            header: 'Entity ID',
+            header: t(locale, 'common.entityId'),
             render: (row: AuditLogEntry) => (
                 <span className="text-xs font-mono">{row.entity_id ?? '—'}</span>
             ),
         },
         {
             key: 'ip_address',
-            header: 'IP Address',
+            header: t(locale, 'common.ipAddress'),
             render: (row: AuditLogEntry) => (
                 <span className="text-xs font-mono text-muted-foreground">
                     {row.ip_address ?? '—'}
@@ -76,7 +79,7 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
         },
         {
             key: 'created_at',
-            header: 'Date',
+            header: t(locale, 'common.date'),
             render: (row: AuditLogEntry) =>
                 row.created_at ? new Date(row.created_at).toLocaleString() : '—',
         },
@@ -95,10 +98,10 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
     };
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Audit Logs', href: '/admin/audit-logs' }]}>
-            <Head title="Audit Logs" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.auditLogs'), href: '/admin/audit-logs' }]}>
+            <Head title={t(locale, 'admin.content.auditLogs')} />
             <div className="space-y-4">
-                <h1 className="text-2xl font-bold">Audit Logs</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.auditLogs')}</h1>
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                     <form
                         onSubmit={(event) => {
@@ -110,10 +113,10 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
                         <Input
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
-                            placeholder="Search action, entity, IP, user..."
+                            placeholder={t(locale, 'admin.content.searchAuditLogs')}
                         />
                         <Button type="submit" variant="outline">
-                            Search
+                            {t(locale, 'common.search')}
                         </Button>
                     </form>
 
@@ -122,7 +125,7 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
                         onChange={(event) => applyFilters({ action: event.target.value || undefined })}
                         className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">All actions</option>
+                        <option value="">{t(locale, 'admin.content.allActions')}</option>
                         {actions.map((action) => (
                             <option key={action} value={action}>
                                 {action}
@@ -135,7 +138,7 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
                         onChange={(event) => applyFilters({ entity_type: event.target.value || undefined })}
                         className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">All entity types</option>
+                        <option value="">{t(locale, 'admin.content.allEntityTypes')}</option>
                         {entityTypes.map((entityType) => (
                             <option key={entityType} value={entityType}>
                                 {entityType}
@@ -148,7 +151,7 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
                         onChange={(event) => applyFilters({ user_id: event.target.value ? Number(event.target.value) : undefined })}
                         className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">All users</option>
+                        <option value="">{t(locale, 'admin.content.allUsers')}</option>
                         {users.map((user) => (
                             <option key={user.id} value={user.id}>
                                 {user.name}

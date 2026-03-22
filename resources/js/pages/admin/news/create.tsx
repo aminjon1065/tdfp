@@ -3,13 +3,17 @@ import { EditorialPreviewButton } from '@/components/admin/editorial-preview-but
 import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 interface Props {
     categories: { id: number; name: string }[];
 }
 
 export default function AdminNewsCreate({ categories }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const { data, setData, post, processing, errors } = useForm<{
         category_id: string;
         status: string;
@@ -58,24 +62,24 @@ export default function AdminNewsCreate({ categories }: Props) {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'News', href: '/admin/news' },
-                { title: 'Create', href: '/admin/news/create' },
+                { title: t(locale, 'admin.content.news'), href: '/admin/news' },
+                { title: t(locale, 'admin.form.create'), href: '/admin/news/create' },
             ]}
         >
-            <Head title="Create News Article" />
+            <Head title={`${t(locale, 'admin.form.create')} ${t(locale, 'admin.content.news')}`} />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">Create News Article</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.addArticle')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                            <Label htmlFor="category">Category</Label>
+                            <Label htmlFor="category">{t(locale, 'admin.form.category')}</Label>
                             <select
                                 id="category"
                                 value={data.category_id}
                                 onChange={(e) => setData('category_id', e.target.value)}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             >
-                                <option value="">— No Category —</option>
+                                <option value="">— {t(locale, 'admin.form.noCategory')} —</option>
                                 {categories.map((c) => (
                                     <option key={c.id} value={c.id}>
                                         {c.name}
@@ -84,22 +88,22 @@ export default function AdminNewsCreate({ categories }: Props) {
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="status">Status</Label>
+                            <Label htmlFor="status">{t(locale, 'admin.form.status')}</Label>
                             <select
                                 id="status"
                                 value={data.status}
                                 onChange={(e) => setData('status', e.target.value)}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             >
-                                <option value="draft">Draft</option>
-                                <option value="published">Published</option>
-                                <option value="archived">Archived</option>
+                                <option value="draft">{t(locale, 'status.draft')}</option>
+                                <option value="published">{t(locale, 'status.published')}</option>
+                                <option value="archived">{t(locale, 'status.archived')}</option>
                             </select>
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="featured_image">Featured Image</Label>
+                        <Label htmlFor="featured_image">{t(locale, 'admin.form.featuredImage')}</Label>
                         <input
                             id="featured_image"
                             type="file"
@@ -110,12 +114,12 @@ export default function AdminNewsCreate({ categories }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Translations</Label>
+                        <Label>{t(locale, 'common.translations')}</Label>
                         <TranslationTabs
                             fields={[
-                                { name: 'title', label: 'Title', type: 'input', required: true },
-                                { name: 'summary', label: 'Summary', type: 'textarea' },
-                                { name: 'content', label: 'Content', type: 'richtext' },
+                                { name: 'title', label: t(locale, 'common.title'), type: 'input', required: true },
+                                { name: 'summary', label: t(locale, 'common.summary'), type: 'textarea' },
+                                { name: 'content', label: t(locale, 'common.content'), type: 'richtext' },
                             ]}
                             data={data.translations}
                             onChange={handleTranslationChange}
@@ -125,7 +129,7 @@ export default function AdminNewsCreate({ categories }: Props) {
 
                     <div className="flex gap-3">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving…' : 'Create Article'}
+                            {processing ? t(locale, 'admin.content.saving') : t(locale, 'admin.content.addArticle')}
                         </Button>
                         <EditorialPreviewButton
                             endpoint="/admin/editorial-preview/news"
@@ -133,7 +137,7 @@ export default function AdminNewsCreate({ categories }: Props) {
                             disabled={processing}
                         />
                         <Button type="button" variant="outline" onClick={() => history.back()}>
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                     </div>
                 </form>

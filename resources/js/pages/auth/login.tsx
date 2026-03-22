@@ -8,27 +8,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
-import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
 interface LoginProps {
     status?: string;
     canResetPassword: boolean;
-    canRegister: boolean;
 }
 
 export default function Login({
     status,
     canResetPassword,
-    canRegister,
 }: LoginProps) {
     return (
         <AuthLayout
-            title="Log in to your account"
-            description="Enter your email and password below to log in"
+            title="Admin Sign In"
+            description="Enter your email and password to access the administration panel"
         >
-            <Head title="Log in" />
+            <Head title="Admin Sign In" />
 
             <Form
                 {...store.form()}
@@ -95,18 +92,9 @@ export default function Login({
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Sign in to Admin
                             </Button>
                         </div>
-
-                        {canRegister && (
-                            <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
-                                    Sign up
-                                </TextLink>
-                            </div>
-                        )}
                     </>
                 )}
             </Form>

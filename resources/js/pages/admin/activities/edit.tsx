@@ -3,14 +3,17 @@ import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/react';
-import { SupportedLocale } from '@/types';
+import { t } from '@/lib/i18n';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { SupportedLocale, type SharedData } from '@/types';
 
 interface Props {
     activity: any;
 }
 
 export default function AdminActivitiesEdit({ activity }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const translationsMap =
         activity.translations?.reduce((acc: any, t: any) => {
             acc[t.language] = {
@@ -49,29 +52,29 @@ export default function AdminActivitiesEdit({ activity }: Props) {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Activities', href: '/admin/activities' },
-                { title: 'Edit', href: `/admin/activities/${activity.id}/edit` },
+                { title: t(locale, 'admin.nav.activities'), href: '/admin/activities' },
+                { title: t(locale, 'admin.form.edit'), href: `/admin/activities/${activity.id}/edit` },
             ]}
         >
-            <Head title="Edit Activity" />
+            <Head title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.nav.activities')}`} />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">Edit Activity</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.form.edit')} {t(locale, 'admin.nav.activities')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid gap-4 sm:grid-cols-3">
                         <div className="space-y-2">
-                            <Label>Status</Label>
+                            <Label>{t(locale, 'admin.form.status')}</Label>
                             <select
                                 value={data.status}
                                 onChange={(e) => setData('status', e.target.value)}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             >
-                                <option value="planned">Planned</option>
-                                <option value="in_progress">In Progress</option>
-                                <option value="completed">Completed</option>
+                                <option value="planned">{t(locale, 'status.planned')}</option>
+                                <option value="in_progress">{t(locale, 'status.in_progress')}</option>
+                                <option value="completed">{t(locale, 'status.completed')}</option>
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <Label>Start Date</Label>
+                            <Label>{t(locale, 'admin.form.startDate')}</Label>
                             <Input
                                 type="date"
                                 value={data.start_date}
@@ -79,7 +82,7 @@ export default function AdminActivitiesEdit({ activity }: Props) {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>End Date</Label>
+                            <Label>{t(locale, 'admin.form.endDate')}</Label>
                             <Input
                                 type="date"
                                 value={data.end_date}
@@ -89,7 +92,7 @@ export default function AdminActivitiesEdit({ activity }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Featured Image</Label>
+                        <Label>{t(locale, 'admin.form.featuredImage')}</Label>
                         <input
                             type="file"
                             accept="image/*"
@@ -99,19 +102,19 @@ export default function AdminActivitiesEdit({ activity }: Props) {
                         {activity.featured_image_url && (
                             <img
                                 src={activity.featured_image_url}
-                                alt="Current featured image"
+                                alt={t(locale, 'admin.form.currentFeaturedImage')}
                                 className="h-24 w-auto rounded-md object-cover"
                             />
                         )}
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Translations</Label>
+                        <Label>{t(locale, 'common.translations')}</Label>
                         <TranslationTabs
                             fields={[
-                                { name: 'title', label: 'Title', type: 'input', required: true },
-                                { name: 'description', label: 'Description', type: 'textarea' },
-                                { name: 'objectives', label: 'Objectives', type: 'textarea' },
+                                { name: 'title', label: t(locale, 'common.title'), type: 'input', required: true },
+                                { name: 'description', label: t(locale, 'common.descriptionLabel'), type: 'textarea' },
+                                { name: 'objectives', label: t(locale, 'common.objectives'), type: 'textarea' },
                             ]}
                             data={data.translations}
                             onChange={handleTranslationChange}
@@ -121,10 +124,10 @@ export default function AdminActivitiesEdit({ activity }: Props) {
 
                     <div className="flex gap-3">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving…' : 'Update Activity'}
+                            {processing ? t(locale, 'admin.content.saving') : `${t(locale, 'common.update')} ${t(locale, 'admin.nav.activities')}`}
                         </Button>
                         <Button type="button" variant="outline" onClick={() => history.back()}>
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                     </div>
                 </form>

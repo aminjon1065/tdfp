@@ -26,6 +26,7 @@ export interface SharedData {
     name: string;
     auth: Auth;
     sidebarOpen: boolean;
+    locale?: SupportedLocale;
     [key: string]: unknown;
 }
 

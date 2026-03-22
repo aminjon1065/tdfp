@@ -1,7 +1,9 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Head } from '@inertiajs/react';
+import { getTranslation, t } from '@/lib/i18n';
+import { type SharedData } from '@/types';
+import { Head, usePage } from '@inertiajs/react';
 import { Activity, AlertTriangle, CheckCircle2, FileText, MessageCircle, ShoppingBag } from 'lucide-react';
 import { StatusBadge } from '@/components/admin/status-badge';
 
@@ -54,21 +56,24 @@ export default function AdminDashboard({
     recent_news,
     recent_grm,
 }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Dashboard', href: '/admin' }]}>
-            <Head title="Admin Dashboard" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.dashboard.title'), href: '/admin' }]}>
+            <Head title={t(locale, 'admin.dashboard.pageTitle')} />
             <div className="space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h1 className="text-2xl font-bold">Dashboard</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.dashboard.title')}</h1>
                     <Badge variant={operational_audit.is_ready ? 'default' : 'outline'}>
-                        Operations audit: {operational_audit.completion_percentage}% complete
+                        {t(locale, 'admin.dashboard.operationsAudit')}: {operational_audit.completion_percentage}% {t(locale, 'admin.dashboard.complete')}
                     </Badge>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">Published News</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.publishedNews')}</CardTitle>
                             <FileText className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -77,7 +82,7 @@ export default function AdminDashboard({
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">Documents</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.documents')}</CardTitle>
                             <Activity className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -86,7 +91,7 @@ export default function AdminDashboard({
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">Open GRM Cases</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.openGrmCases')}</CardTitle>
                             <MessageCircle className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -95,7 +100,7 @@ export default function AdminDashboard({
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">Open Procurements</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.openProcurements')}</CardTitle>
                             <ShoppingBag className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -108,13 +113,13 @@ export default function AdminDashboard({
                     <Card>
                         <CardHeader className="flex flex-row items-start justify-between gap-4">
                             <div>
-                                <CardTitle>Operational Readiness</CardTitle>
+                                <CardTitle>{t(locale, 'admin.dashboard.operationalReadiness')}</CardTitle>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    Launch ownership, support, reporting, and backup governance baseline.
+                                    {t(locale, 'admin.dashboard.operationalReadinessDescription')}
                                 </p>
                             </div>
                             <Badge variant={operational_readiness.is_ready ? 'default' : 'outline'}>
-                                {operational_readiness.completion_percentage}% complete
+                                {operational_readiness.completion_percentage}% {t(locale, 'admin.dashboard.complete')}
                             </Badge>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -127,11 +132,11 @@ export default function AdminDashboard({
                                 <div>
                                     <p className="text-sm font-medium">
                                         {operational_readiness.is_ready
-                                            ? 'Operations baseline is configured.'
-                                            : `${operational_readiness.missing_count} readiness item(s) still need owner values.`}
+                                            ? t(locale, 'admin.dashboard.operationsReady')
+                                            : `${operational_readiness.missing_count} ${t(locale, 'admin.dashboard.operationsMissing')}`}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        This is a product-side governance check, not infrastructure evidence.
+                                        {t(locale, 'admin.dashboard.operationsEvidenceNote')}
                                     </p>
                                 </div>
                             </div>
@@ -142,11 +147,11 @@ export default function AdminDashboard({
                                         <div className="min-w-0">
                                             <p className="text-sm font-medium">{item.label}</p>
                                             <p className="truncate text-xs text-muted-foreground">
-                                                {item.value || 'Not configured'}
+                                                {item.value || t(locale, 'admin.dashboard.notConfigured')}
                                             </p>
                                         </div>
                                         <Badge variant={item.is_complete ? 'default' : 'outline'}>
-                                            {item.is_complete ? 'Ready' : 'Missing'}
+                                            {item.is_complete ? t(locale, 'admin.dashboard.ready') : t(locale, 'admin.dashboard.missing')}
                                         </Badge>
                                     </div>
                                 ))}
@@ -157,7 +162,7 @@ export default function AdminDashboard({
                     <div className="grid gap-6">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Automated Checks</CardTitle>
+                                <CardTitle>{t(locale, 'admin.dashboard.automatedChecks')}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 {automated_checks.items.map((item) => (
@@ -168,7 +173,7 @@ export default function AdminDashboard({
                                                 <p className="text-xs text-muted-foreground">{item.summary}</p>
                                             </div>
                                             <Badge variant={item.is_passing ? 'default' : 'outline'}>
-                                                {item.is_passing ? 'Pass' : 'Fail'}
+                                                {item.is_passing ? t(locale, 'admin.dashboard.pass') : t(locale, 'admin.dashboard.fail')}
                                             </Badge>
                                         </div>
                                     </div>
@@ -177,27 +182,27 @@ export default function AdminDashboard({
                         </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Recent News</CardTitle>
+                            <CardTitle>{t(locale, 'admin.dashboard.recentNews')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-3">
                                 {recent_news.map((item) => (
                                     <div key={item.id} className="flex items-center justify-between">
                                         <span className="text-sm truncate max-w-[200px]">
-                                            {item.translations?.find((t: any) => t.language === 'en')?.title ?? 'Untitled'}
+                                            {getTranslation(item, locale).title ?? t(locale, 'common.untitled')}
                                         </span>
                                         <StatusBadge status={item.status} />
                                     </div>
                                 ))}
                                 {recent_news.length === 0 && (
-                                    <p className="text-sm text-muted-foreground">No news yet.</p>
+                                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.dashboard.noNews')}</p>
                                 )}
                             </div>
                         </CardContent>
                     </Card>
                         <Card>
                             <CardHeader>
-                                <CardTitle>Recent GRM Cases</CardTitle>
+                                <CardTitle>{t(locale, 'admin.dashboard.recentGrmCases')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
@@ -213,7 +218,7 @@ export default function AdminDashboard({
                                         </div>
                                     ))}
                                     {recent_grm.length === 0 && (
-                                        <p className="text-sm text-muted-foreground">No cases yet.</p>
+                                        <p className="text-sm text-muted-foreground">{t(locale, 'admin.dashboard.noCases')}</p>
                                     )}
                                 </div>
                             </CardContent>

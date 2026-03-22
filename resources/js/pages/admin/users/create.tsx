@@ -2,13 +2,17 @@ import AdminLayout from '@/layouts/admin-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 interface Props {
     roles: { id: number; name: string }[];
 }
 
 export default function AdminUsersCreate({ roles }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         email: '',
@@ -26,16 +30,16 @@ export default function AdminUsersCreate({ roles }: Props) {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Users', href: '/admin/users' },
-                { title: 'Create', href: '/admin/users/create' },
+                { title: t(locale, 'admin.content.users'), href: '/admin/users' },
+                { title: t(locale, 'admin.form.create'), href: '/admin/users/create' },
             ]}
         >
-            <Head title="Create User" />
+            <Head title={`${t(locale, 'admin.form.create')} ${t(locale, 'admin.content.users')}`} />
             <div className="max-w-xl space-y-6">
-                <h1 className="text-2xl font-bold">Create User</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.addUser')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">{t(locale, 'common.name')}</Label>
                         <Input
                             id="name"
                             value={data.name}
@@ -46,7 +50,7 @@ export default function AdminUsersCreate({ roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">{t(locale, 'common.email')}</Label>
                         <Input
                             id="email"
                             type="email"
@@ -58,7 +62,7 @@ export default function AdminUsersCreate({ roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">{t(locale, 'admin.form.password')}</Label>
                         <Input
                             id="password"
                             type="password"
@@ -72,7 +76,7 @@ export default function AdminUsersCreate({ roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password_confirmation">Confirm Password</Label>
+                        <Label htmlFor="password_confirmation">{t(locale, 'admin.form.confirmPassword')}</Label>
                         <Input
                             id="password_confirmation"
                             type="password"
@@ -86,14 +90,14 @@ export default function AdminUsersCreate({ roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="role">Role</Label>
+                        <Label htmlFor="role">{t(locale, 'admin.form.role')}</Label>
                         <select
                             id="role"
                             value={data.role}
                             onChange={(e) => setData('role', e.target.value)}
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                         >
-                            <option value="">— No Role —</option>
+                            <option value="">— {t(locale, 'admin.form.noRole')} —</option>
                             {roles.map((r) => (
                                 <option key={r.id} value={r.name}>
                                     {r.name}
@@ -112,16 +116,16 @@ export default function AdminUsersCreate({ roles }: Props) {
                             className="h-4 w-4 rounded border-input"
                         />
                         <Label htmlFor="is_active" className="cursor-pointer">
-                            Active
+                            {t(locale, 'status.active')}
                         </Label>
                     </div>
 
                     <div className="flex gap-3 pt-2">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Creating…' : 'Create User'}
+                            {processing ? t(locale, 'admin.form.currentlyCreating') : t(locale, 'admin.content.addUser')}
                         </Button>
                         <Button type="button" variant="outline" onClick={() => history.back()}>
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                     </div>
                 </form>

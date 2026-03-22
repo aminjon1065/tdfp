@@ -4,7 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Head, useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { type SharedData } from '@/types';
+import { Head, useForm, usePage } from '@inertiajs/react';
 
 interface Setting {
     id: number;
@@ -20,6 +22,9 @@ interface Props {
 }
 
 export default function AdminSettingsIndex({ settings }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const initialValues = settings.reduce<Record<string, string>>((acc, s) => {
         acc[s.key] = s.value ?? '';
         return acc;
@@ -45,10 +50,10 @@ export default function AdminSettingsIndex({ settings }: Props) {
         key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Settings', href: '/admin/settings' }]}>
-            <Head title="Settings" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.settings'), href: '/admin/settings' }]}>
+            <Head title={t(locale, 'admin.content.settings')} />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">Settings</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.settings')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {Object.entries(groups).map(([group, items]) => (
                         <Card key={group}>
@@ -89,7 +94,7 @@ export default function AdminSettingsIndex({ settings }: Props) {
                                                         className="h-4 w-4 rounded border-input"
                                                     />
                                                     <span className="text-sm text-muted-foreground">
-                                                        Enabled
+                                                        {t(locale, 'common.enabled')}
                                                     </span>
                                                 </div>
                                             ) : (
@@ -118,11 +123,11 @@ export default function AdminSettingsIndex({ settings }: Props) {
                     ))}
 
                     {settings.length === 0 && (
-                        <p className="text-sm text-muted-foreground">No settings configured.</p>
+                        <p className="text-sm text-muted-foreground">{t(locale, 'admin.content.noSettings')}</p>
                     )}
 
                     <Button type="submit" disabled={processing}>
-                        {processing ? 'Saving…' : 'Save Settings'}
+                        {processing ? t(locale, 'admin.content.saving') : t(locale, 'admin.content.saveSettings')}
                     </Button>
                 </form>
             </div>

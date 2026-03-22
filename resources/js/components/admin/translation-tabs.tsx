@@ -2,7 +2,9 @@ import { lazy, Suspense, useState } from 'react';
 
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { SupportedLocale } from '@/types';
+import { t } from '@/lib/i18n';
+import { SupportedLocale, type SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
 
 const RichTextEditor = lazy(() =>
     import('@/components/admin/rich-text-editor').then((module) => ({
@@ -32,6 +34,8 @@ const LANGUAGES = [
 
 export function TranslationTabs({ fields, data, onChange, errors = {} }: TranslationTabsProps) {
     const [activeLanguage, setActiveLanguage] = useState<SupportedLocale>('en');
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
 
     return (
         <div className="space-y-2">
@@ -79,7 +83,7 @@ export function TranslationTabs({ fields, data, onChange, errors = {} }: Transla
                                 <Suspense
                                     fallback={
                                         <div className="min-h-[220px] rounded-md border border-input bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
-                                            Loading editor...
+                                            {t(locale, 'admin.form.loadingEditor')}
                                         </div>
                                     }
                                 >

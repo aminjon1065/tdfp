@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { t } from '@/lib/i18n';
 import { Search } from 'lucide-react';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { type SharedData } from '@/types';
 
 interface Column<T> {
     key: keyof T | string;
@@ -32,6 +34,8 @@ export function DataTable<T extends { id: number }>({
     onSearch,
 }: DataTableProps<T>) {
     const [search, setSearch] = useState('');
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,7 +49,7 @@ export function DataTable<T extends { id: number }>({
                     <Input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search..."
+                        placeholder={t(locale, 'common.searchPlaceholder')}
                         className="max-w-sm"
                     />
                     <Button type="submit" variant="outline" size="icon">
@@ -75,7 +79,7 @@ export function DataTable<T extends { id: number }>({
                                     colSpan={columns.length}
                                     className="px-4 py-8 text-center text-muted-foreground"
                                 >
-                                    No items found.
+                                    {t(locale, 'common.noItemsFound')}
                                 </td>
                             </tr>
                         ) : (
@@ -98,7 +102,7 @@ export function DataTable<T extends { id: number }>({
             {data.last_page > 1 && (
                 <div className="flex items-center justify-between">
                     <p className="text-sm text-muted-foreground">
-                        Page {data.current_page} of {data.last_page} ({data.total} total)
+                        {t(locale, 'admin.content.pageSummary')} {data.current_page} {t(locale, 'admin.content.of')} {data.last_page} ({data.total} {t(locale, 'admin.content.total')})
                     </p>
                     <div className="flex gap-1">
                         {data.links.map((link, i) => (

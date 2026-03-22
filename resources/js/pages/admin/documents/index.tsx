@@ -1,7 +1,9 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { DataTable } from '@/components/admin/data-table';
 import { Button } from '@/components/ui/button';
-import { Head, Link, router } from '@inertiajs/react';
+import { getTranslation, t } from '@/lib/i18n';
+import { type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
@@ -10,21 +12,24 @@ interface Props {
 }
 
 export default function AdminDocumentsIndex({ documents }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const columns = [
         {
             key: 'title',
-            header: 'Title',
+            header: t(locale, 'common.title'),
             render: (row: any) =>
-                row.translations?.find((t: any) => t.language === 'en')?.title ?? 'Untitled',
+                getTranslation(row, locale).title ?? t(locale, 'admin.content.untitled'),
         },
         {
             key: 'category',
-            header: 'Category',
+            header: t(locale, 'common.category'),
             render: (row: any) => row.category?.name ?? '—',
         },
         {
             key: 'file_type',
-            header: 'File Type',
+            header: t(locale, 'common.fileType'),
             render: (row: any) => (
                 <span className="uppercase text-xs font-medium text-muted-foreground">
                     {row.file_type ?? '—'}
@@ -33,12 +38,12 @@ export default function AdminDocumentsIndex({ documents }: Props) {
         },
         {
             key: 'download_count',
-            header: 'Downloads',
+            header: t(locale, 'common.downloads'),
             render: (row: any) => row.download_count ?? 0,
         },
         {
             key: 'actions',
-            header: 'Actions',
+            header: t(locale, 'common.actions'),
             render: (row: any) => (
                 <div className="flex gap-2">
                     <Button asChild variant="outline" size="sm">
@@ -50,7 +55,7 @@ export default function AdminDocumentsIndex({ documents }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm('Delete this document?')) {
+                            if (confirm(t(locale, 'admin.content.deleteDocument'))) {
                                 router.delete(`/admin/documents/${row.id}`);
                             }
                         }}
@@ -63,15 +68,15 @@ export default function AdminDocumentsIndex({ documents }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Documents', href: '/admin/documents' }]}>
-            <Head title="Documents" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.documents'), href: '/admin/documents' }]}>
+            <Head title={t(locale, 'admin.content.documents')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Documents</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.documents')}</h1>
                     <Button asChild>
                         <Link href="/admin/documents/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            Upload Document
+                            {t(locale, 'admin.content.uploadDocument')}
                         </Link>
                     </Button>
                 </div>

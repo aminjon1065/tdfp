@@ -2,7 +2,9 @@ import AdminLayout from '@/layouts/admin-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Head, Link, router } from '@inertiajs/react';
+import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
+import { type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Plus, Trash2, Image, Video } from 'lucide-react';
 
 interface MediaItem {
@@ -26,34 +28,36 @@ interface Props {
 }
 
 export default function AdminMediaIndex({ media }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const handleDelete = (id: number) => {
-        if (confirm('Delete this media item?')) {
+        if (confirm(t(locale, 'admin.content.deleteMedia'))) {
             router.delete(`/admin/media/${id}`);
         }
     };
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'Media', href: '/admin/media' }]}>
-            <Head title="Media" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.media'), href: '/admin/media' }]}>
+            <Head title={t(locale, 'admin.content.media')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Media</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.media')}</h1>
                     <Button asChild>
                         <Link href="/admin/media/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            Upload Media
+                            {t(locale, 'admin.content.uploadMedia')}
                         </Link>
                     </Button>
                 </div>
 
                 {media.data.length === 0 && (
-                    <p className="text-sm text-muted-foreground">No media items yet.</p>
+                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.content.noMedia')}</p>
                 )}
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {media.data.map((item) => {
-                        const title =
-                            item.translations?.find((t) => t.language === 'en')?.title ?? 'Untitled';
+                        const title = getTranslation(item, locale).title ?? t(locale, 'admin.content.untitled');
                         return (
                             <Card key={item.id} className="overflow-hidden">
                                 <div className="relative aspect-video bg-muted flex items-center justify-center">
@@ -66,7 +70,7 @@ export default function AdminMediaIndex({ media }: Props) {
                                     ) : item.type === 'video' && item.embed_url ? (
                                         <div className="flex flex-col items-center gap-2 text-muted-foreground">
                                             <Video className="h-8 w-8" />
-                                            <span className="text-xs">Video</span>
+                                            <span className="text-xs">{t(locale, 'admin.content.video')}</span>
                                         </div>
                                     ) : (
                                         <Image className="h-8 w-8 text-muted-foreground" />
@@ -82,7 +86,7 @@ export default function AdminMediaIndex({ media }: Props) {
                                         {title}
                                     </p>
                                     <p className="text-xs text-muted-foreground mt-0.5">
-                                        {new Date(item.created_at).toLocaleDateString()}
+                                        {formatLocalizedDate(item.created_at, locale)}
                                     </p>
                                     <Button
                                         variant="outline"
@@ -91,7 +95,7 @@ export default function AdminMediaIndex({ media }: Props) {
                                         onClick={() => handleDelete(item.id)}
                                     >
                                         <Trash2 className="mr-1.5 h-3.5 w-3.5 text-destructive" />
-                                        Delete
+                                        {t(locale, 'common.delete')}
                                     </Button>
                                 </CardContent>
                             </Card>
@@ -102,7 +106,7 @@ export default function AdminMediaIndex({ media }: Props) {
                 {media.last_page > 1 && (
                     <div className="flex items-center justify-between">
                         <p className="text-sm text-muted-foreground">
-                            Page {media.current_page} of {media.last_page} ({media.total} total)
+                            {t(locale, 'admin.content.pageSummary')} {media.current_page} {t(locale, 'admin.content.of')} {media.last_page} ({media.total} {t(locale, 'admin.content.total')})
                         </p>
                         <div className="flex gap-1">
                             {media.links.map((link, i) => (

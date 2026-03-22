@@ -3,9 +3,13 @@ import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 export default function AdminProcurementCreate() {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const { data, setData, post, processing, errors } = useForm<{
         reference_number: string;
         status: string;
@@ -39,17 +43,17 @@ export default function AdminProcurementCreate() {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Procurement', href: '/admin/procurement' },
-                { title: 'Create', href: '/admin/procurement/create' },
+                { title: t(locale, 'admin.content.procurement'), href: '/admin/procurement' },
+                { title: t(locale, 'admin.form.create'), href: '/admin/procurement/create' },
             ]}
         >
-            <Head title="Create Procurement" />
+            <Head title={`${t(locale, 'admin.form.create')} ${t(locale, 'admin.content.procurement')}`} />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">Create Procurement</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.addProcurement')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                            <Label htmlFor="reference_number">Reference Number</Label>
+                            <Label htmlFor="reference_number">{t(locale, 'admin.form.referenceNumber')}</Label>
                             <Input
                                 id="reference_number"
                                 value={data.reference_number}
@@ -61,23 +65,23 @@ export default function AdminProcurementCreate() {
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="status">Status</Label>
+                            <Label htmlFor="status">{t(locale, 'admin.form.status')}</Label>
                             <select
                                 id="status"
                                 value={data.status}
                                 onChange={(e) => setData('status', e.target.value)}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             >
-                                <option value="open">Open</option>
-                                <option value="closed">Closed</option>
-                                <option value="awarded">Awarded</option>
+                                <option value="open">{t(locale, 'status.open')}</option>
+                                <option value="closed">{t(locale, 'status.closed')}</option>
+                                <option value="awarded">{t(locale, 'status.awarded')}</option>
                             </select>
                         </div>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                            <Label htmlFor="publication_date">Publication Date</Label>
+                            <Label htmlFor="publication_date">{t(locale, 'admin.form.publicationDate')}</Label>
                             <Input
                                 id="publication_date"
                                 type="date"
@@ -89,7 +93,7 @@ export default function AdminProcurementCreate() {
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="deadline">Deadline</Label>
+                            <Label htmlFor="deadline">{t(locale, 'admin.content.deadline')}</Label>
                             <Input
                                 id="deadline"
                                 type="date"
@@ -103,11 +107,11 @@ export default function AdminProcurementCreate() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Translations</Label>
+                        <Label>{t(locale, 'common.translations')}</Label>
                         <TranslationTabs
                             fields={[
-                                { name: 'title', label: 'Title', type: 'input', required: true },
-                                { name: 'description', label: 'Description', type: 'textarea' },
+                                { name: 'title', label: t(locale, 'common.title'), type: 'input', required: true },
+                                { name: 'description', label: t(locale, 'common.descriptionLabel'), type: 'textarea' },
                             ]}
                             data={data.translations}
                             onChange={handleTranslationChange}
@@ -117,10 +121,10 @@ export default function AdminProcurementCreate() {
 
                     <div className="flex gap-3">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving…' : 'Create Procurement'}
+                            {processing ? t(locale, 'admin.content.saving') : t(locale, 'admin.content.addProcurement')}
                         </Button>
                         <Button type="button" variant="outline" onClick={() => history.back()}>
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                     </div>
                 </form>

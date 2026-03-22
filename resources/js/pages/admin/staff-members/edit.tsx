@@ -1,5 +1,7 @@
 import AdminLayout from '@/layouts/admin-layout';
-import { Head } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 import StaffMemberForm from './form';
 
@@ -10,6 +12,9 @@ export default function AdminStaffMembersEdit({
     staffMember: any;
     parentOptions: any[];
 }) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+
     const translations = Object.fromEntries(
         staffMember.translations.map((translation: any) => [
             translation.language,
@@ -25,16 +30,16 @@ export default function AdminStaffMembersEdit({
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Staff Directory', href: '/admin/staff-members' },
-                { title: 'Edit', href: `/admin/staff-members/${staffMember.id}/edit` },
+                { title: t(locale, 'admin.nav.staff'), href: '/admin/staff-members' },
+                { title: t(locale, 'admin.form.edit'), href: `/admin/staff-members/${staffMember.id}/edit` },
             ]}
         >
-            <Head title="Edit Staff Member" />
+            <Head title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.nav.staff')}`} />
             <div className="max-w-4xl space-y-6">
                 <div>
-                    <h1 className="text-2xl font-bold">Edit Staff Member</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.form.edit')} {t(locale, 'admin.nav.staff')}</h1>
                     <p className="text-sm text-muted-foreground">
-                        Update hierarchy, translations, and publication state.
+                        {t(locale, 'admin.form.staffEditHint')}
                     </p>
                 </div>
 
@@ -42,7 +47,7 @@ export default function AdminStaffMembersEdit({
                     action={`/admin/staff-members/${staffMember.id}`}
                     method="put"
                     parentOptions={parentOptions}
-                    submitLabel="Save changes"
+                    submitLabel={t(locale, 'common.save')}
                     staffMember={{
                         id: staffMember.id,
                         parent_id: staffMember.parent_id,

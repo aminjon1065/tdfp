@@ -1,4 +1,7 @@
 import { Badge } from '@/components/ui/badge';
+import { getStatusLabel } from '@/lib/i18n';
+import { usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 const statusConfig: Record<
     string,
@@ -20,6 +23,8 @@ const statusConfig: Record<
 };
 
 export function StatusBadge({ status }: { status: string }) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const config = statusConfig[status] ?? { label: status, variant: 'secondary' as const };
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    return <Badge variant={config.variant}>{getStatusLabel(status, locale) || config.label}</Badge>;
 }

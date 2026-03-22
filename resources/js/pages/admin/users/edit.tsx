@@ -2,7 +2,9 @@ import AdminLayout from '@/layouts/admin-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { type SharedData } from '@/types';
 
 interface Props {
     user: any;
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export default function AdminUsersEdit({ user, roles }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
     const { data, setData, post, processing, errors } = useForm({
         _method: 'PUT',
         name: user.name ?? '',
@@ -28,16 +32,16 @@ export default function AdminUsersEdit({ user, roles }: Props) {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: 'Users', href: '/admin/users' },
-                { title: 'Edit', href: `/admin/users/${user.id}/edit` },
+                { title: t(locale, 'admin.content.users'), href: '/admin/users' },
+                { title: t(locale, 'admin.form.edit'), href: `/admin/users/${user.id}/edit` },
             ]}
         >
-            <Head title="Edit User" />
+            <Head title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.content.users')}`} />
             <div className="max-w-xl space-y-6">
-                <h1 className="text-2xl font-bold">Edit User</h1>
+                <h1 className="text-2xl font-bold">{t(locale, 'admin.form.edit')} {t(locale, 'admin.content.users')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">{t(locale, 'common.name')}</Label>
                         <Input
                             id="name"
                             value={data.name}
@@ -47,7 +51,7 @@ export default function AdminUsersEdit({ user, roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">{t(locale, 'common.email')}</Label>
                         <Input
                             id="email"
                             type="email"
@@ -59,8 +63,8 @@ export default function AdminUsersEdit({ user, roles }: Props) {
 
                     <div className="space-y-2">
                         <Label htmlFor="password">
-                            New Password{' '}
-                            <span className="text-xs text-muted-foreground">(leave blank to keep current)</span>
+                            {t(locale, 'admin.form.newPassword')}{' '}
+                            <span className="text-xs text-muted-foreground">({t(locale, 'admin.form.leaveBlankPassword')})</span>
                         </Label>
                         <Input
                             id="password"
@@ -75,7 +79,7 @@ export default function AdminUsersEdit({ user, roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password_confirmation">Confirm New Password</Label>
+                        <Label htmlFor="password_confirmation">{t(locale, 'admin.form.confirmNewPassword')}</Label>
                         <Input
                             id="password_confirmation"
                             type="password"
@@ -86,14 +90,14 @@ export default function AdminUsersEdit({ user, roles }: Props) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="role">Role</Label>
+                        <Label htmlFor="role">{t(locale, 'admin.form.role')}</Label>
                         <select
                             id="role"
                             value={data.role}
                             onChange={(e) => setData('role', e.target.value)}
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                         >
-                            <option value="">— No Role —</option>
+                            <option value="">— {t(locale, 'admin.form.noRole')} —</option>
                             {roles.map((r) => (
                                 <option key={r.id} value={r.name}>
                                     {r.name}
@@ -111,16 +115,16 @@ export default function AdminUsersEdit({ user, roles }: Props) {
                             className="h-4 w-4 rounded border-input"
                         />
                         <Label htmlFor="is_active" className="cursor-pointer">
-                            Active
+                            {t(locale, 'status.active')}
                         </Label>
                     </div>
 
                     <div className="flex gap-3 pt-2">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving…' : 'Update User'}
+                            {processing ? t(locale, 'admin.content.saving') : `${t(locale, 'common.update')} ${t(locale, 'admin.content.users')}`}
                         </Button>
                         <Button type="button" variant="outline" onClick={() => history.back()}>
-                            Cancel
+                            {t(locale, 'common.cancel')}
                         </Button>
                     </div>
                 </form>

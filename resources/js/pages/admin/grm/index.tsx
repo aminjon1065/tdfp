@@ -2,57 +2,60 @@ import AdminLayout from '@/layouts/admin-layout';
 import { DataTable } from '@/components/admin/data-table';
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
-import { Head, Link, router } from '@inertiajs/react';
+import { formatLocalizedDate, t } from '@/lib/i18n';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Eye } from 'lucide-react';
-import { GrmCase, Paginator } from '@/types';
+import { GrmCase, Paginator, type SharedData } from '@/types';
 
 interface Props {
     cases: Paginator<GrmCase>;
     filters: { status?: string };
 }
 
-const STATUS_OPTIONS = [
-    { value: '', label: 'All Statuses' },
-    { value: 'submitted', label: 'Submitted' },
-    { value: 'under_review', label: 'Under Review' },
-    { value: 'investigation', label: 'Investigation' },
-    { value: 'resolved', label: 'Resolved' },
-    { value: 'closed', label: 'Closed' },
-];
-
 export default function AdminGrmIndex({ cases, filters }: Props) {
+    const { props } = usePage<SharedData>();
+    const locale = props.locale ?? 'en';
+    const statusOptions = [
+        { value: '', label: t(locale, 'admin.content.allStatuses') },
+        { value: 'submitted', label: t(locale, 'status.submitted') },
+        { value: 'under_review', label: t(locale, 'status.under_review') },
+        { value: 'investigation', label: t(locale, 'status.investigation') },
+        { value: 'resolved', label: t(locale, 'status.resolved') },
+        { value: 'closed', label: t(locale, 'status.closed') },
+    ];
+
     const columns = [
         {
             key: 'ticket_number',
-            header: 'Ticket',
+            header: t(locale, 'admin.content.ticket'),
             render: (row: GrmCase) => (
                 <span className="font-mono text-xs font-medium">{row.ticket_number}</span>
             ),
         },
         {
             key: 'complainant_name',
-            header: 'Complainant',
+            header: t(locale, 'admin.content.complainant'),
             render: (row: any) => row.complainant_name ?? '—',
         },
         {
             key: 'category',
-            header: 'Category',
+            header: t(locale, 'common.category'),
             render: (row: any) => row.category ?? '—',
         },
         {
             key: 'status',
-            header: 'Status',
+            header: t(locale, 'common.status'),
             render: (row: any) => <StatusBadge status={row.status} />,
         },
         {
             key: 'created_at',
-            header: 'Submitted',
+            header: t(locale, 'admin.content.submitted'),
             render: (row: GrmCase) =>
-                row.created_at ? new Date(row.created_at).toLocaleDateString() : '—',
+                row.created_at ? formatLocalizedDate(row.created_at, locale) : '—',
         },
         {
             key: 'actions',
-            header: 'Actions',
+            header: t(locale, 'common.actions'),
             render: (row: GrmCase) => (
                 <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/grm/${row.id}`}>
@@ -64,17 +67,17 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: 'GRM Cases', href: '/admin/grm' }]}>
-            <Head title="GRM Cases" />
+        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.grm'), href: '/admin/grm' }]}>
+            <Head title={t(locale, 'admin.content.grm')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">GRM Cases</h1>
+                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.grm')}</h1>
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">Filter by status:</span>
+                    <span className="text-sm text-muted-foreground">{t(locale, 'admin.content.filterByStatus')}</span>
                     <div className="flex gap-1 flex-wrap">
-                        {STATUS_OPTIONS.map((opt) => (
+                        {statusOptions.map((opt) => (
                             <Button
                                 key={opt.value}
                                 variant={filters.status === opt.value || (!filters.status && opt.value === '') ? 'default' : 'outline'}

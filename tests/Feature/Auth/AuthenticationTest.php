@@ -10,6 +10,10 @@ test('login screen can be rendered', function () {
     $response->assertOk();
 });
 
+test('legacy public login path is not available', function () {
+    $this->get('/login')->assertNotFound();
+});
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
@@ -19,7 +23,7 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(route('admin.dashboard', absolute: false));
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {
