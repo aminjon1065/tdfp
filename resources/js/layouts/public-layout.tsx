@@ -6,7 +6,6 @@ import {
     MapPin,
     Menu,
     Phone,
-    Search,
     X,
 } from 'lucide-react';
 import { type PropsWithChildren, useEffect, useState } from 'react';
@@ -14,7 +13,6 @@ import { type PropsWithChildren, useEffect, useState } from 'react';
 import { BVIButton } from '@/components/bvi/bvi-button';
 import NishonLogo from '@/components/nishon-logo';
 import Seo from '@/components/seo';
-import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetContent,
@@ -99,12 +97,14 @@ export default function PublicLayout({
 }: PublicLayoutProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const page = usePage<LayoutPageProps>().props;
+    const inertiaPage = usePage<LayoutPageProps>();
+    const page = inertiaPage.props;
     const currentLocale = page.locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
     const defaultLocale = page.localization?.default_locale ?? 'en';
     const siteSettings = page.siteSettings ?? {};
-    const currentPath = currentUrl ? new URL(currentUrl).pathname : '/';
+    const pageUrl = inertiaPage.url || '/';
+    const currentPath = new URL(pageUrl, 'https://tdfp.test').pathname;
     const siteTitle = siteSettings.site_title ?? 'PIC TDFP';
     const siteDescription = description ?? siteSettings.site_description;
     const localeAlternates = currentUrl
@@ -170,7 +170,7 @@ export default function PublicLayout({
 
     useEffect(() => {
         setMobileOpen(false);
-    }, [currentUrl]);
+    }, [pageUrl]);
 
     useEffect(() => {
         const handleScroll = (): void => {
@@ -423,16 +423,11 @@ export default function PublicLayout({
                                     </SheetDescription>
                                 </SheetHeader>
 
-                                <div className="space-y-5 px-6 py-5">
+                                <div className="space-y-4 px-5 py-5">
                                     <nav aria-label="Mobile">
-                                        <ul className="space-y-2">
+                                        <ul className="space-y-1.5">
                                             {navLinks.map((link) => {
-                                                const active =
-                                                    currentUrl === link.href ||
-                                                    (link.href !== '/' &&
-                                                        currentUrl.startsWith(
-                                                            link.href,
-                                                        ));
+                                                const active = isActivePath(link.href);
 
                                                 return (
                                                     <li key={link.href}>
@@ -445,7 +440,12 @@ export default function PublicLayout({
                                                                     ? 'page'
                                                                     : undefined
                                                             }
-                                                            className="flex items-center justify-between rounded-2xl border border-[#d4ddd4] bg-white px-4 py-3 text-sm font-medium text-[var(--gov-navy)]"
+                                                            className={cn(
+                                                                'flex items-center justify-between rounded-2xl border bg-white px-4 py-3 text-sm font-medium transition-colors',
+                                                                active
+                                                                    ? 'border-[var(--gov-blue)]/25 bg-[var(--gov-blue)]/6 text-[var(--gov-navy-strong)]'
+                                                                    : 'border-[#d4ddd4] text-[var(--gov-navy)]',
+                                                            )}
                                                             onClick={() =>
                                                                 setMobileOpen(
                                                                     false,
@@ -494,37 +494,6 @@ export default function PublicLayout({
                                             label="Версия для слабовидящих"
                                             className="w-full rounded-lg border-slate-300"
                                         />
-                                        <Button
-                                            asChild
-                                            variant="outline"
-                                            className="flex-1 rounded-full border-slate-300"
-                                        >
-                                            <Link
-                                                href={publicHref('/search')}
-                                                onClick={() =>
-                                                    setMobileOpen(false)
-                                                }
-                                            >
-                                                <Search
-                                                    className="mr-2 h-4 w-4"
-                                                    aria-hidden="true"
-                                                />
-                                                Search
-                                            </Link>
-                                        </Button>
-                                        <Button
-                                            asChild
-                                            className="flex-1 rounded-full bg-[var(--gov-gold)] text-white hover:bg-[#e1a83d]"
-                                        >
-                                            <Link
-                                                href={publicHref('/grm/submit')}
-                                                onClick={() =>
-                                                    setMobileOpen(false)
-                                                }
-                                            >
-                                                Submit
-                                            </Link>
-                                        </Button>
                                     </div>
                                 </div>
                             </SheetContent>
