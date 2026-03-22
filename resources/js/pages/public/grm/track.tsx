@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { CheckCircle } from 'lucide-react';
+import { t } from '@/lib/i18n';
 
 interface Props {
     trackingRequirements: {
@@ -22,10 +23,21 @@ interface Props {
 }
 
 export default function GrmTrack({ case: grmCase, notFound, trackingExpired, trackingRequirements }: Props) {
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
     const { data, setData, processing, errors } = useForm({
         ticket_number: '',
         tracking_token: '',
     });
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: t(locale, 'grm.track'),
+        description: t(locale, 'grm.description'),
+        inLanguage: locale,
+        url: currentUrl || undefined,
+    };
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,7 +45,13 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
     };
 
     return (
-        <PublicLayout title="Track Complaint">
+        <PublicLayout
+            title={t(locale, 'grm.track')}
+            description={t(locale, 'grm.description')}
+            structuredData={structuredData}
+            seoType="website"
+            noIndex
+        >
             <div className="container mx-auto px-4 py-12 max-w-2xl">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">Track Your Complaint</h1>
                 <p className="mb-8 text-gray-600">Enter your ticket number and tracking token to check the current status of your complaint.</p>

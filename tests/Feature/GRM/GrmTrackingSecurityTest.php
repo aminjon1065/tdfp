@@ -87,6 +87,19 @@ test('public grm pages expose submission and tracking constraints for the fronte
         );
 });
 
+test('grm submission confirmation page requires ticket and token context', function () {
+    $this->get(route('grm.submitted', ['ticket' => 'GRM-2026-00004', 'token' => 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/grm/submitted')
+            ->where('ticket', 'GRM-2026-00004')
+            ->where('trackingToken', 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC')
+        );
+
+    $this->get(route('grm.submitted', ['ticket' => 'GRM-2026-00004']))
+        ->assertNotFound();
+});
+
 test('grm status assignment rejects non officer assignees', function () {
     $officer = User::factory()->create([
         'email_verified_at' => now(),

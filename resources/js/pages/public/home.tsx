@@ -89,13 +89,41 @@ export default function Home({
     openProcurements,
     settings,
 }: Props) {
-    const locale = usePage<{ locale?: string }>().props.locale ?? 'en';
+    const page = usePage<{ locale?: string; ziggy?: { location?: string } }>().props;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
     const isRecent = (publishedAt?: string | null) =>
         publishedAt
         && ((Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60 * 24)) <= newsRecentWindowDays;
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: t(locale, 'home.title'),
+            description: t(locale, 'home.description'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: t(locale, 'home.latestNews'),
+            itemListElement: latestNews.map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: getTranslation(item, locale).title ?? `News ${item.id}`,
+                url: currentUrl ? new URL(`/news/${item.slug}`, currentUrl).toString() : undefined,
+            })),
+        },
+    ];
 
     return (
-        <PublicLayout title={t(locale, 'common.home')}>
+        <PublicLayout
+            title={t(locale, 'home.title')}
+            description={t(locale, 'home.description')}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <Head title={`${t(locale, 'common.home')} | PIC TDFP`} />
 
             <section className="border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)]">

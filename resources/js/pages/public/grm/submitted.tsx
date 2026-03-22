@@ -1,11 +1,30 @@
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
 import { CheckCircle } from 'lucide-react';
 
 export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string; trackingToken: string }) {
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'GRM Submission Confirmation',
+        description: t(locale, 'grm.description'),
+        inLanguage: locale,
+        url: currentUrl || undefined,
+    };
+
     return (
-        <PublicLayout title="Complaint Submitted">
+        <PublicLayout
+            title="Complaint Submitted"
+            description={t(locale, 'grm.description')}
+            structuredData={structuredData}
+            seoType="website"
+            noIndex
+        >
             <div className="container mx-auto max-w-lg px-4 py-20 text-center">
                 <CheckCircle className="mx-auto mb-4 h-16 w-16 text-green-500" aria-hidden="true" />
                 <h1 className="mb-2 text-2xl font-bold text-gray-900">Complaint Submitted</h1>

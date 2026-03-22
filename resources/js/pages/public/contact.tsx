@@ -4,10 +4,25 @@ import { usePage } from '@inertiajs/react';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
 export default function Contact({ settings }: { settings: Record<string, string> }) {
-    const locale = (usePage().props as any).locale ?? 'en';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: t(locale, 'contact.title'),
+        description: t(locale, 'contact.description'),
+        inLanguage: locale,
+        url: currentUrl || undefined,
+    };
 
     return (
-        <PublicLayout title={t(locale, 'contact.title')}>
+        <PublicLayout
+            title={t(locale, 'contact.title')}
+            description={t(locale, 'contact.description')}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <div className="container mx-auto px-4 py-12 max-w-4xl">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'contact.heading')}</h1>
                 <p className="mb-10 text-gray-600">{t(locale, 'contact.description')}</p>

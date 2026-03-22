@@ -10,16 +10,44 @@ import { Search } from 'lucide-react';
 import { useState } from 'react';
 
 export default function NewsIndex({ news, categories, filters }: { news: any; categories: any[]; filters: any }) {
-    const locale = (usePage().props as any).locale ?? 'en';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
     const [search, setSearch] = useState(filters.search ?? '');
-    const featuredAnnouncements = (usePage().props as any).featuredAnnouncements ?? [];
-    const recentWindowDays = (usePage().props as any).recentWindowDays ?? 14;
+    const featuredAnnouncements = page.featuredAnnouncements ?? [];
+    const recentWindowDays = page.recentWindowDays ?? 14;
     const isRecent = (publishedAt?: string | null) =>
         publishedAt
         && ((Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60 * 24)) <= recentWindowDays;
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: t(locale, 'news.title'),
+            description: t(locale, 'news.indexDescription'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: t(locale, 'news.title'),
+            itemListElement: news.data.map((item: any, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: getTranslation(item, locale).title ?? `News ${item.id}`,
+                url: currentUrl ? new URL(`/news/${item.slug}`, currentUrl).toString() : undefined,
+            })),
+        },
+    ];
 
     return (
-        <PublicLayout title={t(locale, 'news.title')}>
+        <PublicLayout
+            title={t(locale, 'news.title')}
+            description={t(locale, 'news.indexDescription')}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <div className="container mx-auto px-4 py-12">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'news.indexTitle')}</h1>
                 <p className="mb-8 text-gray-500">{t(locale, 'news.indexDescription')}</p>

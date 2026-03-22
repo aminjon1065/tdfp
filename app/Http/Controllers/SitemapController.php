@@ -32,6 +32,7 @@ class SitemapController extends Controller
             ->merge($this->pageUrls())
             ->merge($this->activityUrls())
             ->merge($this->newsUrls())
+            ->merge($this->documentUrls())
             ->merge($this->procurementUrls())
             ->filter();
 
@@ -75,6 +76,15 @@ class SitemapController extends Controller
             ->whereIn('status', ['open', 'closed', 'awarded', 'archived'])
             ->get(['reference_number', 'updated_at'])
             ->map(fn (Procurement $procurement) => $this->makeUrl(route('procurement.show', ['ref' => $procurement->reference_number]), $procurement->updated_at));
+    }
+
+    private function documentUrls(): Collection
+    {
+        return Document::query()
+            ->whereNotNull('published_at')
+            ->whereNotNull('file_path')
+            ->get(['id', 'updated_at'])
+            ->map(fn (Document $document) => $this->makeUrl(route('documents.download', ['document' => $document]), $document->updated_at));
     }
 
     private function makeUrl(string $location, $lastModified): array

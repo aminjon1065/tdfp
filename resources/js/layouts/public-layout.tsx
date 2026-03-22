@@ -47,6 +47,7 @@ interface PublicLayoutProps extends PropsWithChildren {
     imageUrl?: string;
     structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
     seoType?: string;
+    noIndex?: boolean;
 }
 
 interface LayoutPageProps extends PageProps {
@@ -81,6 +82,7 @@ export default function PublicLayout({
     imageUrl,
     structuredData,
     seoType,
+    noIndex,
 }: PublicLayoutProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const page = usePage<LayoutPageProps>().props;
@@ -146,6 +148,7 @@ export default function PublicLayout({
                 imageUrl={imageUrl}
                 type={seoType}
                 locale={currentLocale}
+                noIndex={noIndex}
                 structuredData={[
                     organizationSchema,
                     websiteSchema,

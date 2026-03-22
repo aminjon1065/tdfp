@@ -2,7 +2,8 @@ import PublicLayout from '@/layouts/public-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
+import { t } from '@/lib/i18n';
 
 interface Props {
     attachmentConstraints: {
@@ -14,6 +15,9 @@ interface Props {
 }
 
 export default function GrmSubmit({ attachmentConstraints }: Props) {
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
     const { data, setData, post, processing, errors } = useForm({
         complainant_name: '',
         email: '',
@@ -22,6 +26,14 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
         description: '',
         attachments: [] as File[],
     });
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: t(locale, 'grm.submit'),
+        description: t(locale, 'grm.description'),
+        inLanguage: locale,
+        url: currentUrl || undefined,
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,7 +41,12 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
     };
 
     return (
-        <PublicLayout title="Submit Complaint">
+        <PublicLayout
+            title={t(locale, 'grm.submit')}
+            description={t(locale, 'grm.description')}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <div className="container mx-auto px-4 py-12 max-w-2xl">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">Submit a Complaint</h1>
                 <p className="mb-8 text-gray-600">Please fill in the form below. All submissions are treated confidentially.</p>
@@ -142,7 +159,7 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                         <strong>Privacy notice:</strong> Your information will be handled confidentially and used only for processing this complaint.
                     </div>
 
-                    <Button type="submit" disabled={processing} className="w-full bg-orange-600 hover:bg-orange-700" size="lg">
+                    <Button type="submit" disabled={processing} className="w-full bg-orange-700 text-white hover:bg-orange-800" size="lg">
                         {processing ? 'Submitting…' : 'Submit Complaint'}
                     </Button>
                 </form>

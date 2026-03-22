@@ -302,13 +302,50 @@ test('public search includes document and media entity filters for indexed publi
         'url' => '/media#media-item-505',
     ]);
 
-    $this->get('/search?q=launch&lang=en')
+    $this->get('/search?q=public&lang=en')
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/search')
             ->where('entityTypes', fn (Collection $items) => $items->pluck('value')->contains(\App\Models\Document::class)
-                && $items->pluck('value')->contains(\App\Models\MediaItem::class))
-            ->where('results.data', fn (Collection $items) => $items->pluck('entity_type')->contains(\App\Models\MediaItem::class))
+                && $items->firstWhere('value', \App\Models\Document::class)['count'] === 1)
+            ->where('results.data', fn (Collection $items) => $items->pluck('entity_type')->contains(\App\Models\Document::class))
+        );
+});
+
+test('public search keeps query string filters in paginator links', function () {
+    foreach (range(1, 16) as $index) {
+        SearchIndex::create([
+            'entity_type' => \App\Models\News::class,
+            'entity_id' => 600 + $index,
+            'title' => "Portal Update {$index}",
+            'content' => 'Project portal update content for pagination coverage.',
+            'language' => 'en',
+            'url' => "/news/portal-update-{$index}",
+        ]);
+    }
+
+    SearchIndex::create([
+        'entity_type' => \App\Models\Page::class,
+        'entity_id' => 800,
+        'title' => 'Portal Overview',
+        'content' => 'A general portal overview page.',
+        'language' => 'en',
+        'url' => '/project',
+    ]);
+
+    $this->get('/search?q=portal&lang=en&entity_type='.urlencode(\App\Models\News::class))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/search')
+            ->where('results.current_page', 1)
+            ->where('results.last_page', 2)
+            ->where('results.next_page_url', fn (?string $url) => $url !== null
+                && str_contains($url, 'q=portal')
+                && str_contains($url, 'lang=en')
+                && str_contains($url, urlencode(\App\Models\News::class)))
+            ->where('entityTypes', fn (Collection $items) => $items->count() === 2
+                && $items->firstWhere('value', \App\Models\News::class)['count'] === 16
+                && $items->firstWhere('value', \App\Models\Page::class)['count'] === 1)
         );
 });
 

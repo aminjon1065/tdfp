@@ -64,6 +64,25 @@ test('sitemap includes key public records and returns xml', function () {
         'title' => 'Awarded procurement',
     ]);
 
+    $category = DocumentCategory::create([
+        'name' => 'Policies',
+        'slug' => 'policies',
+    ]);
+
+    $document = Document::create([
+        'category_id' => $category->id,
+        'file_path' => 'documents/compliance-handbook.pdf',
+        'file_type' => 'pdf',
+        'published_at' => now(),
+    ]);
+
+    DocumentTranslation::create([
+        'document_id' => $document->id,
+        'language' => 'en',
+        'title' => 'Compliance Handbook',
+        'description' => 'Published compliance handbook.',
+    ]);
+
     $response = $this->get(route('sitemap'));
 
     $response->assertOk();
@@ -72,6 +91,7 @@ test('sitemap includes key public records and returns xml', function () {
     $response->assertSee(route('pages.show', ['slug' => 'compliance']), false);
     $response->assertSee(route('activities.show', ['slug' => 'digital-rollout']), false);
     $response->assertSee(route('news.show', ['slug' => 'launch-update']), false);
+    $response->assertSee(route('documents.download', ['document' => $document]), false);
     $response->assertSee(route('procurement.show', ['ref' => 'RFQ-2026-SEO']), false);
 });
 
@@ -103,6 +123,38 @@ test('public pages receive shared site settings for seo and analytics', function
             ->where('siteSettings.analytics_enabled', true)
             ->where('siteSettings.analytics_provider', 'ga4')
             ->where('siteSettings.google_analytics_id', 'G-TEST1234')
+        );
+});
+
+test('seo-sensitive public landing routes remain accessible', function () {
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/home')
+        );
+
+    $this->get(route('contact'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/contact')
+        );
+
+    $this->get(route('subscriptions.show'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/subscriptions/show')
+        );
+
+    $this->get(route('media.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/media/index')
+        );
+
+    $this->get(route('grm.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $inertia) => $inertia
+            ->component('public/grm/index')
         );
 });
 

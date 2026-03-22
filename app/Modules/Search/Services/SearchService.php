@@ -9,7 +9,9 @@ use App\Models\News;
 use App\Models\Page;
 use App\Models\Procurement;
 use App\Models\SearchIndex;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -18,25 +20,28 @@ class SearchService
     public function search(string $query, string $language = 'en', array $filters = []): LengthAwarePaginator
     {
         $searchTerm = trim($query);
-
-        $q = SearchIndex::query()
-            ->where('language', $language)
-            ->where(function ($builder) use ($searchTerm) {
-                $builder->where('title', 'like', '%'.$searchTerm.'%')
-                    ->orWhere('content', 'like', '%'.$searchTerm.'%');
-            });
-
-        if (! empty($filters['entity_type'])) {
-            $q->where('entity_type', $filters['entity_type']);
-        }
+        $q = $this->buildSearchQuery($searchTerm, $language, $filters);
 
         return $q
             ->orderByRaw(
-                'CASE WHEN title LIKE ? THEN 0 WHEN title LIKE ? THEN 1 ELSE 2 END',
-                [$searchTerm, '%'.$searchTerm.'%']
+                'CASE
+                    WHEN LOWER(title) = LOWER(?) THEN 0
+                    WHEN LOWER(title) LIKE LOWER(?) THEN 1
+                    WHEN LOWER(title) LIKE LOWER(?) THEN 2
+                    WHEN LOWER(content) LIKE LOWER(?) THEN 3
+                    ELSE 4
+                END',
+                [
+                    $searchTerm,
+                    $searchTerm.'%',
+                    '%'.$searchTerm.'%',
+                    '%'.$searchTerm.'%',
+                ]
             )
+            ->orderByRaw('LENGTH(title) asc')
             ->latest('updated_at')
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
     }
 
     public function index(string $entityType, int $entityId, string $title, ?string $content, string $language, string $url): void
@@ -53,10 +58,14 @@ class SearchService
     }
 
     /**
-     * @return array<int, array{value: string, label_key: string}>
+     * @return array<int, array{value: string, label_key: string, count: int}>
      */
-    public function availableEntityTypes(string $language = 'en'): array
+    public function availableEntityTypes(string $language = 'en', ?string $query = null): array
     {
+        $counts = $query !== null && trim($query) !== ''
+            ? $this->facetCounts(trim($query), $language)
+            : [];
+
         return SearchIndex::query()
             ->where('language', $language)
             ->select('entity_type')
@@ -67,8 +76,23 @@ class SearchService
             ->map(fn (string $entityType) => [
                 'value' => $entityType,
                 'label_key' => $this->entityTypeLabelKey($entityType),
+                'count' => $counts[$entityType] ?? 0,
             ])
+            ->filter(fn (array $entityType) => $query === null || trim($query) === '' || $entityType['count'] > 0)
             ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    public function facetCounts(string $query, string $language = 'en'): array
+    {
+        return $this->buildSearchQuery($query, $language)
+            ->select('entity_type', new Expression('COUNT(*) as aggregate'))
+            ->groupBy('entity_type')
+            ->pluck('aggregate', 'entity_type')
+            ->map(fn (mixed $count) => (int) $count)
             ->all();
     }
 
@@ -150,6 +174,20 @@ class SearchService
         $query->chunkById(100, function (Collection $models): void {
             $models->each(fn (Model $model) => $this->syncModel($model));
         });
+    }
+
+    private function buildSearchQuery(string $searchTerm, string $language, array $filters = []): Builder
+    {
+        return SearchIndex::query()
+            ->where('language', $language)
+            ->when(
+                ! empty($filters['entity_type']),
+                fn ($query) => $query->where('entity_type', $filters['entity_type'])
+            )
+            ->where(function ($builder) use ($searchTerm) {
+                $builder->where('title', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('content', 'like', '%'.$searchTerm.'%');
+            });
     }
 
     private function supportsModel(Model $model): bool

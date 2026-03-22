@@ -3,21 +3,50 @@ import PublicImage from '@/components/public-image';
 import { Button } from '@/components/ui/button';
 import { router, usePage } from '@inertiajs/react';
 import { Play } from 'lucide-react';
-import { getTranslation } from '@/lib/i18n';
+import { getTranslation, t } from '@/lib/i18n';
 
 export default function MediaIndex({ items, filters }: { items: any; filters: any }) {
-    const locale = (usePage().props as any).locale ?? 'en';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const structuredData = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: t(locale, 'media.title'),
+            description: t(locale, 'media.description'),
+            inLanguage: locale,
+            url: currentUrl || undefined,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: t(locale, 'media.title'),
+            itemListElement: items.data.map((item: any, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: getTranslation(item, locale).title ?? `Media ${item.id}`,
+                url: currentUrl ? `${new URL('/media', currentUrl).toString()}#media-item-${item.id}` : undefined,
+            })),
+        },
+    ];
+
     return (
-        <PublicLayout title="Media">
+        <PublicLayout
+            title={t(locale, 'media.title')}
+            description={t(locale, 'media.description')}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <div className="container mx-auto px-4 py-12">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">Media Gallery</h1>
-                <p className="mb-8 text-gray-500">Photos and videos from project activities</p>
+                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'media.title')}</h1>
+                <p className="mb-8 text-gray-500">{t(locale, 'media.description')}</p>
 
                 <div className="mb-6 flex gap-2">
                     {['', 'image', 'video'].map((type) => (
                         <Button key={type} variant={filters.type === type || (!type && !filters.type) ? 'default' : 'outline'} size="sm"
                             onClick={() => router.get('/media', type ? { type } : {})}>
-                            {type ? type.charAt(0).toUpperCase() + type.slice(1) : 'All'}
+                            {type ? type.charAt(0).toUpperCase() + type.slice(1) : t(locale, 'common.all')}
                         </Button>
                     ))}
                 </div>
@@ -54,7 +83,7 @@ export default function MediaIndex({ items, filters }: { items: any; filters: an
                 </ul>
 
                 {items.data.length === 0 && (
-                    <p className="py-12 text-center text-gray-500">No media items found.</p>
+                    <p className="py-12 text-center text-gray-500">{t(locale, 'media.empty')}</p>
                 )}
             </div>
         </PublicLayout>

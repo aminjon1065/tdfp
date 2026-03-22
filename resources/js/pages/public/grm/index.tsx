@@ -1,11 +1,29 @@
 import PublicLayout from '@/layouts/public-layout';
+import { t } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { MessageCircle, Search, Shield } from 'lucide-react';
 
 export default function GrmIndex() {
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: t(locale, 'grm.title'),
+        description: t(locale, 'grm.description'),
+        inLanguage: locale,
+        url: currentUrl || undefined,
+    };
+
     return (
-        <PublicLayout title="GRM">
+        <PublicLayout
+            title={t(locale, 'grm.title')}
+            description={t(locale, 'grm.description')}
+            structuredData={structuredData}
+            seoType="website"
+        >
             <div className="container mx-auto px-4 py-12 max-w-4xl">
                 <h1 className="mb-2 text-3xl font-bold text-gray-900">Grievance Redress Mechanism</h1>
                 <p className="mb-8 text-gray-600">

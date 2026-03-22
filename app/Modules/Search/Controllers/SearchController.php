@@ -18,23 +18,24 @@ class SearchController extends Controller
     {
         $language = $request->string('lang')->value() ?: app()->getLocale();
         $results = null;
+        $query = $request->string('q')->trim()->value();
 
-        if ($request->filled('q')) {
+        if ($query !== '') {
             $results = $this->service->search(
-                $request->string('q')->trim()->value(),
+                $query,
                 $language,
                 $request->only('entity_type')
-            )->through(fn (SearchIndex $searchIndex) => $this->serializeResult($searchIndex, $request->string('q')->value()));
+            )->through(fn (SearchIndex $searchIndex) => $this->serializeResult($searchIndex, $query));
         }
 
         return Inertia::render('public/search', [
             'results' => $results,
-            'query' => $request->string('q')->value(),
+            'query' => $query,
             'filters' => [
                 ...$request->only('entity_type'),
                 'lang' => $language,
             ],
-            'entityTypes' => $this->service->availableEntityTypes($language),
+            'entityTypes' => $this->service->availableEntityTypes($language, $query !== '' ? $query : null),
         ]);
     }
 

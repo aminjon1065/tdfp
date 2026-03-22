@@ -50,7 +50,9 @@ export default function SubscriptionPage({
         action_url: string;
     } | null;
 }) {
-    const locale = (usePage().props as any).locale ?? 'en';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         locale,
@@ -58,6 +60,14 @@ export default function SubscriptionPage({
     const actionForm = useForm({});
 
     const statusMessage = subscriptionStatus ? statusMessages[subscriptionStatus] : null;
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'SubscribeAction',
+        name: t(locale, 'subscriptions.title'),
+        description: t(locale, 'subscriptions.description'),
+        inLanguage: locale,
+        target: currentUrl || undefined,
+    };
 
     function submit(event: React.FormEvent<HTMLFormElement>): void {
         event.preventDefault();
@@ -68,6 +78,7 @@ export default function SubscriptionPage({
         <PublicLayout
             title={t(locale, 'subscriptions.title')}
             description={t(locale, 'subscriptions.description')}
+            structuredData={structuredData}
             seoType="website"
         >
             <Head title={t(locale, 'subscriptions.title')} />

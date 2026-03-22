@@ -10,7 +10,7 @@ interface Props {
     results: any;
     query: string;
     filters: any;
-    entityTypes: { value: string; label_key: string }[];
+    entityTypes: { value: string; label_key: string; count: number }[];
 }
 
 export default function SearchPage({ results, query, filters, entityTypes }: Props) {
@@ -39,7 +39,7 @@ export default function SearchPage({ results, query, filters, entityTypes }: Pro
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/search', { q: data.q, entity_type: data.entity_type });
+        router.get('/search', { q: data.q, entity_type: data.entity_type, lang: filters.lang });
     };
 
     return (
@@ -87,6 +87,35 @@ export default function SearchPage({ results, query, filters, entityTypes }: Pro
                     </Button>
                 </form>
 
+                {entityTypes.length > 0 && (
+                    <div className="mb-6 flex flex-wrap gap-2" aria-label={t(locale, 'search.filterByType')}>
+                        <Button
+                            variant={! filters.entity_type ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => router.get('/search', { q: data.q, lang: filters.lang })}
+                        >
+                            {t(locale, 'common.all')}
+                            {query ? ` (${results?.total ?? 0})` : ''}
+                        </Button>
+                        {entityTypes.map((entityType) => (
+                            <Button
+                                key={entityType.value}
+                                variant={filters.entity_type === entityType.value ? 'default' : 'outline'}
+                                size="sm"
+                                onClick={() =>
+                                    router.get('/search', {
+                                        q: data.q,
+                                        entity_type: entityType.value,
+                                        lang: filters.lang,
+                                    })}
+                            >
+                                {t(locale, entityType.label_key)}
+                                {query ? ` (${entityType.count})` : ''}
+                            </Button>
+                        ))}
+                    </div>
+                )}
+
                 {query && results && (
                     <p className="mb-4 text-sm text-gray-500" role="status" aria-live="polite">
                         {results.total} {t(locale, 'search.resultsFor')} <strong>"{query}"</strong>
@@ -115,6 +144,27 @@ export default function SearchPage({ results, query, filters, entityTypes }: Pro
                         {t(locale, 'search.noResults')} "{query}".
                     </p>
                 ) : null}
+
+                {results?.last_page > 1 && (
+                    <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-sm text-gray-500">
+                            {t(locale, 'search.page')} {results.current_page} {t(locale, 'search.of')} {results.last_page} ({results.total} {t(locale, 'search.total')})
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                            {results.links.map((link: any, index: number) => (
+                                <Button
+                                    key={`${link.label}-${index}`}
+                                    type="button"
+                                    variant={link.active ? 'default' : 'outline'}
+                                    size="sm"
+                                    disabled={! link.url}
+                                    onClick={() => link.url && router.visit(link.url)}
+                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </PublicLayout>
     );
