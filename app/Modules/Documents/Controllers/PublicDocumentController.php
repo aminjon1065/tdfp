@@ -18,7 +18,7 @@ class PublicDocumentController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only('category_id', 'search', 'year', 'file_type', 'tag');
+        $filters = $request->only('category_id', 'search', 'year', 'file_type', 'tag', 'lang');
 
         return Inertia::render('public/documents/index', [
             'documents' => $this->repository->paginatePublishedWithRelations(15, $filters),

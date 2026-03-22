@@ -366,6 +366,81 @@ test('language switch stores the locale in session and shares it with inertia', 
         );
 });
 
+test('public pages accept lang query parameters and persist the locale for follow-up requests', function () {
+    $this->seed(DatabaseSeeder::class);
+
+    $this->get('/about?lang=tj')
+        ->assertOk()
+        ->assertSessionHas('locale', 'tj')
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/page')
+            ->where('locale', 'tj')
+            ->where('page.slug', 'about')
+        );
+
+    $this->get('/project')
+        ->assertOk()
+        ->assertSessionHas('locale', 'tj')
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/page')
+            ->where('locale', 'tj')
+            ->where('page.slug', 'project')
+        );
+});
+
+test('public archive paginators preserve lang query parameters for localized listings', function () {
+    $category = DocumentCategory::create([
+        'name' => 'Reports',
+        'slug' => 'reports',
+    ]);
+
+    foreach (range(1, 16) as $index) {
+        $document = Document::create([
+            'category_id' => $category->id,
+            'file_path' => "documents/report-{$index}.pdf",
+            'file_type' => 'pdf',
+            'published_at' => now()->subDays($index),
+        ]);
+
+        DocumentTranslation::create([
+            'document_id' => $document->id,
+            'language' => 'tj',
+            'title' => "Ҳисобот {$index}",
+        ]);
+    }
+
+    foreach (range(1, 16) as $index) {
+        $procurement = Procurement::create([
+            'reference_number' => sprintf('TJ-%03d', $index),
+            'status' => 'open',
+            'publication_date' => now()->subDays($index)->toDateString(),
+            'deadline' => now()->addDays(30 - $index)->toDateString(),
+        ]);
+
+        ProcurementTranslation::create([
+            'procurement_id' => $procurement->id,
+            'language' => 'tj',
+            'title' => "Харид {$index}",
+        ]);
+    }
+
+    $this->get('/documents?lang=tj')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/documents/index')
+            ->where('filters.lang', 'tj')
+            ->where('documents.next_page_url', fn (?string $url) => $url !== null && str_contains($url, 'lang=tj'))
+        );
+
+    $this->get('/procurement?lang=tj')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/procurement/index')
+            ->where('filters.lang', 'tj')
+            ->where('procurements.next_page_url', fn (?string $url) => $url !== null && str_contains($url, 'lang=tj'))
+        );
+});
+
 test('document downloads preserve a safe filename with the original extension', function () {
     Storage::fake('public');
 

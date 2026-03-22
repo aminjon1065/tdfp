@@ -26,7 +26,7 @@ class ActivityRepository extends BaseRepository
             $query->where('status', $filters['status']);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function paginatePublicWithTranslations(int $perPage = 15, array $filters = []): LengthAwarePaginator
@@ -39,7 +39,7 @@ class ActivityRepository extends BaseRepository
             $query->where('status', $filters['status']);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function findBySlug(string $slug): ?Activity

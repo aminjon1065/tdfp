@@ -1,9 +1,11 @@
 import { Badge } from '@/components/ui/badge';
+import PageHero from '@/components/page-hero';
 import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 import { Link, usePage } from '@inertiajs/react';
-import { Calendar, User } from 'lucide-react';
+import { Calendar, ChevronRight, User } from 'lucide-react';
 
 export default function NewsShow({
     news,
@@ -14,8 +16,11 @@ export default function NewsShow({
     latest: any[];
     previewMeta?: { label: string; description: string };
 }) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
     const translation = getTranslation(news, locale);
     const imageUrl = news.featured_image && currentUrl
         ? new URL(`/storage/${news.featured_image}`, currentUrl).toString()
@@ -68,6 +73,7 @@ export default function NewsShow({
             imageUrl={imageUrl}
             structuredData={structuredData}
             seoType="article"
+            blendHeader
         >
             {previewMeta && (
                 <div className="border-b border-amber-200 bg-amber-50">
@@ -77,11 +83,30 @@ export default function NewsShow({
                     </div>
                 </div>
             )}
+            <PageHero
+                title={translation.title ?? t(locale, 'news.title')}
+                subtitle={t(locale, 'news.title')}
+                description={translation.summary}
+                compact
+            >
+                <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-blue-200">
+                    <Link href={publicHref('/')} className="transition-colors hover:text-white">
+                        {t(locale, 'common.home')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <Link href={publicHref('/news')} className="transition-colors hover:text-white">
+                        {t(locale, 'news.title')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <span className="text-white" aria-current="page">
+                        {translation.title}
+                    </span>
+                </nav>
+            </PageHero>
             <div className="container mx-auto px-4 py-12">
                 <div className="grid gap-8 lg:grid-cols-3">
                     <article className="lg:col-span-2">
                         {news.category && <Badge variant="outline" className="mb-3">{news.category.name}</Badge>}
-                        <h1 className="mb-4 text-3xl font-bold text-gray-900">{translation.title}</h1>
                         <div className="mb-6 flex items-center gap-4 text-sm text-gray-500">
                             {news.published_at && <span className="flex items-center gap-1"><Calendar className="h-4 w-4" aria-hidden="true" /><time dateTime={news.published_at}>{formatLocalizedDate(news.published_at, locale)}</time></span>}
                             {news.author && <span className="flex items-center gap-1"><User className="h-4 w-4" aria-hidden="true" />{news.author.name}</span>}
@@ -105,7 +130,7 @@ export default function NewsShow({
 
                                     return (
                                         <li key={item.id}>
-                                        <Link href={`/news/${item.slug}`} className="block group">
+                                        <Link href={publicHref(`/news/${item.slug}`)} className="block group">
                                             <p className="text-sm font-medium text-gray-800 group-hover:text-blue-700">{latestTranslation.title}</p>
                                             <p className="mt-0.5 text-xs text-gray-500">
                                                 <time dateTime={item.published_at ?? undefined}>{formatLocalizedDate(item.published_at, locale)}</time>

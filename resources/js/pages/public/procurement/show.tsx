@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
+import PageHero from '@/components/page-hero';
 import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getProcurementProcessLabel, getStatusLabel, getTranslation, t } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 import { Link, usePage } from '@inertiajs/react';
 import { Calendar, ChevronRight, Download, FileText } from 'lucide-react';
 
@@ -13,8 +15,11 @@ function formatSize(bytes: number): string {
 }
 
 export default function ProcurementShow({ procurement }: { procurement: any }) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
     const translation = getTranslation(procurement, locale);
     const structuredData = [
         {
@@ -58,22 +63,24 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
             description={translation.description}
             structuredData={structuredData}
             seoType="article"
+            blendHeader
         >
-            <div style={{ backgroundColor: '#1B3A6B' }} className="py-8">
-                <div className="container mx-auto px-4">
-                    <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-1 text-xs text-blue-300">
-                        <Link href="/" className="hover:text-white transition-colors">{t(locale, 'common.home')}</Link>
+            <PageHero
+                title={translation.title ?? t(locale, 'procurement.notice')}
+                subtitle={t(locale, 'procurement.title')}
+                description={translation.description}
+            >
+                <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-1 text-xs text-blue-200">
+                        <Link href={publicHref('/')} className="hover:text-white transition-colors">{t(locale, 'common.home')}</Link>
                         <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                        <Link href="/procurement" className="hover:text-white transition-colors">{t(locale, 'procurement.title')}</Link>
+                        <Link href={publicHref('/procurement')} className="hover:text-white transition-colors">{t(locale, 'procurement.title')}</Link>
                         <ChevronRight className="h-3 w-3" aria-hidden="true" />
                         <span className="text-white" aria-current="page">{procurement.reference_number}</span>
-                    </nav>
-                    <h1 className="text-2xl font-bold text-white sm:text-3xl">{translation.title ?? t(locale, 'procurement.notice')}</h1>
-                </div>
-            </div>
+                </nav>
+            </PageHero>
 
             <article className="container mx-auto max-w-4xl px-4 py-12">
-                <Link href="/procurement" className="mb-6 inline-flex items-center text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
+                <Link href={publicHref('/procurement')} className="mb-6 inline-flex items-center text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
                     {t(locale, 'procurement.back')}
                 </Link>
 

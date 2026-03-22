@@ -14,7 +14,7 @@ class PublicActivityController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only('status');
+        $filters = $request->only('status', 'lang');
 
         return Inertia::render('public/activities/index', [
             'activities' => $this->repository->paginatePublicWithTranslations(12, $filters),

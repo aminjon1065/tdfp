@@ -21,7 +21,7 @@ class MediaRepository extends BaseRepository
             $query->where('type', $filters['type']);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function paginatePublicWithRelations(int $perPage = 24, array $filters = []): LengthAwarePaginator
@@ -35,7 +35,7 @@ class MediaRepository extends BaseRepository
             $query->where('type', $filters['type']);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function latestImages(int $limit = 8): \Illuminate\Database\Eloquent\Collection

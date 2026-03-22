@@ -54,6 +54,10 @@ class HandleInertiaRequests extends Middleware
                 'error' => $request->session()->get('error'),
             ],
             'csrf_token' => csrf_token(),
+            'localization' => [
+                'default_locale' => config('app.locale'),
+                'supported_locales' => config('app.supported_locales'),
+            ],
             'siteSettings' => [
                 'site_title' => Setting::get('site_title', config('app.name')),
                 'site_description' => Setting::get('site_description'),

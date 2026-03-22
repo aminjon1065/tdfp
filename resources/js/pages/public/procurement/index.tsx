@@ -1,15 +1,20 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getProcurementProcessLabel, getStatusLabel, getTranslation, t } from '@/lib/i18n';
+import { publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Calendar, FileText, Search } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ProcurementIndex({ procurements, filters, years }: { procurements: any; filters: any; years: number[] }) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const statuses = ['', 'open', 'closed', 'awarded', 'archived'];
     const [search, setSearch] = useState(filters.search ?? '');
     const structuredData = [
@@ -40,16 +45,21 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
             description={t(locale, 'procurement.indexDescription')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
-            <div className="container mx-auto px-4 py-12">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'procurement.title')}</h1>
-                <p className="mb-8 text-gray-500">{t(locale, 'procurement.indexDescription')}</p>
-
-                <div className="mb-4 space-y-3">
+            <PageHero
+                title={t(locale, 'procurement.title')}
+                subtitle={t(locale, 'nav.announcements')}
+                description={t(locale, 'procurement.indexDescription')}
+                compact
+            />
+            <div className="container mx-auto space-y-8 px-4 py-12">
+                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                     <form
                         onSubmit={(event) => {
                             event.preventDefault();
                             router.get('/procurement', {
+                                ...localeQuery,
                                 search,
                                 status: filters.status,
                                 year: filters.year,
@@ -82,6 +92,7 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                             value={filters.year ?? ''}
                             onChange={(event) =>
                                 router.get('/procurement', {
+                                    ...localeQuery,
                                     search: filters.search,
                                     status: filters.status,
                                     year: event.target.value || undefined,
@@ -96,11 +107,11 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                             ))}
                         </select>
                     </div>
-                </div>
+                </section>
 
-                <div className="mb-6 flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                     {statuses.map((status) => (
-                        <Button key={status} variant={filters.status === status || (! status && ! filters.status) ? 'default' : 'outline'} size="sm" onClick={() => router.get('/procurement', { status: status || undefined, search: filters.search, year: filters.year })}>
+                        <Button key={status} variant={filters.status === status || (! status && ! filters.status) ? 'default' : 'outline'} size="sm" onClick={() => router.get('/procurement', { ...localeQuery, status: status || undefined, search: filters.search, year: filters.year })}>
                             {status ? getStatusLabel(status, locale) : t(locale, 'common.all')}
                         </Button>
                     ))}
@@ -111,7 +122,7 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                         const translation = getTranslation(item, locale);
 
                         return (
-                            <li key={item.id} className="rounded-lg border p-5 transition-colors hover:border-blue-300">
+                            <li key={item.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-[var(--gov-blue)]/30">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
@@ -157,7 +168,7 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                 </ul>
 
                 {procurements.data.length === 0 && (
-                    <p className="py-12 text-center text-gray-500">{t(locale, 'procurement.empty')}</p>
+                    <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-gray-500">{t(locale, 'procurement.empty')}</div>
                 )}
             </div>
         </PublicLayout>

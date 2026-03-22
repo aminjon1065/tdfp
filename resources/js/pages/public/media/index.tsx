@@ -1,14 +1,18 @@
+import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import PublicImage from '@/components/public-image';
 import { Button } from '@/components/ui/button';
 import { router, usePage } from '@inertiajs/react';
 import { Play } from 'lucide-react';
 import { getTranslation, t } from '@/lib/i18n';
+import { publicLocaleQuery } from '@/lib/public-locale';
 
 export default function MediaIndex({ items, filters }: { items: any; filters: any }) {
     const page = usePage().props as any;
     const locale = page.locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const structuredData = [
         {
             '@context': 'https://schema.org',
@@ -37,15 +41,19 @@ export default function MediaIndex({ items, filters }: { items: any; filters: an
             description={t(locale, 'media.description')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
+            <PageHero
+                title={t(locale, 'media.title')}
+                subtitle={t(locale, 'media.title')}
+                description={t(locale, 'media.description')}
+                compact
+            />
             <div className="container mx-auto px-4 py-12">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'media.title')}</h1>
-                <p className="mb-8 text-gray-500">{t(locale, 'media.description')}</p>
-
                 <div className="mb-6 flex gap-2">
                     {['', 'image', 'video'].map((type) => (
                         <Button key={type} variant={filters.type === type || (!type && !filters.type) ? 'default' : 'outline'} size="sm"
-                            onClick={() => router.get('/media', type ? { type } : {})}>
+                            onClick={() => router.get('/media', type ? { ...localeQuery, type } : localeQuery)}>
                             {type ? type.charAt(0).toUpperCase() + type.slice(1) : t(locale, 'common.all')}
                         </Button>
                     ))}

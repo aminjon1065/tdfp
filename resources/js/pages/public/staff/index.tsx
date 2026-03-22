@@ -1,6 +1,8 @@
+import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { getTranslation, t } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight, Mail, Phone } from 'lucide-react';
 
@@ -100,7 +102,10 @@ export default function PublicStaffIndex({
 }: {
     staffHierarchy: StaffMemberNode[];
 }) {
-    const locale = (usePage().props as any).locale ?? 'en';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
@@ -118,24 +123,23 @@ export default function PublicStaffIndex({
             description={t(locale, 'staff.description')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
-            <div style={{ backgroundColor: '#1B3A6B' }} className="py-8">
-                <div className="container mx-auto px-4">
-                    <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-1 text-xs text-blue-300">
-                        <Link href="/" className="hover:text-white transition-colors">
+            <PageHero
+                title={t(locale, 'staff.heading')}
+                subtitle={t(locale, 'staff.title')}
+                description={t(locale, 'staff.description')}
+            >
+                <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-1 text-xs text-blue-200">
+                        <Link href={publicHref('/')} className="hover:text-white transition-colors">
                             {t(locale, 'common.home')}
                         </Link>
                         <ChevronRight className="h-3 w-3" aria-hidden="true" />
                         <span className="text-white" aria-current="page">
                             {t(locale, 'staff.title')}
                         </span>
-                    </nav>
-                    <h1 className="text-2xl font-bold text-white sm:text-3xl">{t(locale, 'staff.heading')}</h1>
-                    <p className="mt-2 max-w-3xl text-sm text-blue-100 sm:text-base">
-                        {t(locale, 'staff.description')}
-                    </p>
-                </div>
-            </div>
+                </nav>
+            </PageHero>
 
             <section className="container mx-auto px-4 py-12">
                 {staffHierarchy.length > 0 ? (

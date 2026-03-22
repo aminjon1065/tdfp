@@ -1,4 +1,5 @@
 import PublicLayout from '@/layouts/public-layout';
+import PageHero from '@/components/page-hero';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -46,11 +47,15 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
             description={t(locale, 'grm.description')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
+            <PageHero
+                title="Submit a Complaint"
+                subtitle={t(locale, 'grm.title')}
+                description="Please fill in the form below. All submissions are treated confidentially."
+                compact
+            />
             <div className="container mx-auto px-4 py-12 max-w-2xl">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">Submit a Complaint</h1>
-                <p className="mb-8 text-gray-600">Please fill in the form below. All submissions are treated confidentially.</p>
-
                 <form onSubmit={handleSubmit} className="space-y-5" encType="multipart/form-data" noValidate>
                     <div className="space-y-1.5">
                         <Label htmlFor="name">Full Name <span className="text-red-500">*</span></Label>

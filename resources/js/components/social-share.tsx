@@ -23,6 +23,7 @@ export default function SocialShare({
 }: SocialShareProps) {
     const [copied, setCopied] = useState(false);
     const locale = (usePage().props as any).locale ?? 'en';
+    const canUseNativeShare = typeof navigator !== 'undefined' && 'share' in navigator;
 
     async function shareNative(): Promise<void> {
         if (! navigator.share) {
@@ -63,7 +64,7 @@ export default function SocialShare({
                         </p>
                     </div>
 
-                    {typeof navigator !== 'undefined' && navigator.share && (
+                    {canUseNativeShare && (
                         <Button type="button" variant="outline" onClick={() => void shareNative()}>
                             <Share2 className="mr-2 h-4 w-4" />
                             {t(locale, 'share.share')}

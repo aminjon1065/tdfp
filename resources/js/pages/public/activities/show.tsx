@@ -1,14 +1,19 @@
 import { Badge } from '@/components/ui/badge';
+import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
 import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 import { Link, usePage } from '@inertiajs/react';
-import { Calendar } from 'lucide-react';
+import { Calendar, ChevronRight } from 'lucide-react';
 
 export default function ActivityShow({ activity }: { activity: any }) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
     const translation = getTranslation(activity, locale);
     const imageUrl = activity.featured_image && currentUrl
         ? new URL(`/storage/${activity.featured_image}`, currentUrl).toString()
@@ -55,13 +60,33 @@ export default function ActivityShow({ activity }: { activity: any }) {
             imageUrl={imageUrl}
             structuredData={structuredData}
             seoType="article"
+            blendHeader
         >
+            <PageHero
+                title={translation.title ?? t(locale, 'activities.title')}
+                subtitle={t(locale, 'activities.title')}
+                description={translation.description}
+                compact
+            >
+                <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-blue-200">
+                    <Link href={publicHref('/')} className="transition-colors hover:text-white">
+                        {t(locale, 'common.home')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <Link href={publicHref('/activities')} className="transition-colors hover:text-white">
+                        {t(locale, 'activities.title')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <span className="text-white" aria-current="page">
+                        {translation.title}
+                    </span>
+                </nav>
+            </PageHero>
             <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <Link href="/activities" className="mb-6 inline-flex text-sm text-blue-700 hover:underline">{t(locale, 'activities.back')}</Link>
+                <Link href={publicHref('/activities')} className="mb-6 inline-flex text-sm text-blue-700 hover:underline">{t(locale, 'activities.back')}</Link>
                 <Badge variant={activity.status === 'in_progress' ? 'default' : 'secondary'} className="mb-3">
                     {getStatusLabel(activity.status, locale)}
                 </Badge>
-                <h1 className="mb-4 text-3xl font-bold text-gray-900">{translation.title}</h1>
                 {(activity.start_date || activity.end_date) && (
                     <div className="mb-6 flex items-center gap-2 text-sm text-gray-500">
                         <Calendar className="h-4 w-4" />

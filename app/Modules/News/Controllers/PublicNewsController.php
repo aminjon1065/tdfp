@@ -15,11 +15,13 @@ class PublicNewsController extends Controller
 
     public function index(Request $request): Response
     {
+        $filters = $request->only('category_id', 'search', 'lang');
+
         return Inertia::render('public/news/index', [
-            'news' => $this->repository->paginatePublishedWithTranslations(12, $request->only('category_id', 'search')),
+            'news' => $this->repository->paginatePublishedWithTranslations(12, $filters),
             'featuredAnnouncements' => $this->repository->featuredAnnouncements(3),
             'categories' => NewsCategory::all(),
-            'filters' => $request->only('category_id', 'search'),
+            'filters' => $filters,
             'recentWindowDays' => $this->repository->recentWindowDays(),
         ]);
     }

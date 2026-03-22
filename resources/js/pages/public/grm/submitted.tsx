@@ -1,13 +1,17 @@
 import { Button } from '@/components/ui/button';
+import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import { Link, usePage } from '@inertiajs/react';
 import { t } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 import { CheckCircle } from 'lucide-react';
 
 export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string; trackingToken: string }) {
     const page = usePage().props as any;
     const locale = page.locale ?? 'en';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
+    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
@@ -24,10 +28,16 @@ export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string
             structuredData={structuredData}
             seoType="website"
             noIndex
+            blendHeader
         >
+            <PageHero
+                title="Complaint Submitted"
+                subtitle={t(locale, 'grm.title')}
+                description="Your complaint has been received. Keep your tracking details to follow the case securely."
+                compact
+            />
             <div className="container mx-auto max-w-lg px-4 py-20 text-center">
                 <CheckCircle className="mx-auto mb-4 h-16 w-16 text-green-500" aria-hidden="true" />
-                <h1 className="mb-2 text-2xl font-bold text-gray-900">Complaint Submitted</h1>
                 <p className="mb-4 text-gray-600" role="status" aria-live="polite">Your complaint has been received. A confirmation email has been sent.</p>
                 <section aria-labelledby="tracking-details-heading" className="mb-8 rounded-lg border bg-gray-50 p-4">
                     <h2 id="tracking-details-heading" className="sr-only">
@@ -47,10 +57,10 @@ export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string
                 </section>
                 <div className="flex gap-3 justify-center">
                     <Button asChild>
-                        <Link href="/grm/track">Track Status</Link>
+                        <Link href={publicHref('/grm/track')}>Track Status</Link>
                     </Button>
                     <Button asChild variant="outline">
-                        <Link href="/">Return Home</Link>
+                        <Link href={publicHref('/')}>Return Home</Link>
                     </Button>
                 </div>
             </div>

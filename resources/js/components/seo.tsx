@@ -10,6 +10,10 @@ interface SeoProps {
     locale?: string;
     noIndex?: boolean;
     structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+    alternates?: Array<{
+        hrefLang: string;
+        href: string;
+    }>;
 }
 
 const localeMap: Record<string, string> = {
@@ -28,6 +32,7 @@ export default function Seo({
     locale = 'en',
     noIndex = false,
     structuredData,
+    alternates = [],
 }: SeoProps) {
     const metaTitle = title && siteName ? `${title} | ${siteName}` : (title ?? siteName);
     const schemas = Array.isArray(structuredData)
@@ -53,6 +58,15 @@ export default function Seo({
                     href={canonicalUrl}
                 />
             )}
+            {alternates.map((alternate) => (
+                <link
+                    key={`${alternate.hrefLang}:${alternate.href}`}
+                    head-key={`alternate:${alternate.hrefLang}`}
+                    rel="alternate"
+                    hrefLang={alternate.hrefLang}
+                    href={alternate.href}
+                />
+            ))}
             {noIndex && (
                 <meta
                     head-key="robots"

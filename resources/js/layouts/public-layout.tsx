@@ -11,7 +11,10 @@ import {
 } from 'lucide-react';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 
+import { BVIButton } from '@/components/bvi/bvi-button';
+import NishonLogo from '@/components/nishon-logo';
 import Seo from '@/components/seo';
+import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetContent,
@@ -20,18 +23,16 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
 import { t } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
+import { cn } from '@/lib/utils';
 
 const navLinks = [
     { key: 'nav.home', href: '/' },
     { key: 'nav.about', href: '/about' },
     { key: 'nav.project', href: '/project' },
-    { key: 'nav.activities', href: '/activities' },
     { key: 'nav.news', href: '/news' },
-    { key: 'nav.procurement', href: '/procurement' },
-    { key: 'nav.documents', href: '/documents' },
-    { key: 'nav.media', href: '/media' },
+    { key: 'nav.announcements', href: '/procurement' },
     { key: 'nav.contact', href: '/contact' },
 ];
 
@@ -41,6 +42,12 @@ const languages = [
     { code: 'tj', label: 'TJ' },
 ];
 
+const hreflangMap: Record<string, string> = {
+    en: 'en',
+    ru: 'ru',
+    tj: 'tg',
+};
+
 interface PublicLayoutProps extends PropsWithChildren {
     title?: string;
     description?: string;
@@ -48,10 +55,15 @@ interface PublicLayoutProps extends PropsWithChildren {
     structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
     seoType?: string;
     noIndex?: boolean;
+    blendHeader?: boolean;
 }
 
 interface LayoutPageProps extends PageProps {
     locale?: string;
+    localization?: {
+        default_locale?: string;
+        supported_locales?: string[];
+    };
     ziggy?: {
         location?: string;
     };
@@ -83,14 +95,43 @@ export default function PublicLayout({
     structuredData,
     seoType,
     noIndex,
+    blendHeader = false,
 }: PublicLayoutProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const page = usePage<LayoutPageProps>().props;
     const currentLocale = page.locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
     const siteSettings = page.siteSettings ?? {};
+    const currentPath = currentUrl ? new URL(currentUrl).pathname : '/';
     const siteTitle = siteSettings.site_title ?? 'PIC TDFP';
     const siteDescription = description ?? siteSettings.site_description;
+    const localeAlternates = currentUrl
+        ? languages.map((language) => {
+              const alternateUrl = new URL(currentUrl);
+
+              if (language.code === defaultLocale) {
+                  alternateUrl.searchParams.delete('lang');
+              } else {
+                  alternateUrl.searchParams.set('lang', language.code);
+              }
+
+              return {
+                  hrefLang: hreflangMap[language.code] ?? language.code,
+                  href: alternateUrl.toString(),
+              };
+          })
+        : [];
+    const defaultLocaleUrl = currentUrl
+        ? (() => {
+              const url = new URL(currentUrl);
+
+              url.searchParams.delete('lang');
+
+              return url.toString();
+          })()
+        : undefined;
     const organizationSchema = {
         '@context': 'https://schema.org',
         '@type': 'GovernmentOrganization',
@@ -114,21 +155,35 @@ export default function PublicLayout({
         inLanguage: currentLocale,
         potentialAction: currentUrl
             ? {
-                '@type': 'SearchAction',
-                target: `${new URL('/search', currentUrl).toString()}?q={search_term_string}`,
-                'query-input': 'required name=search_term_string',
-            }
+                  '@type': 'SearchAction',
+                  target: `${new URL('/search', currentUrl).toString()}?q={search_term_string}`,
+                  'query-input': 'required name=search_term_string',
+              }
             : undefined,
     };
     const analyticsId = siteSettings.google_analytics_id?.trim();
-    const analyticsEnabled = siteSettings.analytics_enabled === true
-        && siteSettings.analytics_provider === 'ga4'
-        && !!analyticsId
-        && /^G-[A-Z0-9]+$/.test(analyticsId);
+    const analyticsEnabled =
+        siteSettings.analytics_enabled === true &&
+        siteSettings.analytics_provider === 'ga4' &&
+        !!analyticsId &&
+        /^G-[A-Z0-9]+$/.test(analyticsId);
 
     useEffect(() => {
         setMobileOpen(false);
     }, [currentUrl]);
+
+    useEffect(() => {
+        const handleScroll = (): void => {
+            setIsScrolled(window.scrollY > 20);
+        };
+
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     function switchLanguage(code: string): void {
         setMobileOpen(false);
@@ -136,6 +191,18 @@ export default function PublicLayout({
         router.visit(`/language/${code}`, {
             preserveScroll: true,
         });
+    }
+
+    function publicHref(path: string): string {
+        return localizedPublicHref(path, currentLocale, defaultLocale);
+    }
+
+    function isActivePath(path: string): boolean {
+        if (path === '/') {
+            return currentPath === '/';
+        }
+
+        return currentPath === path || currentPath.startsWith(`${path}/`);
     }
 
     return (
@@ -149,6 +216,17 @@ export default function PublicLayout({
                 type={seoType}
                 locale={currentLocale}
                 noIndex={noIndex}
+                alternates={[
+                    ...localeAlternates,
+                    ...(defaultLocaleUrl
+                        ? [
+                              {
+                                  hrefLang: 'x-default',
+                                  href: defaultLocaleUrl,
+                              },
+                          ]
+                        : []),
+                ]}
                 structuredData={[
                     organizationSchema,
                     websiteSchema,
@@ -174,56 +252,101 @@ export default function PublicLayout({
             )}
 
             <a
-                href={"#main-content"}
+                href={'#main-content'}
                 className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-60 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium"
             >
                 Skip to main content
             </a>
 
-            <div className="border-b border-slate-200 bg-[var(--gov-navy-strong)] text-white">
-                <div className="gov-container flex min-h-11 flex-wrap items-center justify-between gap-3 py-2.5 text-xs">
-                    <div className="flex items-center gap-2 text-white/80">
-                        <span className="h-2 w-2 rounded-full bg-[var(--gov-gold)]" />
-                        <span>{t(currentLocale, 'site.country')}</span>
-                        <span className="text-white/35">/</span>
-                        <span>{t(currentLocale, 'site.ministry')}</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 text-white/80">
-                        <Link href="/search" className="hover:text-white">
-                            Search
-                        </Link>
-                        <span className="text-white/30">|</span>
-                        <a href="#footer-contact" className="hover:text-white">
-                            Contact
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
-                <div className="gov-container py-4">
-                    <div className="flex items-center justify-between gap-4">
+            <header
+                className={cn(
+                    'fixed inset-x-0 top-0 z-50 border-b transition-all duration-300',
+                    isScrolled
+                        ? 'border-slate-200/80 bg-white/88 text-[var(--gov-navy-strong)] shadow-sm backdrop-blur-md'
+                        : blendHeader
+                          ? 'border-transparent bg-[var(--gov-navy)] text-white shadow-none'
+                          : 'border-slate-200/80 bg-white/92 text-[var(--gov-navy-strong)] shadow-sm backdrop-blur-md',
+                )}
+            >
+                <div className="gov-container py-2.5">
+                    <div className="flex items-center justify-between gap-3">
                         <Link
-                            href="/"
-                            className="flex min-w-0 items-center gap-4"
+                            href={publicHref('/')}
+                            className="flex min-w-0 items-center gap-2.5"
                         >
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--gov-navy)] text-sm font-bold tracking-[0.18em] text-white shadow-sm">
-                                PIC
+                            <div
+                                className={cn(
+                                    'flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full shadow-sm ring-1',
+                                    isScrolled || !blendHeader
+                                        ? 'bg-[var(--gov-navy)]/6 ring-[var(--gov-navy)]/10'
+                                        : 'bg-white/8 ring-white/6',
+                                )}
+                            >
+                                <NishonLogo />
                             </div>
 
-                            <div className="min-w-0">
-                                <p className="truncate text-lg font-semibold text-[var(--gov-navy-strong)] md:text-xl">
+                            <div className="min-w-0 max-w-[15rem]">
+                                <p
+                                    className={cn(
+                                        'truncate text-sm font-semibold leading-none',
+                                        isScrolled || !blendHeader ? 'text-[var(--gov-navy-strong)]' : 'text-white',
+                                    )}
+                                >
                                     {t(currentLocale, 'site.center')}
                                 </p>
-                                <p className="hidden text-sm text-slate-500 md:block">
+                                <p
+                                    className={cn(
+                                        'hidden truncate pt-1 text-[10px] leading-none xl:block',
+                                        isScrolled || !blendHeader ? 'text-slate-500' : 'text-white/60',
+                                    )}
+                                >
                                     {t(currentLocale, 'site.project')}
                                 </p>
                             </div>
                         </Link>
 
-                        <div className="hidden items-center gap-2 lg:flex">
-                            <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 p-1">
+                        <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
+                            <nav aria-label="Primary" className="min-w-0">
+                                <ul className="flex flex-wrap items-center gap-0.5">
+                                    {navLinks.map((link) => {
+                                        const active = isActivePath(link.href);
+
+                                        return (
+                                            <li key={link.href}>
+                                                <Link
+                                                    href={publicHref(link.href)}
+                                                    aria-current={
+                                                        active
+                                                            ? 'page'
+                                                            : undefined
+                                                    }
+                                                    className={cn(
+                                                        'rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors',
+                                                        active
+                                                            ? isScrolled || !blendHeader
+                                                                ? 'bg-[var(--gov-navy)]/8 text-[var(--gov-navy-strong)]'
+                                                                : 'bg-white/14 text-white'
+                                                            : isScrolled || !blendHeader
+                                                              ? 'text-slate-500 hover:bg-slate-100 hover:text-[var(--gov-navy-strong)]'
+                                                              : 'text-white/72 hover:bg-white/8 hover:text-white',
+                                                    )}
+                                                >
+                                                    {t(currentLocale, link.key)}
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div className="hidden items-center gap-2.5 lg:flex">
+                            <div
+                                className={cn(
+                                    'flex items-center gap-0.5 text-[10px] font-semibold tracking-[0.14em] uppercase',
+                                    isScrolled || !blendHeader ? 'text-slate-500' : 'text-white/62',
+                                )}
+                            >
                                 {languages.map((language) => (
                                     <button
                                         key={language.code}
@@ -231,48 +354,56 @@ export default function PublicLayout({
                                         onClick={() =>
                                             switchLanguage(language.code)
                                         }
-                                        className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
+                                        className={cn(
+                                            'rounded px-1.5 py-1 leading-none transition-colors',
                                             currentLocale === language.code
-                                                ? 'bg-[var(--gov-navy)] text-white'
-                                                : 'text-slate-600 hover:text-[var(--gov-navy)]'
-                                        }`}
+                                                ? isScrolled || !blendHeader
+                                                    ? 'bg-[var(--gov-navy)]/10 text-[var(--gov-navy-strong)]'
+                                                    : 'bg-white/12 text-white'
+                                                : isScrolled || !blendHeader
+                                                  ? 'hover:text-[var(--gov-navy-strong)]'
+                                                  : 'hover:text-white'
+                                        )}
                                     >
                                         {language.label}
                                     </button>
                                 ))}
                             </div>
 
-                            <Button
-                                asChild
-                                variant="outline"
-                                className="rounded-lg border-slate-300 bg-white text-slate-700 hover:border-[var(--gov-blue)] hover:text-[var(--gov-blue)]"
-                            >
-                                <Link href="/search">
-                                    <Search className="mr-2 h-4 w-4" />
-                                    Search
-                                </Link>
-                            </Button>
-
-                            <Button
-                                asChild
-                                className="rounded-lg bg-[var(--gov-blue)] px-5 text-white hover:bg-[var(--gov-navy)]"
-                            >
-                                <Link href="/grm/submit">Submit grievance</Link>
-                            </Button>
+                            <BVIButton
+                                label="Для слабовидящих"
+                                className={cn(
+                                    'h-8 rounded-md px-2.5 text-[11px]',
+                                    isScrolled || !blendHeader
+                                        ? 'border-slate-200 bg-white text-[var(--gov-navy-strong)] hover:bg-slate-50'
+                                        : 'border-white/10 bg-white/6 text-white hover:bg-white/12 hover:text-white',
+                                )}
+                            />
                         </div>
 
                         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                             <SheetTrigger asChild>
                                 <button
                                     type="button"
-                                    className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 lg:hidden"
+                                    className={cn(
+                                        'inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium lg:hidden',
+                                        isScrolled || !blendHeader
+                                            ? 'border-slate-200 bg-white text-slate-700'
+                                            : 'border-white/12 bg-white/8 text-white',
+                                    )}
                                     aria-label="Toggle navigation"
                                     aria-controls="mobile-primary-navigation"
                                 >
                                     {mobileOpen ? (
-                                        <X className="h-4 w-4" aria-hidden="true" />
+                                        <X
+                                            className="h-4 w-4"
+                                            aria-hidden="true"
+                                        />
                                     ) : (
-                                        <Menu className="h-4 w-4" aria-hidden="true" />
+                                        <Menu
+                                            className="h-4 w-4"
+                                            aria-hidden="true"
+                                        />
                                     )}
                                     Menu
                                 </button>
@@ -280,14 +411,15 @@ export default function PublicLayout({
                             <SheetContent
                                 id="mobile-primary-navigation"
                                 side="right"
-                                className="w-full max-w-sm border-l border-slate-200 bg-white p-0"
+                                className="w-full max-w-sm border-l border-[#d4ddd4] bg-[var(--gov-surface)] p-0"
                             >
-                                <SheetHeader className="border-b border-slate-200 px-6 py-5 text-left">
+                                <SheetHeader className="border-b border-[#d4ddd4] px-6 py-5 text-left">
                                     <SheetTitle className="text-base text-[var(--gov-navy-strong)]">
                                         Site navigation
                                     </SheetTitle>
                                     <SheetDescription>
-                                        Browse public sections, switch language, or access search and grievance services.
+                                        Browse public sections, switch language,
+                                        or access search and grievance services.
                                     </SheetDescription>
                                 </SheetHeader>
 
@@ -298,20 +430,36 @@ export default function PublicLayout({
                                                 const active =
                                                     currentUrl === link.href ||
                                                     (link.href !== '/' &&
-                                                        currentUrl.startsWith(link.href));
+                                                        currentUrl.startsWith(
+                                                            link.href,
+                                                        ));
 
                                                 return (
                                                     <li key={link.href}>
                                                         <Link
-                                                            href={link.href}
-                                                            aria-current={active ? 'page' : undefined}
-                                                            className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium text-[var(--gov-navy)]"
+                                                            href={publicHref(
+                                                                link.href,
+                                                            )}
+                                                            aria-current={
+                                                                active
+                                                                    ? 'page'
+                                                                    : undefined
+                                                            }
+                                                            className="flex items-center justify-between rounded-2xl border border-[#d4ddd4] bg-white px-4 py-3 text-sm font-medium text-[var(--gov-navy)]"
                                                             onClick={() =>
-                                                                setMobileOpen(false)
+                                                                setMobileOpen(
+                                                                    false,
+                                                                )
                                                             }
                                                         >
-                                                            {t(currentLocale, link.key)}
-                                                            <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                                            {t(
+                                                                currentLocale,
+                                                                link.key,
+                                                            )}
+                                                            <ChevronRight
+                                                                className="h-4 w-4 text-slate-400"
+                                                                aria-hidden="true"
+                                                            />
                                                         </Link>
                                                     </li>
                                                 );
@@ -325,10 +473,13 @@ export default function PublicLayout({
                                                 key={language.code}
                                                 type="button"
                                                 onClick={() =>
-                                                    switchLanguage(language.code)
+                                                    switchLanguage(
+                                                        language.code,
+                                                    )
                                                 }
-                                                className={`rounded-md border px-3 py-2 text-xs font-semibold ${
-                                                    currentLocale === language.code
+                                                className={`rounded-full border px-3 py-2 text-xs font-semibold ${
+                                                    currentLocale ===
+                                                    language.code
                                                         ? 'border-[var(--gov-navy)] bg-[var(--gov-navy)] text-white'
                                                         : 'border-slate-200 bg-white text-slate-600'
                                                 }`}
@@ -338,27 +489,38 @@ export default function PublicLayout({
                                         ))}
                                     </div>
 
-                                    <div className="flex gap-3">
+                                    <div className="flex flex-col gap-3">
+                                        <BVIButton
+                                            label="Версия для слабовидящих"
+                                            className="w-full rounded-lg border-slate-300"
+                                        />
                                         <Button
                                             asChild
                                             variant="outline"
-                                            className="flex-1 rounded-lg border-slate-300"
+                                            className="flex-1 rounded-full border-slate-300"
                                         >
                                             <Link
-                                                href="/search"
-                                                onClick={() => setMobileOpen(false)}
+                                                href={publicHref('/search')}
+                                                onClick={() =>
+                                                    setMobileOpen(false)
+                                                }
                                             >
-                                                <Search className="mr-2 h-4 w-4" aria-hidden="true" />
+                                                <Search
+                                                    className="mr-2 h-4 w-4"
+                                                    aria-hidden="true"
+                                                />
                                                 Search
                                             </Link>
                                         </Button>
                                         <Button
                                             asChild
-                                            className="flex-1 rounded-lg bg-[var(--gov-blue)] hover:bg-[var(--gov-navy)]"
+                                            className="flex-1 rounded-full bg-[var(--gov-gold)] text-white hover:bg-[#e1a83d]"
                                         >
                                             <Link
-                                                href="/grm/submit"
-                                                onClick={() => setMobileOpen(false)}
+                                                href={publicHref('/grm/submit')}
+                                                onClick={() =>
+                                                    setMobileOpen(false)
+                                                }
                                             >
                                                 Submit
                                             </Link>
@@ -369,60 +531,28 @@ export default function PublicLayout({
                         </Sheet>
                     </div>
                 </div>
-
-                <div className="border-t border-slate-200 bg-white">
-                    <div className="gov-container hidden items-center justify-between gap-6 lg:flex">
-                        <nav aria-label="Primary" className="flex-1">
-                            <ul className="flex flex-wrap items-center gap-1 py-2">
-                                {navLinks.map((link) => {
-                                    const active =
-                                        currentUrl === link.href ||
-                                        (link.href !== '/' &&
-                                            currentUrl.startsWith(link.href));
-
-                                    return (
-                                        <li key={link.href}>
-                                            <Link
-                                                href={link.href}
-                                                aria-current={active ? 'page' : undefined}
-                                                className={`rounded-md px-4 py-2 text-sm font-medium transition ${
-                                                    active
-                                                        ? 'bg-[var(--gov-mist)] text-[var(--gov-navy-strong)]'
-                                                        : 'text-slate-600 hover:bg-slate-100 hover:text-[var(--gov-navy)]'
-                                                }`}
-                                            >
-                                                {t(currentLocale, link.key)}
-                                            </Link>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </nav>
-
-                        <div className="text-sm text-slate-500">
-                            Public information and service access
-                        </div>
-                    </div>
-                </div>
-
             </header>
 
-            <main id="main-content" tabIndex={-1} className="flex-1">
+            <main
+                id="main-content"
+                tabIndex={-1}
+                className={cn('flex-1', blendHeader ? 'pt-0' : 'pt-16')}
+            >
                 {children}
             </main>
 
-            <footer className="mt-16 border-t border-slate-200 bg-white">
-                <div className="gov-container py-12">
+            <footer className="mt-16 border-t border-[#16345e] bg-[var(--gov-navy-strong)] text-white">
+                <div className="gov-container py-14">
                     <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
                         <div>
-                            <p className="gov-kicker mb-3">
+                            <p className="gov-kicker mb-3 text-[var(--gov-gold)]">
                                 Government Service Portal
                             </p>
-                            <h2 className="max-w-lg text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                            <h2 className="max-w-lg text-3xl font-semibold text-white">
                                 Public information, services, and grievance
                                 access in one place.
                             </h2>
-                            <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">
+                            <p className="mt-4 max-w-xl text-sm leading-7 text-white/72">
                                 The portal provides official project updates,
                                 procurement notices, document access, and
                                 public-service channels for beneficiaries,
@@ -431,15 +561,15 @@ export default function PublicLayout({
                         </div>
 
                         <div>
-                            <h3 className="mb-4 text-sm font-semibold text-slate-900">
+                            <h3 className="mb-4 text-sm font-semibold text-white">
                                 Sections
                             </h3>
-                            <ul className="space-y-3 text-sm text-slate-600">
+                            <ul className="space-y-3 text-sm text-white/72">
                                 {navLinks.slice(0, 6).map((link) => (
                                     <li key={link.href}>
                                         <Link
-                                            href={link.href}
-                                            className="hover:text-[var(--gov-blue)]"
+                                            href={publicHref(link.href)}
+                                            className="hover:text-white"
                                         >
                                             {t(currentLocale, link.key)}
                                         </Link>
@@ -449,46 +579,46 @@ export default function PublicLayout({
                         </div>
 
                         <div>
-                            <h3 className="mb-4 text-sm font-semibold text-slate-900">
+                            <h3 className="mb-4 text-sm font-semibold text-white">
                                 Services
                             </h3>
-                            <ul className="space-y-3 text-sm text-slate-600">
+                            <ul className="space-y-3 text-sm text-white/72">
                                 <li>
                                     <Link
-                                        href="/documents"
-                                        className="hover:text-[var(--gov-blue)]"
+                                        href={publicHref('/documents')}
+                                        className="hover:text-white"
                                     >
                                         Document repository
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="/procurement"
-                                        className="hover:text-[var(--gov-blue)]"
+                                        href={publicHref('/procurement')}
+                                        className="hover:text-white"
                                     >
                                         Procurement notices
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="/grm"
-                                        className="hover:text-[var(--gov-blue)]"
+                                        href={publicHref('/grm')}
+                                        className="hover:text-white"
                                     >
                                         Grievance information
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="/grm/submit"
-                                        className="hover:text-[var(--gov-blue)]"
+                                        href={publicHref('/grm/submit')}
+                                        className="hover:text-white"
                                     >
                                         Submit a grievance
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="/subscribe"
-                                        className="hover:text-[var(--gov-blue)]"
+                                        href={publicHref('/subscribe')}
+                                        className="hover:text-white"
                                     >
                                         Email subscriptions
                                     </Link>
@@ -497,26 +627,26 @@ export default function PublicLayout({
                         </div>
 
                         <div id="footer-contact">
-                            <h3 className="mb-4 text-sm font-semibold text-slate-900">
+                            <h3 className="mb-4 text-sm font-semibold text-white">
                                 Contact
                             </h3>
-                            <ul className="space-y-4 text-sm text-slate-600">
+                            <ul className="space-y-4 text-sm text-white/72">
                                 <li className="flex items-start gap-3">
-                                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--gov-blue)]" />
+                                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--gov-gold)]" />
                                     <span>
                                         {page.settings?.contact_address ??
                                             'Dushanbe, Republic of Tajikistan'}
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <Phone className="h-4 w-4 shrink-0 text-[var(--gov-blue)]" />
+                                    <Phone className="h-4 w-4 shrink-0 text-[var(--gov-gold)]" />
                                     <span>
                                         {page.settings?.contact_phone ??
                                             '+992 (000) 000-000'}
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <Mail className="h-4 w-4 shrink-0 text-[var(--gov-blue)]" />
+                                    <Mail className="h-4 w-4 shrink-0 text-[var(--gov-gold)]" />
                                     <span>
                                         {page.settings?.contact_email ??
                                             'info@example.tj'}
@@ -526,7 +656,7 @@ export default function PublicLayout({
                         </div>
                     </div>
 
-                    <div className="mt-10 flex flex-col gap-3 border-t border-slate-200 pt-6 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+                    <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
                         <p>
                             © {new Date().getFullYear()} Project Implementation
                             Center

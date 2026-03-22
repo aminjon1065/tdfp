@@ -1,4 +1,4 @@
-import { Globe, Menu, Search, User } from 'lucide-react';
+import { Globe, Menu, Search } from 'lucide-react';
 import { useState } from 'react';
 
 import NishonLogo from '@/components/nishon-logo';

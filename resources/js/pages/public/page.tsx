@@ -1,6 +1,8 @@
+import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import SocialShare from '@/components/social-share';
 import { getTranslation, t as translate } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 
@@ -23,8 +25,11 @@ interface Props {
 }
 
 export default function Page({ page, previewMeta }: Props) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const sharedPage = usePage().props as any;
+    const locale = sharedPage.locale ?? 'en';
+    const defaultLocale = sharedPage.localization?.default_locale ?? 'en';
+    const currentUrl = sharedPage.ziggy?.location ?? '';
+    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
 
     if (! page) {
         return (
@@ -32,7 +37,7 @@ export default function Page({ page, previewMeta }: Props) {
                 <div className="container mx-auto px-4 py-24 text-center">
                     <h1 className="text-4xl font-bold text-gray-800 mb-4">404 - {translate(locale, 'common.notFound')}</h1>
                     <p className="text-gray-500 mb-8">{translate(locale, 'common.notFoundDescription')}</p>
-                    <Link href="/" className="inline-flex items-center gap-1 text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
+                    <Link href={publicHref('/')} className="inline-flex items-center gap-1 text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
                         {translate(locale, 'common.returnHome')}
                     </Link>
                 </div>
@@ -77,6 +82,7 @@ export default function Page({ page, previewMeta }: Props) {
             description={pageTranslation.meta_description}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
             {previewMeta && (
                 <div className="border-b border-amber-200 bg-amber-50">
@@ -86,18 +92,15 @@ export default function Page({ page, previewMeta }: Props) {
                     </div>
                 </div>
             )}
-            <div style={{ backgroundColor: '#1B3A6B' }} className="py-8">
-                <div className="container mx-auto px-4">
-                    <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-1 text-xs text-blue-300">
-                        <Link href="/" className="hover:text-white transition-colors">
-                            {translate(locale, 'common.home')}
-                        </Link>
-                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                        <span className="text-white" aria-current="page">{pageTranslation.title}</span>
-                    </nav>
-                    <h1 className="text-2xl font-bold text-white sm:text-3xl">{pageTranslation.title}</h1>
-                </div>
-            </div>
+            <PageHero title={pageTranslation.title}>
+                <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-blue-200">
+                    <Link href={publicHref('/')} className="transition-colors hover:text-white">
+                        {translate(locale, 'common.home')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <span className="text-white" aria-current="page">{pageTranslation.title}</span>
+                </nav>
+            </PageHero>
 
             <article className="container mx-auto max-w-4xl px-4 py-12">
                 {pageTranslation.content ? (

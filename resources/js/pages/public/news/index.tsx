@@ -2,9 +2,11 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
+import { publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
@@ -13,6 +15,8 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
     const page = usePage().props as any;
     const locale = page.locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const [search, setSearch] = useState(filters.search ?? '');
     const featuredAnnouncements = page.featuredAnnouncements ?? [];
     const recentWindowDays = page.recentWindowDays ?? 14;
@@ -47,15 +51,19 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
             description={t(locale, 'news.indexDescription')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
-            <div className="container mx-auto px-4 py-12">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'news.indexTitle')}</h1>
-                <p className="mb-8 text-gray-500">{t(locale, 'news.indexDescription')}</p>
-
+            <PageHero
+                title={t(locale, 'news.indexTitle')}
+                subtitle={t(locale, 'news.title')}
+                description={t(locale, 'news.indexDescription')}
+                compact
+            />
+            <div className="container mx-auto space-y-8 px-4 py-12">
                 {featuredAnnouncements.length > 0 && (
-                    <section aria-labelledby="featured-announcements-heading" className="mb-8 rounded-2xl border border-blue-100 bg-blue-50/50 p-5">
+                    <section aria-labelledby="featured-announcements-heading" className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                         <div className="mb-4">
-                            <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">{t(locale, 'news.whatsNew')}</p>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--gov-blue)]">{t(locale, 'news.whatsNew')}</p>
                             <h2 id="featured-announcements-heading" className="text-sm text-slate-600">{t(locale, 'news.whatsNewDescription')}</h2>
                         </div>
                         <ul className="grid gap-4 lg:grid-cols-3">
@@ -64,7 +72,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
 
                                 return (
                                     <li key={item.id}>
-                                    <Link href={`/news/${item.slug}`} className="block rounded-xl border bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
+                                    <Link href={`/news/${item.slug}`} className="block rounded-2xl border border-slate-200 bg-[var(--gov-surface)] p-4 transition hover:border-[var(--gov-blue)]/30 hover:shadow-sm">
                                         <div className="mb-2 flex items-center gap-2">
                                             {item.is_featured && <Badge>{t(locale, 'news.featured')}</Badge>}
                                             {isRecent(item.published_at) && <Badge variant="outline">{t(locale, 'news.new')}</Badge>}
@@ -79,8 +87,8 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                     </section>
                 )}
 
-                <div className="mb-8 space-y-3">
-                    <form onSubmit={(event) => { event.preventDefault(); router.get('/news', { search, category_id: filters.category_id }); }} className="flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'news.indexTitle')}>
+                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <form onSubmit={(event) => { event.preventDefault(); router.get('/news', { ...localeQuery, search, category_id: filters.category_id }); }} className="flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'news.indexTitle')}>
                         <label htmlFor="news-search-query" className="sr-only">
                             {t(locale, 'news.searchPlaceholder')}
                         </label>
@@ -90,14 +98,14 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                         </Button>
                     </form>
                     <div className="flex gap-2 flex-wrap">
-                        <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { search: filters.search })}>{t(locale, 'common.all')}</Button>
+                        <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { ...localeQuery, search: filters.search })}>{t(locale, 'common.all')}</Button>
                         {categories.map((category) => (
-                            <Button key={category.id} variant={filters.category_id == category.id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { category_id: category.id, search: filters.search })}>
+                            <Button key={category.id} variant={filters.category_id == category.id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { ...localeQuery, category_id: category.id, search: filters.search })}>
                                 {category.name}
                             </Button>
                         ))}
                     </div>
-                </div>
+                </section>
 
                 <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {news.data.map((item: any) => {
@@ -105,9 +113,9 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
 
                         return (
                             <li key={item.id}>
-                            <Card className="overflow-hidden transition-shadow hover:shadow-md">
+                            <Card className="overflow-hidden rounded-3xl border-slate-200 bg-white transition-shadow hover:shadow-md">
                                 {item.featured_image && (
-                                    <div className="aspect-video bg-gray-100 overflow-hidden">
+                                    <div className="aspect-video overflow-hidden bg-slate-100">
                                         <PublicImage
                                             src={`/storage/${item.featured_image}`}
                                             alt={translation.title}
@@ -130,7 +138,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                         <time dateTime={item.published_at ?? undefined} className="text-xs text-gray-400">
                                             {formatLocalizedDate(item.published_at, locale)}
                                         </time>
-                                        <Link href={`/news/${item.slug}`} className="text-sm text-blue-700 hover:underline">{t(locale, 'common.readMore')}</Link>
+                                        <Link href={`/news/${item.slug}`} className="text-sm font-medium text-[var(--gov-blue)] hover:underline">{t(locale, 'common.readMore')}</Link>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -140,7 +148,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                 </ul>
 
                 {news.data.length === 0 && (
-                    <p className="py-12 text-center text-gray-500">{t(locale, 'news.empty')}</p>
+                    <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-gray-500">{t(locale, 'news.empty')}</div>
                 )}
             </div>
         </PublicLayout>

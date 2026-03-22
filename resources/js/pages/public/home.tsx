@@ -1,15 +1,8 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import {
-    ArrowRight,
-    FileText,
-    Megaphone,
-    MessageCircleWarning,
-    ShoppingBag,
-} from 'lucide-react';
+import { ArrowRight, FileText, Megaphone, ShoppingBag } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import {
     formatLocalizedDate,
@@ -17,6 +10,7 @@ import {
     getTranslation,
     t,
 } from '@/lib/i18n';
+import { localizedPublicHref } from '@/lib/public-locale';
 
 interface TranslationRecord {
     language?: string;
@@ -89,12 +83,20 @@ export default function Home({
     openProcurements,
     settings,
 }: Props) {
-    const page = usePage<{ locale?: string; ziggy?: { location?: string } }>().props;
+    const page = usePage<{ locale?: string; ziggy?: { location?: string } }>()
+        .props;
     const locale = page.locale ?? 'en';
+    const defaultLocale =
+        (page as { localization?: { default_locale?: string } }).localization
+            ?.default_locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
+    const publicHref = (path: string) =>
+        localizedPublicHref(path, locale, defaultLocale);
     const isRecent = (publishedAt?: string | null) =>
-        publishedAt
-        && ((Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60 * 24)) <= newsRecentWindowDays;
+        publishedAt &&
+        (Date.now() - new Date(publishedAt).getTime()) /
+            (1000 * 60 * 60 * 24) <=
+            newsRecentWindowDays;
     const structuredData = [
         {
             '@context': 'https://schema.org',
@@ -112,7 +114,9 @@ export default function Home({
                 '@type': 'ListItem',
                 position: index + 1,
                 name: getTranslation(item, locale).title ?? `News ${item.id}`,
-                url: currentUrl ? new URL(`/news/${item.slug}`, currentUrl).toString() : undefined,
+                url: currentUrl
+                    ? new URL(`/news/${item.slug}`, currentUrl).toString()
+                    : undefined,
             })),
         },
     ];
@@ -123,103 +127,252 @@ export default function Home({
             description={t(locale, 'home.description')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
             <Head title={`${t(locale, 'common.home')} | PIC TDFP`} />
 
-            <section className="border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)]">
-                <div className="gov-container py-16 md:py-20">
-                    <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-                        <div>
-                            <p className="gov-kicker mb-4">
-                                Modern Gov Service
+            <section className="gov-hero-shell">
+                <div className="gov-container py-18 md:py-24">
+                    <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+                        <div className="max-w-3xl">
+                            <p className="gov-kicker mb-5 text-[var(--gov-gold)]">
+                                Tajikistan Digital Foundations Project
                             </p>
-                            <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-[var(--gov-navy-strong)] md:text-6xl">
-                                Official project information and citizen
-                                services.
+                            <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl">
+                                Official project portal for public information,
+                                procurement, and grievance access.
                             </h1>
-                            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                                Find verified updates, procurement notices,
-                                documents, and grievance redress services
-                                through a clear and accessible public portal.
+                            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
+                                A single institutional portal for verified
+                                updates, key project activities, official
+                                documents, and public-facing service channels.
                             </p>
 
-                            <div className="mt-8 flex flex-wrap gap-3">
+                            <div className="mt-9 flex flex-wrap gap-3">
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="rounded-lg bg-[var(--gov-blue)] px-6 text-white hover:bg-[var(--gov-navy)]"
+                                    className="rounded-full bg-[var(--gov-gold)] px-6 text-white hover:bg-[#e4ab40]"
                                 >
-                                    <Link href="/project">
+                                    <Link href={publicHref('/project')}>
                                         {t(locale, 'home.learnMore')}
-                                        <ArrowRight className="ml-2 h-4 w-4" />
                                     </Link>
                                 </Button>
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    variant="outline"
-                                    className="rounded-lg border-slate-300 bg-white px-6 text-slate-700 hover:border-[var(--gov-blue)] hover:text-[var(--gov-blue)]"
+                                <Link
+                                    href={publicHref('/contact')}
+                                    className="gov-pill-link"
                                 >
-                                    <Link href="/grm/submit">
-                                        <MessageCircleWarning className="mr-2 h-4 w-4" />
-                                        {t(locale, 'grm.submit')}
-                                    </Link>
-                                </Button>
+                                    Contact
+                                </Link>
                             </div>
                         </div>
 
-                        <div className="gov-panel p-6 md:p-7">
-                            <div className="grid gap-6 sm:grid-cols-2">
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
-                                        Project components
+                        <div className="rounded-[2rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                <div className="gov-stat-card bg-white/95">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
+                                        Key focus
                                     </p>
-                                    <p className="mt-2 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
                                         10+
                                     </p>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
-                                        Budget envelope
+                                    <p className="mt-1 text-sm text-slate-500">
+                                        Project components
                                     </p>
-                                    <p className="mt-2 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                </div>
+                                <div className="gov-stat-card bg-white/95">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
+                                        Budget
+                                    </p>
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
                                         $40M
                                     </p>
+                                    <p className="mt-1 text-sm text-slate-500">
+                                        Financing envelope
+                                    </p>
                                 </div>
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
+                                <div className="gov-stat-card bg-white/95">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
                                         {t(locale, 'home.activities')}
                                     </p>
-                                    <p className="mt-2 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
                                         {activities.length}
                                     </p>
+                                    <p className="mt-1 text-sm text-slate-500">
+                                        Published activity records
+                                    </p>
                                 </div>
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
+                                <div className="gov-stat-card bg-white/95">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
                                         {t(locale, 'home.documents')}
                                     </p>
-                                    <p className="mt-2 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
                                         {latestDocuments.length}+
+                                    </p>
+                                    <p className="mt-1 text-sm text-slate-500">
+                                        Published documents
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="mt-6 rounded-lg bg-[var(--gov-mist)] p-4 text-sm text-slate-600">
+                            <div className="mt-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 text-sm text-white/78">
                                 Official contact:{' '}
                                 {settings.contact_email ?? 'info@example.tj'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-14 grid gap-6 border-t border-white/10 pt-8 sm:grid-cols-2 xl:grid-cols-4">
+                        <div>
+                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                                30+
+                            </p>
+                            <p className="mt-2 text-sm text-white/66">
+                                Operational content units and updates
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                                200+
+                            </p>
+                            <p className="mt-2 text-sm text-white/66">
+                                Stakeholder interactions and published records
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                                50+
+                            </p>
+                            <p className="mt-2 text-sm text-white/66">
+                                Project documents and notices in circulation
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                                15+
+                            </p>
+                            <p className="mt-2 text-sm text-white/66">
+                                Priority workstreams and procurement milestones
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="bg-[var(--gov-surface)]">
+                <div className="gov-container py-16">
+                    <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+                        <div>
+                            <p className="gov-kicker mb-4">Our mission</p>
+                            <h2 className="gov-section-title">
+                                A credible digital public portal with clear
+                                access to project information.
+                            </h2>
+                            <p className="mt-6 max-w-2xl text-sm leading-8 text-slate-600">
+                                {settings.site_description ??
+                                    'The portal supports public transparency, institutional communication, and accessible service delivery for project beneficiaries, partners, and citizens.'}
+                            </p>
+                            <div className="mt-6">
+                                <Link
+                                    href={publicHref('/about')}
+                                    className="inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]"
+                                >
+                                    Learn more
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            <div className="gov-stat-card">
+                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                    30+
+                                </p>
+                                <p className="mt-2 text-sm text-slate-500">
+                                    Public content areas
+                                </p>
+                            </div>
+                            <div className="gov-stat-card">
+                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                    200+
+                                </p>
+                                <p className="mt-2 text-sm text-slate-500">
+                                    Visible operational records
+                                </p>
+                            </div>
+                            <div className="gov-stat-card">
+                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                    50+
+                                </p>
+                                <p className="mt-2 text-sm text-slate-500">
+                                    Published reference materials
+                                </p>
+                            </div>
+                            <div className="gov-stat-card">
+                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                    15+
+                                </p>
+                                <p className="mt-2 text-sm text-slate-500">
+                                    Current implementation priorities
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="py-14">
-                <div className="gov-container">
+            <section className="gov-soft-section border-y border-[#e5e0d4]">
+                <div className="gov-container py-16">
+                    <div className="mb-8">
+                        <p className="gov-kicker mb-3">Activities</p>
+                        <h2 className="gov-section-title">
+                            Core implementation directions
+                        </h2>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                        {activities.slice(0, 6).map((activity) => {
+                            const translation = getTranslation(
+                                activity,
+                                locale,
+                            );
+
+                            return (
+                                <article
+                                    key={activity.id}
+                                    className="gov-panel p-5 transition hover:-translate-y-0.5"
+                                >
+                                    <div className="flex items-center justify-between gap-3">
+                                        <Badge className="rounded-full bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
+                                            {getStatusLabel(
+                                                activity.status,
+                                                locale,
+                                            )}
+                                        </Badge>
+                                        <Megaphone className="h-4 w-4 text-[var(--gov-blue)]" />
+                                    </div>
+                                    <h3 className="mt-4 text-lg font-semibold text-[var(--gov-navy-strong)]">
+                                        {translation.title ??
+                                            t(locale, 'activities.title')}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                                        {translation.description ??
+                                            t(locale, 'common.noData')}
+                                    </p>
+                                </article>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            <section className="bg-white">
+                <div className="gov-container py-16">
                     <div className="mb-8 flex items-end justify-between gap-4">
                         <div>
                             <p className="gov-kicker mb-3">Services</p>
                             <h2 className="gov-section-title">
-                                Start from the service you need.
+                                Quick access to public services
                             </h2>
                         </div>
                     </div>
@@ -228,7 +381,7 @@ export default function Home({
                         {serviceCards.map((card) => (
                             <Link
                                 key={card.href}
-                                href={card.href}
+                                href={publicHref(card.href)}
                                 className="gov-panel group p-6 transition hover:-translate-y-0.5 hover:shadow-md"
                             >
                                 <card.icon className="h-6 w-6 text-[var(--gov-blue)]" />
@@ -239,7 +392,7 @@ export default function Home({
                                     {card.description}
                                 </p>
                                 <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]">
-                                    Open service
+                                    Open section
                                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                                 </div>
                             </Link>
@@ -248,17 +401,19 @@ export default function Home({
                 </div>
             </section>
 
-            <section className="border-y border-slate-200 bg-white">
-                <div className="gov-container py-14">
+            <section className="bg-[var(--gov-surface)]">
+                <div className="gov-container py-16">
                     <div className="mb-8 flex items-end justify-between gap-4">
                         <div>
-                            <p className="gov-kicker mb-3">{t(locale, 'news.whatsNew')}</p>
+                            <p className="gov-kicker mb-3">
+                                {t(locale, 'news.whatsNew')}
+                            </p>
                             <h2 className="gov-section-title">
                                 {t(locale, 'news.whatsNewDescription')}
                             </h2>
                         </div>
                         <Link
-                            href="/news"
+                            href={publicHref('/news')}
                             className="text-sm font-medium text-[var(--gov-blue)] hover:text-[var(--gov-navy)]"
                         >
                             {t(locale, 'common.viewAll')}
@@ -272,57 +427,45 @@ export default function Home({
                             return (
                                 <article
                                     key={item.id}
-                                    className="gov-panel overflow-hidden"
+                                    className="gov-panel overflow-hidden p-5"
                                 >
-                                    {item.featured_image && (
-                                        <div className="aspect-[16/9] bg-slate-200">
-                                            <PublicImage
-                                                src={`/storage/${item.featured_image}`}
-                                                alt={translation.title}
-                                                className="h-full w-full object-cover"
-                                                priority={false}
-                                                sizes="(min-width: 1024px) 30vw, 100vw"
-                                            />
-                                        </div>
-                                    )}
-
-                                    <div className="p-6">
-                                        <div className="flex items-center justify-between gap-3">
-                                            <div className="flex items-center gap-2">
-                                                <Badge className="rounded-md bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
-                                                    {item.category?.name ??
-                                                        'Update'}
+                                    <div className="flex items-center justify-between gap-3">
+                                        <div className="flex items-center gap-2">
+                                            {item.is_featured && (
+                                                <Badge className="rounded-full bg-[var(--gov-blue)] text-white shadow-none">
+                                                    {t(locale, 'news.featured')}
                                                 </Badge>
-                                                {item.is_featured && (
-                                                    <Badge className="rounded-md bg-[var(--gov-blue)] text-white shadow-none">
-                                                        {t(locale, 'news.featured')}
-                                                    </Badge>
-                                                )}
-                                                {isRecent(item.published_at) && (
-                                                    <Badge variant="outline" className="rounded-md border-emerald-200 bg-emerald-50 text-emerald-700 shadow-none">
-                                                        {t(locale, 'news.new')}
-                                                    </Badge>
-                                                )}
-                                            </div>
-                                            <span className="text-xs text-slate-400">
-                                                {formatLocalizedDate(item.published_at, locale)}
-                                            </span>
+                                            )}
+                                            {isRecent(item.published_at) && (
+                                                <Badge
+                                                    variant="outline"
+                                                    className="rounded-full border-emerald-200 bg-emerald-50 text-emerald-700 shadow-none"
+                                                >
+                                                    {t(locale, 'news.new')}
+                                                </Badge>
+                                            )}
                                         </div>
-
-                                        <h3 className="mt-4 text-xl font-semibold text-[var(--gov-navy-strong)]">
-                                            {translation.title}
-                                        </h3>
-                                        <p className="mt-3 text-sm leading-7 text-slate-600">
-                                            {translation.summary}
-                                        </p>
-                                        <Link
-                                            href={`/news/${item.slug}`}
-                                            className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]"
-                                        >
-                                            {t(locale, 'common.readMore')}
-                                            <ArrowRight className="h-4 w-4" />
-                                        </Link>
+                                        <span className="text-xs text-slate-400">
+                                            {formatLocalizedDate(
+                                                item.published_at,
+                                                locale,
+                                            )}
+                                        </span>
                                     </div>
+
+                                    <h3 className="mt-5 text-lg font-semibold text-[var(--gov-navy-strong)]">
+                                        {translation.title}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                                        {translation.summary}
+                                    </p>
+                                    <Link
+                                        href={publicHref(`/news/${item.slug}`)}
+                                        className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]"
+                                    >
+                                        {t(locale, 'common.readMore')}
+                                        <ArrowRight className="h-4 w-4" />
+                                    </Link>
                                 </article>
                             );
                         })}
@@ -330,60 +473,10 @@ export default function Home({
                 </div>
             </section>
 
-            <section className="py-14">
-                <div className="gov-container grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-                    <div className="gov-panel p-6 md:p-7">
-                        <div className="mb-6 flex items-center justify-between gap-4">
-                            <div>
-                                <p className="gov-kicker mb-2">Activities</p>
-                                <h2 className="text-2xl font-semibold text-[var(--gov-navy-strong)]">
-                                    Current implementation activity
-                                </h2>
-                            </div>
-                            <Link
-                                href="/activities"
-                                className="text-sm font-medium text-[var(--gov-blue)]"
-                            >
-                                {t(locale, 'common.viewAll')}
-                            </Link>
-                        </div>
-
-                        <div className="space-y-4">
-                            {activities.slice(0, 3).map((activity) => {
-                                const translation = getTranslation(
-                                    activity,
-                                    locale,
-                                );
-
-                                return (
-                                    <div
-                                        key={activity.id}
-                                        className="rounded-lg border border-slate-200 bg-slate-50/80 p-4"
-                                    >
-                                        <div className="flex flex-wrap items-center gap-3">
-                                            <Badge className="rounded-md bg-white text-[var(--gov-blue)] shadow-none">
-                                                {getStatusLabel(
-                                                    activity.status,
-                                                    locale,
-                                                )}
-                                            </Badge>
-                                        </div>
-                                        <h3 className="mt-3 text-lg font-semibold text-[var(--gov-navy-strong)]">
-                                            {translation.title ??
-                                                t(locale, 'activities.title')}
-                                        </h3>
-                                        <p className="mt-2 text-sm leading-7 text-slate-600">
-                                            {translation.description ??
-                                                t(locale, 'common.noData')}
-                                        </p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    <div className="space-y-6">
-                        <div className="gov-panel p-6 md:p-7">
+            <section className="bg-white">
+                <div className="gov-container py-16">
+                    <div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+                        <div className="gov-panel p-7">
                             <div className="mb-6 flex items-center justify-between gap-4">
                                 <div>
                                     <p className="gov-kicker mb-2">
@@ -394,7 +487,7 @@ export default function Home({
                                     </h2>
                                 </div>
                                 <Link
-                                    href="/procurement"
+                                    href={publicHref('/procurement')}
                                     className="text-sm font-medium text-[var(--gov-blue)]"
                                 >
                                     {t(locale, 'common.viewAll')}
@@ -411,7 +504,7 @@ export default function Home({
                                     return (
                                         <div
                                             key={item.id}
-                                            className="rounded-lg border border-slate-200 p-4"
+                                            className="rounded-2xl border border-[var(--gov-line)] bg-[var(--gov-surface)] p-4"
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div>
@@ -426,7 +519,7 @@ export default function Home({
                                                             )}
                                                     </h3>
                                                 </div>
-                                                <Badge className="rounded-md bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
+                                                <Badge className="rounded-full bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
                                                     {getStatusLabel(
                                                         item.status,
                                                         locale,
@@ -452,34 +545,53 @@ export default function Home({
                             </div>
                         </div>
 
-                        <div className="rounded-2xl bg-[linear-gradient(135deg,var(--gov-blue),var(--gov-navy))] p-7 text-white shadow-lg">
-                            <p className="text-sm font-semibold tracking-[0.22em] text-white/70 uppercase">
+                        <div className="rounded-[2rem] bg-[linear-gradient(180deg,var(--gov-forest-soft)_0%,var(--gov-forest-deep)_100%)] p-8 text-white shadow-[0_24px_60px_-30px_rgba(8,61,46,0.55)]">
+                            <p className="text-sm font-semibold tracking-[0.22em] text-[var(--gov-gold)] uppercase">
                                 GRM Service
                             </p>
-                            <h2 className="mt-3 text-2xl font-semibold">
+                            <h2 className="mt-3 text-3xl font-semibold">
                                 {t(locale, 'grm.title')}
                             </h2>
-                            <p className="mt-4 text-sm leading-7 text-white/78">
+                            <p className="mt-4 max-w-lg text-sm leading-7 text-white/76">
                                 {t(locale, 'grm.description')}
                             </p>
-                            <div className="mt-6 flex flex-wrap gap-3">
+                            <div className="mt-8 flex flex-wrap gap-3">
                                 <Button
                                     asChild
-                                    className="rounded-lg bg-white text-[var(--gov-navy)] hover:bg-slate-100"
+                                    className="rounded-full bg-[var(--gov-gold)] text-white hover:bg-[#e0a53a]"
                                 >
-                                    <Link href="/grm/submit">
+                                    <Link href={publicHref('/grm/submit')}>
                                         {t(locale, 'grm.submit')}
                                     </Link>
                                 </Button>
                                 <Button
                                     asChild
                                     variant="outline"
-                                    className="rounded-lg border-white/30 bg-transparent text-white hover:bg-white hover:text-[var(--gov-navy)]"
+                                    className="rounded-full border-white/20 bg-transparent text-white hover:bg-white hover:text-[var(--gov-forest-deep)]"
                                 >
-                                    <Link href="/grm/track">
+                                    <Link href={publicHref('/grm/track')}>
                                         {t(locale, 'grm.track')}
                                     </Link>
                                 </Button>
+                            </div>
+
+                            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+                                <div className="rounded-2xl border border-white/10 bg-white/6 p-5">
+                                    <p className="text-sm font-medium text-white/60">
+                                        {t(locale, 'home.documents')}
+                                    </p>
+                                    <p className="mt-2 text-3xl font-semibold">
+                                        {latestDocuments.length}+
+                                    </p>
+                                </div>
+                                <div className="rounded-2xl border border-white/10 bg-white/6 p-5">
+                                    <p className="text-sm font-medium text-white/60">
+                                        {t(locale, 'home.activities')}
+                                    </p>
+                                    <p className="mt-2 text-3xl font-semibold">
+                                        {activities.length}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

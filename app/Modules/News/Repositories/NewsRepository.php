@@ -34,7 +34,7 @@ class NewsRepository extends BaseRepository
             $query->whereHas('translations', fn ($q) => $q->where('title', 'like', '%'.$filters['search'].'%'));
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function paginatePublishedWithTranslations(int $perPage = 15, array $filters = []): LengthAwarePaginator
@@ -52,7 +52,7 @@ class NewsRepository extends BaseRepository
             $query->whereHas('translations', fn ($builder) => $builder->where('title', 'like', '%'.$filters['search'].'%'));
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function findBySlug(string $slug): ?News

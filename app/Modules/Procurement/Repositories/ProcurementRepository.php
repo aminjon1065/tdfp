@@ -29,7 +29,7 @@ class ProcurementRepository extends BaseRepository
                 ->orWhereHas('translations', fn ($q) => $q->where('title', 'like', '%'.$filters['search'].'%'));
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function paginatePublicWithRelations(int $perPage = 15, array $filters = []): LengthAwarePaginator
@@ -55,7 +55,7 @@ class ProcurementRepository extends BaseRepository
             });
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function findByRefOrId(string $ref): ?Procurement

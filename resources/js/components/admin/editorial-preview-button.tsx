@@ -17,6 +17,7 @@ export function EditorialPreviewButton({
     disabled = false,
 }: EditorialPreviewButtonProps) {
     const { csrf_token: csrfToken, locale } = usePage<SharedData & { csrf_token?: string }>().props;
+    const currentLocale = locale ?? 'en';
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -43,14 +44,14 @@ export function EditorialPreviewButton({
             const responseBody = await response.json().catch(() => ({}));
 
             if (!response.ok || typeof responseBody.preview_url !== 'string') {
-                setErrorMessage(t(locale, 'admin.form.previewError'));
+                setErrorMessage(t(currentLocale, 'admin.form.previewError'));
 
                 return;
             }
 
             window.open(responseBody.preview_url, '_blank', 'noopener,noreferrer');
         } catch {
-            setErrorMessage(t(locale, 'admin.form.previewError'));
+            setErrorMessage(t(currentLocale, 'admin.form.previewError'));
         } finally {
             setIsLoading(false);
         }
@@ -64,11 +65,11 @@ export function EditorialPreviewButton({
                 onClick={handlePreview}
                 disabled={disabled || isLoading}
             >
-                {isLoading ? t(locale, 'admin.form.preparingPreview') : t(locale, 'admin.form.preview')}
+                {isLoading ? t(currentLocale, 'admin.form.preparingPreview') : t(currentLocale, 'admin.form.preview')}
             </Button>
             {errorMessage && (
                 <Alert className="border-amber-300 bg-amber-50 text-amber-900">
-                    <AlertTitle>{t(locale, 'admin.form.previewUnavailable')}</AlertTitle>
+                    <AlertTitle>{t(currentLocale, 'admin.form.previewUnavailable')}</AlertTitle>
                     <AlertDescription>{errorMessage}</AlertDescription>
                 </Alert>
             )}

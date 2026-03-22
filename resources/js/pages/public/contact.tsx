@@ -1,4 +1,5 @@
 import PublicLayout from '@/layouts/public-layout';
+import PageHero from '@/components/page-hero';
 import { t } from '@/lib/i18n';
 import { usePage } from '@inertiajs/react';
 import { Mail, MapPin, Phone } from 'lucide-react';
@@ -22,10 +23,15 @@ export default function Contact({ settings }: { settings: Record<string, string>
             description={t(locale, 'contact.description')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
+            <PageHero
+                title={t(locale, 'contact.heading')}
+                subtitle={t(locale, 'contact.title')}
+                description={t(locale, 'contact.description')}
+                compact
+            />
             <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'contact.heading')}</h1>
-                <p className="mb-10 text-gray-600">{t(locale, 'contact.description')}</p>
                 <address className="not-italic">
                     <dl className="grid gap-8 sm:grid-cols-3">
                         <div className="flex items-start gap-3">

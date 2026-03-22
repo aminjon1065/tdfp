@@ -14,9 +14,11 @@ class PublicMediaController extends Controller
 
     public function index(Request $request): Response
     {
+        $filters = $request->only('type', 'lang');
+
         return Inertia::render('public/media/index', [
-            'items' => $this->repository->paginatePublicWithRelations(24, $request->only('type')),
-            'filters' => $request->only('type'),
+            'items' => $this->repository->paginatePublicWithRelations(24, $filters),
+            'filters' => $filters,
         ]);
     }
 }

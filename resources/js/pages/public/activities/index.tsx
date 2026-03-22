@@ -1,9 +1,11 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
+import { publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
 
 const statusVariant: Record<string, any> = {
@@ -13,8 +15,11 @@ const statusVariant: Record<string, any> = {
 };
 
 export default function ActivitiesIndex({ activities, filters }: { activities: any; filters: any }) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const structuredData = [
         {
             '@context': 'https://schema.org',
@@ -38,14 +43,17 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
     ];
 
     return (
-        <PublicLayout title={t(locale, 'nav.activities')} description={t(locale, 'activities.description')} structuredData={structuredData}>
+        <PublicLayout title={t(locale, 'nav.activities')} description={t(locale, 'activities.description')} structuredData={structuredData} blendHeader>
+            <PageHero
+                title={t(locale, 'activities.title')}
+                subtitle={t(locale, 'nav.activities')}
+                description={t(locale, 'activities.description')}
+                compact
+            />
             <div className="container mx-auto px-4 py-12">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'activities.title')}</h1>
-                <p className="mb-8 text-gray-500">{t(locale, 'activities.description')}</p>
-
                 <div className="mb-6 flex flex-wrap gap-2">
                     {['', 'planned', 'in_progress', 'completed'].map((status) => (
-                        <Button key={status} variant={filters.status === status || (! status && ! filters.status) ? 'default' : 'outline'} size="sm" onClick={() => router.get('/activities', status ? { status } : {})}>
+                        <Button key={status} variant={filters.status === status || (! status && ! filters.status) ? 'default' : 'outline'} size="sm" onClick={() => router.get('/activities', status ? { ...localeQuery, status } : localeQuery)}>
                             {status ? getStatusLabel(status, locale) : t(locale, 'common.all')}
                         </Button>
                     ))}

@@ -1,4 +1,5 @@
 import PublicLayout from '@/layouts/public-layout';
+import PageHero from '@/components/page-hero';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -51,11 +52,15 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
             structuredData={structuredData}
             seoType="website"
             noIndex
+            blendHeader
         >
+            <PageHero
+                title="Track Your Complaint"
+                subtitle={t(locale, 'grm.title')}
+                description="Enter your ticket number and tracking token to check the current status of your complaint."
+                compact
+            />
             <div className="container mx-auto px-4 py-12 max-w-2xl">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">Track Your Complaint</h1>
-                <p className="mb-8 text-gray-600">Enter your ticket number and tracking token to check the current status of your complaint.</p>
-
                 <form onSubmit={handleSearch} className="mb-8 space-y-4" noValidate>
                     <div className="grid flex-1 gap-3 sm:grid-cols-2">
                         <div className="space-y-1.5">

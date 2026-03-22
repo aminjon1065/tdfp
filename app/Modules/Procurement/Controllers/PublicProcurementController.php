@@ -16,7 +16,7 @@ class PublicProcurementController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only('search', 'status', 'year');
+        $filters = $request->only('search', 'status', 'year', 'lang');
 
         return Inertia::render('public/procurement/index', [
             'procurements' => $this->repository

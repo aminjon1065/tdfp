@@ -1,8 +1,10 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import { getTranslation, t } from '@/lib/i18n';
+import { publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Download, FileText, Search } from 'lucide-react';
 import { useState } from 'react';
@@ -29,8 +31,11 @@ export default function DocumentsIndex({
     fileTypes: string[];
     tags: { id: number; name: string; slug: string }[];
 }) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const page = usePage().props as any;
+    const locale = page.locale ?? 'en';
+    const currentUrl = page.ziggy?.location ?? '';
+    const defaultLocale = page.localization?.default_locale ?? 'en';
+    const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const [search, setSearch] = useState(filters.search ?? '');
     const structuredData = [
         {
@@ -60,12 +65,17 @@ export default function DocumentsIndex({
             description={t(locale, 'documents.indexDescription')}
             structuredData={structuredData}
             seoType="website"
+            blendHeader
         >
-            <div className="container mx-auto px-4 py-12">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">{t(locale, 'documents.indexTitle')}</h1>
-                <p className="mb-8 text-gray-500">{t(locale, 'documents.indexDescription')}</p>
-                <div className="mb-6 space-y-3">
-                    <form onSubmit={(event) => { event.preventDefault(); router.get('/documents', { search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type, tag: filters.tag }); }} className="flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'documents.indexTitle')}>
+            <PageHero
+                title={t(locale, 'documents.indexTitle')}
+                subtitle={t(locale, 'documents.title')}
+                description={t(locale, 'documents.indexDescription')}
+                compact
+            />
+            <div className="container mx-auto space-y-8 px-4 py-12">
+                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <form onSubmit={(event) => { event.preventDefault(); router.get('/documents', { ...localeQuery, search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type, tag: filters.tag }); }} className="flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'documents.indexTitle')}>
                         <label htmlFor="document-search-query" className="sr-only">
                             {t(locale, 'documents.searchPlaceholder')}
                         </label>
@@ -80,7 +90,7 @@ export default function DocumentsIndex({
                             <select
                                 id="document-year-filter"
                                 value={filters.year ?? ''}
-                                onChange={(event) => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: event.target.value || undefined, file_type: filters.file_type, tag: filters.tag })}
+                                onChange={(event) => router.get('/documents', { ...localeQuery, search: filters.search, category_id: filters.category_id, year: event.target.value || undefined, file_type: filters.file_type, tag: filters.tag })}
                                 className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             >
                                 <option value="">{t(locale, 'common.all')}</option>
@@ -96,7 +106,7 @@ export default function DocumentsIndex({
                             <select
                                 id="document-file-type-filter"
                                 value={filters.file_type ?? ''}
-                                onChange={(event) => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: filters.year, file_type: event.target.value || undefined, tag: filters.tag })}
+                                onChange={(event) => router.get('/documents', { ...localeQuery, search: filters.search, category_id: filters.category_id, year: filters.year, file_type: event.target.value || undefined, tag: filters.tag })}
                                 className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm uppercase"
                             >
                                 <option value="">{t(locale, 'common.all')}</option>
@@ -109,22 +119,22 @@ export default function DocumentsIndex({
                         </div>
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                        <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { search: filters.search, year: filters.year, file_type: filters.file_type, tag: filters.tag })}>{t(locale, 'common.all')}</Button>
-                        {categories.map((category) => <Button key={category.id} variant={filters.category_id == category.id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { category_id: category.id, search: filters.search, year: filters.year, file_type: filters.file_type, tag: filters.tag })}>{category.name}</Button>)}
+                        <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { ...localeQuery, search: filters.search, year: filters.year, file_type: filters.file_type, tag: filters.tag })}>{t(locale, 'common.all')}</Button>
+                        {categories.map((category) => <Button key={category.id} variant={filters.category_id == category.id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { ...localeQuery, category_id: category.id, search: filters.search, year: filters.year, file_type: filters.file_type, tag: filters.tag })}>{category.name}</Button>)}
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                        <Button variant={! filters.tag ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { search: filters.search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type })}>{t(locale, 'common.all')}</Button>
-                        {tags.map((tag) => <Button key={tag.id} variant={filters.tag === tag.slug ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { tag: tag.slug, search: filters.search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type })}>{tag.name}</Button>)}
+                        <Button variant={! filters.tag ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { ...localeQuery, search: filters.search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type })}>{t(locale, 'common.all')}</Button>
+                        {tags.map((tag) => <Button key={tag.id} variant={filters.tag === tag.slug ? 'default' : 'outline'} size="sm" onClick={() => router.get('/documents', { ...localeQuery, tag: tag.slug, search: filters.search, category_id: filters.category_id, year: filters.year, file_type: filters.file_type })}>{tag.name}</Button>)}
                     </div>
-                </div>
-                <ul className="space-y-3">
+                </section>
+                <ul className="space-y-4">
                     {documents.data.map((document: any) => {
                         const translation = getTranslation(document, locale);
 
                         return (
-                            <li key={document.id} className="flex items-start justify-between gap-4 rounded-lg border p-4 transition-colors hover:border-blue-300">
+                            <li key={document.id} className="flex items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-[var(--gov-blue)]/30">
                                 <div className="flex items-start gap-3">
-                                    <FileText className="mt-0.5 h-5 w-5 shrink-0 text-blue-600" aria-hidden="true" />
+                                    <FileText className="mt-0.5 h-5 w-5 shrink-0 text-[var(--gov-blue)]" aria-hidden="true" />
                                     <div>
                                         <p className="font-medium text-gray-900">{translation.title ?? t(locale, 'common.document')}</p>
                                         {translation.description && <p className="text-sm text-gray-500 mt-0.5">{translation.description}</p>}
@@ -153,7 +163,7 @@ export default function DocumentsIndex({
                         );
                     })}
                 </ul>
-                {documents.data.length === 0 && <p className="py-12 text-center text-gray-500">{t(locale, 'documents.empty')}</p>}
+                {documents.data.length === 0 && <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-gray-500">{t(locale, 'documents.empty')}</div>}
             </div>
         </PublicLayout>
     );

@@ -24,7 +24,7 @@ class DocumentRepository extends BaseRepository
             $query->whereHas('translations', fn ($q) => $q->where('title', 'like', '%'.$filters['search'].'%'));
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function paginatePublishedWithRelations(int $perPage = 15, array $filters = []): LengthAwarePaginator
@@ -63,7 +63,7 @@ class DocumentRepository extends BaseRepository
             });
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function findByIdWithRelations(int $id): ?Document

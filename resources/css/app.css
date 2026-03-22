@@ -101,12 +101,16 @@
     --gov-navy: #14325c;
     --gov-navy-strong: #0b2342;
     --gov-blue: #214f86;
-    --gov-gold: #b78a2f;
-    --gov-gold-soft: #e1c88c;
+    --gov-gold: #d89b2d;
+    --gov-gold-soft: #efd39d;
     --gov-ink: #1f2a37;
-    --gov-paper: #f5f2e8;
+    --gov-paper: #f6f2e8;
     --gov-mist: #edf2f7;
     --gov-line: #d4dbe5;
+    --gov-forest-deep: #0b2342;
+    --gov-forest-soft: #163964;
+    --gov-surface: #fcfaf5;
+    --gov-surface-strong: #f0ebde;
 }
 
 .dark {
@@ -157,7 +161,7 @@
                 rgba(33, 79, 134, 0.08),
                 transparent 24%
             ),
-            linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            linear-gradient(180deg, #fbf8f1 0%, #f4efe3 100%);
         color: var(--gov-ink);
     }
 
@@ -198,16 +202,45 @@
 
     .gov-kicker {
         @apply text-[0.72rem] font-semibold tracking-[0.28em] uppercase;
-        color: var(--gov-blue);
+        color: var(--gov-gold);
     }
 
     .gov-panel {
-        @apply rounded-xl border bg-white shadow-sm;
+        @apply rounded-2xl border bg-white shadow-sm;
         border-color: var(--gov-line);
+        box-shadow: 0 20px 45px -30px rgba(11, 35, 66, 0.2);
     }
 
     .gov-section-title {
         @apply text-3xl leading-tight font-semibold md:text-4xl;
         color: var(--gov-navy-strong);
+    }
+
+    .gov-hero-shell {
+        background:
+            radial-gradient(circle at top right, rgba(216, 155, 45, 0.18), transparent 20%),
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 30%),
+            linear-gradient(180deg, var(--gov-forest-soft) 0%, var(--gov-forest-deep) 100%);
+    }
+
+    .gov-soft-section {
+        background: linear-gradient(180deg, var(--gov-surface) 0%, var(--gov-surface-strong) 100%);
+    }
+
+    .gov-stat-card {
+        @apply rounded-xl border bg-white px-5 py-4;
+        border-color: rgba(20, 50, 92, 0.1);
+        box-shadow: 0 16px 38px -28px rgba(20, 50, 92, 0.18);
+    }
+
+    .gov-pill-link {
+        @apply inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition;
+        border-color: rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .gov-pill-link:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
     }
 }

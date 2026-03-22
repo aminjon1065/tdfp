@@ -1,15 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { useBVI } from '@/providers/bvi-provider';
+import { Accessibility } from 'lucide-react';
 
-export function BVIButton() {
+interface BVIButtonProps {
+    className?: string;
+    label?: string;
+}
+
+export function BVIButton({ className, label = 'Версия для слабовидящих' }: BVIButtonProps) {
     const { state, setState } = useBVI();
 
     return (
         <Button
             variant="outline"
             onClick={() => setState((s) => ({ ...s, enabled: !s.enabled }))}
+            className={className}
         >
-            Версия для слабовидящих
+            <Accessibility className="mr-2 h-4 w-4" />
+            {label}
         </Button>
     );
 }

@@ -1,3 +1,4 @@
+import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -47,11 +48,15 @@ export default function SearchPage({ results, query, filters, entityTypes }: Pro
             title={t(locale, 'search.title')}
             description={t(locale, 'search.description')}
             structuredData={structuredData}
+            blendHeader
         >
+            <PageHero
+                title={t(locale, 'search.title')}
+                subtitle={t(locale, 'common.search')}
+                description={t(locale, 'search.description')}
+                compact
+            />
             <div className="container mx-auto px-4 py-12 max-w-3xl">
-                <h1 className="mb-2 text-2xl font-bold text-gray-900">{t(locale, 'search.title')}</h1>
-                <p className="mb-6 text-gray-500">{t(locale, 'search.description')}</p>
-
                 <form onSubmit={handleSearch} className="mb-8 flex flex-col gap-3 sm:flex-row" role="search" aria-label={t(locale, 'search.title')}>
                     <label htmlFor="site-search-query" className="sr-only">
                         {t(locale, 'search.title')}

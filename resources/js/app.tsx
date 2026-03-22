@@ -4,6 +4,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BVIProvider } from './providers/bvi-provider';
 
 // import { initializeTheme } from './hooks/use-appearance';
 
@@ -21,7 +22,9 @@ createInertiaApp({
 
         root.render(
             <StrictMode>
-                <App {...props} />
+                <BVIProvider>
+                    <App {...props} />
+                </BVIProvider>
             </StrictMode>,
         );
     },
