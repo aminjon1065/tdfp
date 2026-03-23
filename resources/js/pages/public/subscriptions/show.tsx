@@ -6,37 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const statusMessages: Record<string, { tone: string; title: string; body: string }> = {
-    'confirmation-sent': {
-        tone: 'border-blue-200 bg-blue-50 text-blue-900',
-        title: 'Check your email',
-        body: 'We sent a confirmation link to activate your subscription.',
-    },
-    confirmed: {
-        tone: 'border-emerald-200 bg-emerald-50 text-emerald-900',
-        title: 'Subscription confirmed',
-        body: 'You are now subscribed to project updates.',
-    },
-    unsubscribed: {
-        tone: 'border-slate-200 bg-slate-50 text-slate-900',
-        title: 'You have been unsubscribed',
-        body: 'You will no longer receive project update emails.',
-    },
-    'already-active': {
-        tone: 'border-amber-200 bg-amber-50 text-amber-900',
-        title: 'Already subscribed',
-        body: 'This email address is already active in the mailing list.',
-    },
-    'invalid-confirmation': {
-        tone: 'border-red-200 bg-red-50 text-red-900',
-        title: 'Confirmation link is invalid',
-        body: 'Request a new subscription confirmation if you still want to join the list.',
-    },
-    'invalid-unsubscribe': {
-        tone: 'border-red-200 bg-red-50 text-red-900',
-        title: 'Unsubscribe link is invalid',
-        body: 'The management link is no longer valid.',
-    },
+const statusTones: Record<string, string> = {
+    'confirmation-sent': 'border-blue-200 bg-blue-50 text-blue-900',
+    confirmed: 'border-emerald-200 bg-emerald-50 text-emerald-900',
+    unsubscribed: 'border-slate-200 bg-slate-50 text-slate-900',
+    'already-active': 'border-amber-200 bg-amber-50 text-amber-900',
+    'invalid-confirmation': 'border-red-200 bg-red-50 text-red-900',
+    'invalid-unsubscribe': 'border-red-200 bg-red-50 text-red-900',
 };
 
 export default function SubscriptionPage({
@@ -59,7 +35,13 @@ export default function SubscriptionPage({
     });
     const actionForm = useForm({});
 
-    const statusMessage = subscriptionStatus ? statusMessages[subscriptionStatus] : null;
+    const statusTone = subscriptionStatus ? statusTones[subscriptionStatus] : null;
+    const statusMessage = subscriptionStatus
+        ? {
+              title: t(locale, `subscriptions.status.${subscriptionStatus}.title`),
+              body: t(locale, `subscriptions.status.${subscriptionStatus}.body`),
+          }
+        : null;
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'SubscribeAction',
@@ -95,17 +77,19 @@ export default function SubscriptionPage({
                 {subscriptionAction && (
                     <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                         <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">
-                            {subscriptionAction.intent === 'confirm' ? 'Confirm request' : 'Unsubscribe request'}
+                            {subscriptionAction.intent === 'confirm'
+                                ? t(locale, 'subscriptions.confirmRequest')
+                                : t(locale, 'subscriptions.unsubscribeRequest')}
                         </p>
                         <h2 className="mt-2 text-2xl font-semibold text-slate-900">
                             {subscriptionAction.intent === 'confirm'
-                                ? 'Review and confirm your email subscription'
-                                : 'Review and confirm unsubscribe request'}
+                                ? t(locale, 'subscriptions.confirmReviewTitle')
+                                : t(locale, 'subscriptions.unsubscribeReviewTitle')}
                         </h2>
                         <p className="mt-3 text-sm leading-6 text-slate-600">
                             {subscriptionAction.intent === 'confirm'
-                                ? `Activate project update emails for ${subscriptionAction.email}.`
-                                : `Stop sending project update emails to ${subscriptionAction.email}.`}
+                                ? `${t(locale, 'subscriptions.confirmReviewBodyPrefix')} ${subscriptionAction.email}.`
+                                : `${t(locale, 'subscriptions.unsubscribeReviewBodyPrefix')} ${subscriptionAction.email}.`}
                         </p>
                         <div className="mt-5 flex flex-wrap gap-3">
                             <Button
@@ -114,17 +98,17 @@ export default function SubscriptionPage({
                                 onClick={() => actionForm.post(subscriptionAction.action_url)}
                             >
                                 {actionForm.processing
-                                    ? 'Processing…'
+                                    ? t(locale, 'subscriptions.processing')
                                     : subscriptionAction.intent === 'confirm'
-                                      ? 'Confirm subscription'
-                                      : 'Unsubscribe'}
+                                      ? t(locale, 'subscriptions.confirmAction')
+                                      : t(locale, 'subscriptions.unsubscribeAction')}
                             </Button>
                         </div>
                     </div>
                 )}
 
-                {statusMessage && (
-                    <div className={`mb-6 rounded-xl border px-4 py-4 ${statusMessage.tone}`}>
+                {statusMessage && statusTone && (
+                    <div className={`mb-6 rounded-xl border px-4 py-4 ${statusTone}`}>
                         <p className="font-semibold">{statusMessage.title}</p>
                         <p className="mt-1 text-sm">{statusMessage.body}</p>
                     </div>

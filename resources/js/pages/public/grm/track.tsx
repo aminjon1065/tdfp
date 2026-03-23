@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { router, useForm, usePage } from '@inertiajs/react';
 import { CheckCircle } from 'lucide-react';
-import { t } from '@/lib/i18n';
+import { formatLocalizedDate, formatLocalizedDateTime, getStatusLabel, t } from '@/lib/i18n';
 
 interface Props {
     trackingRequirements: {
@@ -55,16 +55,16 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
             blendHeader
         >
             <PageHero
-                title="Track Your Complaint"
+                title={t(locale, 'grm.trackTitle')}
                 subtitle={t(locale, 'grm.title')}
-                description="Enter your ticket number and tracking token to check the current status of your complaint."
+                description={t(locale, 'grm.trackLead')}
                 compact
             />
             <div className="container mx-auto px-4 py-12 max-w-2xl">
                 <form onSubmit={handleSearch} className="mb-8 space-y-4" noValidate>
                     <div className="grid flex-1 gap-3 sm:grid-cols-2">
                         <div className="space-y-1.5">
-                            <Label htmlFor="ticket_number">Ticket number</Label>
+                            <Label htmlFor="ticket_number">{t(locale, 'grm.ticketNumber')}</Label>
                             <Input
                                 id="ticket_number"
                                 name="ticket_number"
@@ -77,7 +77,7 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
                                 aria-describedby={`ticket-number-help${errors.ticket_number ? ' ticket-number-error' : ''}`}
                             />
                             <p id="ticket-number-help" className="text-sm text-gray-500">
-                                Format: GRM-YYYY-12345
+                                {t(locale, 'grm.ticketFormatHelp')}
                             </p>
                             {errors.ticket_number && (
                                 <p id="ticket-number-error" role="alert" className="text-sm text-red-600">
@@ -86,19 +86,19 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
                             )}
                         </div>
                         <div className="space-y-1.5">
-                            <Label htmlFor="tracking_token">Tracking token</Label>
+                            <Label htmlFor="tracking_token">{t(locale, 'grm.trackingToken')}</Label>
                             <Input
                                 id="tracking_token"
                                 name="tracking_token"
                                 value={data.tracking_token}
                                 onChange={(e) => setData('tracking_token', e.target.value.toUpperCase())}
-                                placeholder="32-character token"
+                                placeholder={t(locale, 'grm.trackingTokenPlaceholder')}
                                 autoComplete="off"
                                 aria-invalid={!!errors.tracking_token}
                                 aria-describedby={`tracking-token-help${errors.tracking_token ? ' tracking-token-error' : ''}`}
                             />
                             <p id="tracking-token-help" className="text-sm text-gray-500">
-                                Use the {trackingRequirements.tracking_token_length}-character tracking token shown on submission confirmation.
+                                {`${t(locale, 'grm.trackingTokenHelpPrefix')} ${trackingRequirements.tracking_token_length} ${t(locale, 'grm.trackingTokenHelpSuffix')}`}
                             </p>
                             {errors.tracking_token && (
                                 <p id="tracking-token-error" role="alert" className="text-sm text-red-600">
@@ -108,19 +108,19 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
                         </div>
                     </div>
                     <Button type="submit" disabled={processing}>
-                        {processing ? 'Searching…' : 'Track'}
+                        {processing ? t(locale, 'grm.searching') : t(locale, 'grm.track')}
                     </Button>
                 </form>
 
                 {notFound && (
                     <div role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                        No complaint matched the ticket number and tracking token provided. Please check both values and try again.
+                        {t(locale, 'grm.notFound')}
                     </div>
                 )}
 
                 {trackingExpired && (
                     <div role="status" aria-live="polite" className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-                        Public tracking for this closed complaint has expired. Please contact the GRM team if you need additional follow-up.
+                        {t(locale, 'grm.trackingExpired')}
                     </div>
                 )}
 
@@ -129,16 +129,16 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
                         <div className="rounded-lg border p-5">
                             <div className="flex items-center justify-between mb-3">
                                 <p className="font-mono text-lg font-bold text-blue-700">{grmCase.ticket_number}</p>
-                                <Badge>{grmCase.status?.replace('_', ' ')}</Badge>
+                                <Badge>{getStatusLabel(grmCase.status, locale)}</Badge>
                             </div>
                             <div className="grid sm:grid-cols-2 gap-3 text-sm">
-                                <div><span className="text-gray-500">Submitted:</span> <span className="font-medium">{new Date(grmCase.created_at).toLocaleDateString()}</span></div>
-                                <div><span className="text-gray-500">Progress:</span> <span className="font-medium">{grmCase.statusHistory.length} updates</span></div>
+                                <div><span className="text-gray-500">{t(locale, 'grm.submittedOn')}</span> <span className="font-medium">{formatLocalizedDate(grmCase.created_at, locale)}</span></div>
+                                <div><span className="text-gray-500">{t(locale, 'grm.progress')}</span> <span className="font-medium">{grmCase.statusHistory.length} {t(locale, 'grm.updates')}</span></div>
                             </div>
                         </div>
 
                         <div>
-                            <h2 className="mb-3 font-semibold text-gray-900">Status History</h2>
+                            <h2 className="mb-3 font-semibold text-gray-900">{t(locale, 'grm.statusHistory')}</h2>
                             <ol className="space-y-3">
                                 {grmCase.statusHistory.map((h, i) => (
                                     <li key={i} className="flex gap-3">
@@ -147,9 +147,9 @@ export default function GrmTrack({ case: grmCase, notFound, trackingExpired, tra
                                             {i < grmCase.statusHistory.length - 1 && <div className="w-0.5 flex-1 bg-gray-200 mt-1" />}
                                         </div>
                                         <div className="pb-3">
-                                            <p className="font-medium text-sm">{h.status?.replace('_', ' ')}</p>
+                                            <p className="font-medium text-sm">{getStatusLabel(h.status, locale)}</p>
                                             <p className="text-xs text-gray-400 mt-0.5">
-                                                <time dateTime={h.created_at}>{new Date(h.created_at).toLocaleString()}</time>
+                                                <time dateTime={h.created_at}>{formatLocalizedDateTime(h.created_at, locale)}</time>
                                             </p>
                                         </div>
                                     </li>

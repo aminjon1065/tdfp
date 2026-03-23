@@ -30,9 +30,9 @@ export default function GrmIndex() {
             blendHeader
         >
             <PageHero
-                title="Grievance Redress Mechanism"
+                title={t(locale, 'grm.title')}
                 subtitle={t(locale, 'grm.title')}
-                description="The GRM provides a transparent, accessible, and accountable process for project-affected people to raise concerns and grievances."
+                description={t(locale, 'grm.indexLead')}
                 compact
             />
             <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -40,43 +40,43 @@ export default function GrmIndex() {
                     <li>
                         <article className="rounded-xl border p-6 text-center transition-colors hover:border-blue-300">
                             <MessageCircle className="mx-auto mb-3 h-8 w-8 text-orange-600" aria-hidden="true" />
-                            <h2 className="mb-2 font-semibold">Submit Complaint</h2>
-                            <p className="mb-4 text-sm text-gray-500">Have a grievance? Submit it online for review.</p>
+                            <h2 className="mb-2 font-semibold">{t(locale, 'grm.cardSubmitTitle')}</h2>
+                            <p className="mb-4 text-sm text-gray-500">{t(locale, 'grm.cardSubmitDescription')}</p>
                             <Button asChild className="w-full bg-orange-600 hover:bg-orange-700">
-                                <Link href={publicHref('/grm/submit')}>Submit Now</Link>
+                                <Link href={publicHref('/grm/submit')}>{t(locale, 'grm.cardSubmitAction')}</Link>
                             </Button>
                         </article>
                     </li>
                     <li>
                         <article className="rounded-xl border p-6 text-center transition-colors hover:border-blue-300">
                             <Search className="mx-auto mb-3 h-8 w-8 text-blue-600" aria-hidden="true" />
-                            <h2 className="mb-2 font-semibold">Track Your Case</h2>
-                            <p className="mb-4 text-sm text-gray-500">Check the status of your existing complaint.</p>
+                            <h2 className="mb-2 font-semibold">{t(locale, 'grm.cardTrackTitle')}</h2>
+                            <p className="mb-4 text-sm text-gray-500">{t(locale, 'grm.cardTrackDescription')}</p>
                             <Button asChild variant="outline" className="w-full">
-                                <Link href={publicHref('/grm/track')}>Track Case</Link>
+                                <Link href={publicHref('/grm/track')}>{t(locale, 'grm.cardTrackAction')}</Link>
                             </Button>
                         </article>
                     </li>
                     <li>
                         <article className="rounded-xl border p-6 text-center transition-colors hover:border-blue-300">
                             <Shield className="mx-auto mb-3 h-8 w-8 text-green-600" aria-hidden="true" />
-                            <h2 className="mb-2 font-semibold">GRM Policy</h2>
-                            <p className="mb-4 text-sm text-gray-500">Learn about our grievance handling process.</p>
+                            <h2 className="mb-2 font-semibold">{t(locale, 'grm.cardPolicyTitle')}</h2>
+                            <p className="mb-4 text-sm text-gray-500">{t(locale, 'grm.cardPolicyDescription')}</p>
                             <Button asChild variant="outline" className="w-full">
-                                <Link href={publicHref('/pages/grm-policy')}>Read Policy</Link>
+                                <Link href={publicHref('/pages/grm-policy')}>{t(locale, 'grm.cardPolicyAction')}</Link>
                             </Button>
                         </article>
                     </li>
                 </ul>
 
                 <div className="rounded-xl bg-blue-50 border border-blue-200 p-6">
-                    <h2 className="font-semibold text-blue-900 mb-2">Complaint Categories</h2>
+                    <h2 className="font-semibold text-blue-900 mb-2">{t(locale, 'grm.categoriesTitle')}</h2>
                     <ul className="grid sm:grid-cols-2 gap-2 text-sm text-blue-800">
-                        <li>• Procurement issues</li>
-                        <li>• Project implementation concerns</li>
-                        <li>• Environmental and social impacts</li>
-                        <li>• Corruption allegations</li>
-                        <li>• Other project-related concerns</li>
+                        <li>{`• ${t(locale, 'grm.category.procurement')}`}</li>
+                        <li>{`• ${t(locale, 'grm.category.project_implementation')}`}</li>
+                        <li>{`• ${t(locale, 'grm.category.environment_social')}`}</li>
+                        <li>{`• ${t(locale, 'grm.category.corruption')}`}</li>
+                        <li>{`• ${t(locale, 'grm.category.other')}`}</li>
                     </ul>
                 </div>
             </div>

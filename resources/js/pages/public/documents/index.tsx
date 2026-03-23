@@ -132,9 +132,9 @@ export default function DocumentsIndex({
                         const translation = getTranslation(document, locale);
 
                         return (
-                            <li key={document.id} className="flex items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-[var(--gov-blue)]/30">
+                            <li key={document.id} className="flex items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-[var(--public-accent)]/30">
                                 <div className="flex items-start gap-3">
-                                    <FileText className="mt-0.5 h-5 w-5 shrink-0 text-[var(--gov-blue)]" aria-hidden="true" />
+                                    <FileText className="mt-0.5 h-5 w-5 shrink-0 text-[var(--public-accent)]" aria-hidden="true" />
                                     <div>
                                         <p className="font-medium text-gray-900">{translation.title ?? t(locale, 'common.document')}</p>
                                         {translation.description && <p className="text-sm text-gray-500 mt-0.5">{translation.description}</p>}

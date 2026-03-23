@@ -50,30 +50,6 @@ interface Props {
     settings: Record<string, string>;
 }
 
-const serviceCards = [
-    {
-        title: 'Project activities',
-        description:
-            'Track implementation progress and published updates from the project.',
-        href: '/activities',
-        icon: Megaphone,
-    },
-    {
-        title: 'Procurement notices',
-        description:
-            'Review open notices, references, and deadlines for suppliers.',
-        href: '/procurement',
-        icon: ShoppingBag,
-    },
-    {
-        title: 'Public documents',
-        description:
-            'Access official project documents and published materials.',
-        href: '/documents',
-        icon: FileText,
-    },
-];
-
 export default function Home({
     latestNews,
     whatsNew,
@@ -92,6 +68,26 @@ export default function Home({
     const currentUrl = page.ziggy?.location ?? '';
     const publicHref = (path: string) =>
         localizedPublicHref(path, locale, defaultLocale);
+    const serviceCards = [
+        {
+            title: t(locale, 'home.services.activitiesTitle'),
+            description: t(locale, 'home.services.activitiesDescription'),
+            href: '/activities',
+            icon: Megaphone,
+        },
+        {
+            title: t(locale, 'home.services.procurementTitle'),
+            description: t(locale, 'home.services.procurementDescription'),
+            href: '/procurement',
+            icon: ShoppingBag,
+        },
+        {
+            title: t(locale, 'home.services.documentsTitle'),
+            description: t(locale, 'home.services.documentsDescription'),
+            href: '/documents',
+            icon: FileText,
+        },
+    ];
     const isRecent = (publishedAt?: string | null) =>
         publishedAt &&
         (Date.now() - new Date(publishedAt).getTime()) /
@@ -135,24 +131,21 @@ export default function Home({
                 <div className="gov-container py-18 md:py-24">
                     <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
                         <div className="max-w-3xl">
-                            <p className="gov-kicker mb-5 text-[var(--gov-gold)]">
-                                Tajikistan Digital Foundations Project
+                            <p className="gov-kicker mb-5 text-[var(--public-accent)]">
+                                {t(locale, 'home.title')}
                             </p>
                             <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl">
-                                Official project portal for public information,
-                                procurement, and grievance access.
+                                {t(locale, 'home.heroTitle')}
                             </h1>
                             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
-                                A single institutional portal for verified
-                                updates, key project activities, official
-                                documents, and public-facing service channels.
+                                {t(locale, 'home.heroDescription')}
                             </p>
 
                             <div className="mt-9 flex flex-wrap gap-3">
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="rounded-full bg-[var(--gov-gold)] px-6 text-white hover:bg-[#e4ab40]"
+                                    className="rounded-md bg-(--public-primary) px-6 text-white hover:bg-(--public-primary-hover)"
                                 >
                                     <Link href={publicHref('/project')}>
                                         {t(locale, 'home.learnMore')}
@@ -162,61 +155,61 @@ export default function Home({
                                     href={publicHref('/contact')}
                                     className="gov-pill-link"
                                 >
-                                    Contact
+                                    {t(locale, 'home.contactAction')}
                                 </Link>
                             </div>
                         </div>
 
-                        <div className="rounded-[2rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
+                        <div className="rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
-                                        Key focus
+                                    <p className="text-xs font-medium tracking-[0.22em] text-(--public-accent) uppercase">
+                                        {t(locale, 'home.keyFocus')}
                                     </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-(--public-primary-hover)">
                                         10+
                                     </p>
                                     <p className="mt-1 text-sm text-slate-500">
-                                        Project components
+                                        {t(locale, 'home.keyFocusCaption')}
                                     </p>
                                 </div>
                                 <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
                                         Budget
                                     </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
                                         $40M
                                     </p>
                                     <p className="mt-1 text-sm text-slate-500">
-                                        Financing envelope
+                                        {t(locale, 'home.budgetCaption')}
                                     </p>
                                 </div>
                                 <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
                                         {t(locale, 'home.activities')}
                                     </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
                                         {activities.length}
                                     </p>
                                     <p className="mt-1 text-sm text-slate-500">
-                                        Published activity records
+                                        {t(locale, 'home.activitiesCaption')}
                                     </p>
                                 </div>
                                 <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--gov-blue)] uppercase">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
                                         {t(locale, 'home.documents')}
                                     </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--gov-navy-strong)]">
+                                    <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
                                         {latestDocuments.length}+
                                     </p>
                                     <p className="mt-1 text-sm text-slate-500">
-                                        Published documents
+                                        {t(locale, 'home.documentsCaption')}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="mt-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 text-sm text-white/78">
-                                Official contact:{' '}
+                                {t(locale, 'home.contactLabel')}:{' '}
                                 {settings.contact_email ?? 'info@example.tj'}
                             </div>
                         </div>
@@ -224,60 +217,59 @@ export default function Home({
 
                     <div className="mt-14 grid gap-6 border-t border-white/10 pt-8 sm:grid-cols-2 xl:grid-cols-4">
                         <div>
-                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
                                 30+
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                Operational content units and updates
+                                {t(locale, 'home.metrics.contentUnits')}
                             </p>
                         </div>
                         <div>
-                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
                                 200+
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                Stakeholder interactions and published records
+                                {t(locale, 'home.metrics.interactions')}
                             </p>
                         </div>
                         <div>
-                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
                                 50+
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                Project documents and notices in circulation
+                                {t(locale, 'home.metrics.materials')}
                             </p>
                         </div>
                         <div>
-                            <p className="text-3xl font-semibold text-[var(--gov-gold)]">
+                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
                                 15+
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                Priority workstreams and procurement milestones
+                                {t(locale, 'home.metrics.workstreams')}
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="bg-[var(--gov-surface)]">
+            <section className="bg-[var(--public-surface)]">
                 <div className="gov-container py-16">
                     <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
                         <div>
-                            <p className="gov-kicker mb-4">Our mission</p>
+                            <p className="gov-kicker mb-4">{t(locale, 'home.mission')}</p>
                             <h2 className="gov-section-title">
-                                A credible digital public portal with clear
-                                access to project information.
+                                {t(locale, 'home.missionTitle')}
                             </h2>
                             <p className="mt-6 max-w-2xl text-sm leading-8 text-slate-600">
                                 {settings.site_description ??
-                                    'The portal supports public transparency, institutional communication, and accessible service delivery for project beneficiaries, partners, and citizens.'}
+                                    t(locale, 'home.missionFallback')}
                             </p>
                             <div className="mt-6">
                                 <Link
                                     href={publicHref('/about')}
-                                    className="inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]"
+                                    className="inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]"
                                 >
-                                    Learn more
+                                    {t(locale, 'home.learnMore')}
                                     <ArrowRight className="h-4 w-4" />
                                 </Link>
                             </div>
@@ -285,35 +277,35 @@ export default function Home({
 
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
                                     30+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    Public content areas
+                                    {t(locale, 'home.publicContentAreas')}
                                 </p>
                             </div>
                             <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
                                     200+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    Visible operational records
+                                    {t(locale, 'home.visibleOperationalRecords')}
                                 </p>
                             </div>
                             <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
                                     50+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    Published reference materials
+                                    {t(locale, 'home.publishedReferenceMaterials')}
                                 </p>
                             </div>
                             <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--gov-navy-strong)]">
+                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
                                     15+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    Current implementation priorities
+                                    {t(locale, 'home.currentImplementationPriorities')}
                                 </p>
                             </div>
                         </div>
@@ -321,12 +313,12 @@ export default function Home({
                 </div>
             </section>
 
-            <section className="gov-soft-section border-y border-[#e5e0d4]">
+            <section className="gov-soft-section border-y border-[var(--public-border)]">
                 <div className="gov-container py-16">
                     <div className="mb-8">
-                        <p className="gov-kicker mb-3">Activities</p>
+                        <p className="gov-kicker mb-3">{t(locale, 'home.activities')}</p>
                         <h2 className="gov-section-title">
-                            Core implementation directions
+                            {t(locale, 'home.activitiesSectionTitle')}
                         </h2>
                     </div>
 
@@ -343,15 +335,15 @@ export default function Home({
                                     className="gov-panel p-5 transition hover:-translate-y-0.5"
                                 >
                                     <div className="flex items-center justify-between gap-3">
-                                        <Badge className="rounded-full bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
+                                        <Badge className="rounded-md bg-[var(--public-surface-alt)] text-[var(--public-accent)] shadow-none">
                                             {getStatusLabel(
                                                 activity.status,
                                                 locale,
                                             )}
                                         </Badge>
-                                        <Megaphone className="h-4 w-4 text-[var(--gov-blue)]" />
+                                        <Megaphone className="h-4 w-4 text-[var(--public-accent)]" />
                                     </div>
-                                    <h3 className="mt-4 text-lg font-semibold text-[var(--gov-navy-strong)]">
+                                    <h3 className="mt-4 text-lg font-semibold text-[var(--public-primary-hover)]">
                                         {translation.title ??
                                             t(locale, 'activities.title')}
                                     </h3>
@@ -370,9 +362,9 @@ export default function Home({
                 <div className="gov-container py-16">
                     <div className="mb-8 flex items-end justify-between gap-4">
                         <div>
-                            <p className="gov-kicker mb-3">Services</p>
+                            <p className="gov-kicker mb-3">{t(locale, 'home.services')}</p>
                             <h2 className="gov-section-title">
-                                Quick access to public services
+                                {t(locale, 'home.servicesTitle')}
                             </h2>
                         </div>
                     </div>
@@ -384,15 +376,15 @@ export default function Home({
                                 href={publicHref(card.href)}
                                 className="gov-panel group p-6 transition hover:-translate-y-0.5 hover:shadow-md"
                             >
-                                <card.icon className="h-6 w-6 text-[var(--gov-blue)]" />
-                                <h3 className="mt-5 text-xl font-semibold text-[var(--gov-navy-strong)]">
+                                <card.icon className="h-6 w-6 text-[var(--public-accent)]" />
+                                <h3 className="mt-5 text-xl font-semibold text-[var(--public-primary-hover)]">
                                     {card.title}
                                 </h3>
                                 <p className="mt-3 text-sm leading-7 text-slate-600">
                                     {card.description}
                                 </p>
-                                <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]">
-                                    Open section
+                                <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]">
+                                    {t(locale, 'home.servicesOpenSection')}
                                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                                 </div>
                             </Link>
@@ -401,7 +393,7 @@ export default function Home({
                 </div>
             </section>
 
-            <section className="bg-[var(--gov-surface)]">
+            <section className="bg-[var(--public-surface)]">
                 <div className="gov-container py-16">
                     <div className="mb-8 flex items-end justify-between gap-4">
                         <div>
@@ -414,7 +406,7 @@ export default function Home({
                         </div>
                         <Link
                             href={publicHref('/news')}
-                            className="text-sm font-medium text-[var(--gov-blue)] hover:text-[var(--gov-navy)]"
+                            className="text-sm font-medium text-[var(--public-accent)] hover:text-[var(--public-primary)]"
                         >
                             {t(locale, 'common.viewAll')}
                         </Link>
@@ -432,14 +424,14 @@ export default function Home({
                                     <div className="flex items-center justify-between gap-3">
                                         <div className="flex items-center gap-2">
                                             {item.is_featured && (
-                                                <Badge className="rounded-full bg-[var(--gov-blue)] text-white shadow-none">
+                                                <Badge className="rounded-md bg-[var(--public-accent)] text-white shadow-none">
                                                     {t(locale, 'news.featured')}
                                                 </Badge>
                                             )}
                                             {isRecent(item.published_at) && (
                                                 <Badge
                                                     variant="outline"
-                                                    className="rounded-full border-emerald-200 bg-emerald-50 text-emerald-700 shadow-none"
+                                                    className="rounded-md border-emerald-200 bg-emerald-50 text-emerald-700 shadow-none"
                                                 >
                                                     {t(locale, 'news.new')}
                                                 </Badge>
@@ -453,7 +445,7 @@ export default function Home({
                                         </span>
                                     </div>
 
-                                    <h3 className="mt-5 text-lg font-semibold text-[var(--gov-navy-strong)]">
+                                    <h3 className="mt-5 text-lg font-semibold text-[var(--public-primary-hover)]">
                                         {translation.title}
                                     </h3>
                                     <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -461,7 +453,7 @@ export default function Home({
                                     </p>
                                     <Link
                                         href={publicHref(`/news/${item.slug}`)}
-                                        className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--gov-blue)]"
+                                        className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]"
                                     >
                                         {t(locale, 'common.readMore')}
                                         <ArrowRight className="h-4 w-4" />
@@ -480,15 +472,15 @@ export default function Home({
                             <div className="mb-6 flex items-center justify-between gap-4">
                                 <div>
                                     <p className="gov-kicker mb-2">
-                                        Procurement
+                                        {t(locale, 'home.procurement')}
                                     </p>
-                                    <h2 className="text-2xl font-semibold text-[var(--gov-navy-strong)]">
-                                        Open notices
+                                    <h2 className="text-2xl font-semibold text-[var(--public-primary-hover)]">
+                                        {t(locale, 'home.openNotices')}
                                     </h2>
                                 </div>
                                 <Link
                                     href={publicHref('/procurement')}
-                                    className="text-sm font-medium text-[var(--gov-blue)]"
+                                    className="text-sm font-medium text-[var(--public-accent)]"
                                 >
                                     {t(locale, 'common.viewAll')}
                                 </Link>
@@ -504,14 +496,14 @@ export default function Home({
                                     return (
                                         <div
                                             key={item.id}
-                                            className="rounded-2xl border border-[var(--gov-line)] bg-[var(--gov-surface)] p-4"
+                                            className="rounded-2xl border border-[var(--public-border)] bg-[var(--public-surface)] p-4"
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div>
                                                     <p className="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">
                                                         {item.reference_number}
                                                     </p>
-                                                    <h3 className="mt-2 text-lg font-semibold text-[var(--gov-navy-strong)]">
+                                                    <h3 className="mt-2 text-lg font-semibold text-[var(--public-primary-hover)]">
                                                         {translation.title ??
                                                             t(
                                                                 locale,
@@ -519,7 +511,7 @@ export default function Home({
                                                             )}
                                                     </h3>
                                                 </div>
-                                                <Badge className="rounded-full bg-[var(--gov-mist)] text-[var(--gov-blue)] shadow-none">
+                                                <Badge className="rounded-md bg-[var(--public-surface-alt)] text-[var(--public-accent)] shadow-none">
                                                     {getStatusLabel(
                                                         item.status,
                                                         locale,
@@ -545,9 +537,9 @@ export default function Home({
                             </div>
                         </div>
 
-                        <div className="rounded-[2rem] bg-[linear-gradient(180deg,var(--gov-forest-soft)_0%,var(--gov-forest-deep)_100%)] p-8 text-white shadow-[0_24px_60px_-30px_rgba(8,61,46,0.55)]">
-                            <p className="text-sm font-semibold tracking-[0.22em] text-[var(--gov-gold)] uppercase">
-                                GRM Service
+                        <div className="rounded-[2rem] bg-[linear-gradient(180deg,var(--public-primary)_0%,var(--public-primary-hover)_100%)] p-8 text-white shadow-[0_24px_60px_-30px_rgba(22,50,79,0.45)]">
+                            <p className="text-sm font-semibold tracking-[0.22em] text-[var(--public-accent)] uppercase">
+                                {t(locale, 'home.grmService')}
                             </p>
                             <h2 className="mt-3 text-3xl font-semibold">
                                 {t(locale, 'grm.title')}
@@ -558,7 +550,7 @@ export default function Home({
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <Button
                                     asChild
-                                    className="rounded-full bg-[var(--gov-gold)] text-white hover:bg-[#e0a53a]"
+                                    className="rounded-md bg-[var(--public-accent)] text-white hover:bg-[var(--public-accent-hover)]"
                                 >
                                     <Link href={publicHref('/grm/submit')}>
                                         {t(locale, 'grm.submit')}
@@ -567,7 +559,7 @@ export default function Home({
                                 <Button
                                     asChild
                                     variant="outline"
-                                    className="rounded-full border-white/20 bg-transparent text-white hover:bg-white hover:text-[var(--gov-forest-deep)]"
+                                    className="rounded-md border-white/20 bg-transparent text-white hover:bg-white hover:text-[var(--public-primary-hover)]"
                                 >
                                     <Link href={publicHref('/grm/track')}>
                                         {t(locale, 'grm.track')}

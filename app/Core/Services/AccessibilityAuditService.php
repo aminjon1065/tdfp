@@ -72,7 +72,7 @@ class AccessibilityAuditService
         $labels = $this->extractLabelTargets($content);
 
         if ($this->isPublicLayout($path)) {
-            if (! preg_match('/href=\{"?#main-content"?\}/', $content) && ! str_contains($content, 'href="#main-content"')) {
+            if (! $this->hasMainContentSkipLink($content)) {
                 $issues[] = $this->issue($content, 1, 'missing-skip-link', 'Public layout must expose a skip link to #main-content.');
             }
 
@@ -81,7 +81,7 @@ class AccessibilityAuditService
             }
         }
 
-        if ($this->isPublicPage($path) && ! preg_match('/<h1\b/', $content, $match, PREG_OFFSET_CAPTURE)) {
+        if ($this->isPublicPage($path) && ! $this->hasPrimaryHeading($content)) {
             $issues[] = $this->issue($content, 1, 'missing-h1', 'Public pages must contain a primary <h1> heading.');
         }
 
@@ -229,6 +229,20 @@ class AccessibilityAuditService
     private function hasAttribute(string $attributes, string $name): bool
     {
         return preg_match(sprintf('/\b%s=/', preg_quote($name, '/')), $attributes) === 1;
+    }
+
+    private function hasMainContentSkipLink(string $content): bool
+    {
+        return preg_match('/href=(?:["\']#main-content["\']|\{\s*["\']#main-content["\']\s*\})/', $content) === 1;
+    }
+
+    private function hasPrimaryHeading(string $content): bool
+    {
+        if (preg_match('/<h1\b/', $content) === 1) {
+            return true;
+        }
+
+        return preg_match('/<PageHero\b[^>]*\btitle=/', $content) === 1;
     }
 
     /**

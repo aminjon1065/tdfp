@@ -65,52 +65,69 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #1e3a5f;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #94a3b8;
+    --accent: #3b82f6;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #3b82f6;
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
-    --gov-navy: #14325c;
-    --gov-navy-strong: #0b2342;
-    --gov-blue: #214f86;
-    --gov-gold: #d89b2d;
-    --gov-gold-soft: #efd39d;
-    --gov-ink: #1f2a37;
-    --gov-paper: #f6f2e8;
-    --gov-mist: #edf2f7;
-    --gov-line: #d4dbe5;
-    --gov-forest-deep: #0b2342;
-    --gov-forest-soft: #163964;
-    --gov-surface: #fcfaf5;
-    --gov-surface-strong: #f0ebde;
+    --sidebar: #ffffff;
+    --sidebar-foreground: #0f172a;
+    --sidebar-primary: #1e3a5f;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f1f5f9;
+    --sidebar-accent-foreground: #0f172a;
+    --sidebar-border: #e2e8f0;
+    --sidebar-ring: #3b82f6;
+    --public-primary: #1e3a5f;
+    --public-primary-hover: #16324f;
+    --public-primary-foreground: #ffffff;
+    --public-accent: #3b82f6;
+    --public-accent-hover: #2563eb;
+    --public-accent-foreground: #ffffff;
+    --public-background: #f8fafc;
+    --public-surface: #ffffff;
+    --public-surface-alt: #f1f5f9;
+    --public-text-primary: #0f172a;
+    --public-text-secondary: #475569;
+    --public-text-muted: #94a3b8;
+    --public-border: #e2e8f0;
+    --status-success: #16a34a;
+    --status-warning: #f59e0b;
+    --status-error: #dc2626;
+    --status-info: #0284c7;
+    --gov-navy: var(--public-primary);
+    --gov-navy-strong: var(--public-primary-hover);
+    --gov-blue: var(--public-accent);
+    --gov-gold: var(--public-accent);
+    --gov-gold-soft: #dbeafe;
+    --gov-ink: var(--public-text-primary);
+    --gov-paper: var(--public-background);
+    --gov-mist: var(--public-surface-alt);
+    --gov-line: var(--public-border);
+    --gov-forest-deep: var(--public-primary-hover);
+    --gov-forest-soft: var(--public-primary);
+    --gov-surface: var(--public-surface);
+    --gov-surface-strong: var(--public-surface-alt);
 }
 
 .dark {
@@ -158,11 +175,15 @@
         background:
             radial-gradient(
                 circle at top left,
-                rgba(33, 79, 134, 0.08),
+                rgb(from var(--public-accent) r g b / 0.08),
                 transparent 24%
             ),
-            linear-gradient(180deg, #fbf8f1 0%, #f4efe3 100%);
-        color: var(--gov-ink);
+            linear-gradient(
+                180deg,
+                var(--public-background) 0%,
+                var(--public-surface-alt) 100%
+            );
+        color: var(--public-text-primary);
     }
 
     h1,
@@ -186,8 +207,8 @@
         inset: 0;
         pointer-events: none;
         background-image:
-            linear-gradient(rgba(20, 50, 92, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(20, 50, 92, 0.02) 1px, transparent 1px);
+            linear-gradient(rgb(from var(--public-primary) r g b / 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgb(from var(--public-primary) r g b / 0.02) 1px, transparent 1px);
         background-size: 40px 40px;
         mask-image: linear-gradient(
             180deg,
@@ -202,39 +223,44 @@
 
     .gov-kicker {
         @apply text-[0.72rem] font-semibold tracking-[0.28em] uppercase;
-        color: var(--gov-gold);
+        color: var(--public-accent);
     }
 
     .gov-panel {
         @apply rounded-2xl border bg-white shadow-sm;
-        border-color: var(--gov-line);
-        box-shadow: 0 20px 45px -30px rgba(11, 35, 66, 0.2);
+        border-color: var(--public-border);
+        box-shadow: 0 20px 45px -30px rgb(from var(--public-primary-hover) r g b / 0.2);
     }
 
     .gov-section-title {
         @apply text-3xl leading-tight font-semibold md:text-4xl;
-        color: var(--gov-navy-strong);
+        color: var(--public-primary-hover);
     }
 
     .gov-hero-shell {
-        background:
-            radial-gradient(circle at top right, rgba(216, 155, 45, 0.18), transparent 20%),
-            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 30%),
-            linear-gradient(180deg, var(--gov-forest-soft) 0%, var(--gov-forest-deep) 100%);
+        background: linear-gradient(
+            180deg,
+            var(--public-primary) 0%,
+            var(--public-primary-hover) 100%
+        );
     }
 
     .gov-soft-section {
-        background: linear-gradient(180deg, var(--gov-surface) 0%, var(--gov-surface-strong) 100%);
+        background: linear-gradient(
+            180deg,
+            var(--public-surface) 0%,
+            var(--public-surface-alt) 100%
+        );
     }
 
     .gov-stat-card {
         @apply rounded-xl border bg-white px-5 py-4;
-        border-color: rgba(20, 50, 92, 0.1);
-        box-shadow: 0 16px 38px -28px rgba(20, 50, 92, 0.18);
+        border-color: rgb(from var(--public-primary) r g b / 0.1);
+        box-shadow: 0 16px 38px -28px rgb(from var(--public-primary) r g b / 0.18);
     }
 
     .gov-pill-link {
-        @apply inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition;
+        @apply inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium transition;
         border-color: rgba(255, 255, 255, 0.18);
         color: rgba(255, 255, 255, 0.9);
     }

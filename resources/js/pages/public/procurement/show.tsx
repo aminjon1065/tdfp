@@ -80,35 +80,35 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
             </PageHero>
 
             <article className="container mx-auto max-w-4xl px-4 py-12">
-                <Link href={publicHref('/procurement')} className="mb-6 inline-flex items-center text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
+                <Link href={publicHref('/procurement')} className="mb-6 inline-flex items-center text-sm font-medium text-[var(--public-primary)] hover:underline">
                     {t(locale, 'procurement.back')}
                 </Link>
 
                 <div className="mb-8 rounded-xl border bg-white p-6 shadow-sm">
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
-                        <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide" style={{ backgroundColor: '#1B3A6B', color: '#FFFFFF' }}>
+                    <div className="mb-4 flex flex-wrap items-center gap-3">
+                        <span className="inline-flex items-center rounded-md bg-[var(--public-primary)] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                             {getStatusLabel(procurement.status, locale)}
                         </span>
-                        <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold" style={{ borderColor: '#C4922A', color: '#8A6616' }}>
+                        <span className="inline-flex items-center rounded-md border border-[var(--status-warning)]/30 bg-[var(--status-warning)]/8 px-3 py-1 text-xs font-semibold text-[var(--status-warning)]">
                             {getProcurementProcessLabel(procurement.process_state, locale)}
                         </span>
-                        <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-mono font-semibold" style={{ borderColor: '#1B3A6B', color: '#1B3A6B' }}>
+                        <span className="inline-flex items-center rounded-md border border-[var(--public-primary)]/20 px-3 py-1 text-xs font-mono font-semibold text-[var(--public-primary)]">
                             {procurement.reference_number}
                         </span>
                     </div>
 
-                    <h2 className="text-xl font-bold mb-4" style={{ color: '#1A1A2E' }}>{translation.title ?? t(locale, 'common.untitled')}</h2>
+                    <h2 className="mb-4 text-xl font-bold text-[var(--public-text-primary)]">{translation.title ?? t(locale, 'common.untitled')}</h2>
                     <p className="mb-4 text-sm font-medium text-slate-700">{t(locale, procurement.process_summary_key)}</p>
 
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {procurement.publication_date && (
                             <div className="flex items-center gap-2 text-sm text-gray-600">
-                                <Calendar className="h-4 w-4 shrink-0" style={{ color: '#1B3A6B' }} aria-hidden="true" />
+                                <Calendar className="h-4 w-4 shrink-0 text-[var(--public-primary)]" aria-hidden="true" />
                                 <span><span className="font-medium">{t(locale, 'common.published')}:</span> <time dateTime={procurement.publication_date}>{formatLocalizedDate(procurement.publication_date, locale)}</time></span>
                             </div>
                         )}
                         {procurement.deadline && (
-                            <div className="flex items-center gap-2 text-sm font-medium" style={{ color: '#C4922A' }}>
+                            <div className="flex items-center gap-2 text-sm font-medium text-[var(--status-warning)]">
                                 <Calendar className="h-4 w-4 shrink-0" aria-hidden="true" />
                                 <span><span>{t(locale, 'common.deadline')}:</span> <time dateTime={procurement.deadline}>{formatLocalizedDate(procurement.deadline, locale)}</time></span>
                             </div>
@@ -143,14 +143,14 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
 
                 {translation.description && (
                     <div className="mb-8">
-                        <h3 className="text-lg font-semibold mb-3" style={{ color: '#1B3A6B' }}>{t(locale, 'common.description')}</h3>
+                        <h3 className="mb-3 text-lg font-semibold text-[var(--public-primary)]">{t(locale, 'common.description')}</h3>
                         <div className="prose max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: translation.description }} />
                     </div>
                 )}
 
                 {procurement.documents && procurement.documents.length > 0 && (
                     <div>
-                        <h3 className="text-lg font-semibold mb-4" style={{ color: '#1B3A6B' }}>{t(locale, 'common.attachedDocuments')}</h3>
+                        <h3 className="mb-4 text-lg font-semibold text-[var(--public-primary)]">{t(locale, 'common.attachedDocuments')}</h3>
                         <div className="space-y-3">
                             {procurement.documents.map((document: any) => {
                                 const documentTranslation = getTranslation(document, locale);
@@ -158,7 +158,7 @@ export default function ProcurementShow({ procurement }: { procurement: any }) {
                                 return (
                                     <div key={document.id} className="flex items-center justify-between gap-4 rounded-lg border bg-white p-4 hover:shadow-sm transition-shadow">
                                         <div className="flex items-center gap-3">
-                                            <FileText className="h-5 w-5 shrink-0" style={{ color: '#1B3A6B' }} />
+                                            <FileText className="h-5 w-5 shrink-0 text-[var(--public-primary)]" />
                                             <div>
                                                 <p className="text-sm font-medium text-gray-900">{documentTranslation.title ?? `${t(locale, 'common.document')} ${document.id}`}</p>
                                                 <div className="flex items-center gap-2 mt-0.5">

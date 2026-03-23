@@ -39,7 +39,7 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
                                 sizes="96px"
                             />
                         ) : (
-                            <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-[var(--gov-mist)] text-2xl font-semibold text-[var(--gov-blue)]">
+                            <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-[var(--public-surface-alt)] text-2xl font-semibold text-[var(--public-accent)]">
                                 {translation.full_name.slice(0, 1)}
                             </div>
                         )}
@@ -47,11 +47,11 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
 
                     <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                            <h2 className="text-xl font-semibold text-[var(--gov-navy-strong)]">
+                            <h2 className="text-xl font-semibold text-[var(--public-primary-hover)]">
                                 {translation.full_name}
                             </h2>
                             {member.is_leadership && (
-                                <span className="rounded-full bg-[var(--gov-mist)] px-2.5 py-1 text-xs font-semibold text-[var(--gov-blue)]">
+                                <span className="rounded-md bg-[var(--public-surface-alt)] px-2.5 py-1 text-xs font-semibold text-[var(--public-accent)]">
                                     Leadership
                                 </span>
                             )}
@@ -68,7 +68,7 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
                             <div className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
                                 {member.email && (
                                     <div className="flex items-center gap-2">
-                                        <Mail className="h-4 w-4 text-[var(--gov-blue)]" aria-hidden="true" />
+                                        <Mail className="h-4 w-4 text-[var(--public-accent)]" aria-hidden="true" />
                                         <a href={`mailto:${member.email}`} className="hover:underline">
                                             {member.email}
                                         </a>
@@ -76,7 +76,7 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
                                 )}
                                 {member.phone && (
                                     <div className="flex items-center gap-2">
-                                        <Phone className="h-4 w-4 text-[var(--gov-blue)]" aria-hidden="true" />
+                                        <Phone className="h-4 w-4 text-[var(--public-accent)]" aria-hidden="true" />
                                         <span>{member.phone}</span>
                                     </div>
                                 )}

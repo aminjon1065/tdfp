@@ -15,7 +15,7 @@ export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
-        name: 'GRM Submission Confirmation',
+        name: t(locale, 'grm.submittedPageTitle'),
         description: t(locale, 'grm.description'),
         inLanguage: locale,
         url: currentUrl || undefined,
@@ -23,7 +23,7 @@ export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string
 
     return (
         <PublicLayout
-            title="Complaint Submitted"
+            title={t(locale, 'grm.submittedPageTitle')}
             description={t(locale, 'grm.description')}
             structuredData={structuredData}
             seoType="website"
@@ -31,36 +31,36 @@ export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string
             blendHeader
         >
             <PageHero
-                title="Complaint Submitted"
+                title={t(locale, 'grm.submittedPageTitle')}
                 subtitle={t(locale, 'grm.title')}
-                description="Your complaint has been received. Keep your tracking details to follow the case securely."
+                description={t(locale, 'grm.submittedLead')}
                 compact
             />
             <div className="container mx-auto max-w-lg px-4 py-20 text-center">
                 <CheckCircle className="mx-auto mb-4 h-16 w-16 text-green-500" aria-hidden="true" />
-                <p className="mb-4 text-gray-600" role="status" aria-live="polite">Your complaint has been received. A confirmation email has been sent.</p>
+                <p className="mb-4 text-gray-600" role="status" aria-live="polite">{t(locale, 'grm.submittedEmailNotice')}</p>
                 <section aria-labelledby="tracking-details-heading" className="mb-8 rounded-lg border bg-gray-50 p-4">
                     <h2 id="tracking-details-heading" className="sr-only">
-                        Tracking details
+                        {t(locale, 'grm.trackingDetails')}
                     </h2>
                     <dl className="space-y-4">
                     <div>
-                        <dt className="text-sm text-gray-500">Your ticket number:</dt>
+                        <dt className="text-sm text-gray-500">{t(locale, 'grm.ticketNumberLabel')}</dt>
                         <dd className="mt-1 text-2xl font-mono font-bold text-blue-700">{ticket}</dd>
                     </div>
                     <div>
-                        <dt className="text-sm text-gray-500">Your tracking token:</dt>
+                        <dt className="text-sm text-gray-500">{t(locale, 'grm.trackingTokenLabel')}</dt>
                         <dd className="mt-1 break-all text-xl font-mono font-bold text-slate-800">{trackingToken}</dd>
                     </div>
                     </dl>
-                    <p className="mt-1 text-xs text-gray-400">Save both values to track your complaint status securely.</p>
+                    <p className="mt-1 text-xs text-gray-400">{t(locale, 'grm.trackingSaveNotice')}</p>
                 </section>
                 <div className="flex gap-3 justify-center">
                     <Button asChild>
-                        <Link href={publicHref('/grm/track')}>Track Status</Link>
+                        <Link href={publicHref('/grm/track')}>{t(locale, 'grm.trackStatusAction')}</Link>
                     </Button>
                     <Button asChild variant="outline">
-                        <Link href={publicHref('/')}>Return Home</Link>
+                        <Link href={publicHref('/')}>{t(locale, 'common.returnHome')}</Link>
                     </Button>
                 </div>
             </div>

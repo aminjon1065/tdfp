@@ -63,7 +63,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                 {featuredAnnouncements.length > 0 && (
                     <section aria-labelledby="featured-announcements-heading" className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                         <div className="mb-4">
-                            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--gov-blue)]">{t(locale, 'news.whatsNew')}</p>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--public-accent)]">{t(locale, 'news.whatsNew')}</p>
                             <h2 id="featured-announcements-heading" className="text-sm text-slate-600">{t(locale, 'news.whatsNewDescription')}</h2>
                         </div>
                         <ul className="grid gap-4 lg:grid-cols-3">
@@ -72,7 +72,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
 
                                 return (
                                     <li key={item.id}>
-                                    <Link href={`/news/${item.slug}`} className="block rounded-2xl border border-slate-200 bg-[var(--gov-surface)] p-4 transition hover:border-[var(--gov-blue)]/30 hover:shadow-sm">
+                                    <Link href={`/news/${item.slug}`} className="block rounded-2xl border border-slate-200 bg-[var(--public-surface)] p-4 transition hover:border-[var(--public-accent)]/30 hover:shadow-sm">
                                         <div className="mb-2 flex items-center gap-2">
                                             {item.is_featured && <Badge>{t(locale, 'news.featured')}</Badge>}
                                             {isRecent(item.published_at) && <Badge variant="outline">{t(locale, 'news.new')}</Badge>}
@@ -138,7 +138,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                         <time dateTime={item.published_at ?? undefined} className="text-xs text-gray-400">
                                             {formatLocalizedDate(item.published_at, locale)}
                                         </time>
-                                        <Link href={`/news/${item.slug}`} className="text-sm font-medium text-[var(--gov-blue)] hover:underline">{t(locale, 'common.readMore')}</Link>
+                                        <Link href={`/news/${item.slug}`} className="text-sm font-medium text-[var(--public-accent)] hover:underline">{t(locale, 'common.readMore')}</Link>
                                     </div>
                                 </CardContent>
                             </Card>

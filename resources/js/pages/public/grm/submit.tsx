@@ -50,15 +50,15 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
             blendHeader
         >
             <PageHero
-                title="Submit a Complaint"
+                title={t(locale, 'grm.submitTitle')}
                 subtitle={t(locale, 'grm.title')}
-                description="Please fill in the form below. All submissions are treated confidentially."
+                description={t(locale, 'grm.submitLead')}
                 compact
             />
             <div className="container mx-auto px-4 py-12 max-w-2xl">
                 <form onSubmit={handleSubmit} className="space-y-5" encType="multipart/form-data" noValidate>
                     <div className="space-y-1.5">
-                        <Label htmlFor="name">Full Name <span className="text-red-500">*</span></Label>
+                        <Label htmlFor="name">{t(locale, 'grm.fullName')} <span className="text-red-500">*</span></Label>
                         <Input
                             id="name"
                             name="complainant_name"
@@ -73,7 +73,7 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-1.5">
-                            <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
+                            <Label htmlFor="email">{t(locale, 'common.email')} <span className="text-red-500">*</span></Label>
                             <Input
                                 id="email"
                                 name="email"
@@ -87,7 +87,7 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                             {errors.email && <p id="grm-email-error" role="alert" className="text-sm text-red-600">{errors.email}</p>}
                         </div>
                         <div className="space-y-1.5">
-                            <Label htmlFor="phone">Phone (optional)</Label>
+                            <Label htmlFor="phone">{t(locale, 'grm.phoneOptional')}</Label>
                             <Input
                                 id="phone"
                                 name="phone"
@@ -99,7 +99,7 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                     </div>
 
                     <div className="space-y-1.5">
-                        <Label htmlFor="category">Category <span className="text-red-500">*</span></Label>
+                        <Label htmlFor="category">{t(locale, 'grm.categoryLabel')} <span className="text-red-500">*</span></Label>
                         <select
                             id="category"
                             name="category"
@@ -109,36 +109,36 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                             aria-invalid={!!errors.category}
                             aria-describedby={errors.category ? 'grm-category-error' : undefined}
                         >
-                            <option value="procurement">Procurement</option>
-                            <option value="project_implementation">Project Implementation</option>
-                            <option value="environment_social">Environment / Social Impact</option>
-                            <option value="corruption">Corruption</option>
-                            <option value="other">Other</option>
+                            <option value="procurement">{t(locale, 'grm.category.procurement')}</option>
+                            <option value="project_implementation">{t(locale, 'grm.category.project_implementation')}</option>
+                            <option value="environment_social">{t(locale, 'grm.category.environment_social')}</option>
+                            <option value="corruption">{t(locale, 'grm.category.corruption')}</option>
+                            <option value="other">{t(locale, 'grm.category.other')}</option>
                         </select>
                         {errors.category && <p id="grm-category-error" role="alert" className="text-sm text-red-600">{errors.category}</p>}
                     </div>
 
                     <div className="space-y-1.5">
-                        <Label htmlFor="description">Description <span className="text-red-500">*</span></Label>
+                        <Label htmlFor="description">{t(locale, 'grm.descriptionLabel')} <span className="text-red-500">*</span></Label>
                         <textarea
                             id="description"
                             name="description"
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
                             rows={6}
-                            placeholder="Please describe your complaint in detail (minimum 20 characters)..."
+                            placeholder={t(locale, 'grm.descriptionPlaceholder')}
                             className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             aria-invalid={!!errors.description}
                             aria-describedby={`grm-description-help${errors.description ? ' grm-description-error' : ''}`}
                         />
                         <p id="grm-description-help" className="text-sm text-gray-500">
-                            Include enough detail for review. Minimum 20 characters.
+                            {t(locale, 'grm.descriptionHelp')}
                         </p>
                         {errors.description && <p id="grm-description-error" role="alert" className="text-sm text-red-600">{errors.description}</p>}
                     </div>
 
                     <div className="space-y-1.5">
-                        <Label htmlFor="attachments">Attachments (optional, max 5 files)</Label>
+                        <Label htmlFor="attachments">{t(locale, 'grm.attachmentsOptional')}</Label>
                         <input
                             id="attachments"
                             name="attachments"
@@ -151,7 +151,7 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                             aria-describedby={`grm-attachments-help${errors.attachments || errors['attachments.0'] ? ' grm-attachments-error' : ''}`}
                         />
                         <p id="grm-attachments-help" className="text-sm text-gray-500">
-                            Allowed formats: {attachmentConstraints.allowed_extensions.join(', ')}. Up to {attachmentConstraints.max_files} files, {attachmentConstraints.max_file_size_mb} MB each.
+                            {t(locale, 'grm.attachmentsHelpPrefix')} {attachmentConstraints.allowed_extensions.join(', ')}. {attachmentConstraints.max_files} {t(locale, 'grm.attachmentsHelpSuffix')}, {attachmentConstraints.max_file_size_mb} MB each.
                         </p>
                         {(errors.attachments || errors['attachments.0']) && (
                             <p id="grm-attachments-error" role="alert" className="text-sm text-red-600">
@@ -161,11 +161,11 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                     </div>
 
                     <div id="grm-privacy-notice" className="rounded-md bg-amber-50 border border-amber-200 p-3 text-sm text-amber-800">
-                        <strong>Privacy notice:</strong> Your information will be handled confidentially and used only for processing this complaint.
+                        <strong>{t(locale, 'grm.privacyNoticeLabel')}</strong> {t(locale, 'grm.privacyNoticeText')}
                     </div>
 
                     <Button type="submit" disabled={processing} className="w-full bg-orange-700 text-white hover:bg-orange-800" size="lg">
-                        {processing ? 'Submitting…' : 'Submit Complaint'}
+                        {processing ? t(locale, 'grm.submitting') : t(locale, 'grm.submit')}
                     </Button>
                 </form>
             </div>

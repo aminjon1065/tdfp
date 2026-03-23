@@ -122,7 +122,7 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                         const translation = getTranslation(item, locale);
 
                         return (
-                            <li key={item.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-[var(--gov-blue)]/30">
+                            <li key={item.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-[var(--public-accent)]/30">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
@@ -145,12 +145,12 @@ export default function ProcurementIndex({ procurements, filters, years }: { pro
                                                 </span>
                                             )}
                                             {item.days_until_deadline !== null && (
-                                                <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700">
+                                                <span className="rounded-md bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700">
                                                     {item.days_until_deadline} {t(locale, 'procurement.daysRemaining')}
                                                 </span>
                                             )}
                                             {item.deadline_passed && (
-                                                <span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-700">
+                                                <span className="rounded-md bg-amber-50 px-2 py-0.5 font-medium text-amber-700">
                                                     {t(locale, 'procurement.deadlinePassed')}
                                                 </span>
                                             )}

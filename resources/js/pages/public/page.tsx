@@ -37,7 +37,7 @@ export default function Page({ page, previewMeta }: Props) {
                 <div className="container mx-auto px-4 py-24 text-center">
                     <h1 className="text-4xl font-bold text-gray-800 mb-4">404 - {translate(locale, 'common.notFound')}</h1>
                     <p className="text-gray-500 mb-8">{translate(locale, 'common.notFoundDescription')}</p>
-                    <Link href={publicHref('/')} className="inline-flex items-center gap-1 text-sm font-medium hover:underline" style={{ color: '#1B3A6B' }}>
+                    <Link href={publicHref('/')} className="inline-flex items-center gap-1 text-sm font-medium text-[var(--public-primary)] hover:underline">
                         {translate(locale, 'common.returnHome')}
                     </Link>
                 </div>

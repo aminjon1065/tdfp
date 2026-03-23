@@ -48,3 +48,45 @@ TSX);
     rmdir(dirname($directory));
     rmdir(dirname(dirname($directory)));
 });
+
+test('accessibility audit accepts page hero headings and jsx skip links', function () {
+    $directory = sys_get_temp_dir().'/tdfp-a11y-'.str()->random(10).'/resources/js';
+
+    mkdir($directory.'/layouts', 0777, true);
+    mkdir($directory.'/pages/public', 0777, true);
+
+    $layoutFile = $directory.'/layouts/public-layout.tsx';
+    $pageFile = $directory.'/pages/public/hero-page.tsx';
+
+    file_put_contents($layoutFile, <<<'TSX'
+export default function PublicLayout() {
+    return (
+        <>
+            <a href={'#main-content'}>Skip to main content</a>
+            <main id="main-content">Content</main>
+        </>
+    );
+}
+TSX);
+
+    file_put_contents($pageFile, <<<'TSX'
+import PageHero from '@/components/page-hero';
+
+export default function HeroPage() {
+    return <PageHero title="Accessible heading" />;
+}
+TSX);
+
+    $layoutIssues = app(AccessibilityAuditService::class)->audit([$layoutFile])[0]['issues'];
+    $pageIssues = app(AccessibilityAuditService::class)->audit([$pageFile])[0]['issues'];
+
+    expect($layoutIssues)->toBeEmpty()
+        ->and($pageIssues)->toBeEmpty();
+
+    unlink($layoutFile);
+    unlink($pageFile);
+    rmdir($directory.'/layouts');
+    rmdir($directory.'/pages/public');
+    rmdir($directory.'/pages');
+    rmdir($directory);
+});

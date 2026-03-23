@@ -57,10 +57,10 @@ export default function SocialShare({
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h2 id="social-share-heading" className="text-sm font-semibold text-slate-900">
-                            Share this page
+                            {t(locale, 'share.title')}
                         </h2>
                         <p className="mt-1 text-sm text-slate-600">
-                            Send this page to colleagues or share it on your social channels.
+                            {t(locale, 'share.description')}
                         </p>
                     </div>
 
