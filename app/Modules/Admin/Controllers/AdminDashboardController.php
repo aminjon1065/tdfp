@@ -21,10 +21,9 @@ class AdminDashboardController extends Controller
 
     public function index(): Response
     {
-        $operationalAudit = Cache::remember(
-            'admin.dashboard.operational_audit',
-            now()->addMinutes(10),
-            fn () => $this->operationalAuditService->audit(),
+        $operationalAudit = Cache::get(
+            OperationalAuditService::CACHE_KEY,
+            $this->operationalAuditService->emptyAudit(),
         );
 
         return Inertia::render('admin/dashboard', [

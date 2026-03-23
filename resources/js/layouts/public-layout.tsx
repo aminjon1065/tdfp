@@ -1,13 +1,6 @@
 import type { PageProps } from '@inertiajs/core';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import {
-    ChevronRight,
-    Mail,
-    MapPin,
-    Menu,
-    Phone,
-    X,
-} from 'lucide-react';
+import { ChevronRight, Mail, MapPin, Menu, Phone, X } from 'lucide-react';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 
 import { BVIButton } from '@/components/bvi/bvi-button';
@@ -262,10 +255,10 @@ export default function PublicLayout({
                 className={cn(
                     'fixed inset-x-0 top-0 z-50 border-b transition-all duration-300',
                     isScrolled
-                        ? 'border-slate-200/80 bg-white/88 text-[var(--public-primary-hover)] shadow-sm backdrop-blur-md'
+                        ? 'border-slate-200/80 bg-white/88 text-(--public-primary-hover) shadow-sm backdrop-blur-md'
                         : blendHeader
-                          ? 'border-transparent bg-[var(--public-primary)] text-white shadow-none'
-                          : 'border-slate-200/80 bg-white/92 text-[var(--public-primary-hover)] shadow-sm backdrop-blur-md',
+                          ? 'border-transparent bg-(--public-primary) text-white shadow-none'
+                          : 'border-slate-200/80 bg-white/92 text-(--public-primary-hover) shadow-sm backdrop-blur-md',
                 )}
             >
                 <div className="gov-container py-2.5">
@@ -278,18 +271,20 @@ export default function PublicLayout({
                                 className={cn(
                                     'flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md shadow-sm ring-1',
                                     isScrolled || !blendHeader
-                                        ? 'bg-[var(--public-primary)]/6 ring-[var(--public-primary)]/10'
+                                        ? 'bg-(--public-primary)/6 ring-(--public-primary)/10'
                                         : 'bg-white/8 ring-white/6',
                                 )}
                             >
                                 <NishonLogo />
                             </div>
 
-                            <div className="min-w-0 max-w-[15rem]">
+                            <div className="max-w-60 min-w-0">
                                 <p
                                     className={cn(
-                                        'truncate text-sm font-semibold leading-none',
-                                        isScrolled || !blendHeader ? 'text-[var(--public-primary-hover)]' : 'text-white',
+                                        'truncate text-sm leading-none font-semibold',
+                                        isScrolled || !blendHeader
+                                            ? 'text-(--public-primary-hover)'
+                                            : 'text-white',
                                     )}
                                 >
                                     {t(currentLocale, 'site.center')}
@@ -297,7 +292,9 @@ export default function PublicLayout({
                                 <p
                                     className={cn(
                                         'hidden truncate pt-1 text-[10px] leading-none xl:block',
-                                        isScrolled || !blendHeader ? 'text-slate-500' : 'text-white/60',
+                                        isScrolled || !blendHeader
+                                            ? 'text-slate-500'
+                                            : 'text-white/60',
                                     )}
                                 >
                                     {t(currentLocale, 'site.project')}
@@ -323,11 +320,13 @@ export default function PublicLayout({
                                                     className={cn(
                                                         'rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors',
                                                         active
-                                                            ? isScrolled || !blendHeader
-                                                                ? 'bg-[var(--public-primary)]/8 text-[var(--public-primary-hover)]'
+                                                            ? isScrolled ||
+                                                              !blendHeader
+                                                                ? 'bg-(--public-primary)/8 text-(--public-primary-hover)'
                                                                 : 'bg-white/14 text-white'
-                                                            : isScrolled || !blendHeader
-                                                              ? 'text-slate-500 hover:bg-slate-100 hover:text-[var(--public-primary-hover)]'
+                                                            : isScrolled ||
+                                                                !blendHeader
+                                                              ? 'text-slate-500 hover:bg-slate-100 hover:text-(--public-primary-hover)'
                                                               : 'text-white/72 hover:bg-white/8 hover:text-white',
                                                     )}
                                                 >
@@ -344,7 +343,9 @@ export default function PublicLayout({
                             <div
                                 className={cn(
                                     'flex items-center gap-0.5 text-[10px] font-semibold tracking-[0.14em] uppercase',
-                                    isScrolled || !blendHeader ? 'text-slate-500' : 'text-white/62',
+                                    isScrolled || !blendHeader
+                                        ? 'text-slate-500'
+                                        : 'text-white/62',
                                 )}
                             >
                                 {languages.map((language) => (
@@ -355,14 +356,14 @@ export default function PublicLayout({
                                             switchLanguage(language.code)
                                         }
                                         className={cn(
-                                                    'rounded-md px-1.5 py-1 leading-none transition-colors',
-                                                    currentLocale === language.code
-                                                        ? isScrolled || !blendHeader
-                                                            ? 'bg-[var(--public-primary)]/10 text-[var(--public-primary-hover)]'
-                                                            : 'bg-white/12 text-white'
-                                                        : isScrolled || !blendHeader
-                                                          ? 'hover:text-[var(--public-primary-hover)]'
-                                                          : 'hover:text-white'
+                                            'rounded-md px-1.5 py-1 leading-none transition-colors',
+                                            currentLocale === language.code
+                                                ? isScrolled || !blendHeader
+                                                    ? 'bg-(--public-primary)/10 text-(--public-primary-hover)'
+                                                    : 'bg-white/12 text-white'
+                                                : isScrolled || !blendHeader
+                                                  ? 'hover:text-(--public-primary-hover)'
+                                                  : 'hover:text-white',
                                         )}
                                     >
                                         {language.label}
@@ -375,7 +376,7 @@ export default function PublicLayout({
                                 className={cn(
                                     'h-8 rounded-md px-2.5 text-[11px]',
                                     isScrolled || !blendHeader
-                                        ? 'border-slate-200 bg-white text-[var(--public-primary-hover)] hover:bg-slate-50'
+                                        ? 'border-slate-200 bg-white text-(--public-primary-hover) hover:bg-slate-50'
                                         : 'border-white/10 bg-white/6 text-white hover:bg-white/12 hover:text-white',
                                 )}
                             />
@@ -411,10 +412,10 @@ export default function PublicLayout({
                             <SheetContent
                                 id="mobile-primary-navigation"
                                 side="right"
-                                className="w-full max-w-sm border-l border-[var(--public-border)] bg-[var(--public-surface)] p-0"
+                                className="w-full max-w-sm border-l border-(--public-border) bg-(--public-surface) p-0"
                             >
-                                <SheetHeader className="border-b border-[var(--public-border)] px-6 py-5 text-left">
-                                    <SheetTitle className="text-base text-[var(--public-primary-hover)]">
+                                <SheetHeader className="border-b border-(--public-border) px-6 py-5 text-left">
+                                    <SheetTitle className="text-base text-(--public-primary-hover)">
                                         Site navigation
                                     </SheetTitle>
                                     <SheetDescription>
@@ -427,7 +428,9 @@ export default function PublicLayout({
                                     <nav aria-label="Mobile">
                                         <ul className="space-y-1.5">
                                             {navLinks.map((link) => {
-                                                const active = isActivePath(link.href);
+                                                const active = isActivePath(
+                                                    link.href,
+                                                );
 
                                                 return (
                                                     <li key={link.href}>
@@ -443,8 +446,8 @@ export default function PublicLayout({
                                                             className={cn(
                                                                 'flex items-center justify-between rounded-2xl border bg-white px-4 py-3 text-sm font-medium transition-colors',
                                                                 active
-                                                                    ? 'border-[var(--public-accent)]/25 bg-[var(--public-accent)]/6 text-[var(--public-primary-hover)]'
-                                                                    : 'border-[var(--public-border)] text-[var(--public-primary)]',
+                                                                    ? 'border-(--public-accent)/25 bg-(--public-accent)/6 text-(--public-primary-hover)'
+                                                                    : 'border-(--public-border) text-(--public-primary)',
                                                             )}
                                                             onClick={() =>
                                                                 setMobileOpen(
@@ -480,7 +483,7 @@ export default function PublicLayout({
                                                 className={`rounded-md border px-3 py-2 text-xs font-semibold ${
                                                     currentLocale ===
                                                     language.code
-                                                        ? 'border-[var(--public-primary)] bg-[var(--public-primary)] text-white'
+                                                        ? 'border-(--public-primary) bg-(--public-primary) text-white'
                                                         : 'border-slate-200 bg-white text-slate-600'
                                                 }`}
                                             >
@@ -510,11 +513,11 @@ export default function PublicLayout({
                 {children}
             </main>
 
-            <footer className="mt-16 border-t border-[var(--public-primary)] bg-[var(--public-primary-hover)] text-white">
+            <footer className="mt-16 border-t border-(--public-primary) bg-(--public-primary-hover) text-white">
                 <div className="gov-container py-14">
                     <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
                         <div>
-                            <p className="gov-kicker mb-3 text-[var(--public-accent)]">
+                            <p className="gov-kicker mb-3 text-(--public-accent)">
                                 Government Service Portal
                             </p>
                             <h2 className="max-w-lg text-3xl font-semibold text-white">
@@ -601,21 +604,21 @@ export default function PublicLayout({
                             </h3>
                             <ul className="space-y-4 text-sm text-white/72">
                                 <li className="flex items-start gap-3">
-                                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--public-accent)]" />
+                                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-(--public-accent)" />
                                     <span>
                                         {page.settings?.contact_address ??
                                             'Dushanbe, Republic of Tajikistan'}
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <Phone className="h-4 w-4 shrink-0 text-[var(--public-accent)]" />
+                                    <Phone className="h-4 w-4 shrink-0 text-(--public-accent)" />
                                     <span>
                                         {page.settings?.contact_phone ??
                                             '+992 (000) 000-000'}
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <Mail className="h-4 w-4 shrink-0 text-[var(--public-accent)]" />
+                                    <Mail className="h-4 w-4 shrink-0 text-(--public-accent)" />
                                     <span>
                                         {page.settings?.contact_email ??
                                             'info@example.tj'}

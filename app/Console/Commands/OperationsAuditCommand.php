@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Core\Services\OperationalAuditService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class OperationsAuditCommand extends Command
 {
@@ -23,6 +24,12 @@ class OperationsAuditCommand extends Command
     public function handle(): int
     {
         $audit = $this->operationalAuditService->audit();
+
+        Cache::put(
+            OperationalAuditService::CACHE_KEY,
+            $audit,
+            now()->addMinutes(10),
+        );
 
         $this->components->info(sprintf(
             'Overall readiness: %d%%',

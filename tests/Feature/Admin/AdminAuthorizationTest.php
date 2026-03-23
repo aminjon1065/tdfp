@@ -1,10 +1,14 @@
 <?php
 
+use App\Core\Services\OperationalAuditService;
 use App\Models\AuditLog;
+use App\Models\MediaItem;
+use App\Models\MediaItemTranslation;
 use App\Models\Setting;
 use App\Models\User;
 use Database\Seeders\CmsPageSeeder;
 use Database\Seeders\RolesAndPermissionsSeeder;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(function () {
@@ -30,6 +34,38 @@ test('content managers can access news administration', function () {
     $this->actingAs($user)
         ->get(route('admin.news.index'))
         ->assertOk();
+});
+
+test('content managers can access media administration index', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $user->assignRole('content_manager');
+
+    $media = MediaItem::create([
+        'type' => 'image',
+        'is_public' => true,
+        'file_path' => 'media/images/admin-index-image.jpg',
+        'uploaded_by' => $user->id,
+    ]);
+
+    MediaItemTranslation::create([
+        'media_item_id' => $media->id,
+        'language' => 'en',
+        'title' => 'Admin media image',
+        'description' => 'Visible in admin media index.',
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('admin.media.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/media/index')
+            ->has('media.data', 1)
+            ->where('media.data.0.id', $media->id)
+            ->where('media.data.0.type', 'image')
+            ->where('media.data.0.translations.0.title', 'Admin media image')
+        );
 });
 
 test('content managers can access cms editor screens for pages and news', function () {
@@ -163,6 +199,11 @@ test('admin dashboard exposes operational readiness summary', function () {
     Setting::set('maintenance_report_email', 'reports@example.com');
     Setting::set('backup_frequency', 'daily');
     Setting::set('backup_retention_days', '30');
+    Cache::put(
+        OperationalAuditService::CACHE_KEY,
+        app(OperationalAuditService::class)->audit(),
+        now()->addMinutes(10),
+    );
 
     $this->actingAs($user)
         ->get(route('admin.dashboard'))
@@ -176,6 +217,51 @@ test('admin dashboard exposes operational readiness summary', function () {
             ->where('automated_checks.failing_count', 0)
             ->where('automated_checks.passing_count', 3)
             ->where('operational_audit.is_ready', true)
+        );
+});
+
+test('admin dashboard does not run operational audit on request when snapshot cache is missing', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $user->assignRole('super_admin');
+
+    Cache::forget(OperationalAuditService::CACHE_KEY);
+
+    $this->mock(OperationalAuditService::class, function ($mock) {
+        $mock->shouldReceive('emptyAudit')
+            ->once()
+            ->andReturn([
+                'governance' => [
+                    'completion_percentage' => 0,
+                    'is_ready' => false,
+                    'missing_count' => 0,
+                    'items' => [],
+                ],
+                'automated_checks' => [
+                    'passing_count' => 0,
+                    'failing_count' => 0,
+                    'items' => [],
+                ],
+                'overall' => [
+                    'completion_percentage' => 0,
+                    'is_ready' => false,
+                    'missing_count' => 0,
+                    'failing_checks_count' => 0,
+                ],
+            ]);
+        $mock->shouldNotReceive('audit');
+    });
+
+    $this->actingAs($user)
+        ->get(route('admin.dashboard'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/dashboard')
+            ->where('operational_readiness.completion_percentage', 0)
+            ->where('operational_readiness.items', [])
+            ->where('automated_checks.passing_count', 0)
+            ->where('operational_audit.is_ready', false)
         );
 });
 

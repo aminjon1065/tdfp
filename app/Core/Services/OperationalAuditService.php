@@ -6,6 +6,8 @@ use App\Models\Setting;
 
 class OperationalAuditService
 {
+    public const CACHE_KEY = 'admin.dashboard.operational_audit';
+
     public function __construct(
         private AccessibilityAuditService $accessibilityAuditService,
         private BrokenLinkAuditService $brokenLinkAuditService,
@@ -50,6 +52,50 @@ class OperationalAuditService
                 'is_ready' => $governance['is_ready'] && $automatedChecks['failing_count'] === 0,
                 'missing_count' => $governance['missing_count'],
                 'failing_checks_count' => $automatedChecks['failing_count'],
+            ],
+        ];
+    }
+
+    /**
+     * @return array{
+     *     governance: array{
+     *         completion_percentage:int,
+     *         is_ready:bool,
+     *         missing_count:int,
+     *         items:array<int, array{key:string,label:string,is_complete:bool,value:?string}>
+     *     },
+     *     automated_checks: array{
+     *         passing_count:int,
+     *         failing_count:int,
+     *         items:array<int, array{key:string,label:string,is_passing:bool,issue_count:int,checked_count:int,summary:string}>
+     *     },
+     *     overall: array{
+     *         completion_percentage:int,
+     *         is_ready:bool,
+     *         missing_count:int,
+     *         failing_checks_count:int
+     *     }
+     * }
+     */
+    public function emptyAudit(): array
+    {
+        return [
+            'governance' => [
+                'completion_percentage' => 0,
+                'is_ready' => false,
+                'missing_count' => 0,
+                'items' => [],
+            ],
+            'automated_checks' => [
+                'passing_count' => 0,
+                'failing_count' => 0,
+                'items' => [],
+            ],
+            'overall' => [
+                'completion_percentage' => 0,
+                'is_ready' => false,
+                'missing_count' => 0,
+                'failing_checks_count' => 0,
             ],
         ];
     }

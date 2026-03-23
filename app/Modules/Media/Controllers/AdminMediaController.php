@@ -5,6 +5,7 @@ namespace App\Modules\Media\Controllers;
 use App\Core\Helpers\FileHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MediaItem;
+use App\Models\MediaItemTranslation;
 use App\Modules\Media\Repositories\MediaRepository;
 use App\Modules\Media\Requests\StoreEditorImageRequest;
 use App\Modules\Media\Requests\StoreMediaRequest;
@@ -26,8 +27,23 @@ class AdminMediaController extends Controller
 
     public function index(Request $request): Response
     {
+        $media = $this->repository
+            ->paginateWithRelations(24, $request->only('type'))
+            ->through(fn (MediaItem $item): array => [
+                'id' => $item->id,
+                'type' => $item->type,
+                'url' => FileHelper::url($item->file_path),
+                'embed_url' => $item->embed_url,
+                'translations' => $item->translations->map(fn (MediaItemTranslation $translation): array => [
+                    'language' => $translation->language,
+                    'title' => $translation->title,
+                    'description' => $translation->description,
+                ])->values()->all(),
+                'created_at' => $item->created_at?->toISOString(),
+            ]);
+
         return Inertia::render('admin/media/index', [
-            'items' => $this->repository->paginateWithRelations(24, $request->only('type')),
+            'media' => $media,
             'filters' => $request->only('type'),
         ]);
     }

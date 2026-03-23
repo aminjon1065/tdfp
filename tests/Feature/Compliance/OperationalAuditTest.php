@@ -3,6 +3,7 @@
 use App\Core\Services\OperationalAuditService;
 use App\Models\Setting;
 use Database\Seeders\CmsPageSeeder;
+use Illuminate\Support\Facades\Cache;
 
 test('operational audit aggregates governance readiness and automated checks', function () {
     $this->seed(CmsPageSeeder::class);
@@ -30,6 +31,11 @@ test('operational audit aggregates governance readiness and automated checks', f
 
     $this->artisan('operations:audit')
         ->assertSuccessful();
+
+    expect(Cache::get(OperationalAuditService::CACHE_KEY))
+        ->toBeArray()
+        ->and(Cache::get(OperationalAuditService::CACHE_KEY)['overall']['is_ready'])
+        ->toBeTrue();
 });
 
 test('operational audit stays not ready when governance values are missing', function () {
