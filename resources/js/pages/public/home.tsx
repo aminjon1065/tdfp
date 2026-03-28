@@ -116,9 +116,6 @@ export default function Home({
             <section className="gov-hero-shell">
                 <div className="gov-container py-18 md:py-24">
                     <div className="max-w-3xl">
-                        <p className="gov-kicker mb-5 text-[var(--public-accent)]">
-                            {t(locale, 'home.title')}
-                        </p>
                         <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl">
                             {t(locale, 'home.heroTitle')}
                         </h1>
@@ -130,33 +127,33 @@ export default function Home({
                             <Button
                                 asChild
                                 size="lg"
-                                className="rounded-md bg-white px-6 text-[var(--public-primary)] hover:bg-white/90"
+                                className="rounded-md bg-white px-6 text-(--public-primary) hover:bg-white/90"
                             >
                                 <Link href={publicHref('/activities')}>
                                     {t(locale, 'home.learnMore')}
                                 </Link>
                             </Button>
                             <Link
-                                href={publicHref('/grm/submit')}
+                                href={publicHref('/procurement')}
                                 className="gov-pill-link"
                             >
-                                {t(locale, 'home.contactAction')}
+                                {t(locale, 'nav.procurement')}
                             </Link>
                         </div>
                     </div>
 
-                    <div className="mt-10 grid grid-cols-3 gap-px border-t border-white/10 pt-6 text-sm text-white/60">
+                    <div className="mt-10 grid grid-cols-2 gap-px border-t border-white/10 pt-6 text-sm text-white/60">
                         <span className="flex flex-col gap-0.5 pr-4">
-                            <span className="text-xl font-bold text-white">$39.7M</span>
-                            {t(locale, 'home.budgetCaption')}
-                        </span>
-                        <span className="flex flex-col gap-0.5 border-x border-white/10 px-4">
-                            <span className="text-xl font-bold text-white">2024–2030</span>
+                            <span className="text-xl font-bold text-white">
+                                2025–2030
+                            </span>
                             {t(locale, 'project.period')}
                         </span>
                         {activities.length > 0 && (
-                            <span className="flex flex-col gap-0.5 pl-4">
-                                <span className="text-xl font-bold text-white">{activities.length}</span>
+                            <span className="flex flex-col gap-0.5 border-l border-white/10 pl-4">
+                                <span className="text-xl font-bold text-white">
+                                    {activities.length}
+                                </span>
                                 {t(locale, 'home.activitiesCaption')}
                             </span>
                         )}
@@ -165,7 +162,7 @@ export default function Home({
             </section>
 
             {/* Quick access band */}
-            <section className="border-b border-[var(--public-border)] bg-white">
+            <section className="border-b border-(--public-border) bg-white">
                 <div className="gov-container py-6">
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                         {[
@@ -193,7 +190,7 @@ export default function Home({
                             <Link
                                 key={item.href}
                                 href={publicHref(item.href)}
-                                className="flex items-center gap-3 rounded-xl border border-[var(--public-border)] bg-[var(--public-surface)] px-4 py-3 text-sm font-medium text-[var(--public-primary)] transition hover:border-[var(--public-accent)]/30 hover:bg-[var(--public-accent)]/5 hover:text-[var(--public-accent)]"
+                                className="flex items-center gap-3 rounded-xl border border-(--public-border) bg-(--public-surface) px-4 py-3 text-sm font-medium text-(--public-primary) transition hover:border-(--public-accent)/30 hover:bg-(--public-accent)/5 hover:text-(--public-accent)"
                             >
                                 <item.icon className="h-4 w-4 shrink-0" />
                                 {t(locale, item.labelKey)}
@@ -204,14 +201,14 @@ export default function Home({
             </section>
 
             {/* Project Components & Financing */}
-            <section className="bg-[var(--public-surface)]">
+            <section className="bg-(--public-surface)">
                 <div className="gov-container py-16">
                     <div className="mb-8">
                         <p className="gov-kicker mb-3">
                             {t(locale, 'home.projectComponentsTitle')}
                         </p>
                         <h2 className="gov-section-title">
-                            {t(locale, 'project.financingSources')}
+                            {t(locale, 'nav.projects')}
                         </h2>
                     </div>
                     <div className="grid gap-5 lg:grid-cols-3">
@@ -244,7 +241,8 @@ export default function Home({
                                 className="gov-panel group p-6 transition hover:-translate-y-0.5 hover:shadow-md"
                             >
                                 <p className="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">
-                                    {t(locale, 'home.projectComponents')} {comp.number}
+                                    {t(locale, 'home.projectComponents')}{' '}
+                                    {comp.number}
                                 </p>
                                 <h3 className="mt-3 text-lg font-semibold text-[var(--public-primary-hover)]">
                                     {t(locale, comp.titleKey)}
@@ -252,10 +250,7 @@ export default function Home({
                                 <p className="mt-2 flex-1 text-sm leading-7 text-slate-600">
                                     {t(locale, comp.descKey)}
                                 </p>
-                                <p className="mt-4 text-2xl font-bold text-[var(--public-accent)]">
-                                    {comp.amount}
-                                </p>
-                                <div className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]">
+                                <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]">
                                     {t(locale, 'common.learnMore')}
                                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                                 </div>
@@ -294,22 +289,54 @@ export default function Home({
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {[
-                            { slug: 'digital-infrastructure', labelKey: 'nav.domain1', color: 'bg-slate-100 text-slate-700 border-slate-200' },
-                            { slug: 'digital-public-services', labelKey: 'nav.domain2', color: 'bg-blue-50 text-blue-700 border-blue-200' },
-                            { slug: 'digital-identity-payments', labelKey: 'nav.domain3', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
-                            { slug: 'cybersecurity', labelKey: 'nav.domain4', color: 'bg-red-50 text-red-700 border-red-200' },
-                            { slug: 'legal-governance', labelKey: 'nav.domain5', color: 'bg-amber-50 text-amber-700 border-amber-200' },
-                            { slug: 'digital-skills', labelKey: 'nav.domain6', color: 'bg-green-50 text-green-700 border-green-200' },
-                            { slug: 'school-connectivity', labelKey: 'nav.domain7', color: 'bg-teal-50 text-teal-700 border-teal-200' },
+                            {
+                                slug: 'digital-infrastructure',
+                                labelKey: 'nav.domain1',
+                                color: 'bg-slate-100 text-slate-700 border-slate-200',
+                            },
+                            {
+                                slug: 'digital-public-services',
+                                labelKey: 'nav.domain2',
+                                color: 'bg-blue-50 text-blue-700 border-blue-200',
+                            },
+                            {
+                                slug: 'digital-identity-payments',
+                                labelKey: 'nav.domain3',
+                                color: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+                            },
+                            {
+                                slug: 'cybersecurity',
+                                labelKey: 'nav.domain4',
+                                color: 'bg-red-50 text-red-700 border-red-200',
+                            },
+                            {
+                                slug: 'legal-governance',
+                                labelKey: 'nav.domain5',
+                                color: 'bg-amber-50 text-amber-700 border-amber-200',
+                            },
+                            {
+                                slug: 'digital-skills',
+                                labelKey: 'nav.domain6',
+                                color: 'bg-green-50 text-green-700 border-green-200',
+                            },
+                            {
+                                slug: 'school-connectivity',
+                                labelKey: 'nav.domain7',
+                                color: 'bg-teal-50 text-teal-700 border-teal-200',
+                            },
                         ].map((domain) => {
-                            const count = (activities as any[]).filter((a: any) => a.domain_slug === domain.slug).length;
+                            const count = (activities as any[]).filter(
+                                (a: any) => a.domain_slug === domain.slug,
+                            ).length;
                             return (
                                 <Link
                                     key={domain.slug}
-                                    href={publicHref(`/activities?domain=${domain.slug}`)}
+                                    href={publicHref(
+                                        `/activities?domain=${domain.slug}`,
+                                    )}
                                     className={`rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-md ${domain.color}`}
                                 >
-                                    <p className="text-sm font-semibold leading-snug">
+                                    <p className="text-sm leading-snug font-semibold">
                                         {t(locale, domain.labelKey)}
                                     </p>
                                     <p className="mt-3 text-2xl font-bold">

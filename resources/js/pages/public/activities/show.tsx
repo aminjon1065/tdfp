@@ -3,10 +3,10 @@ import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
-import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
+import { formatLocalizedDate, getStatusLabel, getTranslation, t } from '@/lib/i18n';
 import { localizedPublicHref } from '@/lib/public-locale';
 import { Link, usePage } from '@inertiajs/react';
-import { Calendar, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Calendar, ChevronRight } from 'lucide-react';
 
 export default function ActivityShow({ activity }: { activity: any }) {
     const page = usePage().props as any;
@@ -83,14 +83,17 @@ export default function ActivityShow({ activity }: { activity: any }) {
                 </nav>
             </PageHero>
             <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <Link href={publicHref('/activities')} className="mb-6 inline-flex text-sm text-blue-700 hover:underline">{t(locale, 'activities.back')}</Link>
-                <Badge variant={activity.status === 'in_progress' ? 'default' : 'secondary'} className="mb-3">
+                <Link href={publicHref('/activities')} className="mb-6 inline-flex items-center gap-1.5 text-sm text-[var(--public-accent)] hover:underline">
+                    <ArrowLeft className="h-4 w-4" />
+                    {t(locale, 'activities.back')}
+                </Link>
+                <Badge variant={activity.status === 'in_progress' ? 'default' : 'secondary'} className="mt-4 mb-4 block w-fit">
                     {getStatusLabel(activity.status, locale)}
                 </Badge>
                 {(activity.start_date || activity.end_date) && (
                     <div className="mb-6 flex items-center gap-2 text-sm text-gray-500">
                         <Calendar className="h-4 w-4" />
-                        {activity.start_date} {activity.end_date ? `- ${activity.end_date}` : ''}
+                        {formatLocalizedDate(activity.start_date, locale)}{activity.end_date ? ` – ${formatLocalizedDate(activity.end_date, locale)}` : ''}
                     </div>
                 )}
                 {activity.featured_image && (

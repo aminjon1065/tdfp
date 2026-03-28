@@ -43,6 +43,11 @@ class ActivityRepository extends BaseRepository
             $query->where('domain_slug', $filters['domain']);
         }
 
+        if (! empty($filters['search'])) {
+            $term = $filters['search'];
+            $query->whereHas('translations', fn ($q) => $q->where('title', 'like', "%{$term}%"));
+        }
+
         return $query->paginate($perPage)->withQueryString();
     }
 

@@ -18,14 +18,13 @@ interface PageHeroProps {
 
 export default function PageHero({
     title,
-    subtitle,
     description,
     children,
     compact = false,
     breadcrumbs,
 }: PageHeroProps) {
     return (
-        <section className="bg-[var(--public-primary)] pt-16 text-white">
+        <section className="bg-(--public-primary) pt-16 text-white">
             <div
                 className={`mx-auto max-w-7xl px-6 ${compact ? 'py-12 md:py-14' : 'py-14 md:py-18'}`}
             >
@@ -48,11 +47,6 @@ export default function PageHero({
                     </nav>
                 )}
                 {children && <div className="mb-3">{children}</div>}
-                {subtitle && (
-                    <p className="mb-3 text-xs font-semibold tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                        {subtitle}
-                    </p>
-                )}
                 <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                     {title}
                 </h1>

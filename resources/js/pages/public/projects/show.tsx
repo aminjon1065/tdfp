@@ -22,6 +22,7 @@ interface DocumentItem {
 }
 
 interface Props {
+    slug: string;
     projectDocuments: DocumentItem[];
 }
 
@@ -35,7 +36,7 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]['id'];
 
-export default function Project({ projectDocuments }: Props) {
+export default function ProjectShow({ projectDocuments }: Props) {
     const sharedPage = usePage().props as any;
     const locale = sharedPage.locale ?? 'en';
     const defaultLocale = sharedPage.localization?.default_locale ?? 'en';
@@ -100,8 +101,15 @@ export default function Project({ projectDocuments }: Props) {
                         {t(locale, 'common.home')}
                     </Link>
                     <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <Link
+                        href={publicHref('/projects')}
+                        className="transition-colors hover:text-white"
+                    >
+                        {t(locale, 'nav.projects')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
                     <span className="text-white" aria-current="page">
-                        {t(locale, 'nav.theProject')}
+                        {t(locale, 'project.title')}
                     </span>
                 </nav>
             </PageHero>
@@ -225,53 +233,32 @@ export default function Project({ projectDocuments }: Props) {
                                         <thead className="bg-[var(--public-surface)] text-xs font-semibold tracking-[0.12em] text-slate-500 uppercase">
                                             <tr>
                                                 <th className="px-6 py-3 text-left">
-                                                    {t(
-                                                        locale,
-                                                        'project.componentLabel',
-                                                    )}
+                                                    {t(locale, 'project.componentLabel')}
                                                 </th>
                                                 <th className="px-6 py-3 text-right">
-                                                    {t(
-                                                        locale,
-                                                        'project.financing',
-                                                    )}
+                                                    {t(locale, 'project.financing')}
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-[var(--public-border)] bg-white">
                                             {components.map((comp) => (
-                                                <React.Fragment
-                                                    key={comp.number}
-                                                >
+                                                <React.Fragment key={comp.number}>
                                                     <tr className="font-medium">
                                                         <td className="px-6 py-4 text-[var(--public-primary-hover)]">
                                                             <span className="mr-2 text-xs font-semibold tracking-wider text-slate-400 uppercase">
-                                                                {t(
-                                                                    locale,
-                                                                    'home.projectComponents',
-                                                                )}{' '}
+                                                                {t(locale, 'home.projectComponents')}{' '}
                                                                 {comp.number}
                                                             </span>
-                                                            {t(
-                                                                locale,
-                                                                comp.titleKey,
-                                                            )}
+                                                            {t(locale, comp.titleKey)}
                                                         </td>
                                                         <td className="px-6 py-4 text-right font-semibold text-[var(--public-primary-hover)]">
                                                             {comp.amount}
                                                         </td>
                                                     </tr>
                                                     {comp.sub.map((sub) => (
-                                                        <tr
-                                                            key={sub.titleKey}
-                                                            className="bg-slate-50/60"
-                                                        >
+                                                        <tr key={sub.titleKey} className="bg-slate-50/60">
                                                             <td className="px-6 py-3 pl-10 text-slate-500">
-                                                                ↳{' '}
-                                                                {t(
-                                                                    locale,
-                                                                    sub.titleKey,
-                                                                )}
+                                                                ↳ {t(locale, sub.titleKey)}
                                                             </td>
                                                             <td className="px-6 py-3 text-right text-slate-500">
                                                                 {sub.amount}
@@ -282,10 +269,7 @@ export default function Project({ projectDocuments }: Props) {
                                             ))}
                                             <tr className="bg-[var(--public-primary-hover)] font-bold text-white">
                                                 <td className="px-6 py-4">
-                                                    {t(
-                                                        locale,
-                                                        'project.totalFinancing',
-                                                    )}
+                                                    {t(locale, 'project.totalFinancing')}
                                                 </td>
                                                 <td className="px-6 py-4 text-right">
                                                     $51.2M
@@ -312,21 +296,17 @@ export default function Project({ projectDocuments }: Props) {
                                             <div className="flex flex-col items-center">
                                                 <div
                                                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-sm ${
-                                                        index === 0 ||
-                                                        index === 1
+                                                        index === 0 || index === 1
                                                             ? 'bg-emerald-500'
                                                             : 'bg-[var(--public-accent)]'
                                                     }`}
                                                 >
                                                     {index + 1}
                                                 </div>
-                                                {index <
-                                                    timeline.length - 1 && (
+                                                {index < timeline.length - 1 && (
                                                     <div
                                                         className="mt-1 w-px flex-1 bg-[var(--public-border)]"
-                                                        style={{
-                                                            minHeight: '2.5rem',
-                                                        }}
+                                                        style={{ minHeight: '2.5rem' }}
                                                     />
                                                 )}
                                             </div>
@@ -355,20 +335,15 @@ export default function Project({ projectDocuments }: Props) {
                                         {
                                             labelKey: 'project.indicator1',
                                             value: '25',
-                                            targetKey:
-                                                'project.indicator1.target',
+                                            targetKey: 'project.indicator1.target',
                                         },
                                         {
                                             labelKey: 'project.indicator2',
                                             value: '28,000',
-                                            targetKey:
-                                                'project.indicator2.target',
+                                            targetKey: 'project.indicator2.target',
                                         },
                                     ].map(({ labelKey, value, targetKey }) => (
-                                        <div
-                                            key={labelKey}
-                                            className="gov-panel p-6"
-                                        >
+                                        <div key={labelKey} className="gov-panel p-6">
                                             <p className="flex items-center gap-2 text-xs font-medium tracking-[0.14em] text-slate-400 uppercase">
                                                 <TrendingUp className="h-3.5 w-3.5 text-[var(--public-accent)]" />
                                                 {t(locale, labelKey)}
@@ -394,26 +369,17 @@ export default function Project({ projectDocuments }: Props) {
                                 {projectDocuments.length > 0 ? (
                                     <ul className="divide-y divide-[var(--public-border)] overflow-hidden rounded-2xl border border-[var(--public-border)] bg-white">
                                         {projectDocuments.map((doc) => {
-                                            const translation = getTranslation(
-                                                doc,
-                                                locale,
-                                            );
+                                            const translation = getTranslation(doc, locale);
                                             return (
                                                 <li key={doc.id}>
                                                     <Link
-                                                        href={publicHref(
-                                                            `/documents/${doc.id}/download`,
-                                                        )}
+                                                        href={publicHref(`/documents/${doc.id}/download`)}
                                                         className="flex items-center justify-between gap-4 px-5 py-4 text-sm transition-colors hover:bg-slate-50"
                                                     >
                                                         <span className="flex items-center gap-3">
                                                             <FileText className="h-4 w-4 shrink-0 text-[var(--public-accent)]" />
                                                             <span className="font-medium text-[var(--public-primary-hover)]">
-                                                                {translation.title ??
-                                                                    t(
-                                                                        locale,
-                                                                        'common.untitled',
-                                                                    )}
+                                                                {translation.title ?? t(locale, 'common.untitled')}
                                                             </span>
                                                         </span>
                                                         <ExternalLink className="h-4 w-4 shrink-0 text-slate-400" />
@@ -432,8 +398,7 @@ export default function Project({ projectDocuments }: Props) {
                                         href={publicHref('/documents')}
                                         className="text-sm font-medium text-[var(--public-accent)] hover:text-[var(--public-primary)]"
                                     >
-                                        {t(locale, 'common.viewAll')}{' '}
-                                        {t(locale, 'nav.documents')} →
+                                        {t(locale, 'common.viewAll')} {t(locale, 'nav.documents')} →
                                     </Link>
                                 </div>
                             </section>
@@ -454,43 +419,16 @@ export default function Project({ projectDocuments }: Props) {
                             </div>
                             <dl className="divide-y divide-[var(--public-border)]">
                                 {[
-                                    {
-                                        labelKey: 'project.approvalDate',
-                                        value: 'May 8, 2025',
-                                    },
-                                    {
-                                        labelKey: 'project.closingDate',
-                                        value: 'Dec 31, 2030',
-                                    },
-                                    {
-                                        labelKey: 'project.totalFinancing',
-                                        value: '$45.4M',
-                                    },
-                                    {
-                                        labelKey: 'project.idaCredit',
-                                        value: '$30M',
-                                    },
-                                    {
-                                        labelKey: 'project.sdcGrant',
-                                        value: '$9M',
-                                    },
-                                    {
-                                        labelKey: 'project.privateFinancing',
-                                        value: '$5M',
-                                    },
-                                    {
-                                        labelKey: 'project.govContribution',
-                                        value: '$1.4M',
-                                    },
-                                    {
-                                        labelKey: 'project.implementingAgency',
-                                        value: t(locale, 'site.center'),
-                                    },
+                                    { labelKey: 'project.approvalDate', value: 'May 8, 2025' },
+                                    { labelKey: 'project.closingDate', value: 'Dec 31, 2030' },
+                                    { labelKey: 'project.totalFinancing', value: '$45.4M' },
+                                    { labelKey: 'project.idaCredit', value: '$30M' },
+                                    { labelKey: 'project.sdcGrant', value: '$9M' },
+                                    { labelKey: 'project.privateFinancing', value: '$5M' },
+                                    { labelKey: 'project.govContribution', value: '$1.4M' },
+                                    { labelKey: 'project.implementingAgency', value: t(locale, 'site.center') },
                                 ].map(({ labelKey, value }) => (
-                                    <div
-                                        key={labelKey}
-                                        className="grid grid-cols-[1fr_auto] gap-2 px-5 py-3"
-                                    >
+                                    <div key={labelKey} className="grid grid-cols-[1fr_auto] gap-2 px-5 py-3">
                                         <dt className="text-xs text-slate-400">
                                             {t(locale, labelKey)}
                                         </dt>

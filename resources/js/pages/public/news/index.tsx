@@ -60,7 +60,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                         <Button variant={! filters.category_id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { ...localeQuery, search: filters.search })}>{t(locale, 'common.all')}</Button>
                         {categories.map((category) => (
                             <Button key={category.id} variant={filters.category_id == category.id ? 'default' : 'outline'} size="sm" onClick={() => router.get('/news', { ...localeQuery, category_id: category.id, search: filters.search })}>
-                                {category.name}
+                                {t(locale, `news.category.${category.slug}` as any) || category.name}
                             </Button>
                         ))}
                     </div>
@@ -86,7 +86,7 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                             )}
                                             <CardHeader className="pb-2">
                                                 <div className="flex flex-wrap gap-2">
-                                                    {item.category && <Badge variant="outline" className="w-fit text-xs">{item.category.name}</Badge>}
+                                                    {item.category && <Badge variant="outline" className="w-fit text-xs">{t(locale, `news.category.${item.category.slug}` as any) || item.category.name}</Badge>}
                                                     {isRecent(item.published_at) && <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">{t(locale, 'news.new')}</Badge>}
                                                 </div>
                                                 <CardTitle className="text-base line-clamp-2">{translation.title}</CardTitle>

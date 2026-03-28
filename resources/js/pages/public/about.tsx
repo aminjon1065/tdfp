@@ -84,15 +84,17 @@ export default function About({ page }: Props) {
             <section className="container mx-auto px-4 py-12">
                 <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
                     {/* Mandate block */}
-                    <div className="rounded-3xl border border-[var(--public-border)] bg-white p-8 shadow-sm">
-                        <p className="gov-kicker mb-3">{t(locale, 'nav.about')}</p>
+                    <div className="rounded-3xl border border-(--public-border) bg-white p-8 shadow-sm">
+                        <p className="gov-kicker mb-3">
+                            {t(locale, 'nav.about')}
+                        </p>
                         <p className="text-base leading-8 text-slate-600">
                             {t(locale, 'about.mandate')}
                         </p>
                         <div className="mt-6">
                             <Link
                                 href={publicHref('/team')}
-                                className="inline-flex items-center gap-2 rounded-xl border border-[var(--public-border)] px-4 py-3 text-sm font-medium text-[var(--public-primary)] transition hover:border-[var(--public-accent)]/30 hover:text-[var(--public-accent)]"
+                                className="inline-flex items-center gap-2 rounded-xl border border-(--public-border) px-4 py-3 text-sm font-medium text-(--public-primary) transition hover:border-(--public-accent)/30 hover:text-(--public-accent)"
                             >
                                 <Users className="h-4 w-4 shrink-0" />
                                 {t(locale, 'about.staffLink')}
@@ -105,10 +107,10 @@ export default function About({ page }: Props) {
                         {highlights.map(({ titleKey, descKey, Icon }) => (
                             <div
                                 key={titleKey}
-                                className="rounded-3xl border border-[var(--public-border)] bg-[var(--public-surface)] p-6"
+                                className="rounded-3xl border border-(--public-border) bg-(--public-surface) p-6"
                             >
-                                <Icon className="h-5 w-5 text-[var(--public-accent)]" />
-                                <h2 className="mt-4 text-lg font-semibold text-[var(--public-primary-hover)]">
+                                <Icon className="h-5 w-5 text-(--public-accent)" />
+                                <h2 className="mt-4 text-lg font-semibold text-(--public-primary-hover)">
                                     {t(locale, titleKey)}
                                 </h2>
                                 <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -121,7 +123,7 @@ export default function About({ page }: Props) {
 
                 {/* CMS content (if any) */}
                 {(pageTranslation as any).content && (
-                    <article className="mt-10 rounded-3xl border border-[var(--public-border)] bg-white p-8 shadow-sm">
+                    <article className="mt-10 rounded-3xl border border-(--public-border) bg-white p-8 shadow-sm">
                         <div
                             className="prose prose-lg max-w-none text-gray-700"
                             dangerouslySetInnerHTML={{
@@ -130,7 +132,10 @@ export default function About({ page }: Props) {
                         />
                         <SocialShare
                             className="mt-8"
-                            title={(pageTranslation as any).title ?? t(locale, 'nav.about')}
+                            title={
+                                (pageTranslation as any).title ??
+                                t(locale, 'nav.about')
+                            }
                             url={currentUrl}
                             description={pageDescription}
                         />
@@ -138,16 +143,18 @@ export default function About({ page }: Props) {
                 )}
 
                 {/* Partner acknowledgment */}
-                <div className="mt-10 rounded-3xl border border-[var(--public-border)] bg-[var(--public-surface)] p-8">
-                    <p className="gov-kicker mb-3">{t(locale, 'footer.partners')}</p>
+                <div className="mt-10 rounded-3xl border border-(--public-border) bg-(--public-surface) p-8">
+                    <p className="gov-kicker mb-3">
+                        {t(locale, 'footer.partners')}
+                    </p>
                     <p className="text-sm leading-8 text-slate-600">
                         {t(locale, 'about.partnerAcknowledgment')}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-4">
-                        <span className="inline-flex items-center rounded-lg border border-[var(--public-border)] bg-white px-4 py-2 text-sm font-semibold text-[var(--public-primary-hover)]">
+                        <span className="inline-flex items-center rounded-lg border border-(--public-border) bg-white px-4 py-2 text-sm font-semibold text-(--public-primary-hover)">
                             World Bank · IDA
                         </span>
-                        <span className="inline-flex items-center rounded-lg border border-[var(--public-border)] bg-white px-4 py-2 text-sm font-semibold text-[var(--public-primary-hover)]">
+                        <span className="inline-flex items-center rounded-lg border border-(--public-border) bg-white px-4 py-2 text-sm font-semibold text-(--public-primary-hover)">
                             SDC Switzerland
                         </span>
                     </div>

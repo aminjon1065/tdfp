@@ -1,12 +1,14 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
 import { localizedPublicHref, publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
-import { SearchX } from 'lucide-react';
+import { Search, SearchX, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const DOMAINS = [
     { slug: 'digital-infrastructure', labelKey: 'nav.domain1', color: 'bg-slate-100 text-slate-700' },
@@ -34,6 +36,8 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
     const currentUrl = page.ziggy?.location ?? '';
     const defaultLocale = page.localization?.default_locale ?? 'en';
     const localeQuery = publicLocaleQuery(locale, defaultLocale);
+    const [searchValue, setSearchValue] = useState(filters.search ?? '');
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const structuredData = [
         {
             '@context': 'https://schema.org',
@@ -49,11 +53,23 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
         const params: Record<string, string> = { ...localeQuery };
         if (filters.status) params.status = filters.status;
         if (filters.domain) params.domain = filters.domain;
+        if (filters.search) params.search = filters.search;
         Object.assign(params, updates);
-        // Remove empty values
         Object.keys(params).forEach((k) => { if (!params[k]) delete params[k]; });
-        router.get('/activities', params);
+        router.get('/activities', params, { preserveScroll: true });
     }
+
+    function handleSearchChange(value: string) {
+        setSearchValue(value);
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(() => {
+            applyFilter({ search: value, domain: filters.domain ?? '', status: filters.status ?? '' });
+        }, 400);
+    }
+
+    useEffect(() => {
+        setSearchValue(filters.search ?? '');
+    }, [filters.search]);
 
     return (
         <PublicLayout
@@ -74,6 +90,25 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
             />
 
             <div className="container mx-auto px-4 py-10">
+                {/* Search */}
+                <div className="mb-6 relative max-w-lg">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                    <Input
+                        value={searchValue}
+                        onChange={(e) => handleSearchChange(e.target.value)}
+                        placeholder={t(locale, 'common.search')}
+                        className="pl-9 pr-9"
+                    />
+                    {searchValue && (
+                        <button
+                            onClick={() => handleSearchChange('')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                        >
+                            <X className="h-4 w-4" />
+                        </button>
+                    )}
+                </div>
+
                 {/* Domain filter tabs */}
                 <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
@@ -135,11 +170,6 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                                 )}
                                 <div className="flex flex-1 flex-col p-5">
                                     <div className="flex flex-wrap items-center gap-2">
-                                        {activity.activity_number && (
-                                            <span className="text-xs font-medium tracking-[0.18em] text-slate-400 uppercase">
-                                                Activity {String(activity.activity_number).padStart(2, '0')}
-                                            </span>
-                                        )}
                                         {domainLabel && (
                                             <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${domainColor}`}>
                                                 {domainLabel}
@@ -189,6 +219,27 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                         >
                             {t(locale, 'activities.resetFilters')}
                         </Button>
+                    </div>
+                )}
+
+                {activities.last_page > 1 && (
+                    <div className="mt-10 flex items-center justify-center gap-1">
+                        {activities.links.map((link: { url: string | null; label: string; active: boolean }, i: number) => (
+                            <Link
+                                key={i}
+                                href={link.url ?? '#'}
+                                preserveScroll
+                                className={[
+                                    'min-w-[2.25rem] rounded-lg px-3 py-2 text-center text-sm font-medium transition',
+                                    link.active
+                                        ? 'bg-[var(--public-primary)] text-white'
+                                        : link.url
+                                        ? 'border border-[var(--public-border)] bg-white text-[var(--public-primary)] hover:bg-slate-50'
+                                        : 'cursor-default border border-[var(--public-border)] bg-white text-slate-300',
+                                ].join(' ')}
+                                dangerouslySetInnerHTML={{ __html: link.label }}
+                            />
+                        ))}
                     </div>
                 )}
             </div>

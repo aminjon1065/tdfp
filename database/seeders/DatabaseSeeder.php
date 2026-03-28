@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             NewsCategorySeeder::class,
             DocumentCategorySeeder::class,
             SettingsSeeder::class,
+            ActivitySeeder::class,
         ]);
     }
 }

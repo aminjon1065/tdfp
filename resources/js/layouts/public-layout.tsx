@@ -7,12 +7,14 @@ import {
     Menu,
     Phone,
     PhoneCall,
+    Search,
     X,
 } from 'lucide-react';
 import {
     type PropsWithChildren,
     type ReactElement,
     useEffect,
+    useRef,
     useState,
 } from 'react';
 
@@ -42,6 +44,8 @@ import { useBVI } from '@/providers/bvi-provider';
 const primaryNavLinks = [
     { key: 'nav.home', href: '/' },
     { key: 'nav.about', href: '/about' },
+    { key: 'nav.projects', href: '/projects' },
+    { key: 'nav.activities', href: '/activities' },
     { key: 'nav.news', href: '/news' },
     { key: 'nav.procurement', href: '/procurement' },
     { key: 'nav.grm', href: '/grm' },
@@ -148,8 +152,10 @@ export default function PublicLayout({
     blendHeader = false,
 }: PublicLayoutProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const { state: bviState } = useBVI();
     const inertiaPage = usePage<LayoutPageProps>();
     const page = inertiaPage.props;
@@ -212,22 +218,6 @@ export default function PublicLayout({
           })()
         : undefined;
 
-    const projectPages = page.navigation?.project_pages ?? [];
-    const projectNavLinks = [
-        ...projectNavSections.map((section) => ({
-            label: t(currentLocale, section.key),
-            description: t(currentLocale, section.descriptionKey),
-            href: publicHref(section.href),
-        })),
-        ...projectPages.map((projectPage) => ({
-            label:
-                getTranslation(projectPage, currentLocale).title ??
-                projectPage.slug,
-            description: t(currentLocale, 'nav.projectPageDescription'),
-            href: publicHref(projectPage.href),
-        })),
-    ];
-
     const organizationSchema = {
         '@context': 'https://schema.org',
         '@type': 'GovernmentOrganization',
@@ -252,7 +242,8 @@ export default function PublicLayout({
 
     useEffect(() => {
         setMobileOpen(false);
-        setMobileProjectsOpen(false);
+        setSearchOpen(false);
+        setSearchQuery('');
     }, [inertiaPage.url]);
 
     useEffect(() => {
@@ -264,9 +255,25 @@ export default function PublicLayout({
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        if (searchOpen) {
+            setTimeout(() => searchInputRef.current?.focus(), 50);
+        }
+    }, [searchOpen]);
+
+    function submitSearch(): void {
+        const q = searchQuery.trim();
+        if (!q) return;
+        router.get('/search', { q });
+        setSearchOpen(false);
+        setSearchQuery('');
+    }
+
     function switchLanguage(code: string): void {
         setMobileOpen(false);
-        router.visit(`/language/${code}`, { preserveScroll: true });
+        fetch(`/language/${code}`).then(() => {
+            window.location.reload();
+        });
     }
 
     function publicHref(path: string): string {
@@ -294,8 +301,8 @@ export default function PublicLayout({
                         'rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors',
                         active
                             ? isScrolled || !blendHeader
-                                ? 'bg-(--public-primary)/8 font-semibold text-(--public-primary-hover) underline decoration-(--public-accent) decoration-2 underline-offset-4'
-                                : 'bg-white/14 font-semibold text-white underline decoration-white/60 decoration-2 underline-offset-4'
+                                ? 'bg-(--public-primary)/8 font-semibold text-(--public-primary-hover)'
+                                : 'bg-white/14 font-semibold text-white'
                             : isScrolled || !blendHeader
                               ? 'text-slate-500 hover:bg-slate-100 hover:text-(--public-primary-hover)'
                               : 'text-white/72 hover:bg-white/8 hover:text-white',
@@ -366,11 +373,11 @@ export default function PublicLayout({
                         <div className="flex h-9 items-center justify-between gap-4">
                             <p className="hidden text-[10px] font-medium tracking-[0.12em] text-white/70 uppercase sm:block">
                                 <a
-                                    href={`tel:${page.settings?.contact_phone?.replace(/\D/g, '')}`}
+                                    href={`tel:${siteSettings.contact_phone?.replace(/\D/g, '')}`}
                                     className="flex items-center gap-1.5"
                                 >
                                     <PhoneCall className="h-4 w-4" />
-                                    {page.settings?.contact_phone ?? '911000770'}
+                                    {siteSettings.contact_phone ?? '+992 (000) 000-000'}
                                 </a>
                             </p>
                             <div className="ml-auto flex items-center gap-3">
@@ -454,29 +461,57 @@ export default function PublicLayout({
                         </Link>
 
                         <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
-                            <nav aria-label="Primary" className="min-w-0">
-                                <ul className="flex flex-wrap items-center gap-0.5">
-                                    {primaryNavLinks
-                                        .slice(0, 2)
-                                        .map(renderPrimaryNavLink)}
-                                    {renderTheProjectDesktopNav(
-                                        currentLocale,
-                                        isScrolled,
-                                        blendHeader,
-                                        publicHref,
-                                    )}
-                                    {renderActivitiesDesktopNav(
-                                        currentLocale,
-                                        isScrolled,
-                                        blendHeader,
-                                        publicHref,
-                                    )}
-                                    {primaryNavLinks
-                                        .slice(2)
-                                        .map(renderPrimaryNavLink)}
-                                </ul>
-                            </nav>
+                            {searchOpen ? (
+                                <form
+                                    className="flex w-full max-w-lg items-center gap-2"
+                                    onSubmit={(e) => { e.preventDefault(); submitSearch(); }}
+                                >
+                                    <div className="relative flex-1">
+                                        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                        <input
+                                            ref={searchInputRef}
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            placeholder={t(currentLocale, 'common.search')}
+                                            className="h-9 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-800 outline-none ring-0 focus:border-(--public-accent) focus:ring-1 focus:ring-(--public-accent)/30"
+                                        />
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="rounded-lg bg-(--public-accent) px-4 py-2 text-sm font-medium text-white hover:bg-(--public-accent-hover)"
+                                    >
+                                        {t(currentLocale, 'common.search')}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+                                        className="rounded-lg p-2 text-slate-400 hover:text-slate-600"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </button>
+                                </form>
+                            ) : (
+                                <nav aria-label="Primary" className="min-w-0">
+                                    <ul className="flex flex-wrap items-center gap-0.5">
+                                        {primaryNavLinks.map(renderPrimaryNavLink)}
+                                    </ul>
+                                </nav>
+                            )}
                         </div>
+
+                        <button
+                            type="button"
+                            onClick={() => setSearchOpen((v) => !v)}
+                            className={cn(
+                                'hidden rounded-md p-2 lg:inline-flex',
+                                isScrolled || !blendHeader
+                                    ? 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'
+                                    : 'text-white/70 hover:bg-white/10 hover:text-white',
+                            )}
+                            aria-label={t(currentLocale, 'common.search')}
+                        >
+                            <Search className="h-4 w-4" />
+                        </button>
 
                         <Sheet
                             open={mobileOpen}
@@ -519,6 +554,27 @@ export default function PublicLayout({
                                     </SheetDescription>
                                 </SheetHeader>
                                 <div className="space-y-4 px-5 py-5">
+                                    <form
+                                        className="flex items-center gap-2"
+                                        onSubmit={(e) => { e.preventDefault(); submitSearch(); }}
+                                    >
+                                        <div className="relative flex-1">
+                                            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                            <input
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                placeholder={t(currentLocale, 'common.search')}
+                                                className="h-10 w-full rounded-xl border border-(--public-border) bg-white pl-9 pr-3 text-sm text-slate-800 outline-none focus:border-(--public-accent) focus:ring-1 focus:ring-(--public-accent)/30"
+                                            />
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            className="rounded-xl bg-(--public-accent) px-4 py-2.5 text-sm font-medium text-white"
+                                        >
+                                            <Search className="h-4 w-4" />
+                                        </button>
+                                    </form>
+
                                     <nav aria-label="Mobile">
                                         <ul className="space-y-1.5">
                                             {primaryNavLinks.map((link) => (
@@ -549,14 +605,6 @@ export default function PublicLayout({
                                                     </Link>
                                                 </li>
                                             ))}
-                                            {renderProjectsMobileNav(
-                                                currentLocale,
-                                                projectNavLinks,
-                                                mobileProjectsOpen,
-                                                setMobileProjectsOpen,
-                                                setMobileOpen,
-                                                isActivePath,
-                                            )}
                                         </ul>
                                     </nav>
                                 </div>
@@ -640,14 +688,14 @@ export default function PublicLayout({
                             <li className="flex items-start gap-3">
                                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-(--public-accent)" />
                                 <span>
-                                    {page.settings?.contact_address ??
+                                    {siteSettings.contact_address ??
                                         t(currentLocale, 'site.country')}
                                 </span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone className="h-4 w-4 shrink-0 text-(--public-accent)" />
                                 <span>
-                                    {page.settings?.contact_phone ??
+                                    {siteSettings.contact_phone ??
                                         '+992 (000) 000-000'}
                                 </span>
                             </li>

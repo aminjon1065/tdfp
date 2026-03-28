@@ -48,9 +48,17 @@ class PublicController extends Controller
         ]);
     }
 
-    public function project(): Response
+    public function projects(): Response
     {
-        return Inertia::render('public/project', [
+        return Inertia::render('public/projects/index');
+    }
+
+    public function showProject(string $slug): Response
+    {
+        abort_if($slug !== 'tdfp', 404);
+
+        return Inertia::render('public/projects/show', [
+            'slug' => $slug,
             'projectDocuments' => $this->documentRepository->latestPublished(5),
         ]);
     }
