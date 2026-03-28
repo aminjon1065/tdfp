@@ -9,7 +9,12 @@ import {
     Phone,
     X,
 } from 'lucide-react';
-import { type PropsWithChildren, useEffect, useState } from 'react';
+import {
+    type PropsWithChildren,
+    type ReactElement,
+    useEffect,
+    useState,
+} from 'react';
 
 import { BVIButton } from '@/components/bvi/bvi-button';
 import { BVIPanel } from '@/components/bvi/bvi-panel';
@@ -269,7 +274,7 @@ export default function PublicLayout({
 
     function renderPrimaryNavLink(
         link: (typeof primaryNavLinks)[number],
-    ): JSX.Element {
+    ): ReactElement {
         const active = isActivePath(link.href);
 
         return (
@@ -294,13 +299,14 @@ export default function PublicLayout({
         );
     }
 
-    function renderProjectsDesktopNav(): JSX.Element {
+    function renderProjectsDesktopNav(): ReactElement {
         return (
             <li key="nav-projects">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button
                             type="button"
+                            data-test="public-projects-menu-trigger"
                             className={cn(
                                 'inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13px] font-medium outline-hidden transition-colors',
                                 isProjectNavActive()
@@ -321,6 +327,7 @@ export default function PublicLayout({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                         align="center"
+                        data-test="public-projects-menu-content"
                         className="w-80 rounded-2xl border-(--public-border) bg-white p-2 shadow-xl"
                     >
                         {projectNavLinks.map((link) => (
@@ -348,7 +355,7 @@ export default function PublicLayout({
         );
     }
 
-    function renderProjectsMobileNav(): JSX.Element {
+    function renderProjectsMobileNav(): ReactElement {
         return (
             <li key="mobile-nav-projects">
                 <div className="overflow-hidden rounded-2xl border border-(--public-border) bg-white">

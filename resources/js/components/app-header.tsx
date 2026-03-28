@@ -232,6 +232,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 <Button
                                     variant="ghost"
                                     className="size-10 rounded-full p-1"
+                                    data-test="admin-user-menu-trigger"
                                 >
                                     <Avatar className="size-8 overflow-hidden rounded-full">
                                         <AvatarImage
