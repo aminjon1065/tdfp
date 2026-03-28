@@ -1,6 +1,5 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
@@ -8,11 +7,25 @@ import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
 import { publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
 
-const statusVariant: Record<string, any> = {
-    planned: 'secondary',
-    in_progress: 'default',
-    completed: 'outline',
-};
+const DOMAINS = [
+    { slug: 'digital-infrastructure', labelKey: 'nav.domain1', color: 'bg-slate-100 text-slate-700' },
+    { slug: 'digital-public-services', labelKey: 'nav.domain2', color: 'bg-blue-100 text-blue-700' },
+    { slug: 'digital-identity-payments', labelKey: 'nav.domain3', color: 'bg-indigo-100 text-indigo-700' },
+    { slug: 'cybersecurity', labelKey: 'nav.domain4', color: 'bg-red-100 text-red-700' },
+    { slug: 'legal-governance', labelKey: 'nav.domain5', color: 'bg-amber-100 text-amber-700' },
+    { slug: 'digital-skills', labelKey: 'nav.domain6', color: 'bg-green-100 text-green-700' },
+    { slug: 'school-connectivity', labelKey: 'nav.domain7', color: 'bg-teal-100 text-teal-700' },
+] as const;
+
+function getDomainColor(slug: string | null | undefined): string {
+    const domain = DOMAINS.find((d) => d.slug === slug);
+    return domain ? domain.color : 'bg-slate-100 text-slate-600';
+}
+
+function getDomainLabel(slug: string | null | undefined, locale: string, tFn: (l: string, k: string) => string): string {
+    const domain = DOMAINS.find((d) => d.slug === slug);
+    return domain ? tFn(locale, domain.labelKey) : '';
+}
 
 export default function ActivitiesIndex({ activities, filters }: { activities: any; filters: any }) {
     const page = usePage().props as any;
@@ -29,31 +42,66 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
             inLanguage: locale,
             url: currentUrl || undefined,
         },
-        {
-            '@context': 'https://schema.org',
-            '@type': 'ItemList',
-            name: t(locale, 'activities.title'),
-            itemListElement: activities.data.map((activity: any, index: number) => ({
-                '@type': 'ListItem',
-                position: index + 1,
-                name: getTranslation(activity, locale).title ?? t(locale, 'activities.title'),
-                url: currentUrl ? new URL(`/activities/${activity.slug}`, currentUrl).toString() : undefined,
-            })),
-        },
     ];
 
+    function applyFilter(updates: Record<string, string>) {
+        const params: Record<string, string> = { ...localeQuery };
+        if (filters.status) params.status = filters.status;
+        if (filters.domain) params.domain = filters.domain;
+        Object.assign(params, updates);
+        // Remove empty values
+        Object.keys(params).forEach((k) => { if (!params[k]) delete params[k]; });
+        router.get('/activities', params);
+    }
+
     return (
-        <PublicLayout title={t(locale, 'nav.activities')} description={t(locale, 'activities.description')} structuredData={structuredData} blendHeader>
+        <PublicLayout
+            title={t(locale, 'nav.activities')}
+            description={t(locale, 'activities.description')}
+            structuredData={structuredData}
+            blendHeader
+        >
             <PageHero
                 title={t(locale, 'activities.title')}
                 subtitle={t(locale, 'nav.activities')}
                 description={t(locale, 'activities.description')}
                 compact
             />
-            <div className="container mx-auto px-4 py-12">
-                <div className="mb-6 flex flex-wrap gap-2">
+
+            <div className="container mx-auto px-4 py-10">
+                {/* Domain filter tabs */}
+                <div className="mb-4">
+                    <div className="flex flex-wrap gap-2">
+                        <Button
+                            size="sm"
+                            variant={!filters.domain ? 'default' : 'outline'}
+                            onClick={() => applyFilter({ domain: '' })}
+                        >
+                            {t(locale, 'common.all')}
+                        </Button>
+                        {DOMAINS.map((domain) => (
+                            <Button
+                                key={domain.slug}
+                                size="sm"
+                                variant={filters.domain === domain.slug ? 'default' : 'outline'}
+                                onClick={() => applyFilter({ domain: domain.slug })}
+                            >
+                                {t(locale, domain.labelKey)}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Status filter */}
+                <div className="mb-8 flex flex-wrap gap-2">
                     {['', 'planned', 'in_progress', 'completed'].map((status) => (
-                        <Button key={status} variant={filters.status === status || (! status && ! filters.status) ? 'default' : 'outline'} size="sm" onClick={() => router.get('/activities', status ? { ...localeQuery, status } : localeQuery)}>
+                        <Button
+                            key={status}
+                            variant={filters.status === status || (!status && !filters.status) ? 'secondary' : 'ghost'}
+                            size="sm"
+                            onClick={() => applyFilter({ status })}
+                            className="text-xs"
+                        >
                             {status ? getStatusLabel(status, locale) : t(locale, 'common.all')}
                         </Button>
                     ))}
@@ -62,9 +110,14 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {activities.data.map((activity: any) => {
                         const translation = getTranslation(activity, locale);
+                        const domainLabel = getDomainLabel(activity.domain_slug, locale, t);
+                        const domainColor = getDomainColor(activity.domain_slug);
 
                         return (
-                            <Card key={activity.id} className="hover:shadow-md transition-shadow">
+                            <article
+                                key={activity.id}
+                                className="gov-panel flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md"
+                            >
                                 {activity.featured_image && (
                                     <div className="aspect-video overflow-hidden bg-gray-100">
                                         <PublicImage
@@ -75,25 +128,50 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                                         />
                                     </div>
                                 )}
-                                <CardHeader className="pb-2">
-                                    <Badge variant={statusVariant[activity.status] ?? 'secondary'} className="w-fit">
-                                        {getStatusLabel(activity.status, locale)}
-                                    </Badge>
-                                    <CardTitle className="text-base mt-2">{translation.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm text-gray-500 line-clamp-3">{translation.description}</p>
-                                    <Link href={`/activities/${activity.slug}`} className="mt-3 flex items-center text-sm text-blue-700 hover:underline">
-                                        {t(locale, 'common.learnMore')}
+                                <div className="flex flex-1 flex-col p-5">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        {activity.activity_number && (
+                                            <span className="text-xs font-medium tracking-[0.18em] text-slate-400 uppercase">
+                                                Activity {String(activity.activity_number).padStart(2, '0')}
+                                            </span>
+                                        )}
+                                        {domainLabel && (
+                                            <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${domainColor}`}>
+                                                {domainLabel}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="mt-2 flex items-center gap-2">
+                                        <Badge
+                                            variant={
+                                                activity.status === 'completed' ? 'outline' :
+                                                activity.status === 'in_progress' ? 'default' : 'secondary'
+                                            }
+                                            className="w-fit text-xs"
+                                        >
+                                            {getStatusLabel(activity.status, locale)}
+                                        </Badge>
+                                    </div>
+                                    <h3 className="mt-3 text-base font-semibold text-[var(--public-primary-hover)] leading-snug">
+                                        {translation.title}
+                                    </h3>
+                                    <p className="mt-2 flex-1 text-sm text-slate-500 line-clamp-3 leading-6">
+                                        {translation.description}
+                                    </p>
+                                    <Link
+                                        href={`/activities/${activity.slug}`}
+                                        className="mt-4 text-sm font-medium text-[var(--public-accent)] hover:underline"
+                                    >
+                                        {t(locale, 'common.learnMore')} →
                                     </Link>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </article>
                         );
                     })}
                 </div>
 
                 {activities.data.length === 0 && (
-                    <p className="py-12 text-center text-gray-500">{t(locale, 'activities.empty')}</p>
+                    <p className="py-12 text-center text-slate-500">{t(locale, 'activities.empty')}</p>
                 )}
             </div>
         </PublicLayout>

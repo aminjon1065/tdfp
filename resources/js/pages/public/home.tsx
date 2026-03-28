@@ -3,7 +3,6 @@ import {
     ArrowRight,
     FileText,
     HelpCircle,
-    Megaphone,
     MessageSquare,
     ShoppingBag,
 } from 'lucide-react';
@@ -75,26 +74,6 @@ export default function Home({
     const currentUrl = page.ziggy?.location ?? '';
     const publicHref = (path: string) =>
         localizedPublicHref(path, locale, defaultLocale);
-    const serviceCards = [
-        {
-            title: t(locale, 'home.services.activitiesTitle'),
-            description: t(locale, 'home.services.activitiesDescription'),
-            href: '/activities',
-            icon: Megaphone,
-        },
-        {
-            title: t(locale, 'home.services.procurementTitle'),
-            description: t(locale, 'home.services.procurementDescription'),
-            href: '/procurement',
-            icon: ShoppingBag,
-        },
-        {
-            title: t(locale, 'home.services.documentsTitle'),
-            description: t(locale, 'home.services.documentsDescription'),
-            href: '/documents',
-            icon: FileText,
-        },
-    ];
     const isRecent = (publishedAt?: string | null) =>
         publishedAt &&
         (Date.now() - new Date(publishedAt).getTime()) /
@@ -159,7 +138,7 @@ export default function Home({
                                     </Link>
                                 </Button>
                                 <Link
-                                    href={publicHref('/contact')}
+                                    href={publicHref('/grm/submit')}
                                     className="gov-pill-link"
                                 >
                                     {t(locale, 'home.contactAction')}
@@ -170,22 +149,11 @@ export default function Home({
                         <div className="rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-(--public-accent) uppercase">
-                                        {t(locale, 'home.keyFocus')}
-                                    </p>
-                                    <p className="mt-3 text-4xl font-semibold text-(--public-primary-hover)">
-                                        10+
-                                    </p>
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        {t(locale, 'home.keyFocusCaption')}
-                                    </p>
-                                </div>
-                                <div className="gov-stat-card bg-white/95">
                                     <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        {t(locale, 'home.budget')}
+                                        {t(locale, 'project.totalFinancing')}
                                     </p>
                                     <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
-                                        $40M
+                                        $39.7M
                                     </p>
                                     <p className="mt-1 text-sm text-slate-500">
                                         {t(locale, 'home.budgetCaption')}
@@ -204,55 +172,68 @@ export default function Home({
                                 </div>
                                 <div className="gov-stat-card bg-white/95">
                                     <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        {t(locale, 'home.documents')}
+                                        {t(locale, 'project.approvalDate')}
                                     </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
-                                        {latestDocuments.length}+
+                                    <p className="mt-3 text-xl font-semibold text-[var(--public-primary-hover)]">
+                                        Dec 2024
                                     </p>
                                     <p className="mt-1 text-sm text-slate-500">
-                                        {t(locale, 'home.documentsCaption')}
+                                        World Bank Board
+                                    </p>
+                                </div>
+                                <div className="gov-stat-card bg-white/95">
+                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
+                                        {t(locale, 'project.closingDate')}
+                                    </p>
+                                    <p className="mt-3 text-xl font-semibold text-[var(--public-primary-hover)]">
+                                        Dec 2030
+                                    </p>
+                                    <p className="mt-1 text-sm text-slate-500">
+                                        {t(locale, 'site.center')}
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="mt-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 text-sm text-white/78">
-                                {t(locale, 'home.contactLabel')}:{' '}
-                                {settings.contact_email ?? 'info@example.tj'}
-                            </div>
+                            {settings.contact_email && (
+                                <div className="mt-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 text-sm text-white/78">
+                                    {t(locale, 'home.contactLabel')}:{' '}
+                                    {settings.contact_email}
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     <div className="mt-14 grid gap-6 border-t border-white/10 pt-8 sm:grid-cols-2 xl:grid-cols-4">
                         <div>
                             <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                30+
+                                $30M
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.metrics.contentUnits')}
+                                IDA Credit (World Bank)
                             </p>
                         </div>
                         <div>
                             <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                200+
+                                $9.7M
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.metrics.interactions')}
+                                SDC Grant (Switzerland)
                             </p>
                         </div>
                         <div>
                             <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                50+
+                                7
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.metrics.materials')}
+                                {t(locale, 'home.domainTilesTitle')}
                             </p>
                         </div>
                         <div>
                             <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                15+
+                                6
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.metrics.workstreams')}
+                                {t(locale, 'home.keyFocusCaption')}
                             </p>
                         </div>
                     </div>
@@ -298,158 +279,131 @@ export default function Home({
                 </div>
             </section>
 
+            {/* Project Components & Financing */}
             <section className="bg-[var(--public-surface)]">
-                <div className="gov-container py-16">
-                    <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-                        <div>
-                            <p className="gov-kicker mb-4">
-                                {t(locale, 'home.mission')}
-                            </p>
-                            <h2 className="gov-section-title">
-                                {t(locale, 'home.missionTitle')}
-                            </h2>
-                            <p className="mt-6 max-w-2xl text-sm leading-8 text-slate-600">
-                                {settings.site_description ??
-                                    t(locale, 'home.missionFallback')}
-                            </p>
-                            <div className="mt-6">
-                                <Link
-                                    href={publicHref('/activities')}
-                                    className="inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]"
-                                >
-                                    {t(locale, 'home.learnMore')}
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
-                                    30+
-                                </p>
-                                <p className="mt-2 text-sm text-slate-500">
-                                    {t(locale, 'home.publicContentAreas')}
-                                </p>
-                            </div>
-                            <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
-                                    200+
-                                </p>
-                                <p className="mt-2 text-sm text-slate-500">
-                                    {t(
-                                        locale,
-                                        'home.visibleOperationalRecords',
-                                    )}
-                                </p>
-                            </div>
-                            <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
-                                    50+
-                                </p>
-                                <p className="mt-2 text-sm text-slate-500">
-                                    {t(
-                                        locale,
-                                        'home.publishedReferenceMaterials',
-                                    )}
-                                </p>
-                            </div>
-                            <div className="gov-stat-card">
-                                <p className="text-3xl font-semibold text-[var(--public-primary-hover)]">
-                                    15+
-                                </p>
-                                <p className="mt-2 text-sm text-slate-500">
-                                    {t(
-                                        locale,
-                                        'home.currentImplementationPriorities',
-                                    )}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="gov-soft-section border-y border-[var(--public-border)]">
                 <div className="gov-container py-16">
                     <div className="mb-8">
                         <p className="gov-kicker mb-3">
-                            {t(locale, 'home.activities')}
+                            {t(locale, 'home.projectComponentsTitle')}
                         </p>
                         <h2 className="gov-section-title">
-                            {t(locale, 'home.activitiesSectionTitle')}
+                            {t(locale, 'project.financingSources')}
                         </h2>
                     </div>
-
-                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                        {activities.slice(0, 6).map((activity) => {
-                            const translation = getTranslation(
-                                activity,
-                                locale,
-                            );
-
-                            return (
-                                <article
-                                    key={activity.id}
-                                    className="gov-panel p-5 transition hover:-translate-y-0.5"
-                                >
-                                    <div className="flex items-center justify-between gap-3">
-                                        <Badge className="rounded-md bg-[var(--public-surface-alt)] text-[var(--public-accent)] shadow-none">
-                                            {getStatusLabel(
-                                                activity.status,
-                                                locale,
-                                            )}
-                                        </Badge>
-                                        <Megaphone className="h-4 w-4 text-[var(--public-accent)]" />
-                                    </div>
-                                    <h3 className="mt-4 text-lg font-semibold text-[var(--public-primary-hover)]">
-                                        {translation.title ??
-                                            t(locale, 'activities.title')}
-                                    </h3>
-                                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                                        {translation.description ??
-                                            t(locale, 'common.noData')}
-                                    </p>
-                                </article>
-                            );
-                        })}
-                    </div>
-                </div>
-            </section>
-
-            <section className="bg-white">
-                <div className="gov-container py-16">
-                    <div className="mb-8 flex items-end justify-between gap-4">
-                        <div>
-                            <p className="gov-kicker mb-3">
-                                {t(locale, 'home.services')}
-                            </p>
-                            <h2 className="gov-section-title">
-                                {t(locale, 'home.servicesTitle')}
-                            </h2>
-                        </div>
-                    </div>
-
                     <div className="grid gap-5 lg:grid-cols-3">
-                        {serviceCards.map((card) => (
+                        {[
+                            {
+                                number: '1',
+                                titleKey: 'home.component1.title',
+                                descKey: 'home.component1.desc',
+                                amount: '$24.7M',
+                                href: '/activities?domain=digital-infrastructure',
+                            },
+                            {
+                                number: '2',
+                                titleKey: 'home.component2.title',
+                                descKey: 'home.component2.desc',
+                                amount: '$20.8M',
+                                href: '/activities?domain=digital-skills',
+                            },
+                            {
+                                number: '3',
+                                titleKey: 'home.component3.title',
+                                descKey: 'home.component3.desc',
+                                amount: '$5.7M',
+                                href: '/project',
+                            },
+                        ].map((comp) => (
                             <Link
-                                key={card.href}
-                                href={publicHref(card.href)}
+                                key={comp.number}
+                                href={publicHref(comp.href)}
                                 className="gov-panel group p-6 transition hover:-translate-y-0.5 hover:shadow-md"
                             >
-                                <card.icon className="h-6 w-6 text-[var(--public-accent)]" />
-                                <h3 className="mt-5 text-xl font-semibold text-[var(--public-primary-hover)]">
-                                    {card.title}
-                                </h3>
-                                <p className="mt-3 text-sm leading-7 text-slate-600">
-                                    {card.description}
+                                <p className="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">
+                                    {t(locale, 'home.projectComponents')} {comp.number}
                                 </p>
-                                <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]">
-                                    {t(locale, 'home.servicesOpenSection')}
+                                <h3 className="mt-3 text-lg font-semibold text-[var(--public-primary-hover)]">
+                                    {t(locale, comp.titleKey)}
+                                </h3>
+                                <p className="mt-2 flex-1 text-sm leading-7 text-slate-600">
+                                    {t(locale, comp.descKey)}
+                                </p>
+                                <p className="mt-4 text-2xl font-bold text-[var(--public-accent)]">
+                                    {comp.amount}
+                                </p>
+                                <div className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]">
+                                    {t(locale, 'common.learnMore')}
                                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                                 </div>
                             </Link>
                         ))}
+                    </div>
+                    <div className="mt-4 text-right">
+                        <Link
+                            href={publicHref('/project')}
+                            className="text-sm font-medium text-[var(--public-accent)] hover:text-[var(--public-primary)]"
+                        >
+                            {t(locale, 'nav.theProject')} →
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Activities by Domain */}
+            <section className="gov-soft-section border-y border-[var(--public-border)]">
+                <div className="gov-container py-16">
+                    <div className="mb-8 flex items-end justify-between gap-4">
+                        <div>
+                            <p className="gov-kicker mb-3">
+                                {t(locale, 'home.domainTilesTitle')}
+                            </p>
+                            <h2 className="gov-section-title">
+                                {t(locale, 'home.domainTilesSubtitle')}
+                            </h2>
+                        </div>
+                        <Link
+                            href={publicHref('/activities')}
+                            className="text-sm font-medium text-[var(--public-accent)] hover:text-[var(--public-primary)]"
+                        >
+                            {t(locale, 'nav.viewAllActivities')}
+                        </Link>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {[
+                            { slug: 'digital-infrastructure', labelKey: 'nav.domain1', color: 'bg-slate-100 text-slate-700 border-slate-200' },
+                            { slug: 'digital-public-services', labelKey: 'nav.domain2', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+                            { slug: 'digital-identity-payments', labelKey: 'nav.domain3', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+                            { slug: 'cybersecurity', labelKey: 'nav.domain4', color: 'bg-red-50 text-red-700 border-red-200' },
+                            { slug: 'legal-governance', labelKey: 'nav.domain5', color: 'bg-amber-50 text-amber-700 border-amber-200' },
+                            { slug: 'digital-skills', labelKey: 'nav.domain6', color: 'bg-green-50 text-green-700 border-green-200' },
+                            { slug: 'school-connectivity', labelKey: 'nav.domain7', color: 'bg-teal-50 text-teal-700 border-teal-200' },
+                        ].map((domain) => {
+                            const count = (activities as any[]).filter((a: any) => a.domain_slug === domain.slug).length;
+                            return (
+                                <Link
+                                    key={domain.slug}
+                                    href={publicHref(`/activities?domain=${domain.slug}`)}
+                                    className={`rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-md ${domain.color}`}
+                                >
+                                    <p className="text-sm font-semibold leading-snug">
+                                        {t(locale, domain.labelKey)}
+                                    </p>
+                                    <p className="mt-3 text-2xl font-bold">
+                                        {count}
+                                    </p>
+                                    <p className="mt-0.5 text-xs opacity-70">
+                                        {t(locale, 'home.activitiesCount')}
+                                    </p>
+                                </Link>
+                            );
+                        })}
+                        <Link
+                            href={publicHref('/activities')}
+                            className="flex items-center justify-center rounded-2xl border border-dashed border-[var(--public-border)] p-5 text-sm font-medium text-[var(--public-accent)] transition hover:border-[var(--public-accent)]/50 hover:bg-[var(--public-accent)]/5"
+                        >
+                            {t(locale, 'nav.viewAllActivities')}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
                     </div>
                 </div>
             </section>

@@ -28,6 +28,7 @@ Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 // Public website
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/about', [PublicController::class, 'about'])->name('about');
+Route::get('/project', [PublicController::class, 'project'])->name('project');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/team', [PublicStaffController::class, 'index'])->name('team.index');
 Route::get('/subscribe', [PublicSubscriptionController::class, 'show'])->name('subscriptions.show');

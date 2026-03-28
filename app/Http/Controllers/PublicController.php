@@ -47,4 +47,11 @@ class PublicController extends Controller
             'page' => $this->pageRepository->findPublishedBySlug('about'),
         ]);
     }
+
+    public function project(): Response
+    {
+        return Inertia::render('public/project', [
+            'projectDocuments' => $this->documentRepository->latestPublished(5),
+        ]);
+    }
 }

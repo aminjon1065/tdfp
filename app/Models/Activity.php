@@ -13,6 +13,8 @@ class Activity extends Model
     protected $fillable = [
         'slug',
         'status',
+        'domain_slug',
+        'activity_number',
         'start_date',
         'end_date',
         'featured_image',

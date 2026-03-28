@@ -34,17 +34,15 @@ The system must support **three languages**:
 
 # 2. Global Navigation
 
-Main navigation menu:
-Home
-About PIC
-The Project
-Project Activities
-News & Events
-Procurement
-Documents
-Media
-GRM (Complaints & Feedback)
-Contact
+Main navigation menu (as implemented):
+Home          /
+About PIC     /about
+The Project   /project  (dropdown: PDO, Components, Timeline, Results)
+Activities    /activities  (dropdown: 7 domain links + View all)
+News          /news
+Procurement   /procurement
+GRM           /grm  (dropdown: Submit /grm/submit, Track /grm/track)
+Contact       /contact
 
 
 Header elements:
@@ -190,6 +188,11 @@ slug
 description
 objectives
 status
+domain_slug
+activity_number
+start_date
+end_date
+featured_image
 related_documents
 related_news
 images
@@ -199,6 +202,17 @@ Status options:
 planned
 in progress
 completed
+
+Domain slugs (7 implementation domains):
+digital-infrastructure       (Component 1 — Activities 7, 8, 14, 15, 16)
+digital-public-services      (Component 1 — Activities 1, 2, 3, 4, 5, 6, 17, 18)
+digital-identity-payments    (Component 1 — Activities 9, 10, 11, 12, 13)
+cybersecurity                (Component 1 — Activities 22, 23, 24, 25)
+legal-governance             (Component 1 — Activities 19, 20, 21)
+digital-skills               (Component 2 — Activities 26, 27, 28, 29)
+school-connectivity          (Component 2 — Activities 30, 31, 32, 33, 34)
+
+Activity number: integer 1–34, matching the PAD activity reference numbering.
 
 
 ---
@@ -808,15 +822,15 @@ related activities
 
 Homepage must highlight the most important content.
 
-Priority order:
+Priority order (as implemented):
 
-1 Project overview  
-2 Latest news  
-3 Featured activities  
-4 Procurement announcements  
-5 Document highlights  
-6 Events  
-7 GRM access  
+1 Hero — project name, PDO summary, two CTAs: "View Activities" + "Submit a Complaint (GRM)"
+2 Key facts — Total Financing ($39.7M), Activity count, Approval date (Dec 2024), Closing date (Dec 2030)
+3 Quick-access band — Documents | Procurement | GRM Submit | Contact
+4 Project Components & Financing — 3 component panels with amounts ($24.7M / $20.8M / $5.7M)
+5 Activities by Domain — 7 domain tiles with live activity counts, linking to filtered /activities
+6 Latest announcements (whatsNew)
+7 Open Procurement notices + GRM panel side-by-side  
 
 ---
 

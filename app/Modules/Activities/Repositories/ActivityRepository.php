@@ -39,6 +39,10 @@ class ActivityRepository extends BaseRepository
             $query->where('status', $filters['status']);
         }
 
+        if (! empty($filters['domain'])) {
+            $query->where('domain_slug', $filters['domain']);
+        }
+
         return $query->paginate($perPage)->withQueryString();
     }
 

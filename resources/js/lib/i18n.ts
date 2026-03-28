@@ -19,7 +19,19 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.accessibility': 'Accessibility Statement',
         'footer.sitemap': 'Sitemap',
         'nav.home': 'Home',
-        'nav.about': 'About Us',
+        'nav.about': 'About PIC',
+        'nav.theProject': 'The Project',
+        'nav.theProjectDescription':
+            'PDO, components, financing, and implementation timeline.',
+        'nav.grm': 'GRM',
+        'nav.domain1': 'Digital Infrastructure',
+        'nav.domain2': 'Digital Public Services',
+        'nav.domain3': 'Digital Identity & Payments',
+        'nav.domain4': 'Cybersecurity',
+        'nav.domain5': 'Legal & Governance',
+        'nav.domain6': 'Digital Skills',
+        'nav.domain7': 'School Connectivity',
+        'nav.viewAllActivities': 'View all activities',
         'nav.projects': 'Projects',
         'nav.projectActivities': 'Activities',
         'nav.projectActivitiesDescription':
@@ -398,18 +410,75 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.title': 'Tajikistan Digital Foundations Project',
         'home.description':
             "Strengthening Tajikistan's digital infrastructure through government e-services, digital authentication, cybersecurity and digital skills development.",
-        'home.heroTitle':
-            'Official project portal for public information, procurement, and grievance access.',
+        'home.heroTitle': 'Tajikistan Digital Foundations Project',
         'home.heroDescription':
-            'A single institutional portal for verified updates, key project activities, official documents, and public-facing service channels.',
-        'home.learnMore': 'Learn More',
-        'home.contactAction': 'Contact',
+            'The Projects Implementation Center, under the Executive Office of the President, implements this project with financing from the World Bank and the Swiss Development Cooperation. December 2024\u2013December 2030.',
+        'home.learnMore': 'View Project Activities',
+        'home.contactAction': 'Submit a Complaint (GRM)',
+        'home.projectComponentsTitle': 'Project Components & Financing',
+        'home.domainTilesTitle': 'Implementation Domains',
+        'home.domainTilesSubtitle':
+            '34 activities organised into 7 implementation domains.',
+        'home.activitiesCount': 'activities',
+        'home.component1.title': 'Digital Government Foundations',
+        'home.component1.desc':
+            'Digital public infrastructure, government services, interoperability, digital identity, and payments.',
+        'home.component2.title': 'Digital Skills',
+        'home.component2.desc':
+            'Training programmes, public awareness campaigns, and school connectivity.',
+        'home.component3.title': 'Project Management',
+        'home.component3.desc':
+            'Coordination, fiduciary management, and monitoring and evaluation.',
+        'footer.partners': 'Partners & Donors',
+        'footer.fundedByFull':
+            'Financed by the International Development Association (IDA) and the Swiss Development Cooperation (SDC).',
+        'project.title': 'Tajikistan Digital Foundations Project',
+        'project.worldBankRef': 'World Bank Project P180432',
+        'project.pdo': 'Project Development Objective',
+        'project.pdoText':
+            'To improve delivery of digitally-enabled public services and enhance digital skills of the population.',
+        'project.pdoSource':
+            'Source: World Bank Project Appraisal Document, December 2024.',
+        'project.component1': 'Component 1: Digital Government Foundations',
+        'project.component1.sub1': 'Sub 1.1: Digital Public Infrastructure',
+        'project.component1.sub2': 'Sub 1.2: Digital Safeguards & Enablers',
+        'project.component2': 'Component 2: Digital Skills',
+        'project.component3': 'Component 3: Project Management',
+        'project.totalFinancing': 'Total Financing',
+        'project.financingSources': 'IDA Credit: $30M \u00b7 SDC Grant: $9.7M',
+        'project.timeline': 'Implementation Timeline',
+        'project.results': 'Results Framework',
+        'project.approvalDate': 'Approval Date',
+        'project.closingDate': 'Closing Date',
+        'project.implementingAgency': 'Implementing Agency',
+        'project.indicator1': 'Digitally-enabled public services',
+        'project.indicator1.target': 'Target: 25 services by December 2030',
+        'project.indicator2': 'Digital skills training participants',
+        'project.indicator2.target': 'Target: 28,000 participants by December 2030',
+        'project.relatedDocuments': 'Related Documents',
+        'about.highlight1.title': 'Implementation Oversight',
+        'about.highlight1.description':
+            'Coordinates 34 project activities across 7 implementation domains under the Executive Office of the President.',
+        'about.highlight2.title': 'Procurement Management',
+        'about.highlight2.description':
+            'Issues and manages all procurement in compliance with World Bank and SDC fiduciary procedures.',
+        'about.highlight3.title': 'Public Communication',
+        'about.highlight3.description':
+            'Official communications channel for project news, updates, documents, and event records.',
+        'about.highlight4.title': 'Grievance Redress',
+        'about.highlight4.description':
+            'Operates the GRM mechanism accessible to all project-affected persons and citizens.',
+        'about.mandate':
+            'The Projects Implementation Center (PIC) is responsible for the day-to-day implementation, coordination, and administration of the Tajikistan Digital Foundations Project. PIC operates under the Executive Office of the President of the Republic of Tajikistan and reports to the project Steering Committee.',
+        'about.staffLink': 'Leadership & Staff Directory',
+        'about.partnerAcknowledgment':
+            'This project is financed by the International Development Association (World Bank) and the Swiss Development Cooperation (SDC).',
         'home.projectComponents': 'Project Components',
         'home.budget': 'Budget (USD)',
         'home.activities': 'Activities',
         'home.documents': 'Documents',
         'home.keyFocus': 'Key focus',
-        'home.keyFocusCaption': 'Project components',
+        'home.keyFocusCaption': 'Years of implementation',
         'home.budgetCaption': 'Financing envelope',
         'home.activitiesCaption': 'Published activity records',
         'home.documentsCaption': 'Published documents',
@@ -606,7 +675,19 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.accessibility': 'Заявление о доступности',
         'footer.sitemap': 'Карта сайта',
         'nav.home': 'Главная',
-        'nav.about': 'О нас',
+        'nav.about': 'О центре',
+        'nav.theProject': 'О проекте',
+        'nav.theProjectDescription':
+            'ЦРП, компоненты, финансирование и план реализации.',
+        'nav.grm': 'ОРЖ',
+        'nav.domain1': 'Цифровая инфраструктура',
+        'nav.domain2': 'Цифровые государственные услуги',
+        'nav.domain3': 'Цифровое удостоверение и платежи',
+        'nav.domain4': 'Кибербезопасность',
+        'nav.domain5': 'Правовая база и управление',
+        'nav.domain6': 'Цифровые навыки',
+        'nav.domain7': 'Подключение школ',
+        'nav.viewAllActivities': 'Все мероприятия',
         'nav.projects': 'Проекты',
         'nav.projectActivities': 'Мероприятия',
         'nav.projectActivitiesDescription':
@@ -989,18 +1070,78 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.title': 'Проект цифровых основ Таджикистана',
         'home.description':
             'Укрепление цифровой инфраструктуры Таджикистана через электронные госуслуги, цифровую идентификацию, кибербезопасность и развитие цифровых навыков.',
-        'home.heroTitle':
-            'Официальный портал проекта для публичной информации, закупок и подачи жалоб.',
+        'home.heroTitle': 'Проект цифровых основ Таджикистана',
         'home.heroDescription':
-            'Единый институциональный портал с проверенными обновлениями, ключевыми проектными мероприятиями, официальными документами и публичными сервисами.',
-        'home.learnMore': 'Подробнее',
-        'home.contactAction': 'Связаться с нами',
+            'Центр реализации проектов при Исполнительном аппарате Президента реализует данный проект при финансировании Всемирного банка и Швейцарского агентства по развитию и сотрудничеству. Декабрь 2024\u2013Декабрь 2030.',
+        'home.learnMore': 'Мероприятия проекта',
+        'home.contactAction': 'Подать жалобу (ОРЖ)',
+        'home.projectComponentsTitle': 'Компоненты и финансирование проекта',
+        'home.domainTilesTitle': 'Направления реализации',
+        'home.domainTilesSubtitle':
+            '34 мероприятия в 7 направлениях реализации.',
+        'home.activitiesCount': 'мероприятий',
+        'home.component1.title': 'Основы цифрового правительства',
+        'home.component1.desc':
+            'Цифровая публичная инфраструктура, госуслуги, интероперабельность, цифровое удостоверение и платежи.',
+        'home.component2.title': 'Цифровые навыки',
+        'home.component2.desc':
+            'Учебные программы, кампании по повышению осведомлённости и подключение школ.',
+        'home.component3.title': 'Управление проектом',
+        'home.component3.desc':
+            'Координация, финансовый менеджмент, мониторинг и оценка.',
+        'footer.partners': 'Партнёры и доноры',
+        'footer.fundedByFull':
+            'Финансируется Международной ассоциацией развития (МАР) и Швейцарским агентством по развитию и сотрудничеству (SDC).',
+        'project.title': 'Проект цифровых основ Таджикистана',
+        'project.worldBankRef': 'Проект Всемирного банка P180432',
+        'project.pdo': 'Цель развития проекта',
+        'project.pdoText':
+            'Улучшение предоставления услуг с цифровым обеспечением и повышение цифровых навыков населения.',
+        'project.pdoSource':
+            'Источник: Оценочный документ проекта Всемирного банка, декабрь 2024.',
+        'project.component1': 'Компонент 1: Основы цифрового правительства',
+        'project.component1.sub1':
+            'Субкомпонент 1.1: Цифровая публичная инфраструктура',
+        'project.component1.sub2':
+            'Субкомпонент 1.2: Цифровые меры защиты и обеспечивающие факторы',
+        'project.component2': 'Компонент 2: Цифровые навыки',
+        'project.component3': 'Компонент 3: Управление проектом',
+        'project.totalFinancing': 'Общее финансирование',
+        'project.financingSources': 'Кредит МАР: $30 млн \u00b7 Грант SDC: $9,7 млн',
+        'project.timeline': 'План реализации',
+        'project.results': 'Рамки результатов',
+        'project.approvalDate': 'Дата одобрения',
+        'project.closingDate': 'Дата закрытия',
+        'project.implementingAgency': 'Исполнительное агентство',
+        'project.indicator1': 'Цифровые государственные услуги',
+        'project.indicator1.target': 'Целевой показатель: 25 услуг к декабрю 2030',
+        'project.indicator2': 'Участники программ цифровых навыков',
+        'project.indicator2.target':
+            'Целевой показатель: 28 000 участников к декабрю 2030',
+        'project.relatedDocuments': 'Связанные документы',
+        'about.highlight1.title': 'Координация реализации',
+        'about.highlight1.description':
+            'Координирует 34 мероприятия проекта в 7 направлениях реализации при Исполнительном аппарате Президента.',
+        'about.highlight2.title': 'Управление закупками',
+        'about.highlight2.description':
+            'Осуществляет все закупки в соответствии с фидуциарными процедурами Всемирного банка и SDC.',
+        'about.highlight3.title': 'Публичная коммуникация',
+        'about.highlight3.description':
+            'Официальный канал коммуникации по новостям проекта, обновлениям, документам и мероприятиям.',
+        'about.highlight4.title': 'Механизм обращений',
+        'about.highlight4.description':
+            'Управляет механизмом ОРЖ, доступным для всех пострадавших лиц и граждан.',
+        'about.mandate':
+            'Центр реализации проектов (ЦРП) несёт ответственность за повседневную реализацию, координацию и управление Проектом цифровых основ Таджикистана. ЦРП действует при Исполнительном аппарате Президента Республики Таджикистан и отчитывается перед Руководящим комитетом проекта.',
+        'about.staffLink': 'Руководство и структура организации',
+        'about.partnerAcknowledgment':
+            'Проект финансируется Международной ассоциацией развития (Всемирный банк) и Швейцарским агентством по развитию и сотрудничеству (SDC).',
         'home.projectComponents': 'Компоненты проекта',
         'home.budget': 'Бюджет (USD)',
         'home.activities': 'Мероприятия',
         'home.documents': 'Документы',
         'home.keyFocus': 'Ключевой фокус',
-        'home.keyFocusCaption': 'Компоненты проекта',
+        'home.keyFocusCaption': 'Лет реализации',
         'home.budgetCaption': 'Объём финансирования',
         'home.activitiesCaption': 'Опубликованные записи о мероприятиях',
         'home.documentsCaption': 'Опубликованные документы',
@@ -1196,7 +1337,19 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.accessibility': 'Баёния дар бораи дастрасӣ',
         'footer.sitemap': 'Харитаи сайт',
         'nav.home': 'Асосӣ',
-        'nav.about': 'Дар бораи мо',
+        'nav.about': 'Дар бораи марказ',
+        'nav.theProject': 'Дар бораи лоиҳа',
+        'nav.theProjectDescription':
+            'ЦТЛ, ҷузъҳо, маблағгузорӣ ва нақшаи татбиқ.',
+        'nav.grm': 'МРМ',
+        'nav.domain1': 'Инфрасохтори рақамӣ',
+        'nav.domain2': 'Хизматрасониҳои давлатии рақамӣ',
+        'nav.domain3': 'Шаносоии рақамӣ ва пардохтҳо',
+        'nav.domain4': 'Амнияти киберӣ',
+        'nav.domain5': 'Заминаи ҳуқуқӣ ва идоракунӣ',
+        'nav.domain6': 'Малакаҳои рақамӣ',
+        'nav.domain7': 'Пайвастшавии мактабҳо',
+        'nav.viewAllActivities': 'Ҳамаи фаъолиятҳо',
         'nav.projects': 'Лоиҳаҳо',
         'nav.projectActivities': 'Фаъолиятҳо',
         'nav.projectActivitiesDescription':
@@ -1576,18 +1729,78 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.title': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
         'home.description':
             'Тақвияти инфрасохтори рақамии Тоҷикистон тавассути хизматрасониҳои электронии давлатӣ, тасдиқи рақамӣ, амнияти киберӣ ва рушди малакаҳои рақамӣ.',
-        'home.heroTitle':
-            'Портали расмии лоиҳа барои иттилооти оммавӣ, харид ва дастрасӣ ба шикоятҳо.',
+        'home.heroTitle': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
         'home.heroDescription':
-            'Портали ягонаи институтсионалӣ барои навсозиҳои санҷидашуда, фаъолиятҳои калидии лоиҳа, ҳуҷҷатҳои расмӣ ва каналҳои хизматрасонии оммавӣ.',
-        'home.learnMore': 'Маълумоти бештар',
-        'home.contactAction': 'Тамос',
+            'Маркази татбиқи лоиҳаҳо зери Дастгоҳи иҷроияи Президент ин лоиҳаро бо маблағгузории Бонки Ҷаҳонӣ ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ татбиқ мекунад. Декабри 2024\u2013Декабри 2030.',
+        'home.learnMore': 'Фаъолиятҳои лоиҳа',
+        'home.contactAction': 'Шикоят пешниҳод кунед (МРМ)',
+        'home.projectComponentsTitle': 'Ҷузъҳо ва маблағгузории лоиҳа',
+        'home.domainTilesTitle': 'Самтҳои татбиқ',
+        'home.domainTilesSubtitle':
+            '34 фаъолият дар 7 самти татбиқ гурӯҳбандӣ шудааст.',
+        'home.activitiesCount': 'фаъолият',
+        'home.component1.title': 'Асосҳои ҳукумати рақамӣ',
+        'home.component1.desc':
+            'Инфрасохтори рақамии оммавӣ, хизматрасониҳои давлатӣ, ҳамгироӣ, шаносоии рақамӣ ва пардохтҳо.',
+        'home.component2.title': 'Малакаҳои рақамӣ',
+        'home.component2.desc':
+            'Барномаҳои омӯзишӣ, кампанияҳои огоҳсозӣ ва пайвастшавии мактабҳо.',
+        'home.component3.title': 'Идоракунии лоиҳа',
+        'home.component3.desc':
+            'Ҳамоҳангсозӣ, идоракунии молиявӣ, мониторинг ва арзёбӣ.',
+        'footer.partners': 'Шарикон ва донорон',
+        'footer.fundedByFull':
+            'Аз ҷониби Ассотсиатсияи рушди байналмилалӣ (АРБ) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (SDC) маблағгузорӣ мешавад.',
+        'project.title': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
+        'project.worldBankRef': 'Лоиҳаи Бонки Ҷаҳонӣ P180432',
+        'project.pdo': 'Ҳадафи рушди лоиҳа',
+        'project.pdoText':
+            'Беҳтар намудани расонидани хизматрасониҳои бо дастгирии рақамӣ ва баланд бардоштани малакаҳои рақамии аҳолӣ.',
+        'project.pdoSource':
+            'Манбаъ: Ҳуҷҷати арзёбии лоиҳаи Бонки Ҷаҳонӣ, декабри 2024.',
+        'project.component1': 'Ҷузъи 1: Асосҳои ҳукумати рақамӣ',
+        'project.component1.sub1':
+            'Зерҷузъи 1.1: Инфрасохтори оммавии рақамӣ',
+        'project.component1.sub2':
+            'Зерҷузъи 1.2: Муҳофизатҳои рақамӣ ва омилҳои мусоидаткунанда',
+        'project.component2': 'Ҷузъи 2: Малакаҳои рақамӣ',
+        'project.component3': 'Ҷузъи 3: Идоракунии лоиҳа',
+        'project.totalFinancing': 'Маблағгузории умумӣ',
+        'project.financingSources': 'Қарзи АРБ: $30M \u00b7 Грантии SDC: $9.7M',
+        'project.timeline': 'Нақшаи татбиқ',
+        'project.results': 'Чорчӯбаи натиҷаҳо',
+        'project.approvalDate': 'Санаи тасдиқ',
+        'project.closingDate': 'Санаи пӯшидан',
+        'project.implementingAgency': 'Агентии татбиқкунанда',
+        'project.indicator1': 'Хизматрасониҳои рақамии давлатӣ',
+        'project.indicator1.target': 'Ҳадаф: 25 хизмат то декабри 2030',
+        'project.indicator2': 'Иштирокчиёни барномаҳои малакаҳои рақамӣ',
+        'project.indicator2.target':
+            'Ҳадаф: 28,000 иштирокчӣ то декабри 2030',
+        'project.relatedDocuments': 'Ҳуҷҷатҳои марбут',
+        'about.highlight1.title': 'Назорати татбиқ',
+        'about.highlight1.description':
+            '34 фаъолияти лоиҳаро дар 7 самти татбиқ зери Дастгоҳи иҷроияи Президент ҳамоҳанг мекунад.',
+        'about.highlight2.title': 'Идоракунии харид',
+        'about.highlight2.description':
+            'Ҳамаи харидҳоро мувофиқи протседураҳои сармоягузорӣ ва ТҲД-и Бонки Ҷаҳонӣ ва SDC иҷро мекунад.',
+        'about.highlight3.title': 'Иртиботи оммавӣ',
+        'about.highlight3.description':
+            'Канали расмии иртиботӣ барои хабарҳо, навсозиҳо, ҳуҷҷатҳо ва сабтҳои рӯйдодҳои лоиҳа.',
+        'about.highlight4.title': 'Механизми шикоятҳо',
+        'about.highlight4.description':
+            'Механизми МРМ-ро идора мекунад, ки барои ҳамаи шахсони зарардида ва шаҳрвандон дастрас аст.',
+        'about.mandate':
+            'Маркази татбиқи лоиҳаҳо (МТЛ) барои татбиқи ҳаррӯзаи Лоиҳаи асосҳои рақамии Тоҷикистон масъул аст. МТЛ зери Дастгоҳи иҷроияи Президенти Ҷумҳурии Тоҷикистон фаъолият мекунад ва ба Кумитаи роҳбарикунандаи лоиҳа ҳисобот медиҳад.',
+        'about.staffLink': 'Роҳбарият ва феҳристи кормандон',
+        'about.partnerAcknowledgment':
+            'Ин лоиҳа аз ҷониби Ассотсиатсияи рушди байналмилалӣ (Бонки Ҷаҳонӣ) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (SDC) маблағгузорӣ мешавад.',
         'home.projectComponents': 'Ҷузъҳои лоиҳа',
         'home.budget': 'Буҷет (USD)',
         'home.activities': 'Фаъолиятҳо',
         'home.documents': 'Ҳуҷҷатҳо',
         'home.keyFocus': 'Самти асосӣ',
-        'home.keyFocusCaption': 'Қисмҳои лоиҳа',
+        'home.keyFocusCaption': 'Соли татбиқ',
         'home.budgetCaption': 'Ҳаҷми маблағгузорӣ',
         'home.activitiesCaption': 'Сабтҳои нашршудаи фаъолият',
         'home.documentsCaption': 'Ҳуҷҷатҳои нашршуда',

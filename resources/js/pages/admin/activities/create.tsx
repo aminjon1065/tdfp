@@ -10,8 +10,21 @@ import { type SharedData } from '@/types';
 export default function AdminActivitiesCreate() {
     const { props } = usePage<SharedData>();
     const locale = props.locale ?? 'en';
+    const domainOptions = [
+        { value: '', label: '— None —' },
+        { value: 'digital-infrastructure', label: 'Digital Infrastructure' },
+        { value: 'digital-public-services', label: 'Digital Public Services' },
+        { value: 'digital-identity-payments', label: 'Digital Identity & Payments' },
+        { value: 'cybersecurity', label: 'Cybersecurity' },
+        { value: 'legal-governance', label: 'Legal & Governance' },
+        { value: 'digital-skills', label: 'Digital Skills' },
+        { value: 'school-connectivity', label: 'School Connectivity' },
+    ];
+
     const { data, setData, post, processing, errors } = useForm<{
         status: string;
+        domain_slug: string;
+        activity_number: string;
         start_date: string;
         end_date: string;
         featured_image: File | null;
@@ -21,6 +34,8 @@ export default function AdminActivitiesCreate() {
         >;
     }>({
         status: 'planned',
+        domain_slug: '',
+        activity_number: '',
         start_date: '',
         end_date: '',
         featured_image: null,
@@ -54,6 +69,33 @@ export default function AdminActivitiesCreate() {
             <div className="max-w-3xl space-y-6">
                 <h1 className="text-2xl font-bold">{t(locale, 'admin.form.create')} {t(locale, 'admin.nav.activities')}</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="space-y-2">
+                            <Label htmlFor="domain_slug">Implementation Domain</Label>
+                            <select
+                                id="domain_slug"
+                                value={data.domain_slug}
+                                onChange={(e) => setData('domain_slug', e.target.value)}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            >
+                                {domainOptions.map((opt) => (
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="activity_number">Activity Number (1–34)</Label>
+                            <Input
+                                id="activity_number"
+                                type="number"
+                                min={1}
+                                max={34}
+                                value={data.activity_number}
+                                onChange={(e) => setData('activity_number', e.target.value)}
+                                placeholder="e.g. 7"
+                            />
+                        </div>
+                    </div>
                     <div className="grid gap-4 sm:grid-cols-3">
                         <div className="space-y-2">
                             <Label htmlFor="status">{t(locale, 'admin.form.status')}</Label>

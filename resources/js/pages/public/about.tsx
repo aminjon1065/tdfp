@@ -3,14 +3,15 @@ import {
     ChevronRight,
     FileText,
     FolderKanban,
-    Megaphone,
+    MessageSquare,
     ShieldCheck,
+    Users,
 } from 'lucide-react';
 
 import PageHero from '@/components/page-hero';
 import SocialShare from '@/components/social-share';
 import PublicLayout from '@/layouts/public-layout';
-import { getTranslation, t as translate } from '@/lib/i18n';
+import { getTranslation, t } from '@/lib/i18n';
 import { localizedPublicHref } from '@/lib/public-locale';
 
 interface Props {
@@ -27,107 +28,7 @@ interface Props {
     } | null;
 }
 
-const contentByLocale = {
-    en: {
-        title: 'About Us',
-        subtitle: 'Projects Implementation Center',
-        description:
-            'The center coordinates delivery, governance, procurement transparency, and communication for the Tajikistan Digital Foundations Project.',
-        intro: 'This page is guaranteed by the application code, so it remains available even if the CMS entry is missing. When the CMS page exists, its editable content is still shown below.',
-        highlights: [
-            {
-                title: 'Program coordination',
-                description:
-                    'Coordinate implementation streams and keep delivery aligned with approved objectives.',
-                icon: FolderKanban,
-            },
-            {
-                title: 'Transparent procurement',
-                description:
-                    'Publish procurement opportunities, updates, and supporting documents for public access.',
-                icon: FileText,
-            },
-            {
-                title: 'Public communication',
-                description:
-                    'Share updates, activities, and official announcements through the website.',
-                icon: Megaphone,
-            },
-            {
-                title: 'Accountability',
-                description:
-                    'Support grievance handling, public visibility, and operational oversight.',
-                icon: ShieldCheck,
-            },
-        ],
-    },
-    ru: {
-        title: 'О нас',
-        subtitle: 'Центр реализации проектов',
-        description:
-            'Центр координирует реализацию, управление, прозрачность закупок и коммуникацию по Проекту цифровых основ Таджикистана.',
-        intro: 'Эта страница гарантирована кодом приложения, поэтому она доступна даже если запись в CMS отсутствует. Если страница в CMS существует, ее редактируемый контент также показывается ниже.',
-        highlights: [
-            {
-                title: 'Координация программы',
-                description:
-                    'Координация потоков реализации и соответствие утвержденным целям проекта.',
-                icon: FolderKanban,
-            },
-            {
-                title: 'Прозрачные закупки',
-                description:
-                    'Публикация закупок, обновлений и сопроводительных документов для открытого доступа.',
-                icon: FileText,
-            },
-            {
-                title: 'Публичная коммуникация',
-                description:
-                    'Публикация новостей, мероприятий и официальных объявлений на сайте.',
-                icon: Megaphone,
-            },
-            {
-                title: 'Подотчетность',
-                description:
-                    'Поддержка механизма обращений, публичной прозрачности и операционного контроля.',
-                icon: ShieldCheck,
-            },
-        ],
-    },
-    tj: {
-        title: 'Дар бораи мо',
-        subtitle: 'Маркази татбиқи лоиҳаҳо',
-        description:
-            'Марказ ҳамоҳангсозии татбиқ, идоракунӣ, шаффофияти харид ва иртиботро барои Лоиҳаи асосҳои рақамии Тоҷикистон иҷро мекунад.',
-        intro: 'Ин саҳифа аз тарафи худи код кафолат дода мешавад, бинобар ин ҳатто агар сабти CMS вуҷуд надошта бошад ҳам, он дастрас мемонад. Агар саҳифа дар CMS мавҷуд бошад, муҳтавои таҳриршавандаи он низ дар поён намоиш дода мешавад.',
-        highlights: [
-            {
-                title: 'Ҳамоҳангсозии барнома',
-                description:
-                    'Ҳамоҳангсозии самтҳои татбиқ ва мутобиқ нигоҳ доштани иҷро бо ҳадафҳои тасдиқшуда.',
-                icon: FolderKanban,
-            },
-            {
-                title: 'Хариди шаффоф',
-                description:
-                    'Нашри имкониятҳои харид, навсозиҳо ва ҳуҷҷатҳои дахлдор барои дастрасии умум.',
-                icon: FileText,
-            },
-            {
-                title: 'Иртиботи оммавӣ',
-                description:
-                    'Нашри навсозиҳо, фаъолиятҳо ва эълонҳои расмӣ тавассути сомона.',
-                icon: Megaphone,
-            },
-            {
-                title: 'Ҳисоботдиҳӣ',
-                description:
-                    'Дастгирии коркарди муроҷиатҳо, шаффофияти оммавӣ ва назорати амалиётӣ.',
-                icon: ShieldCheck,
-            },
-        ],
-    },
-} as const;
+const HIGHLIGHT_ICONS = [FolderKanban, FileText, MessageSquare, ShieldCheck];
 
 export default function About({ page }: Props) {
     const sharedPage = usePage().props as any;
@@ -136,14 +37,19 @@ export default function About({ page }: Props) {
     const currentUrl = sharedPage.ziggy?.location ?? '';
     const publicHref = (path: string) =>
         localizedPublicHref(path, locale, defaultLocale);
-    const fallback =
-        contentByLocale[locale as keyof typeof contentByLocale] ??
-        contentByLocale.en;
     const pageTranslation = page ? getTranslation(page, locale) : {};
     const pageTitle =
-        pageTranslation.meta_title ?? pageTranslation.title ?? fallback.title;
+        (pageTranslation as any).meta_title ??
+        (pageTranslation as any).title ??
+        t(locale, 'nav.about');
     const pageDescription =
-        pageTranslation.meta_description ?? fallback.description;
+        (pageTranslation as any).meta_description ?? t(locale, 'about.mandate');
+
+    const highlights = [1, 2, 3, 4].map((n, i) => ({
+        titleKey: `about.highlight${n}.title` as const,
+        descKey: `about.highlight${n}.description` as const,
+        Icon: HIGHLIGHT_ICONS[i],
+    }));
 
     return (
         <PublicLayout
@@ -155,9 +61,9 @@ export default function About({ page }: Props) {
             <Head title={`${pageTitle} | PIC TDFP`} />
 
             <PageHero
-                title={fallback.title}
-                subtitle={fallback.subtitle}
-                description={fallback.description}
+                title={t(locale, 'nav.about')}
+                subtitle={t(locale, 'site.center')}
+                description={t(locale, 'about.mandate')}
             >
                 <nav
                     aria-label="Breadcrumb"
@@ -167,56 +73,86 @@ export default function About({ page }: Props) {
                         href={publicHref('/')}
                         className="transition-colors hover:text-white"
                     >
-                        {translate(locale, 'common.home')}
+                        {t(locale, 'common.home')}
                     </Link>
                     <ChevronRight className="h-3 w-3" aria-hidden="true" />
                     <span className="text-white" aria-current="page">
-                        {fallback.title}
+                        {t(locale, 'nav.about')}
                     </span>
                 </nav>
             </PageHero>
 
             <section className="container mx-auto px-4 py-12">
                 <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+                    {/* Mandate block */}
                     <div className="rounded-3xl border border-[var(--public-border)] bg-white p-8 shadow-sm">
+                        <p className="gov-kicker mb-3">{t(locale, 'nav.about')}</p>
                         <p className="text-base leading-8 text-slate-600">
-                            {fallback.intro}
+                            {t(locale, 'about.mandate')}
                         </p>
+                        <div className="mt-6">
+                            <Link
+                                href={publicHref('/team')}
+                                className="inline-flex items-center gap-2 rounded-xl border border-[var(--public-border)] px-4 py-3 text-sm font-medium text-[var(--public-primary)] transition hover:border-[var(--public-accent)]/30 hover:text-[var(--public-accent)]"
+                            >
+                                <Users className="h-4 w-4 shrink-0" />
+                                {t(locale, 'about.staffLink')}
+                            </Link>
+                        </div>
                     </div>
+
+                    {/* Highlight cards */}
                     <div className="grid gap-4 sm:grid-cols-2">
-                        {fallback.highlights.map((item) => (
+                        {highlights.map(({ titleKey, descKey, Icon }) => (
                             <div
-                                key={item.title}
+                                key={titleKey}
                                 className="rounded-3xl border border-[var(--public-border)] bg-[var(--public-surface)] p-6"
                             >
-                                <item.icon className="h-5 w-5 text-[var(--public-accent)]" />
+                                <Icon className="h-5 w-5 text-[var(--public-accent)]" />
                                 <h2 className="mt-4 text-lg font-semibold text-[var(--public-primary-hover)]">
-                                    {item.title}
+                                    {t(locale, titleKey)}
                                 </h2>
                                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                                    {item.description}
+                                    {t(locale, descKey)}
                                 </p>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {pageTranslation.content && (
+                {/* CMS content (if any) */}
+                {(pageTranslation as any).content && (
                     <article className="mt-10 rounded-3xl border border-[var(--public-border)] bg-white p-8 shadow-sm">
                         <div
                             className="prose prose-lg max-w-none text-gray-700"
                             dangerouslySetInnerHTML={{
-                                __html: pageTranslation.content,
+                                __html: (pageTranslation as any).content,
                             }}
                         />
                         <SocialShare
                             className="mt-8"
-                            title={pageTranslation.title ?? fallback.title}
+                            title={(pageTranslation as any).title ?? t(locale, 'nav.about')}
                             url={currentUrl}
                             description={pageDescription}
                         />
                     </article>
                 )}
+
+                {/* Partner acknowledgment */}
+                <div className="mt-10 rounded-3xl border border-[var(--public-border)] bg-[var(--public-surface)] p-8">
+                    <p className="gov-kicker mb-3">{t(locale, 'footer.partners')}</p>
+                    <p className="text-sm leading-8 text-slate-600">
+                        {t(locale, 'about.partnerAcknowledgment')}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-4">
+                        <span className="inline-flex items-center rounded-lg border border-[var(--public-border)] bg-white px-4 py-2 text-sm font-semibold text-[var(--public-primary-hover)]">
+                            World Bank · IDA
+                        </span>
+                        <span className="inline-flex items-center rounded-lg border border-[var(--public-border)] bg-white px-4 py-2 text-sm font-semibold text-[var(--public-primary-hover)]">
+                            SDC Switzerland
+                        </span>
+                    </div>
+                </div>
             </section>
         </PublicLayout>
     );
