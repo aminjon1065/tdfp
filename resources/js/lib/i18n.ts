@@ -418,7 +418,7 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.projectComponentsTitle': 'Project Components & Financing',
         'home.domainTilesTitle': 'Implementation Domains',
         'home.domainTilesSubtitle':
-            '34 activities organised into 7 implementation domains.',
+            '34 activities across 3 project components.',
         'home.activitiesCount': 'activities',
         'home.component1.title': 'Digital Government Foundations',
         'home.component1.desc':
@@ -456,9 +456,21 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'project.indicator2': 'Digital skills training participants',
         'project.indicator2.target': 'Target: 28,000 participants by December 2030',
         'project.relatedDocuments': 'Related Documents',
+        'project.statusActive': 'Implementation',
+        'project.overview': 'The Tajikistan Digital Foundations Project (TDFP) is financed by the World Bank International Development Association (IDA Credit, $30M) and the Swiss Development Cooperation (SDC Grant, $9.7M). The project is implemented by the Projects Implementation Center (PIC) under the Executive Office of the President of the Republic of Tajikistan. Implementation runs from December 2024 to December 2030.',
+        'project.componentLabel': 'Component',
+        'project.financing': 'Financing',
+        'project.financingNote': 'IDA Credit $30M + SDC Grant $9.7M = $39.7M external financing. Total project cost $51.2M includes government counterpart contribution.',
+        'project.timeline.step1': 'World Bank Board approval',
+        'project.timeline.step2': 'PIC established, implementation teams recruited',
+        'project.timeline.step3': 'Phase 1 — digital infrastructure & public services',
+        'project.timeline.step4': 'Phase 2 — digital skills & school connectivity',
+        'project.timeline.step5': 'Project closing',
+        'project.idaCredit': 'IDA Credit',
+        'project.sdcGrant': 'SDC Grant',
         'about.highlight1.title': 'Implementation Oversight',
         'about.highlight1.description':
-            'Coordinates 34 project activities across 7 implementation domains under the Executive Office of the President.',
+            'Coordinates 34 project activities across 3 components under the Executive Office of the President.',
         'about.highlight2.title': 'Procurement Management',
         'about.highlight2.description':
             'Issues and manages all procurement in compliance with World Bank and SDC fiduciary procedures.',
@@ -1078,7 +1090,7 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.projectComponentsTitle': 'Компоненты и финансирование проекта',
         'home.domainTilesTitle': 'Направления реализации',
         'home.domainTilesSubtitle':
-            '34 мероприятия в 7 направлениях реализации.',
+            '34 мероприятия в рамках 3 компонентов проекта.',
         'home.activitiesCount': 'мероприятий',
         'home.component1.title': 'Основы цифрового правительства',
         'home.component1.desc':
@@ -1119,9 +1131,21 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'project.indicator2.target':
             'Целевой показатель: 28 000 участников к декабрю 2030',
         'project.relatedDocuments': 'Связанные документы',
+        'project.statusActive': 'Реализация',
+        'project.overview': 'Проект цифровых основ Таджикистана финансируется Всемирным банком (Кредит МАР, $30 млн) и Швейцарским агентством по развитию и сотрудничеству (Грант SDC, $9,7 млн). Проект реализуется Центром реализации проектов (ЦРП) при Исполнительном аппарате Президента Республики Таджикистан. Срок реализации: декабрь 2024 — декабрь 2030 года.',
+        'project.componentLabel': 'Компонент',
+        'project.financing': 'Финансирование',
+        'project.financingNote': 'Кредит МАР $30 млн + Грант SDC $9,7 млн = $39,7 млн внешнего финансирования. Общая стоимость проекта $51,2 млн включает вклад правительства.',
+        'project.timeline.step1': 'Одобрение Советом Всемирного банка',
+        'project.timeline.step2': 'Создан ЦРП, набраны команды реализации',
+        'project.timeline.step3': 'Фаза 1 — цифровая инфраструктура и государственные услуги',
+        'project.timeline.step4': 'Фаза 2 — цифровые навыки и подключение школ',
+        'project.timeline.step5': 'Закрытие проекта',
+        'project.idaCredit': 'Кредит МАР',
+        'project.sdcGrant': 'Грант SDC',
         'about.highlight1.title': 'Координация реализации',
         'about.highlight1.description':
-            'Координирует 34 мероприятия проекта в 7 направлениях реализации при Исполнительном аппарате Президента.',
+            'Координирует 34 мероприятия проекта в рамках 3 компонентов при Исполнительном аппарате Президента.',
         'about.highlight2.title': 'Управление закупками',
         'about.highlight2.description':
             'Осуществляет все закупки в соответствии с фидуциарными процедурами Всемирного банка и SDC.',
@@ -1737,7 +1761,7 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.projectComponentsTitle': 'Ҷузъҳо ва маблағгузории лоиҳа',
         'home.domainTilesTitle': 'Самтҳои татбиқ',
         'home.domainTilesSubtitle':
-            '34 фаъолият дар 7 самти татбиқ гурӯҳбандӣ шудааст.',
+            '34 фаъолият дар доираи 3 ҷузъи лоиҳа.',
         'home.activitiesCount': 'фаъолият',
         'home.component1.title': 'Асосҳои ҳукумати рақамӣ',
         'home.component1.desc':
@@ -1778,9 +1802,21 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'project.indicator2.target':
             'Ҳадаф: 28,000 иштирокчӣ то декабри 2030',
         'project.relatedDocuments': 'Ҳуҷҷатҳои марбут',
+        'project.statusActive': 'Татбиқ',
+        'project.overview': 'Лоиҳаи асосҳои рақамии Тоҷикистон аз ҷониби Бонки Ҷаҳонӣ (Қарзи МАР, $30 млн) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (Гранти SDC, $9.7 млн) маблағгузорӣ мешавад. Лоиҳа аз ҷониби Маркази татбиқи лоиҳаҳо (МТЛ) зери Дастгоҳи иҷроияи Президенти Ҷумҳурии Тоҷикистон амалӣ мегардад. Муддати татбиқ: декабри 2024 — декабри 2030.',
+        'project.componentLabel': 'Ҷузъ',
+        'project.financing': 'Маблағгузорӣ',
+        'project.financingNote': 'Қарзи МАР $30 млн + Гранти SDC $9.7 млн = $39.7 млн маблағгузории хориҷӣ. Арзиши умумии лоиҳа $51.2 млн ҳиссаи ҳукуматро дар бар мегирад.',
+        'project.timeline.step1': 'Тасдиқи Шӯрои Бонки Ҷаҳонӣ',
+        'project.timeline.step2': 'МТЛ таъсис ёфт, гурӯҳҳои татбиқ ҷалб шуданд',
+        'project.timeline.step3': 'Марҳилаи 1 — инфраструктураи рақамӣ ва хидматҳои давлатӣ',
+        'project.timeline.step4': 'Марҳилаи 2 — малакаҳои рақамӣ ва пайвасткунии мактабҳо',
+        'project.timeline.step5': 'Пӯшидани лоиҳа',
+        'project.idaCredit': 'Қарзи МАР',
+        'project.sdcGrant': 'Гранти SDC',
         'about.highlight1.title': 'Назорати татбиқ',
         'about.highlight1.description':
-            '34 фаъолияти лоиҳаро дар 7 самти татбиқ зери Дастгоҳи иҷроияи Президент ҳамоҳанг мекунад.',
+            '34 фаъолияти лоиҳаро дар доираи 3 ҷузъ зери Дастгоҳи иҷроияи Президент ҳамоҳанг мекунад.',
         'about.highlight2.title': 'Идоракунии харид',
         'about.highlight2.description':
             'Ҳамаи харидҳоро мувофиқи протседураҳои сармоягузорӣ ва ТҲД-и Бонки Ҷаҳонӣ ва SDC иҷро мекунад.',

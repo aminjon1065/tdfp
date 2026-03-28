@@ -847,24 +847,24 @@ export default function PublicLayout({
                 {children}
             </main>
 
-            {/* Partner logos strip */}
-            <div className="border-t border-slate-200 bg-white py-6">
-                <div className="gov-container">
-                    <p className="mb-4 text-center text-xs font-medium tracking-[0.14em] text-slate-400 uppercase">
-                        {t(currentLocale, 'footer.fundedByFull')}
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-8">
-                        <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5">
-                            <span className="text-sm font-semibold text-slate-700">World Bank</span>
-                            <span className="text-xs text-slate-400">IDA</span>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5">
-                            <span className="text-sm font-semibold text-slate-700">SDC</span>
-                            <span className="text-xs text-slate-400">Switzerland</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {/*/!* Partner logos strip *!/*/}
+            {/*<div className="border-t border-slate-200 bg-white py-6">*/}
+            {/*    <div className="gov-container">*/}
+            {/*        <p className="mb-4 text-center text-xs font-medium tracking-[0.14em] text-slate-400 uppercase">*/}
+            {/*            {t(currentLocale, 'footer.fundedByFull')}*/}
+            {/*        </p>*/}
+            {/*        <div className="flex flex-wrap items-center justify-center gap-8">*/}
+            {/*            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5">*/}
+            {/*                <span className="text-sm font-semibold text-slate-700">World Bank</span>*/}
+            {/*                <span className="text-xs text-slate-400">IDA</span>*/}
+            {/*            </div>*/}
+            {/*            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5">*/}
+            {/*                <span className="text-sm font-semibold text-slate-700">SDC</span>*/}
+            {/*                <span className="text-xs text-slate-400">Switzerland</span>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             <footer className="border-t border-(--public-primary) bg-(--public-primary-hover) text-white">
                 <div className="gov-container py-14">

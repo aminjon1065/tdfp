@@ -222,10 +222,10 @@ export default function Home({
                         </div>
                         <div>
                             <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                7
+                                3
                             </p>
                             <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.domainTilesTitle')}
+                                {t(locale, 'home.projectComponentsTitle')}
                             </p>
                         </div>
                         <div>
