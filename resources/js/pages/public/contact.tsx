@@ -37,7 +37,7 @@ export default function Contact({ settings }: { settings: Record<string, string>
                         <div className="flex items-start gap-3">
                             <Mail className="mt-0.5 h-5 w-5 text-blue-700" aria-hidden="true" />
                             <div>
-                                <dt className="font-semibold">Email</dt>
+                                <dt className="font-semibold">{t(locale, 'common.email')}</dt>
                                 <dd>
                                     <a href={`mailto:${settings.contact_email}`} className="text-sm text-blue-700 hover:underline">
                                         {settings.contact_email ?? 'info@pic.tj'}
@@ -48,14 +48,14 @@ export default function Contact({ settings }: { settings: Record<string, string>
                         <div className="flex items-start gap-3">
                             <Phone className="mt-0.5 h-5 w-5 text-blue-700" aria-hidden="true" />
                             <div>
-                                <dt className="font-semibold">Phone</dt>
+                                <dt className="font-semibold">{t(locale, 'common.phone')}</dt>
                                 <dd className="text-sm text-gray-600">{settings.contact_phone ?? '+992 000 000 000'}</dd>
                             </div>
                         </div>
                         <div className="flex items-start gap-3">
                             <MapPin className="mt-0.5 h-5 w-5 text-blue-700" aria-hidden="true" />
                             <div>
-                                <dt className="font-semibold">Address</dt>
+                                <dt className="font-semibold">{t(locale, 'common.address')}</dt>
                                 <dd className="text-sm text-gray-600">{settings.contact_address ?? 'Dushanbe, Tajikistan'}</dd>
                             </div>
                         </div>

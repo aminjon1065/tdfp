@@ -251,7 +251,7 @@ export default function PublicLayout({
                 href={'#main-content'}
                 className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-60 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium"
             >
-                Skip to main content
+                {t(currentLocale, 'common.skipToContent')}
             </a>
 
             {/* Top utility bar — always visible, official site strip */}
@@ -403,7 +403,7 @@ export default function PublicLayout({
                                             aria-hidden="true"
                                         />
                                     )}
-                                    Menu
+                                    {t(currentLocale, 'common.menu')}
                                 </button>
                             </SheetTrigger>
                             <SheetContent
@@ -413,11 +413,10 @@ export default function PublicLayout({
                             >
                                 <SheetHeader className="border-b border-(--public-border) px-6 py-5 text-left">
                                     <SheetTitle className="text-base text-(--public-primary-hover)">
-                                        Site navigation
+                                        {t(currentLocale, 'common.siteNavigation')}
                                     </SheetTitle>
                                     <SheetDescription>
-                                        Browse public sections, switch language,
-                                        or access search and grievance services.
+                                        {t(currentLocale, 'common.navigationDescription')}
                                     </SheetDescription>
                                 </SheetHeader>
 
@@ -499,23 +498,19 @@ export default function PublicLayout({
                     <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
                         <div>
                             <p className="gov-kicker mb-3 text-(--public-accent)">
-                                Government Service Portal
+                                {t(currentLocale, 'footer.kicker')}
                             </p>
                             <h2 className="max-w-lg text-3xl font-semibold text-white">
-                                Public information, services, and grievance
-                                access in one place.
+                                {t(currentLocale, 'footer.heading')}
                             </h2>
                             <p className="mt-4 max-w-xl text-sm leading-7 text-white/72">
-                                The portal provides official project updates,
-                                procurement notices, document access, and
-                                public-service channels for beneficiaries,
-                                citizens, and suppliers.
+                                {t(currentLocale, 'footer.subheading')}
                             </p>
                         </div>
 
                         <div>
                             <h3 className="mb-4 text-sm font-semibold text-white">
-                                Sections
+                                {t(currentLocale, 'footer.sections')}
                             </h3>
                             <ul className="space-y-3 text-sm text-white/72">
                                 {navLinks.slice(0, 6).map((link) => (
@@ -533,7 +528,7 @@ export default function PublicLayout({
 
                         <div>
                             <h3 className="mb-4 text-sm font-semibold text-white">
-                                Services
+                                {t(currentLocale, 'footer.services')}
                             </h3>
                             <ul className="space-y-3 text-sm text-white/72">
                                 <li>
@@ -541,7 +536,7 @@ export default function PublicLayout({
                                         href={publicHref('/documents')}
                                         className="hover:text-white"
                                     >
-                                        Document repository
+                                        {t(currentLocale, 'footer.documentRepository')}
                                     </Link>
                                 </li>
                                 <li>
@@ -549,7 +544,7 @@ export default function PublicLayout({
                                         href={publicHref('/procurement')}
                                         className="hover:text-white"
                                     >
-                                        Procurement notices
+                                        {t(currentLocale, 'footer.procurementNotices')}
                                     </Link>
                                 </li>
                                 <li>
@@ -557,7 +552,7 @@ export default function PublicLayout({
                                         href={publicHref('/grm')}
                                         className="hover:text-white"
                                     >
-                                        Grievance information
+                                        {t(currentLocale, 'footer.grievanceInfo')}
                                     </Link>
                                 </li>
                                 <li>
@@ -565,7 +560,7 @@ export default function PublicLayout({
                                         href={publicHref('/grm/submit')}
                                         className="hover:text-white"
                                     >
-                                        Submit a grievance
+                                        {t(currentLocale, 'grm.submit')}
                                     </Link>
                                 </li>
                                 <li>
@@ -573,7 +568,7 @@ export default function PublicLayout({
                                         href={publicHref('/subscribe')}
                                         className="hover:text-white"
                                     >
-                                        Email subscriptions
+                                        {t(currentLocale, 'footer.emailSubscriptions')}
                                     </Link>
                                 </li>
                             </ul>
@@ -581,14 +576,14 @@ export default function PublicLayout({
 
                         <div id="footer-contact">
                             <h3 className="mb-4 text-sm font-semibold text-white">
-                                Contact
+                                {t(currentLocale, 'footer.contact')}
                             </h3>
                             <ul className="space-y-4 text-sm text-white/72">
                                 <li className="flex items-start gap-3">
                                     <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-(--public-accent)" />
                                     <span>
                                         {page.settings?.contact_address ??
-                                            'Dushanbe, Republic of Tajikistan'}
+                                            t(currentLocale, 'site.country')}
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3">

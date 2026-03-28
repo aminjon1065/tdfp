@@ -175,7 +175,7 @@ export default function Home({
                                 </div>
                                 <div className="gov-stat-card bg-white/95">
                                     <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        Budget
+                                        {t(locale, 'home.budget')}
                                     </p>
                                     <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
                                         $40M

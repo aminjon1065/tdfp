@@ -7,7 +7,7 @@ import { localizedPublicHref } from '@/lib/public-locale';
 import { CheckCircle, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 
-function CopyButton({ value }: { value: string }) {
+function CopyButton({ value, locale }: { value: string; locale: string }) {
     const [copied, setCopied] = useState(false);
 
     function copy() {
@@ -22,10 +22,10 @@ function CopyButton({ value }: { value: string }) {
             type="button"
             onClick={copy}
             className="ml-2 inline-flex items-center gap-1 rounded border border-slate-200 bg-white px-2 py-0.5 text-xs text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
-            aria-label="Copy to clipboard"
+            aria-label={t(locale, 'common.copyToClipboard')}
         >
             {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-            {copied ? 'Copied' : 'Copy'}
+            {copied ? t(locale, 'common.copied') : t(locale, 'common.copy')}
         </button>
     );
 }
@@ -72,14 +72,14 @@ export default function GrmSubmitted({ ticket, trackingToken }: { ticket: string
                         <dt className="text-sm text-gray-500">{t(locale, 'grm.ticketNumberLabel')}</dt>
                         <dd className="mt-1 flex items-center justify-center gap-1">
                             <span className="text-2xl font-mono font-bold text-blue-700">{ticket}</span>
-                            <CopyButton value={ticket} />
+                            <CopyButton value={ticket} locale={locale} />
                         </dd>
                     </div>
                     <div>
                         <dt className="text-sm text-gray-500">{t(locale, 'grm.trackingTokenLabel')}</dt>
                         <dd className="mt-1 flex flex-wrap items-center justify-center gap-1">
                             <span className="break-all text-xl font-mono font-bold text-slate-800">{trackingToken}</span>
-                            <CopyButton value={trackingToken} />
+                            <CopyButton value={trackingToken} locale={locale} />
                         </dd>
                     </div>
                     </dl>

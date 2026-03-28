@@ -86,7 +86,7 @@ export default function DocumentsIndex({
                     </form>
                     <div className="grid gap-3 sm:grid-cols-2">
                         <div>
-                            <label htmlFor="document-year-filter" className="sr-only">Filter by year</label>
+                            <label htmlFor="document-year-filter" className="sr-only">{t(locale, 'common.filterByYear')}</label>
                             <select
                                 id="document-year-filter"
                                 value={filters.year ?? ''}
@@ -102,7 +102,7 @@ export default function DocumentsIndex({
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="document-file-type-filter" className="sr-only">Filter by file type</label>
+                            <label htmlFor="document-file-type-filter" className="sr-only">{t(locale, 'common.filterByFileType')}</label>
                             <select
                                 id="document-file-type-filter"
                                 value={filters.file_type ?? ''}

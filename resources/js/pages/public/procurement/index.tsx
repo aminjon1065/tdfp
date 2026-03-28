@@ -129,7 +129,7 @@ export default function ProcurementIndex({
                             htmlFor="procurement-year-filter"
                             className="sr-only"
                         >
-                            Filter by year
+                            {t(locale, 'common.filterByYear')}
                         </label>
                         <select
                             id="procurement-year-filter"

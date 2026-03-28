@@ -52,7 +52,7 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
                             </h2>
                             {member.is_leadership && (
                                 <span className="rounded-md bg-[var(--public-surface-alt)] px-2.5 py-1 text-xs font-semibold text-[var(--public-accent)]">
-                                    Leadership
+                                    {t(locale, 'common.leadership')}
                                 </span>
                             )}
                         </div>
