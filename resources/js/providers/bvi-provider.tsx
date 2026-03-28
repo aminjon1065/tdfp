@@ -18,12 +18,21 @@ const BVIContext = createContext<{
 
 export function BVIProvider({ children }: { children: React.ReactNode }) {
     const [state, setState] = useState<BVIState>(() => {
-        const saved = localStorage.getItem('bvi');
-        return saved ? JSON.parse(saved) : DEFAULT_STATE;
+        if (typeof window === 'undefined') return DEFAULT_STATE;
+        try {
+            const saved = localStorage.getItem('bvi');
+            return saved ? (JSON.parse(saved) as BVIState) : DEFAULT_STATE;
+        } catch {
+            return DEFAULT_STATE;
+        }
     });
 
     useEffect(() => {
-        localStorage.setItem('bvi', JSON.stringify(state));
+        try {
+            localStorage.setItem('bvi', JSON.stringify(state));
+        } catch {
+            // localStorage unavailable (private mode, etc.)
+        }
 
         const html = document.documentElement;
 

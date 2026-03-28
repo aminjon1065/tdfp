@@ -12,7 +12,9 @@
       "Bash(git -C /Users/aminjon/Herd/tdfp log --oneline --all)",
       "Bash(git -C /Users/aminjon/Herd/tdfp ls-files)",
       "Bash(git -C /Users/aminjon/Herd/tdfp status --short)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://tdfp.test/)"
     ]
   }
 }

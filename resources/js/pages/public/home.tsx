@@ -1,5 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { ArrowRight, FileText, Megaphone, ShoppingBag } from 'lucide-react';
+import { ArrowRight, FileText, HelpCircle, Megaphone, MessageSquare, ShoppingBag } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -248,6 +248,29 @@ export default function Home({
                                 {t(locale, 'home.metrics.workstreams')}
                             </p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Quick access band */}
+            <section className="border-b border-[var(--public-border)] bg-white">
+                <div className="gov-container py-6">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        {[
+                            { icon: FileText, labelKey: 'home.services.documentsTitle', href: '/documents' },
+                            { icon: ShoppingBag, labelKey: 'home.services.procurementTitle', href: '/procurement' },
+                            { icon: MessageSquare, labelKey: 'grm.submit', href: '/grm/submit' },
+                            { icon: HelpCircle, labelKey: 'nav.contact', href: '/contact' },
+                        ].map((item) => (
+                            <Link
+                                key={item.href}
+                                href={publicHref(item.href)}
+                                className="flex items-center gap-3 rounded-xl border border-[var(--public-border)] bg-[var(--public-surface)] px-4 py-3 text-sm font-medium text-[var(--public-primary)] transition hover:border-[var(--public-accent)]/30 hover:bg-[var(--public-accent)]/5 hover:text-[var(--public-accent)]"
+                            >
+                                <item.icon className="h-4 w-4 shrink-0" />
+                                {t(locale, item.labelKey)}
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </section>

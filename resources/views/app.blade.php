@@ -1,32 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['light' => ($appearance ?? 'system') === 'light'])>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {{-- Inline script to detect system light mode preference and apply it immediately --}}
-        <script>
-            (function() {
-                const appearance = '{{ $appearance ?? "system" }}';
-
-                if (appearance === 'system') {
-                    const preferslight = window.matchMedia('(prefers-color-scheme: light)').matches;
-
-                    if (preferslight) {
-                        document.documentElement.classList.add('light');
-                    }
-                }
-            })();
-        </script>
-
-        {{-- Inline style to set the HTML background color based on our theme in app.css --}}
+        {{-- Inline style to set the HTML background color (always light — gov portal) --}}
         <style>
             html {
-                background-color: oklch(1 0 0);
-            }
-
-            html.light {
-                background-color: oklch(0.145 0 0);
+                background-color: #f8fafc;
             }
         </style>
 

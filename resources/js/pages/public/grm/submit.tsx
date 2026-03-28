@@ -119,13 +119,23 @@ export default function GrmSubmit({ attachmentConstraints }: Props) {
                     </div>
 
                     <div className="space-y-1.5">
-                        <Label htmlFor="description">{t(locale, 'grm.descriptionLabel')} <span className="text-red-500">*</span></Label>
+                        <div className="flex items-center justify-between gap-2">
+                            <Label htmlFor="description">{t(locale, 'grm.descriptionLabel')} <span className="text-red-500">*</span></Label>
+                            <span
+                                className={`text-xs tabular-nums ${data.description.length > 1800 ? 'text-orange-600' : 'text-gray-400'}`}
+                                aria-live="polite"
+                                aria-label={`${data.description.length} characters entered`}
+                            >
+                                {data.description.length} / 2000
+                            </span>
+                        </div>
                         <textarea
                             id="description"
                             name="description"
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
                             rows={6}
+                            maxLength={2000}
                             placeholder={t(locale, 'grm.descriptionPlaceholder')}
                             className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             aria-invalid={!!errors.description}

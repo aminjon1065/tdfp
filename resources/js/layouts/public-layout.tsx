@@ -4,6 +4,8 @@ import { ChevronRight, Mail, MapPin, Menu, Phone, X } from 'lucide-react';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 
 import { BVIButton } from '@/components/bvi/bvi-button';
+import { BVIPanel } from '@/components/bvi/bvi-panel';
+import { useBVI } from '@/providers/bvi-provider';
 import NishonLogo from '@/components/nishon-logo';
 import Seo from '@/components/seo';
 import {
@@ -90,6 +92,7 @@ export default function PublicLayout({
 }: PublicLayoutProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const { state: bviState } = useBVI();
     const inertiaPage = usePage<LayoutPageProps>();
     const page = inertiaPage.props;
     const currentLocale = page.locale ?? 'en';
@@ -251,9 +254,44 @@ export default function PublicLayout({
                 Skip to main content
             </a>
 
+            {/* Top utility bar — always visible, official site strip */}
+            <div className="fixed inset-x-0 top-0 z-50 border-b border-(--public-primary)/20 bg-(--public-primary) text-white">
+                <div className="gov-container">
+                    <div className="flex h-9 items-center justify-between gap-4">
+                        <p className="hidden text-[10px] font-medium tracking-[0.12em] text-white/70 uppercase sm:block">
+                            {t(currentLocale, 'site.official')}
+                        </p>
+                        <div className="flex items-center gap-3 ml-auto">
+                            <div className="flex items-center gap-0.5 text-[10px] font-semibold tracking-[0.14em] uppercase text-white/70">
+                                {languages.map((language) => (
+                                    <button
+                                        key={language.code}
+                                        type="button"
+                                        onClick={() => switchLanguage(language.code)}
+                                        className={cn(
+                                            'rounded px-1.5 py-0.5 leading-none transition-colors',
+                                            currentLocale === language.code
+                                                ? 'bg-white/15 text-white'
+                                                : 'hover:text-white',
+                                        )}
+                                    >
+                                        {language.label}
+                                    </button>
+                                ))}
+                            </div>
+                            <span className="h-3 w-px bg-white/20" />
+                            <BVIButton
+                                label={t(currentLocale, 'bvi.label')}
+                                className="h-6 rounded border-white/15 bg-white/8 px-2 text-[10px] text-white hover:bg-white/15 hover:text-white"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <header
                 className={cn(
-                    'fixed inset-x-0 top-0 z-50 border-b transition-all duration-300',
+                    'fixed inset-x-0 top-9 z-40 border-b transition-all duration-300',
                     isScrolled
                         ? 'border-slate-200/80 bg-white/88 text-(--public-primary-hover) shadow-sm backdrop-blur-md'
                         : blendHeader
@@ -339,48 +377,7 @@ export default function PublicLayout({
                             </nav>
                         </div>
 
-                        <div className="hidden items-center gap-2.5 lg:flex">
-                            <div
-                                className={cn(
-                                    'flex items-center gap-0.5 text-[10px] font-semibold tracking-[0.14em] uppercase',
-                                    isScrolled || !blendHeader
-                                        ? 'text-slate-500'
-                                        : 'text-white/62',
-                                )}
-                            >
-                                {languages.map((language) => (
-                                    <button
-                                        key={language.code}
-                                        type="button"
-                                        onClick={() =>
-                                            switchLanguage(language.code)
-                                        }
-                                        className={cn(
-                                            'rounded-md px-1.5 py-1 leading-none transition-colors',
-                                            currentLocale === language.code
-                                                ? isScrolled || !blendHeader
-                                                    ? 'bg-(--public-primary)/10 text-(--public-primary-hover)'
-                                                    : 'bg-white/12 text-white'
-                                                : isScrolled || !blendHeader
-                                                  ? 'hover:text-(--public-primary-hover)'
-                                                  : 'hover:text-white',
-                                        )}
-                                    >
-                                        {language.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <BVIButton
-                                label="Для слабовидящих"
-                                className={cn(
-                                    'h-8 rounded-md px-2.5 text-[11px]',
-                                    isScrolled || !blendHeader
-                                        ? 'border-slate-200 bg-white text-(--public-primary-hover) hover:bg-slate-50'
-                                        : 'border-white/10 bg-white/6 text-white hover:bg-white/12 hover:text-white',
-                                )}
-                            />
-                        </div>
+                        {/* Language switcher and BVI moved to top utility bar */}
 
                         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                             <SheetTrigger asChild>
@@ -470,34 +467,7 @@ export default function PublicLayout({
                                         </ul>
                                     </nav>
 
-                                    <div className="flex flex-wrap gap-2">
-                                        {languages.map((language) => (
-                                            <button
-                                                key={language.code}
-                                                type="button"
-                                                onClick={() =>
-                                                    switchLanguage(
-                                                        language.code,
-                                                    )
-                                                }
-                                                className={`rounded-md border px-3 py-2 text-xs font-semibold ${
-                                                    currentLocale ===
-                                                    language.code
-                                                        ? 'border-(--public-primary) bg-(--public-primary) text-white'
-                                                        : 'border-slate-200 bg-white text-slate-600'
-                                                }`}
-                                            >
-                                                {language.label}
-                                            </button>
-                                        ))}
-                                    </div>
-
-                                    <div className="flex flex-col gap-3">
-                                        <BVIButton
-                                            label="Версия для слабовидящих"
-                                            className="w-full rounded-lg border-slate-300"
-                                        />
-                                    </div>
+                                    {/* Language switcher and BVI are in the top utility bar, always visible */}
                                 </div>
                             </SheetContent>
                         </Sheet>
@@ -505,10 +475,21 @@ export default function PublicLayout({
                 </div>
             </header>
 
+            <BVIPanel />
+
             <main
                 id="main-content"
                 tabIndex={-1}
-                className={cn('flex-1', blendHeader ? 'pt-0' : 'pt-16')}
+                className={cn(
+                    'flex-1',
+                    blendHeader
+                        ? bviState.enabled
+                            ? 'pt-[calc(2.25rem+3.5rem+2.75rem)]'
+                            : 'pt-9'
+                        : bviState.enabled
+                          ? 'pt-[calc(2.25rem+3.5rem+2.75rem)]'
+                          : 'pt-[calc(2.25rem+3.5rem)]',
+                )}
             >
                 {children}
             </main>
@@ -630,10 +611,30 @@ export default function PublicLayout({
 
                     <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
                         <p>
-                            © {new Date().getFullYear()} Project Implementation
-                            Center
+                            © {new Date().getFullYear()}{' '}
+                            {t(currentLocale, 'site.center')} ·{' '}
+                            {t(currentLocale, 'site.country')}
                         </p>
-                        <p>Official government project information portal</p>
+                        <div className="flex flex-wrap items-center gap-4">
+                            <Link
+                                href={publicHref('/pages/privacy-policy')}
+                                className="hover:text-white/70 transition-colors"
+                            >
+                                {t(currentLocale, 'footer.privacyPolicy')}
+                            </Link>
+                            <Link
+                                href={publicHref('/pages/accessibility')}
+                                className="hover:text-white/70 transition-colors"
+                            >
+                                {t(currentLocale, 'footer.accessibility')}
+                            </Link>
+                            <Link
+                                href={publicHref('/sitemap.xml')}
+                                className="hover:text-white/70 transition-colors"
+                            >
+                                {t(currentLocale, 'footer.sitemap')}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </footer>

@@ -1,10 +1,11 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getTranslation, t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
-import { Activity, AlertTriangle, CheckCircle2, FileText, MessageCircle, ShoppingBag } from 'lucide-react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { Activity, AlertTriangle, CheckCircle2, FileText, MessageCircle, Newspaper, Plus, ShoppingBag, Upload, ScrollText } from 'lucide-react';
 import { StatusBadge } from '@/components/admin/status-badge';
 
 interface Props {
@@ -55,6 +56,7 @@ export default function AdminDashboard({
     operational_audit,
     recent_news,
     recent_grm,
+    recent_logs,
 }: Props) {
     const { props } = usePage<SharedData>();
     const locale = props.locale ?? 'en';
@@ -68,6 +70,40 @@ export default function AdminDashboard({
                     <Badge variant={operational_audit.is_ready ? 'default' : 'outline'}>
                         {t(locale, 'admin.dashboard.operationsAudit')}: {operational_audit.completion_percentage}% {t(locale, 'admin.dashboard.complete')}
                     </Badge>
+                </div>
+
+                {/* Quick actions */}
+                <div className="flex flex-wrap gap-2">
+                    <Button asChild size="sm" variant="outline">
+                        <Link href="/admin/news/create">
+                            <Plus className="mr-1.5 h-3.5 w-3.5" />
+                            {t(locale, 'admin.nav.news')}
+                        </Link>
+                    </Button>
+                    <Button asChild size="sm" variant="outline">
+                        <Link href="/admin/documents/create">
+                            <Upload className="mr-1.5 h-3.5 w-3.5" />
+                            {t(locale, 'admin.nav.documents')}
+                        </Link>
+                    </Button>
+                    <Button asChild size="sm" variant="outline">
+                        <Link href="/admin/procurement/create">
+                            <ShoppingBag className="mr-1.5 h-3.5 w-3.5" />
+                            {t(locale, 'admin.nav.procurement')}
+                        </Link>
+                    </Button>
+                    <Button asChild size="sm" variant="outline">
+                        <Link href="/admin/grm">
+                            <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                            {t(locale, 'admin.nav.grm')} {stats.open_grm_cases > 0 && `(${stats.open_grm_cases})`}
+                        </Link>
+                    </Button>
+                    <Button asChild size="sm" variant="outline">
+                        <Link href="/admin/activities/create">
+                            <Newspaper className="mr-1.5 h-3.5 w-3.5" />
+                            {t(locale, 'admin.nav.activities')}
+                        </Link>
+                    </Button>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -225,6 +261,39 @@ export default function AdminDashboard({
                         </Card>
                     </div>
                 </div>
+
+                {/* Recent audit log */}
+                {recent_logs && recent_logs.length > 0 && (
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="flex items-center gap-2 text-sm font-medium">
+                                <ScrollText className="h-4 w-4 text-muted-foreground" />
+                                {t(locale, 'admin.nav.auditLogs')}
+                            </CardTitle>
+                            <Link href="/admin/audit-logs" className="text-xs text-muted-foreground underline-offset-4 hover:underline">
+                                {t(locale, 'common.viewAll')}
+                            </Link>
+                        </CardHeader>
+                        <CardContent>
+                            <ul className="divide-y text-sm">
+                                {recent_logs.slice(0, 5).map((log: any) => (
+                                    <li key={log.id} className="flex items-center justify-between gap-4 py-2">
+                                        <div className="min-w-0">
+                                            <span className="font-medium">{log.user?.name ?? t(locale, 'common.system')}</span>
+                                            {' · '}
+                                            <span className="text-muted-foreground">{log.action}</span>
+                                            {' '}
+                                            <span className="text-muted-foreground">{log.entity_type}</span>
+                                        </div>
+                                        <span className="shrink-0 text-xs text-muted-foreground">
+                                            {log.created_at ? new Date(log.created_at).toLocaleDateString() : ''}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
         </AdminLayout>
     );
