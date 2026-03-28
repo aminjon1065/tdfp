@@ -115,127 +115,51 @@ export default function Home({
 
             <section className="gov-hero-shell">
                 <div className="gov-container py-18 md:py-24">
-                    <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-                        <div className="max-w-3xl">
-                            <p className="gov-kicker mb-5 text-[var(--public-accent)]">
-                                {t(locale, 'home.title')}
-                            </p>
-                            <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl">
-                                {t(locale, 'home.heroTitle')}
-                            </h1>
-                            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
-                                {t(locale, 'home.heroDescription')}
-                            </p>
+                    <div className="max-w-3xl">
+                        <p className="gov-kicker mb-5 text-[var(--public-accent)]">
+                            {t(locale, 'home.title')}
+                        </p>
+                        <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl">
+                            {t(locale, 'home.heroTitle')}
+                        </h1>
+                        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
+                            {t(locale, 'home.heroDescription')}
+                        </p>
 
-                            <div className="mt-9 flex flex-wrap gap-3">
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className="rounded-md bg-(--public-primary) px-6 text-white hover:bg-(--public-primary-hover)"
-                                >
-                                    <Link href={publicHref('/activities')}>
-                                        {t(locale, 'home.learnMore')}
-                                    </Link>
-                                </Button>
-                                <Link
-                                    href={publicHref('/grm/submit')}
-                                    className="gov-pill-link"
-                                >
-                                    {t(locale, 'home.contactAction')}
+                        <div className="mt-9 flex flex-wrap gap-3">
+                            <Button
+                                asChild
+                                size="lg"
+                                className="rounded-md bg-white px-6 text-[var(--public-primary)] hover:bg-white/90"
+                            >
+                                <Link href={publicHref('/activities')}>
+                                    {t(locale, 'home.learnMore')}
                                 </Link>
-                            </div>
-                        </div>
-
-                        <div className="rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        {t(locale, 'project.totalFinancing')}
-                                    </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
-                                        $39.7M
-                                    </p>
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        {t(locale, 'home.budgetCaption')}
-                                    </p>
-                                </div>
-                                <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        {t(locale, 'home.activities')}
-                                    </p>
-                                    <p className="mt-3 text-4xl font-semibold text-[var(--public-primary-hover)]">
-                                        {activities.length}
-                                    </p>
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        {t(locale, 'home.activitiesCaption')}
-                                    </p>
-                                </div>
-                                <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        {t(locale, 'project.approvalDate')}
-                                    </p>
-                                    <p className="mt-3 text-xl font-semibold text-[var(--public-primary-hover)]">
-                                        Dec 2024
-                                    </p>
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        World Bank Board
-                                    </p>
-                                </div>
-                                <div className="gov-stat-card bg-white/95">
-                                    <p className="text-xs font-medium tracking-[0.22em] text-[var(--public-accent)] uppercase">
-                                        {t(locale, 'project.closingDate')}
-                                    </p>
-                                    <p className="mt-3 text-xl font-semibold text-[var(--public-primary-hover)]">
-                                        Dec 2030
-                                    </p>
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        {t(locale, 'site.center')}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {settings.contact_email && (
-                                <div className="mt-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 text-sm text-white/78">
-                                    {t(locale, 'home.contactLabel')}:{' '}
-                                    {settings.contact_email}
-                                </div>
-                            )}
+                            </Button>
+                            <Link
+                                href={publicHref('/grm/submit')}
+                                className="gov-pill-link"
+                            >
+                                {t(locale, 'home.contactAction')}
+                            </Link>
                         </div>
                     </div>
 
-                    <div className="mt-14 grid gap-6 border-t border-white/10 pt-8 sm:grid-cols-2 xl:grid-cols-4">
-                        <div>
-                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                $30M
-                            </p>
-                            <p className="mt-2 text-sm text-white/66">
-                                IDA Credit (World Bank)
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                $9.7M
-                            </p>
-                            <p className="mt-2 text-sm text-white/66">
-                                SDC Grant (Switzerland)
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                3
-                            </p>
-                            <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.projectComponentsTitle')}
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-semibold text-[var(--public-accent)]">
-                                6
-                            </p>
-                            <p className="mt-2 text-sm text-white/66">
-                                {t(locale, 'home.keyFocusCaption')}
-                            </p>
-                        </div>
+                    <div className="mt-10 grid grid-cols-3 gap-px border-t border-white/10 pt-6 text-sm text-white/60">
+                        <span className="flex flex-col gap-0.5 pr-4">
+                            <span className="text-xl font-bold text-white">$39.7M</span>
+                            {t(locale, 'home.budgetCaption')}
+                        </span>
+                        <span className="flex flex-col gap-0.5 border-x border-white/10 px-4">
+                            <span className="text-xl font-bold text-white">2024–2030</span>
+                            {t(locale, 'project.period')}
+                        </span>
+                        {activities.length > 0 && (
+                            <span className="flex flex-col gap-0.5 pl-4">
+                                <span className="text-xl font-bold text-white">{activities.length}</span>
+                                {t(locale, 'home.activitiesCaption')}
+                            </span>
+                        )}
                     </div>
                 </div>
             </section>

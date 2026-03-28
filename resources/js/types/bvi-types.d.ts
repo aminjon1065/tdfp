@@ -7,4 +7,5 @@ export interface BVIState {
     contrast: Contrast;
     lineHeight: 'normal' | 'wide';
     images: 'on' | 'off';
+    tts: 'on' | 'off';
 }

@@ -4,8 +4,9 @@ import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { getStatusLabel, getTranslation, t } from '@/lib/i18n';
-import { publicLocaleQuery } from '@/lib/public-locale';
+import { localizedPublicHref, publicLocaleQuery } from '@/lib/public-locale';
 import { Link, router, usePage } from '@inertiajs/react';
+import { SearchX } from 'lucide-react';
 
 const DOMAINS = [
     { slug: 'digital-infrastructure', labelKey: 'nav.domain1', color: 'bg-slate-100 text-slate-700' },
@@ -66,6 +67,10 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                 subtitle={t(locale, 'nav.activities')}
                 description={t(locale, 'activities.description')}
                 compact
+                breadcrumbs={[
+                    { label: t(locale, 'nav.home'), href: localizedPublicHref('/', locale, defaultLocale) },
+                    { label: t(locale, 'activities.title') },
+                ]}
             />
 
             <div className="container mx-auto px-4 py-10">
@@ -116,7 +121,7 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                         return (
                             <article
                                 key={activity.id}
-                                className="gov-panel flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md"
+                                className="gov-panel flex flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-md"
                             >
                                 {activity.featured_image && (
                                     <div className="aspect-video overflow-hidden bg-gray-100">
@@ -171,7 +176,20 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                 </div>
 
                 {activities.data.length === 0 && (
-                    <p className="py-12 text-center text-slate-500">{t(locale, 'activities.empty')}</p>
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                            <SearchX className="h-7 w-7" />
+                        </div>
+                        <p className="text-base font-semibold text-slate-700">{t(locale, 'activities.empty')}</p>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-5"
+                            onClick={() => applyFilter({ domain: '', status: '' })}
+                        >
+                            {t(locale, 'activities.resetFilters')}
+                        </Button>
+                    </div>
                 )}
             </div>
         </PublicLayout>

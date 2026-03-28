@@ -33,6 +33,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Request $request) {
+            return \Inertia\Inertia::render('errors/not-found')
+                ->toResponse($request)
+                ->setStatusCode(404);
+        });
+
         $exceptions->render(function (\Illuminate\Auth\AuthorizationException $e, Request $request) {
             if ($request->header('X-Inertia')) {
                 return back()->with('error', __('You are not authorized to perform this action.'));

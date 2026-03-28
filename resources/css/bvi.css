@@ -1,163 +1,153 @@
-/* BVI — accessibility styles */
+/* resources/css/bvi.css */
 
 :root {
     --font-scale: 1;
     --line-height: 1.5;
 }
 
-/* ─── BVI enabled ─────────────────────────────────────── */
+/* BVI enabled */
 html[data-bvi='on'] {
     font-size: calc(16px * var(--font-scale));
 }
 
-/* Font size steps */
-html[data-font-size='large'] {
+/* Font sizes */
+html[data-bvi='on'][data-font-size='large'] {
     --font-scale: 1.25;
 }
 
-html[data-font-size='xlarge'] {
+html[data-bvi='on'][data-font-size='xlarge'] {
     --font-scale: 1.5;
 }
 
 /* Line height */
-html[data-line-height='wide'] {
+html[data-bvi='on'][data-line-height='wide'] {
     --line-height: 2;
 }
 
 html[data-bvi='on'] body {
-    line-height: var(--line-height);
+    line-height: var(--line-height) !important;
 }
 
-/* ─── High contrast (black background, white text) ──────── */
-html[data-contrast='high'] {
-    /* Shadcn / Tailwind tokens */
-    --background: #000000;
-    --foreground: #ffffff;
-    --card: #0a0a0a;
-    --card-foreground: #ffffff;
-    --popover: #0a0a0a;
-    --popover-foreground: #ffffff;
-    --primary: #ffffff;
-    --primary-foreground: #000000;
-    --secondary: #1a1a1a;
-    --secondary-foreground: #ffffff;
-    --muted: #1a1a1a;
-    --muted-foreground: #cccccc;
-    --accent: #ffff00;
-    --accent-foreground: #000000;
-    --destructive: #ff6666;
-    --destructive-foreground: #000000;
-    --border: #444444;
-    --input: #444444;
-    --ring: #ffffff;
-    --sidebar: #000000;
-    --sidebar-foreground: #ffffff;
-    --sidebar-primary: #ffffff;
-    --sidebar-primary-foreground: #000000;
-    --sidebar-accent: #1a1a1a;
-    --sidebar-accent-foreground: #ffffff;
-    --sidebar-border: #444444;
-    --sidebar-ring: #ffffff;
-
-    /* Public site tokens */
-    --public-primary: #000000;
-    --public-primary-hover: #000000;
-    --public-primary-foreground: #ffffff;
-    --public-accent: #ffff00;
-    --public-accent-hover: #ffcc00;
-    --public-accent-foreground: #000000;
-    --public-background: #000000;
-    --public-surface: #0a0a0a;
-    --public-surface-alt: #111111;
-    --public-text-primary: #ffffff;
-    --public-text-secondary: #dddddd;
-    --public-text-muted: #aaaaaa;
-    --public-border: #444444;
-
-    /* Status tokens */
-    --status-success: #00ff88;
-    --status-warning: #ffcc00;
-    --status-error: #ff6666;
-    --status-info: #66ccff;
-
-    /* Gov aliases */
-    --gov-navy: #000000;
-    --gov-blue: #ffff00;
-    --gov-gold: #ffcc00;
-    --gov-gold-soft: #2a2a00;
-    --gov-ink: #ffffff;
-    --gov-paper: #000000;
-    --gov-mist: #111111;
-    --gov-line: #444444;
-    --gov-surface: #0a0a0a;
-    --gov-surface-strong: #111111;
+/* High contrast: black background, white text */
+html[data-bvi='on'][data-contrast='high'] {
+    --background: oklch(0 0 0);
+    --foreground: oklch(1 0 0);
+    --card: oklch(0 0 0);
+    --card-foreground: oklch(1 0 0);
+    --popover: oklch(0 0 0);
+    --popover-foreground: oklch(1 0 0);
+    --primary: oklch(1 0 0);
+    --primary-foreground: oklch(0 0 0);
+    --secondary: oklch(0.2 0 0);
+    --secondary-foreground: oklch(1 0 0);
+    --muted: oklch(0.2 0 0);
+    --muted-foreground: oklch(0.8 0 0);
+    --accent: oklch(0.2 0 0);
+    --accent-foreground: oklch(1 0 0);
+    --destructive: oklch(0.6 0.2 20);
+    --destructive-foreground: oklch(1 0 0);
+    --border: oklch(1 0 0);
+    --input: oklch(1 0 0);
+    --ring: oklch(1 0 0);
 }
 
-html[data-contrast='high'] body {
-    background: #000000 !important;
-    color: #ffffff !important;
-}
-
-/* Override hardcoded bg-white and light slate backgrounds */
-html[data-contrast='high'] .bg-white,
-html[data-contrast='high'] .bg-slate-50,
-html[data-contrast='high'] .bg-slate-100 {
-    background-color: #0a0a0a !important;
-    color: #ffffff !important;
-}
-
-html[data-contrast='high'] .bg-slate-900 {
-    background-color: #000000 !important;
-}
-
-/* gov-panel and gov-stat-card use bg-white via @apply */
-html[data-contrast='high'] .gov-panel {
-    background-color: #0a0a0a !important;
-    border-color: #444444 !important;
+/* Remove decorative shadows in high contrast */
+html[data-bvi='on'][data-contrast='high'] * {
     box-shadow: none !important;
+    text-shadow: none !important;
 }
 
-html[data-contrast='high'] .gov-stat-card {
-    background-color: #0a0a0a !important;
-    border-color: #444444 !important;
-    box-shadow: none !important;
+/* Highlight links in high contrast */
+html[data-bvi='on'][data-contrast='high'] a {
+    text-decoration: underline !important;
+    color: #00ff00 !important;
 }
 
-/* Muted text colours become readable */
-html[data-contrast='high'] .text-slate-600,
-html[data-contrast='high'] .text-slate-500,
-html[data-contrast='high'] .text-slate-400,
-html[data-contrast='high'] .text-gray-600,
-html[data-contrast='high'] .text-gray-500 {
-    color: #cccccc !important;
+/* Keep BVI panel usable under high contrast.
+   Reset both semantic (--background) and Tailwind 4 computed (--color-background) aliases,
+   because Tailwind 4 registers --color-* with @property inherits:false so they don't cascade. */
+html[data-bvi='on'][data-contrast='high'] .bvi-panel,
+html[data-bvi='on'][data-contrast='high'] .bvi-panel * {
+    /* Semantic tokens */
+    --background: oklch(1 0 0) !important;
+    --foreground: oklch(0.145 0 0) !important;
+    --primary: oklch(0.205 0 0) !important;
+    --primary-foreground: oklch(0.985 0 0) !important;
+    --secondary: oklch(0.97 0 0) !important;
+    --secondary-foreground: oklch(0.205 0 0) !important;
+    --muted: oklch(0.97 0 0) !important;
+    --muted-foreground: oklch(0.556 0 0) !important;
+    --accent: oklch(0.97 0 0) !important;
+    --accent-foreground: oklch(0.205 0 0) !important;
+    --destructive: oklch(0.577 0.245 27.325) !important;
+    --destructive-foreground: oklch(0.985 0 0) !important;
+    --border: oklch(0.922 0 0) !important;
+    --input: oklch(0.922 0 0) !important;
+    --ring: oklch(0.708 0 0) !important;
+    /* Tailwind 4 computed aliases (registered @property, non-inheritable) */
+    --color-background: oklch(1 0 0) !important;
+    --color-foreground: oklch(0.145 0 0) !important;
+    --color-primary: oklch(0.205 0 0) !important;
+    --color-primary-foreground: oklch(0.985 0 0) !important;
+    --color-secondary: oklch(0.97 0 0) !important;
+    --color-secondary-foreground: oklch(0.205 0 0) !important;
+    --color-muted: oklch(0.97 0 0) !important;
+    --color-muted-foreground: oklch(0.556 0 0) !important;
+    --color-accent: oklch(0.97 0 0) !important;
+    --color-accent-foreground: oklch(0.205 0 0) !important;
+    --color-destructive: oklch(0.577 0.245 27.325) !important;
+    --color-destructive-foreground: oklch(0.985 0 0) !important;
+    --color-border: oklch(0.922 0 0) !important;
+    --color-input: oklch(0.922 0 0) !important;
+    --color-ring: oklch(0.708 0 0) !important;
+    box-shadow: revert !important;
+    text-shadow: revert !important;
 }
 
-/* Links and accents: yellow for visibility */
-html[data-contrast='high'] a:not([class]) {
-    color: #ffff00 !important;
+html[data-bvi='on'][data-contrast='high'] .bvi-panel {
+    background-color: white !important;
+    color: oklch(0.145 0 0) !important;
+    border-color: oklch(0.922 0 0) !important;
 }
 
-/* ─── Invert ─────────────────────────────────────────── */
-html[data-contrast='invert'] {
+html[data-bvi='on'][data-contrast='high'] .bvi-panel a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Invert mode */
+html[data-bvi='on'][data-contrast='invert'] {
     filter: invert(1) hue-rotate(180deg);
 }
 
-/* Re-invert media so photos look natural */
-html[data-contrast='invert'] img,
-html[data-contrast='invert'] video,
-html[data-contrast='invert'] picture {
+/* Counter-invert media so images appear normal */
+html[data-bvi='on'][data-contrast='invert'] img,
+html[data-bvi='on'][data-contrast='invert'] video,
+html[data-bvi='on'][data-contrast='invert'] picture,
+html[data-bvi='on'][data-contrast='invert'] .bvi-panel {
     filter: invert(1) hue-rotate(180deg);
 }
 
-/* ─── Images off ─────────────────────────────────────── */
-html[data-images='off'] img,
-html[data-images='off'] picture,
-html[data-images='off'] video,
-html[data-images='off'] svg:not([class*='lucide']) {
+/* TTS: highlight hovered element being read */
+html[data-bvi='on'][data-tts='on'] a:hover,
+html[data-bvi='on'][data-tts='on'] button:hover,
+html[data-bvi='on'][data-tts='on'] p:hover,
+html[data-bvi='on'][data-tts='on'] h1:hover,
+html[data-bvi='on'][data-tts='on'] h2:hover,
+html[data-bvi='on'][data-tts='on'] h3:hover,
+html[data-bvi='on'][data-tts='on'] h4:hover,
+html[data-bvi='on'][data-tts='on'] h5:hover,
+html[data-bvi='on'][data-tts='on'] h6:hover,
+html[data-bvi='on'][data-tts='on'] li:hover,
+html[data-bvi='on'][data-tts='on'] label:hover {
+    outline: 2px dashed currentColor !important;
+    outline-offset: 3px !important;
+}
+
+/* Hide images */
+html[data-bvi='on'][data-images='off'] img,
+html[data-bvi='on'][data-images='off'] picture,
+html[data-bvi='on'][data-images='off'] video,
+html[data-bvi='on'][data-images='off'] [style*='background-image'] {
     display: none !important;
-}
-
-/* ─── Logo in high contrast ──────────────────────────── */
-html[data-contrast='high'] img[alt='Nishon'] {
-    filter: grayscale(1) brightness(100);
 }

@@ -15,7 +15,11 @@
       "Bash(npx tsc:*)",
       "mcp__Claude_Preview__preview_start",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://tdfp.test/)",
-      "WebFetch(domain:www.piumof.tj)"
+      "WebFetch(domain:www.piumof.tj)",
+      "Bash(find . -path ./node_modules -prune -o -name *bvi* -type f -print)",
+      "Bash(grep -r \"speechSynthesis\\\\|SpeechSynthesisUtterance\" resources/js --include=*.ts --include=*.tsx --include=*.js --include=*.jsx)",
+      "Bash(grep -r \"font-face\\\\|@import.*font\\\\|google.*font\\\\|typeface\" /Users/aminjon/Herd/tdfp/resources --include=*.css --include=*.tsx --include=*.js)",
+      "Bash(find /Users/aminjon/Herd/tdfp/resources/js/pages/public -name \"*.tsx\" -exec basename {})"
     ]
   }
 }

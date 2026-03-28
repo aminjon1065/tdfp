@@ -3,10 +3,10 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     ChevronDown,
     ChevronRight,
-    Mail,
     MapPin,
     Menu,
     Phone,
+    PhoneCall,
     X,
 } from 'lucide-react';
 import {
@@ -47,14 +47,6 @@ const primaryNavLinks = [
     { key: 'nav.grm', href: '/grm' },
     { key: 'nav.contact', href: '/contact' },
 ];
-
-const theProjectNavSections = [
-    {
-        key: 'nav.theProject',
-        descriptionKey: 'nav.theProjectDescription',
-        href: '/project',
-    },
-] as const;
 
 const activitiesNavDomains = [
     { key: 'nav.domain1', slug: 'digital-infrastructure' },
@@ -106,15 +98,10 @@ interface PublicLayoutProps extends PropsWithChildren {
     blendHeader?: boolean;
 }
 
-interface NavigationPageTranslation {
-    language: string;
-    title: string;
-}
-
 interface NavigationProjectPage {
     slug: string;
     href: string;
-    translations?: NavigationPageTranslation[];
+    translations?: Array<{ language: string; title: string }>;
 }
 
 interface LayoutPageProps extends PageProps {
@@ -125,11 +112,6 @@ interface LayoutPageProps extends PageProps {
     };
     ziggy?: {
         location?: string;
-    };
-    settings?: {
-        contact_address?: string;
-        contact_phone?: string;
-        contact_email?: string;
     };
     siteSettings?: {
         site_title?: string;
@@ -143,9 +125,15 @@ interface LayoutPageProps extends PageProps {
         analytics_enabled?: boolean;
         analytics_provider?: string;
         google_analytics_id?: string;
+        og_image_default?: string;
     };
     navigation?: {
         project_pages?: NavigationProjectPage[];
+    };
+    settings?: {
+        contact_address?: string;
+        contact_phone?: string;
+        contact_email?: string;
     };
 }
 
@@ -165,14 +153,65 @@ export default function PublicLayout({
     const { state: bviState } = useBVI();
     const inertiaPage = usePage<LayoutPageProps>();
     const page = inertiaPage.props;
+
     const currentLocale = page.locale ?? 'en';
     const currentUrl = page.ziggy?.location ?? '';
     const defaultLocale = page.localization?.default_locale ?? 'en';
     const siteSettings = page.siteSettings ?? {};
-    const pageUrl = inertiaPage.url || '/';
-    const currentPath = new URL(pageUrl, 'https://tdfp.test').pathname;
+
     const siteTitle = siteSettings.site_title ?? 'PIC TDFP';
     const siteDescription = description ?? siteSettings.site_description;
+
+    // Формируем канонический URL без лишних параметров (кроме lang)
+    const canonicalUrl = (() => {
+        if (!currentUrl) return undefined;
+        try {
+            const url = new URL(currentUrl);
+            const lang = url.searchParams.get('lang');
+            url.search = '';
+            if (lang && lang !== defaultLocale) {
+                url.searchParams.set('lang', lang);
+            }
+            return url.toString();
+        } catch (e) {
+            return currentUrl;
+        }
+    })();
+
+    // Автоматическая генерация hreflang альтернатив
+    const localeAlternates = currentUrl
+        ? (languages
+              .map((language) => {
+                  try {
+                      const alternateUrl = new URL(currentUrl);
+                      if (language.code === defaultLocale) {
+                          alternateUrl.searchParams.delete('lang');
+                      } else {
+                          alternateUrl.searchParams.set('lang', language.code);
+                      }
+                      return {
+                          hrefLang: hreflangMap[language.code] ?? language.code,
+                          href: alternateUrl.toString(),
+                      };
+                  } catch (e) {
+                      return null;
+                  }
+              })
+              .filter(Boolean) as Array<{ hrefLang: string; href: string }>)
+        : [];
+
+    const defaultLocaleUrl = currentUrl
+        ? (() => {
+              try {
+                  const url = new URL(currentUrl);
+                  url.searchParams.delete('lang');
+                  return url.toString();
+              } catch (e) {
+                  return undefined;
+              }
+          })()
+        : undefined;
+
     const projectPages = page.navigation?.project_pages ?? [];
     const projectNavLinks = [
         ...projectNavSections.map((section) => ({
@@ -188,36 +227,12 @@ export default function PublicLayout({
             href: publicHref(projectPage.href),
         })),
     ];
-    const localeAlternates = currentUrl
-        ? languages.map((language) => {
-              const alternateUrl = new URL(currentUrl);
 
-              if (language.code === defaultLocale) {
-                  alternateUrl.searchParams.delete('lang');
-              } else {
-                  alternateUrl.searchParams.set('lang', language.code);
-              }
-
-              return {
-                  hrefLang: hreflangMap[language.code] ?? language.code,
-                  href: alternateUrl.toString(),
-              };
-          })
-        : [];
-    const defaultLocaleUrl = currentUrl
-        ? (() => {
-              const url = new URL(currentUrl);
-
-              url.searchParams.delete('lang');
-
-              return url.toString();
-          })()
-        : undefined;
     const organizationSchema = {
         '@context': 'https://schema.org',
         '@type': 'GovernmentOrganization',
         name: siteTitle,
-        url: currentUrl || undefined,
+        url: canonicalUrl || currentUrl || undefined,
         email: siteSettings.contact_email || undefined,
         telephone: siteSettings.contact_phone || undefined,
         address: siteSettings.contact_address || undefined,
@@ -227,21 +242,7 @@ export default function PublicLayout({
             siteSettings.youtube_url,
         ].filter(Boolean),
     };
-    const websiteSchema = {
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: siteTitle,
-        url: currentUrl || undefined,
-        description: siteSettings.site_description || undefined,
-        inLanguage: currentLocale,
-        potentialAction: currentUrl
-            ? {
-                  '@type': 'SearchAction',
-                  target: `${new URL('/search', currentUrl).toString()}?q={search_term_string}`,
-                  'query-input': 'required name=search_term_string',
-              }
-            : undefined,
-    };
+
     const analyticsId = siteSettings.google_analytics_id?.trim();
     const analyticsEnabled =
         siteSettings.analytics_enabled === true &&
@@ -252,27 +253,20 @@ export default function PublicLayout({
     useEffect(() => {
         setMobileOpen(false);
         setMobileProjectsOpen(false);
-    }, [pageUrl]);
+    }, [inertiaPage.url]);
 
     useEffect(() => {
         const handleScroll = (): void => {
             setIsScrolled(window.scrollY > 20);
         };
-
         handleScroll();
         window.addEventListener('scroll', handleScroll, { passive: true });
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     function switchLanguage(code: string): void {
         setMobileOpen(false);
-
-        router.visit(`/language/${code}`, {
-            preserveScroll: true,
-        });
+        router.visit(`/language/${code}`, { preserveScroll: true });
     }
 
     function publicHref(path: string): string {
@@ -280,161 +274,28 @@ export default function PublicLayout({
     }
 
     function isActivePath(path: string): boolean {
-        if (path === '/') {
-            return currentPath === '/';
-        }
-
+        const currentPath = new URL(inertiaPage.url || '/', 'https://tdfp.test')
+            .pathname;
+        if (path === '/') return currentPath === '/';
         return currentPath === path || currentPath.startsWith(`${path}/`);
     }
 
-    function isProjectNavActive(): boolean {
-        return projectNavLinks.some((link) => isActivePath(link.href));
-    }
-
-    function isTheProjectActive(): boolean {
-        return isActivePath('/project');
-    }
-
-    function isActivitiesActive(): boolean {
-        return isActivePath('/activities');
-    }
-
-    function renderTheProjectDesktopNav(): ReactElement {
-        const active = isTheProjectActive();
-
-        return (
-            <li key="nav-the-project">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button
-                            type="button"
-                            className={cn(
-                                'inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13px] font-medium outline-hidden transition-colors',
-                                active
-                                    ? isScrolled || !blendHeader
-                                        ? 'bg-(--public-primary)/8 text-(--public-primary-hover)'
-                                        : 'bg-white/14 text-white'
-                                    : isScrolled || !blendHeader
-                                      ? 'text-slate-500 hover:bg-slate-100 hover:text-(--public-primary-hover)'
-                                      : 'text-white/72 hover:bg-white/8 hover:text-white',
-                            )}
-                        >
-                            {t(currentLocale, 'nav.theProject')}
-                            <ChevronDown
-                                className="h-3.5 w-3.5"
-                                aria-hidden="true"
-                            />
-                        </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        align="center"
-                        className="w-72 rounded-2xl border-(--public-border) bg-white p-2 shadow-xl"
-                    >
-                        <DropdownMenuItem
-                            asChild
-                            className="rounded-xl px-0 py-0 focus:bg-transparent"
-                        >
-                            <Link
-                                href={publicHref('/project')}
-                                className="block rounded-xl px-4 py-3 transition-colors hover:bg-slate-50"
-                            >
-                                <span className="block text-sm font-semibold text-(--public-primary-hover)">
-                                    {t(currentLocale, 'nav.theProject')}
-                                </span>
-                                <span className="mt-1 block text-xs leading-5 text-slate-500">
-                                    {t(currentLocale, 'nav.theProjectDescription')}
-                                </span>
-                            </Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </li>
-        );
-    }
-
-    function renderActivitiesDesktopNav(): ReactElement {
-        const active = isActivitiesActive();
-
-        return (
-            <li key="nav-activities">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button
-                            type="button"
-                            className={cn(
-                                'inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13px] font-medium outline-hidden transition-colors',
-                                active
-                                    ? isScrolled || !blendHeader
-                                        ? 'bg-(--public-primary)/8 text-(--public-primary-hover)'
-                                        : 'bg-white/14 text-white'
-                                    : isScrolled || !blendHeader
-                                      ? 'text-slate-500 hover:bg-slate-100 hover:text-(--public-primary-hover)'
-                                      : 'text-white/72 hover:bg-white/8 hover:text-white',
-                            )}
-                        >
-                            {t(currentLocale, 'nav.activities')}
-                            <ChevronDown
-                                className="h-3.5 w-3.5"
-                                aria-hidden="true"
-                            />
-                        </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        align="center"
-                        className="w-72 rounded-2xl border-(--public-border) bg-white p-2 shadow-xl"
-                    >
-                        {activitiesNavDomains.map((domain) => (
-                            <DropdownMenuItem
-                                key={domain.slug}
-                                asChild
-                                className="rounded-xl px-0 py-0 focus:bg-transparent"
-                            >
-                                <Link
-                                    href={publicHref(`/activities?domain=${domain.slug}`)}
-                                    className="block rounded-xl px-4 py-2.5 transition-colors hover:bg-slate-50"
-                                >
-                                    <span className="block text-sm font-medium text-(--public-primary-hover)">
-                                        {t(currentLocale, domain.key)}
-                                    </span>
-                                </Link>
-                            </DropdownMenuItem>
-                        ))}
-                        <div className="mx-2 my-1 border-t border-slate-100" />
-                        <DropdownMenuItem
-                            asChild
-                            className="rounded-xl px-0 py-0 focus:bg-transparent"
-                        >
-                            <Link
-                                href={publicHref('/activities')}
-                                className="block rounded-xl px-4 py-2.5 transition-colors hover:bg-slate-50"
-                            >
-                                <span className="block text-sm font-medium text-(--public-accent)">
-                                    {t(currentLocale, 'nav.viewAllActivities')}
-                                </span>
-                            </Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </li>
-        );
-    }
-
     function renderPrimaryNavLink(
-        link: (typeof primaryNavLinks)[number],
+        link: (typeof primaryNavLinks)[0],
     ): ReactElement {
         const active = isActivePath(link.href);
-
         return (
             <li key={link.href}>
                 <Link
                     href={publicHref(link.href)}
+                    prefetch
                     aria-current={active ? 'page' : undefined}
                     className={cn(
                         'rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors',
                         active
                             ? isScrolled || !blendHeader
-                                ? 'bg-(--public-primary)/8 text-(--public-primary-hover)'
-                                : 'bg-white/14 text-white'
+                                ? 'bg-(--public-primary)/8 font-semibold text-(--public-primary-hover) underline decoration-(--public-accent) decoration-2 underline-offset-4'
+                                : 'bg-white/14 font-semibold text-white underline decoration-white/60 decoration-2 underline-offset-4'
                             : isScrolled || !blendHeader
                               ? 'text-slate-500 hover:bg-slate-100 hover:text-(--public-primary-hover)'
                               : 'text-white/72 hover:bg-white/8 hover:text-white',
@@ -446,138 +307,25 @@ export default function PublicLayout({
         );
     }
 
-    function renderProjectsDesktopNav(): ReactElement {
-        return (
-            <li key="nav-projects">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button
-                            type="button"
-                            data-test="public-projects-menu-trigger"
-                            className={cn(
-                                'inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13px] font-medium outline-hidden transition-colors',
-                                isProjectNavActive()
-                                    ? isScrolled || !blendHeader
-                                        ? 'bg-(--public-primary)/8 text-(--public-primary-hover)'
-                                        : 'bg-white/14 text-white'
-                                    : isScrolled || !blendHeader
-                                      ? 'text-slate-500 hover:bg-slate-100 hover:text-(--public-primary-hover)'
-                                      : 'text-white/72 hover:bg-white/8 hover:text-white',
-                            )}
-                        >
-                            {t(currentLocale, 'nav.projects')}
-                            <ChevronDown
-                                className="h-3.5 w-3.5"
-                                aria-hidden="true"
-                            />
-                        </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        align="center"
-                        data-test="public-projects-menu-content"
-                        className="w-80 rounded-2xl border-(--public-border) bg-white p-2 shadow-xl"
-                    >
-                        {projectNavLinks.map((link) => (
-                            <DropdownMenuItem
-                                key={link.href}
-                                asChild
-                                className="rounded-xl px-0 py-0 focus:bg-transparent"
-                            >
-                                <Link
-                                    href={link.href}
-                                    className="block rounded-xl px-4 py-3 transition-colors hover:bg-slate-50"
-                                >
-                                    <span className="block text-sm font-semibold text-(--public-primary-hover)">
-                                        {link.label}
-                                    </span>
-                                    <span className="mt-1 block text-xs leading-5 text-slate-500">
-                                        {link.description}
-                                    </span>
-                                </Link>
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </li>
-        );
-    }
-
-    function renderProjectsMobileNav(): ReactElement {
-        return (
-            <li key="mobile-nav-projects">
-                <div className="overflow-hidden rounded-2xl border border-(--public-border) bg-white">
-                    <button
-                        type="button"
-                        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-(--public-primary)"
-                        onClick={() => setMobileProjectsOpen((open) => !open)}
-                        aria-expanded={mobileProjectsOpen}
-                    >
-                        {t(currentLocale, 'nav.projects')}
-                        <ChevronDown
-                            className={cn(
-                                'h-4 w-4 text-slate-400 transition-transform',
-                                mobileProjectsOpen && 'rotate-180',
-                            )}
-                            aria-hidden="true"
-                        />
-                    </button>
-                    {mobileProjectsOpen && (
-                        <div className="border-t border-(--public-border) px-2 py-2">
-                            <ul className="space-y-1">
-                                {projectNavLinks.map((link) => (
-                                    <li key={link.href}>
-                                        <Link
-                                            href={link.href}
-                                            className={cn(
-                                                'block rounded-xl px-3 py-2.5 text-sm transition-colors',
-                                                isActivePath(link.href)
-                                                    ? 'bg-(--public-accent)/6 text-(--public-primary-hover)'
-                                                    : 'text-slate-600 hover:bg-slate-50 hover:text-(--public-primary-hover)',
-                                            )}
-                                            onClick={() => setMobileOpen(false)}
-                                        >
-                                            <span className="block font-medium">
-                                                {link.label}
-                                            </span>
-                                            <span className="mt-1 block text-xs leading-5 text-slate-500">
-                                                {link.description}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
-            </li>
-        );
-    }
-
     return (
         <div className="gov-shell flex min-h-screen flex-col">
             <Seo
                 title={title}
                 description={siteDescription}
-                canonicalUrl={currentUrl || undefined}
+                canonicalUrl={canonicalUrl}
                 siteName={siteTitle}
-                imageUrl={imageUrl}
+                imageUrl={imageUrl || siteSettings.og_image_default}
                 type={seoType}
                 locale={currentLocale}
                 noIndex={noIndex}
                 alternates={[
                     ...localeAlternates,
                     ...(defaultLocaleUrl
-                        ? [
-                              {
-                                  hrefLang: 'x-default',
-                                  href: defaultLocaleUrl,
-                              },
-                          ]
+                        ? [{ hrefLang: 'x-default', href: defaultLocaleUrl }]
                         : []),
                 ]}
                 structuredData={[
                     organizationSchema,
-                    websiteSchema,
                     ...(Array.isArray(structuredData)
                         ? structuredData
                         : structuredData
@@ -585,6 +333,7 @@ export default function PublicLayout({
                           : []),
                 ]}
             />
+
             {analyticsEnabled && analyticsId && (
                 <Head>
                     <script
@@ -600,33 +349,44 @@ export default function PublicLayout({
             )}
 
             <a
-                href={'#main-content'}
+                href="#main-content"
                 className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-60 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium"
             >
                 {t(currentLocale, 'common.skipToContent')}
             </a>
 
-            {/* Top utility bar — always visible, official site strip */}
-            <div className="fixed inset-x-0 top-0 z-50 border-b border-(--public-primary)/20 bg-(--public-primary) text-white">
-                <div className="gov-container">
-                    <div className="flex h-9 items-center justify-between gap-4">
-                        <p className="hidden text-[10px] font-medium tracking-[0.12em] text-white/70 uppercase sm:block">
-                            {t(currentLocale, 'site.official')}
-                        </p>
-                        <div className="ml-auto flex items-center gap-3">
-                            <div className="flex items-center gap-0.5 text-[10px] font-semibold tracking-[0.14em] text-white/70 uppercase">
-                                {languages.map((language) => (
-                                    <button
-                                        key={language.code}
-                                        type="button"
-                                        onClick={() =>
-                                            switchLanguage(language.code)
-                                        }
-                                        className={cn(
-                                            'rounded px-1.5 py-0.5 leading-none transition-colors',
-                                            currentLocale === language.code
-                                                ? 'bg-white/15 text-white'
-                                                : 'hover:text-white',
+            {/* Глобальный контейнер шапки — убрали тень */}
+            <div className="fixed inset-x-0 top-0 z-50 flex flex-col">
+
+                <BVIPanel />
+
+                {/* Top utility bar — убрали border-b */}
+                <div className="bg-(--public-primary) text-white">
+                    <div className="gov-container">
+                        <div className="flex h-9 items-center justify-between gap-4">
+                            <p className="hidden text-[10px] font-medium tracking-[0.12em] text-white/70 uppercase sm:block">
+                                <a
+                                    href={`tel:${page.settings?.contact_phone?.replace(/\D/g, '')}`}
+                                    className="flex items-center gap-1.5"
+                                >
+                                    <PhoneCall className="h-4 w-4" />
+                                    {page.settings?.contact_phone ?? '911000770'}
+                                </a>
+                            </p>
+                            <div className="ml-auto flex items-center gap-3">
+                                <div className="flex items-center gap-0.5 text-[10px] font-semibold tracking-[0.14em] text-white/70 uppercase">
+                                    {languages.map((language) => (
+                                        <button
+                                            key={language.code}
+                                            type="button"
+                                            onClick={() =>
+                                                switchLanguage(language.code)
+                                            }
+                                            className={cn(
+                                                'rounded px-1.5 py-0.5 leading-none transition-colors',
+                                                currentLocale === language.code
+                                                    ? 'bg-white/15 text-white'
+                                                    : 'hover:text-white',
                                         )}
                                     >
                                         {language.label}
@@ -645,7 +405,7 @@ export default function PublicLayout({
 
             <header
                 className={cn(
-                    'fixed inset-x-0 top-9 z-40 border-b transition-all duration-300',
+                    'border-b transition-all duration-300', // Оставляем бордер только здесь
                     isScrolled
                         ? 'border-slate-200/80 bg-white/88 text-(--public-primary-hover) shadow-sm backdrop-blur-md'
                         : blendHeader
@@ -669,7 +429,6 @@ export default function PublicLayout({
                             >
                                 <NishonLogo />
                             </div>
-
                             <div className="max-w-60 min-w-0">
                                 <p
                                     className={cn(
@@ -700,8 +459,18 @@ export default function PublicLayout({
                                     {primaryNavLinks
                                         .slice(0, 2)
                                         .map(renderPrimaryNavLink)}
-                                    {renderTheProjectDesktopNav()}
-                                    {renderActivitiesDesktopNav()}
+                                    {renderTheProjectDesktopNav(
+                                        currentLocale,
+                                        isScrolled,
+                                        blendHeader,
+                                        publicHref,
+                                    )}
+                                    {renderActivitiesDesktopNav(
+                                        currentLocale,
+                                        isScrolled,
+                                        blendHeader,
+                                        publicHref,
+                                    )}
                                     {primaryNavLinks
                                         .slice(2)
                                         .map(renderPrimaryNavLink)}
@@ -709,9 +478,10 @@ export default function PublicLayout({
                             </nav>
                         </div>
 
-                        {/* Language switcher and BVI moved to top utility bar */}
-
-                        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                        <Sheet
+                            open={mobileOpen}
+                            onOpenChange={setMobileOpen}
+                        >
                             <SheetTrigger asChild>
                                 <button
                                     type="button"
@@ -721,25 +491,16 @@ export default function PublicLayout({
                                             ? 'border-slate-200 bg-white text-slate-700'
                                             : 'border-white/12 bg-white/8 text-white',
                                     )}
-                                    aria-label="Toggle navigation"
-                                    aria-controls="mobile-primary-navigation"
                                 >
                                     {mobileOpen ? (
-                                        <X
-                                            className="h-4 w-4"
-                                            aria-hidden="true"
-                                        />
+                                        <X className="h-4 w-4" />
                                     ) : (
-                                        <Menu
-                                            className="h-4 w-4"
-                                            aria-hidden="true"
-                                        />
+                                        <Menu className="h-4 w-4" />
                                     )}
                                     {t(currentLocale, 'common.menu')}
                                 </button>
                             </SheetTrigger>
                             <SheetContent
-                                id="mobile-primary-navigation"
                                 side="right"
                                 className="w-full max-w-sm border-l border-(--public-border) bg-(--public-surface) p-0"
                             >
@@ -757,248 +518,322 @@ export default function PublicLayout({
                                         )}
                                     </SheetDescription>
                                 </SheetHeader>
-
                                 <div className="space-y-4 px-5 py-5">
                                     <nav aria-label="Mobile">
                                         <ul className="space-y-1.5">
-                                            {primaryNavLinks.map((link) => {
-                                                const active = isActivePath(
-                                                    link.href,
-                                                );
-
-                                                return (
-                                                    <li key={link.href}>
-                                                        <Link
-                                                            href={publicHref(
+                                            {primaryNavLinks.map((link) => (
+                                                <li key={link.href}>
+                                                    <Link
+                                                        href={publicHref(
+                                                            link.href,
+                                                        )}
+                                                        onClick={() =>
+                                                            setMobileOpen(
+                                                                false,
+                                                            )
+                                                        }
+                                                        className={cn(
+                                                            'flex items-center justify-between rounded-2xl border bg-white px-4 py-3 text-sm font-medium transition-colors',
+                                                            isActivePath(
                                                                 link.href,
-                                                            )}
-                                                            aria-current={
-                                                                active
-                                                                    ? 'page'
-                                                                    : undefined
-                                                            }
-                                                            className={cn(
-                                                                'flex items-center justify-between rounded-2xl border bg-white px-4 py-3 text-sm font-medium transition-colors',
-                                                                active
-                                                                    ? 'border-(--public-accent)/25 bg-(--public-accent)/6 text-(--public-primary-hover)'
-                                                                    : 'border-(--public-border) text-(--public-primary)',
-                                                            )}
-                                                            onClick={() =>
-                                                                setMobileOpen(
-                                                                    false,
-                                                                )
-                                                            }
-                                                        >
-                                                            {t(
-                                                                currentLocale,
-                                                                link.key,
-                                                            )}
-                                                            <ChevronRight
-                                                                className="h-4 w-4 text-slate-400"
-                                                                aria-hidden="true"
-                                                            />
-                                                        </Link>
-                                                    </li>
-                                                );
-                                            })}
-                                            <li key="mobile-the-project">
-                                                <Link
-                                                    href={publicHref('/project')}
-                                                    className={cn(
-                                                        'flex items-center justify-between rounded-2xl border bg-white px-4 py-3 text-sm font-medium transition-colors',
-                                                        isTheProjectActive()
-                                                            ? 'border-(--public-accent)/25 bg-(--public-accent)/6 text-(--public-primary-hover)'
-                                                            : 'border-(--public-border) text-(--public-primary)',
-                                                    )}
-                                                    onClick={() => setMobileOpen(false)}
-                                                >
-                                                    {t(currentLocale, 'nav.theProject')}
-                                                    <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                                </Link>
-                                            </li>
-                                            {renderProjectsMobileNav()}
+                                                            )
+                                                                ? 'border-(--public-accent)/25 bg-(--public-accent)/6 text-(--public-primary-hover)'
+                                                                : 'border-(--public-border) text-(--public-primary)',
+                                                        )}
+                                                    >
+                                                        {t(
+                                                            currentLocale,
+                                                            link.key,
+                                                        )}
+                                                        <ChevronRight className="h-4 w-4 text-slate-400" />
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                            {renderProjectsMobileNav(
+                                                currentLocale,
+                                                projectNavLinks,
+                                                mobileProjectsOpen,
+                                                setMobileProjectsOpen,
+                                                setMobileOpen,
+                                                isActivePath,
+                                            )}
                                         </ul>
                                     </nav>
-
-                                    {/* Language switcher and BVI are in the top utility bar, always visible */}
                                 </div>
                             </SheetContent>
                         </Sheet>
                     </div>
                 </div>
             </header>
+        </div>
 
-            <BVIPanel />
+        <main
+            id="main-content"
+            tabIndex={-1}
+            className={cn(
+                'flex-1 transition-all duration-300',
+                blendHeader
+                    ? 'pt-9'
+                    : bviState.enabled
+                      ? 'pt-48'
+                      : 'pt-[calc(2.25rem+3.5rem)]',
+            )}
+        >
+            {children}
+        </main>
 
-            <main
-                id="main-content"
-                tabIndex={-1}
-                className={cn(
-                    'flex-1',
-                    blendHeader
-                        ? bviState.enabled
-                            ? 'pt-[calc(2.25rem+3.5rem+2.75rem)]'
-                            : 'pt-9'
-                        : bviState.enabled
-                          ? 'pt-[calc(2.25rem+3.5rem+2.75rem)]'
-                          : 'pt-[calc(2.25rem+3.5rem)]',
-                )}
-            >
-                {children}
-            </main>
-
-            {/*/!* Partner logos strip *!/*/}
-            {/*<div className="border-t border-slate-200 bg-white py-6">*/}
-            {/*    <div className="gov-container">*/}
-            {/*        <p className="mb-4 text-center text-xs font-medium tracking-[0.14em] text-slate-400 uppercase">*/}
-            {/*            {t(currentLocale, 'footer.fundedByFull')}*/}
-            {/*        </p>*/}
-            {/*        <div className="flex flex-wrap items-center justify-center gap-8">*/}
-            {/*            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5">*/}
-            {/*                <span className="text-sm font-semibold text-slate-700">World Bank</span>*/}
-            {/*                <span className="text-xs text-slate-400">IDA</span>*/}
-            {/*            </div>*/}
-            {/*            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5">*/}
-            {/*                <span className="text-sm font-semibold text-slate-700">SDC</span>*/}
-            {/*                <span className="text-xs text-slate-400">Switzerland</span>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
-            <footer className="border-t border-(--public-primary) bg-(--public-primary-hover) text-white">
-                <div className="gov-container py-14">
-                    <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
-                        <div>
-                            <p className="gov-kicker mb-3 text-(--public-accent)">
-                                {t(currentLocale, 'footer.kicker')}
-                            </p>
-                            <h2 className="max-w-lg text-3xl font-semibold text-white">
-                                {t(currentLocale, 'site.project')}
-                            </h2>
-                            <p className="mt-4 max-w-xl text-sm leading-7 text-white/72">
-                                {t(currentLocale, 'footer.subheading')}
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-sm font-semibold text-white">
-                                {t(currentLocale, 'footer.sections')}
-                            </h3>
-                            <ul className="space-y-3 text-sm text-white/72">
-                                {primaryNavLinks.map((link) => (
-                                    <li key={link.href}>
-                                        <Link
-                                            href={publicHref(link.href)}
-                                            className="hover:text-white"
-                                        >
-                                            {t(currentLocale, link.key)}
-                                        </Link>
-                                    </li>
-                                ))}
-                                <li>
-                                    <Link href={publicHref('/project')} className="hover:text-white">
-                                        {t(currentLocale, 'nav.theProject')}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={publicHref('/documents')} className="hover:text-white">
-                                        {t(currentLocale, 'nav.documents')}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={publicHref('/media')} className="hover:text-white">
-                                        {t(currentLocale, 'nav.media')}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-sm font-semibold text-white">
-                                {t(currentLocale, 'nav.activities')}
-                            </h3>
-                            <ul className="space-y-3 text-sm text-white/72">
-                                {activitiesNavDomains.map((domain) => (
-                                    <li key={domain.slug}>
-                                        <Link
-                                            href={publicHref(`/activities?domain=${domain.slug}`)}
-                                            className="hover:text-white"
-                                        >
-                                            {t(currentLocale, domain.key)}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div id="footer-contact">
-                            <h3 className="mb-4 text-sm font-semibold text-white">
-                                {t(currentLocale, 'footer.contact')}
-                            </h3>
-                            <ul className="space-y-4 text-sm text-white/72">
-                                <li className="flex items-start gap-3">
-                                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-(--public-accent)" />
-                                    <span>
-                                        {page.settings?.contact_address ??
-                                            t(currentLocale, 'site.country')}
-                                    </span>
-                                </li>
-                                <li className="flex items-center gap-3">
-                                    <Phone className="h-4 w-4 shrink-0 text-(--public-accent)" />
-                                    <span>
-                                        {page.settings?.contact_phone ??
-                                            '+992 (000) 000-000'}
-                                    </span>
-                                </li>
-                                <li className="flex items-center gap-3">
-                                    <Mail className="h-4 w-4 shrink-0 text-(--public-accent)" />
-                                    <span>
-                                        {page.settings?.contact_email ??
-                                            'info@example.tj'}
-                                    </span>
-                                </li>
-                                <li className="mt-2 pt-2 border-t border-white/10">
-                                    <Link
-                                        href={publicHref('/grm/submit')}
-                                        className="inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-xs font-medium text-white hover:bg-white/20"
-                                    >
-                                        {t(currentLocale, 'grm.submit')}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
-                        <p>
-                            © {new Date().getFullYear()}{' '}
-                            {t(currentLocale, 'site.center')} ·{' '}
-                            {t(currentLocale, 'site.country')}
+        <footer className="border-t border-(--public-primary) bg-(--public-primary-hover) text-white">
+            <div className="gov-container py-14">
+                <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+                    <div>
+                        <p className="gov-kicker mb-3 text-(--public-accent)">
+                            {t(currentLocale, 'footer.kicker')}
                         </p>
-                        <div className="flex flex-wrap items-center gap-4">
-                            <Link
-                                href={publicHref('/pages/privacy-policy')}
-                                className="transition-colors hover:text-white/70"
-                            >
-                                {t(currentLocale, 'footer.privacyPolicy')}
-                            </Link>
-                            <Link
-                                href={publicHref('/pages/accessibility')}
-                                className="transition-colors hover:text-white/70"
-                            >
-                                {t(currentLocale, 'footer.accessibility')}
-                            </Link>
-                            <Link
-                                href={publicHref('/sitemap.xml')}
-                                className="transition-colors hover:text-white/70"
-                            >
-                                {t(currentLocale, 'footer.sitemap')}
-                            </Link>
-                        </div>
+                        <h2 className="max-w-lg text-3xl font-semibold text-white">
+                            {t(currentLocale, 'site.project')}
+                        </h2>
+                        <p className="mt-4 max-w-xl text-sm leading-7 text-white/72">
+                            {t(currentLocale, 'footer.subheading')}
+                        </p>
+                    </div>
+                    <div>
+                        <h3 className="mb-4 text-sm font-semibold text-white">
+                            {t(currentLocale, 'footer.sections')}
+                        </h3>
+                        <ul className="space-y-3 text-sm text-white/72">
+                            {primaryNavLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={publicHref(link.href)}
+                                        className="hover:text-white"
+                                    >
+                                        {t(currentLocale, link.key)}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 className="mb-4 text-sm font-semibold text-white">
+                            {t(currentLocale, 'nav.activities')}
+                        </h3>
+                        <ul className="space-y-3 text-sm text-white/72">
+                            {activitiesNavDomains.map((domain) => (
+                                <li key={domain.slug}>
+                                    <Link
+                                        href={publicHref(
+                                            `/activities?domain=${domain.slug}`,
+                                        )}
+                                        className="hover:text-white"
+                                    >
+                                        {t(currentLocale, domain.key)}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div id="footer-contact">
+                        <h3 className="mb-4 text-sm font-semibold text-white">
+                            {t(currentLocale, 'footer.contact')}
+                        </h3>
+                        <ul className="space-y-4 text-sm text-white/72">
+                            <li className="flex items-start gap-3">
+                                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-(--public-accent)" />
+                                <span>
+                                    {page.settings?.contact_address ??
+                                        t(currentLocale, 'site.country')}
+                                </span>
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <Phone className="h-4 w-4 shrink-0 text-(--public-accent)" />
+                                <span>
+                                    {page.settings?.contact_phone ??
+                                        '+992 (000) 000-000'}
+                                </span>
+                            </li>
+                            <li className="mt-2 border-t border-white/10 pt-2">
+                                <Link
+                                    href={publicHref('/grm/submit')}
+                                    className="inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-xs font-medium text-white hover:bg-white/20"
+                                >
+                                    {t(currentLocale, 'grm.submit')}
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </footer>
-        </div>
+                <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
+                    <p>
+                        © {new Date().getFullYear()}{' '}
+                        {t(currentLocale, 'site.center')} ·{' '}
+                        {t(currentLocale, 'site.country')}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-4">
+                        <Link
+                            href={publicHref('/pages/privacy-policy')}
+                            className="transition-colors hover:text-white/70"
+                        >
+                            {t(currentLocale, 'footer.privacyPolicy')}
+                        </Link>
+                        <Link
+                            href={publicHref('/sitemap.xml')}
+                            className="transition-colors hover:text-white/70"
+                        >
+                            {t(currentLocale, 'footer.sitemap')}
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+);
+}
+
+function renderTheProjectDesktopNav(
+    currentLocale: string,
+    isScrolled: boolean,
+    blendHeader: boolean,
+    publicHref: any,
+) {
+    return (
+        <li key="nav-the-project">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button
+                        type="button"
+                        className={cn(
+                            'inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13px] font-medium outline-hidden transition-colors',
+                            isScrolled || !blendHeader
+                                ? 'text-slate-500 hover:bg-slate-100'
+                                : 'text-white/72 hover:text-white',
+                        )}
+                    >
+                        {t(currentLocale, 'nav.theProject')}{' '}
+                        <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                    align="center"
+                    className="w-72 rounded-2xl border bg-white p-2 shadow-xl"
+                >
+                    <DropdownMenuItem
+                        asChild
+                        className="rounded-xl px-4 py-3 hover:bg-slate-50"
+                    >
+                        <Link href={publicHref('/project')}>
+                            <span className="block text-sm font-semibold text-slate-900">
+                                {t(currentLocale, 'nav.theProject')}
+                            </span>
+                            <span className="mt-1 block text-xs text-slate-500">
+                                {t(currentLocale, 'nav.theProjectDescription')}
+                            </span>
+                        </Link>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </li>
+    );
+}
+
+function renderActivitiesDesktopNav(
+    currentLocale: string,
+    isScrolled: boolean,
+    blendHeader: boolean,
+    publicHref: any,
+) {
+    return (
+        <li key="nav-activities">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button
+                        type="button"
+                        className={cn(
+                            'inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13px] font-medium outline-hidden transition-colors',
+                            isScrolled || !blendHeader
+                                ? 'text-slate-500 hover:bg-slate-100'
+                                : 'text-white/72 hover:text-white',
+                        )}
+                    >
+                        {t(currentLocale, 'nav.activities')}{' '}
+                        <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                    align="center"
+                    className="w-72 rounded-2xl border bg-white p-2 shadow-xl"
+                >
+                    {activitiesNavDomains.map((domain) => (
+                        <DropdownMenuItem
+                            key={domain.slug}
+                            asChild
+                            className="rounded-xl px-4 py-2 hover:bg-slate-50"
+                        >
+                            <Link
+                                href={publicHref(
+                                    `/activities?domain=${domain.slug}`,
+                                )}
+                            >
+                                <span className="block text-sm font-medium text-slate-900">
+                                    {t(currentLocale, domain.key)}
+                                </span>
+                            </Link>
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </li>
+    );
+}
+
+function renderProjectsMobileNav(
+    currentLocale: string,
+    projectNavLinks: any[],
+    mobileProjectsOpen: boolean,
+    setMobileProjectsOpen: any,
+    setMobileOpen: any,
+    isActivePath: any,
+) {
+    return (
+        <li key="mobile-nav-projects">
+            <div className="overflow-hidden rounded-2xl border bg-white">
+                <button
+                    type="button"
+                    className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-slate-900"
+                    onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
+                >
+                    {t(currentLocale, 'nav.projects')}{' '}
+                    <ChevronDown
+                        className={cn(
+                            'h-4 w-4 text-slate-400 transition-transform',
+                            mobileProjectsOpen && 'rotate-180',
+                        )}
+                    />
+                </button>
+                {mobileProjectsOpen && (
+                    <div className="border-t px-2 py-2">
+                        {projectNavLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setMobileOpen(false)}
+                                className={cn(
+                                    'block rounded-xl px-3 py-2.5 text-sm transition-colors',
+                                    isActivePath(link.href)
+                                        ? 'bg-slate-100'
+                                        : 'text-slate-600',
+                                )}
+                            >
+                                <span className="block font-medium">
+                                    {link.label}
+                                </span>
+                                <span className="mt-1 block text-xs text-slate-500">
+                                    {link.description}
+                                </span>
+                            </Link>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </li>
     );
 }

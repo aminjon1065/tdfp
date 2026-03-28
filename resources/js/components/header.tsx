@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import { Globe, Menu, Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -13,6 +14,7 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -22,7 +24,7 @@ const Header = () => {
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between gap-8">
                         {/* Logo */}
-                        <div className="flex shrink-0 items-center gap-3">
+                        <Link href="/" prefetch className="flex shrink-0 items-center gap-3">
                             <NishonLogo />
                             <div className="hidden md:block">
                                 <div className="text-lg leading-none font-bold text-slate-900">
@@ -32,7 +34,7 @@ const Header = () => {
                                     TAJIKISTAN
                                 </div>
                             </div>
-                        </div>
+                        </Link>
 
                         {/* Desktop Navigation */}
                         <div className="hidden flex-1 lg:block">
@@ -46,9 +48,10 @@ const Header = () => {
                                             <ul className="grid gap-3 p-6 md:w-100 lg:w-125 lg:grid-cols-[.75fr_1fr]">
                                                 <li className="row-span-3">
                                                     <NavigationMenuLink asChild>
-                                                        <a
+                                                        <Link
                                                             className="flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b from-blue-600 to-blue-700 p-6 no-underline outline-none select-none focus:shadow-md"
                                                             href="/"
+                                                            prefetch
                                                         >
                                                             <Globe className="h-6 w-6 text-white" />
                                                             <div className="mt-4 mb-2 text-lg font-medium text-white">
@@ -63,142 +66,82 @@ const Header = () => {
                                                                 внедрения
                                                                 инноваций.
                                                             </p>
-                                                        </a>
+                                                        </Link>
                                                     </NavigationMenuLink>
                                                 </li>
                                                 <li>
                                                     <NavigationMenuLink asChild>
-                                                        <a
-                                                            href="#"
+                                                        <Link
+                                                            href="/about"
+                                                            prefetch
                                                             className="block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-slate-100 focus:bg-slate-100"
                                                         >
                                                             <div className="text-sm leading-none font-medium">
-                                                                Руководство
+                                                                О центре
                                                             </div>
                                                             <p className="line-clamp-2 text-sm leading-snug text-slate-500">
                                                                 Информация о
                                                                 руководящем
-                                                                составе.
+                                                                составе и структуре.
                                                             </p>
-                                                        </a>
+                                                        </Link>
                                                     </NavigationMenuLink>
                                                 </li>
                                                 <li>
                                                     <NavigationMenuLink asChild>
-                                                        <a
-                                                            href="#"
+                                                        <Link
+                                                            href="/project"
+                                                            prefetch
                                                             className="block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-slate-100 focus:bg-slate-100"
                                                         >
                                                             <div className="text-sm leading-none font-medium">
-                                                                Структура
+                                                                Проект
                                                             </div>
                                                             <p className="line-clamp-2 text-sm leading-snug text-slate-500">
-                                                                Организационная
-                                                                структура
-                                                                ведомства.
+                                                                Цели, компоненты и финансирование.
                                                             </p>
-                                                        </a>
-                                                    </NavigationMenuLink>
-                                                </li>
-                                                <li>
-                                                    <NavigationMenuLink asChild>
-                                                        <a
-                                                            href="#"
-                                                            className="block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-slate-100 focus:bg-slate-100"
-                                                        >
-                                                            <div className="text-sm leading-none font-medium">
-                                                                История
-                                                            </div>
-                                                            <p className="line-clamp-2 text-sm leading-snug text-slate-500">
-                                                                История развития
-                                                                цифровизации.
-                                                            </p>
-                                                        </a>
+                                                        </Link>
                                                     </NavigationMenuLink>
                                                 </li>
                                             </ul>
                                         </NavigationMenuContent>
                                     </NavigationMenuItem>
+
                                     <NavigationMenuItem>
-                                        <NavigationMenuTrigger>
-                                            Проекты
-                                        </NavigationMenuTrigger>
-                                        <NavigationMenuContent>
-                                            <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150">
-                                                {[
-                                                    {
-                                                        title: 'Электронное правительство',
-                                                        desc: 'Цифровизация госуслуг',
-                                                    },
-                                                    {
-                                                        title: 'Умный город',
-                                                        desc: 'Технологии для городской среды',
-                                                    },
-                                                    {
-                                                        title: 'Цифровое образование',
-                                                        desc: 'Внедрение IT в школах',
-                                                    },
-                                                    {
-                                                        title: 'Кибербезопасность',
-                                                        desc: 'Защита данных и инфраструктуры',
-                                                    },
-                                                ].map((component) => (
-                                                    <li key={component.title}>
-                                                        <NavigationMenuLink
-                                                            asChild
-                                                        >
-                                                            <a
-                                                                href="#"
-                                                                className="block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-slate-100 focus:bg-slate-100"
-                                                            >
-                                                                <div className="text-sm leading-none font-medium">
-                                                                    {
-                                                                        component.title
-                                                                    }
-                                                                </div>
-                                                                <p className="line-clamp-2 text-sm leading-snug text-slate-500">
-                                                                    {
-                                                                        component.desc
-                                                                    }
-                                                                </p>
-                                                            </a>
-                                                        </NavigationMenuLink>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </NavigationMenuContent>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href="/news"
+                                            prefetch
                                             className={navigationMenuTriggerStyle()}
                                         >
                                             Новости
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href="/documents"
+                                            prefetch
                                             className={navigationMenuTriggerStyle()}
                                         >
                                             Документы
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href="/procurement"
+                                            prefetch
                                             className={navigationMenuTriggerStyle()}
                                         >
-                                            Обратная связь
-                                        </a>
+                                            Закупки
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href="/contact"
+                                            prefetch
                                             className={navigationMenuTriggerStyle()}
                                         >
                                             Контакты
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                 </NavigationMenuList>
                             </NavigationMenu>
@@ -221,10 +164,6 @@ const Header = () => {
                             >
                                 <Search className="h-5 w-5" />
                             </Button>
-                            {/* <Button className="hidden bg-blue-600 hover:bg-blue-700 sm:flex">
-                                <User className="mr-2 h-4 w-4" />
-                                Кабинет
-                            </Button> */}
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -242,36 +181,34 @@ const Header = () => {
             {isMobileMenuOpen && (
                 <div className="border-b bg-white p-4 lg:hidden">
                     <nav className="flex flex-col space-y-2">
-                        <a
-                            href="#"
+                        <Link
+                            href="/about"
+                            prefetch
                             className="block rounded-md px-3 py-2 text-base font-medium text-slate-900 hover:bg-slate-50"
                         >
                             О нас
-                        </a>
-                        <a
-                            href="#"
-                            className="block rounded-md px-3 py-2 text-base font-medium text-slate-900 hover:bg-slate-50"
-                        >
-                            Проекты
-                        </a>
-                        <a
-                            href="#"
+                        </Link>
+                        <Link
+                            href="/news"
+                            prefetch
                             className="block rounded-md px-3 py-2 text-base font-medium text-slate-900 hover:bg-slate-50"
                         >
                             Новости
-                        </a>
-                        <a
-                            href="#"
+                        </Link>
+                        <Link
+                            href="/documents"
+                            prefetch
                             className="block rounded-md px-3 py-2 text-base font-medium text-slate-900 hover:bg-slate-50"
                         >
                             Документы
-                        </a>
-                        <a
-                            href="#"
+                        </Link>
+                        <Link
+                            href="/contact"
+                            prefetch
                             className="block rounded-md px-3 py-2 text-base font-medium text-slate-900 hover:bg-slate-50"
                         >
                             Контакты
-                        </a>
+                        </Link>
                     </nav>
                 </div>
             )}

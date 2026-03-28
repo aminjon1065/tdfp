@@ -13,6 +13,7 @@ export function BVIButton({ className, label = 'Версия для слабов
     return (
         <Button
             variant="outline"
+            aria-pressed={state.enabled}
             onClick={() => setState((s) => ({ ...s, enabled: !s.enabled }))}
             className={className}
         >

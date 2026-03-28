@@ -9,6 +9,7 @@ const DEFAULT_STATE: BVIState = {
     contrast: 'default',
     lineHeight: 'normal',
     images: 'on',
+    tts: 'off',
 };
 
 const BVIContext = createContext<{
@@ -41,6 +42,11 @@ export function BVIProvider({ children }: { children: React.ReactNode }) {
         html.dataset.contrast = state.contrast;
         html.dataset.lineHeight = state.lineHeight;
         html.dataset.images = state.images;
+        html.dataset.tts = state.tts;
+
+        if (!state.enabled || state.tts === 'off') {
+            window.speechSynthesis?.cancel();
+        }
     }, [state]);
 
     return (

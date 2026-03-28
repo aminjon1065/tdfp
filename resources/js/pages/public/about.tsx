@@ -63,7 +63,6 @@ export default function About({ page }: Props) {
             <PageHero
                 title={t(locale, 'nav.about')}
                 subtitle={t(locale, 'site.center')}
-                description={t(locale, 'about.mandate')}
             >
                 <nav
                     aria-label="Breadcrumb"
