@@ -27,6 +27,7 @@ Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 // Public website
 Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/about', [PublicController::class, 'about'])->name('about');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/team', [PublicStaffController::class, 'index'])->name('team.index');
 Route::get('/subscribe', [PublicSubscriptionController::class, 'show'])->name('subscriptions.show');
@@ -36,9 +37,7 @@ Route::post('/subscribe/confirm/{subscriber}', [PublicSubscriptionController::cl
 Route::get('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribeReview'])->name('subscriptions.unsubscribe');
 Route::post('/subscribe/unsubscribe/{subscriber}', [PublicSubscriptionController::class, 'unsubscribe'])->middleware('throttle:5,1')->name('subscriptions.unsubscribe.process');
 
-// CMS static pages
-Route::get('/about', [PublicPageController::class, 'show'])->defaults('slug', 'about')->name('about');
-Route::get('/project', [PublicPageController::class, 'show'])->defaults('slug', 'project')->name('project');
+// CMS pages
 Route::get('/pages/{slug}', [PublicPageController::class, 'show'])->name('pages.show');
 
 // Activities

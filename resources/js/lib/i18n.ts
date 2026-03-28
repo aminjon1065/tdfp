@@ -12,14 +12,26 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'site.ministry': 'Ministry of Digital Development',
         'site.center': 'Projects Implementation Center',
         'site.project': 'Tajikistan Digital Foundations Project',
-        'site.official': 'Official website of the Projects Implementation Center',
+        'site.official':
+            'Official website of the Projects Implementation Center',
         'bvi.label': 'Accessibility',
         'footer.privacyPolicy': 'Privacy Policy',
         'footer.accessibility': 'Accessibility Statement',
         'footer.sitemap': 'Sitemap',
         'nav.home': 'Home',
-        'nav.about': 'About PIC',
-        'nav.project': 'The Project',
+        'nav.about': 'About Us',
+        'nav.projects': 'Projects',
+        'nav.projectActivities': 'Activities',
+        'nav.projectActivitiesDescription':
+            'Program milestones, implementation streams, and delivery updates.',
+        'nav.projectDocuments': 'Project Documents',
+        'nav.projectDocumentsDescription':
+            'Frameworks, reports, and reference materials for implementation.',
+        'nav.projectProcurement': 'Procurement',
+        'nav.projectProcurementDescription':
+            'Current notices, bidding opportunities, and procurement updates.',
+        'nav.projectPageDescription':
+            'Project page from the content management system.',
         'nav.activities': 'Activities',
         'nav.news': 'News',
         'nav.announcements': 'Announcements',
@@ -83,7 +95,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'common.noItemsFound': 'No items found.',
         'common.noContent': 'No content available for this page.',
         'common.notFound': 'Page Not Found',
-        'common.notFoundDescription': 'The page you are looking for does not exist or has been removed.',
+        'common.notFoundDescription':
+            'The page you are looking for does not exist or has been removed.',
         'common.returnHome': 'Return to Homepage',
         'common.navigation': 'Navigation',
         'common.resources': 'Resources',
@@ -121,10 +134,13 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.dashboard.openGrmCases': 'Open GRM Cases',
         'admin.dashboard.openProcurements': 'Open Procurements',
         'admin.dashboard.operationalReadiness': 'Operational Readiness',
-        'admin.dashboard.operationalReadinessDescription': 'Launch ownership, support, reporting, and backup governance baseline.',
+        'admin.dashboard.operationalReadinessDescription':
+            'Launch ownership, support, reporting, and backup governance baseline.',
         'admin.dashboard.operationsReady': 'Operations baseline is configured.',
-        'admin.dashboard.operationsMissing': 'readiness item(s) still need owner values.',
-        'admin.dashboard.operationsEvidenceNote': 'This is a product-side governance check, not infrastructure evidence.',
+        'admin.dashboard.operationsMissing':
+            'readiness item(s) still need owner values.',
+        'admin.dashboard.operationsEvidenceNote':
+            'This is a product-side governance check, not infrastructure evidence.',
         'admin.dashboard.notConfigured': 'Not configured',
         'admin.dashboard.ready': 'Ready',
         'admin.dashboard.missing': 'Missing',
@@ -159,7 +175,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.content.addProcurement': 'Add Procurement',
         'admin.content.uploadMedia': 'Upload Media',
         'admin.content.exportCsv': 'Export CSV',
-        'admin.content.reviewSubscriptions': 'Review confirmed, pending, and unsubscribed recipients.',
+        'admin.content.reviewSubscriptions':
+            'Review confirmed, pending, and unsubscribed recipients.',
         'admin.content.noMedia': 'No media items yet.',
         'admin.content.pageSummary': 'Page',
         'admin.content.of': 'of',
@@ -209,7 +226,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.topLevel': 'Top level',
         'admin.form.sortOrder': 'Sort order',
         'admin.form.leadership': 'Leadership',
-        'admin.form.leadershipHint': 'Highlight this profile in the leadership section.',
+        'admin.form.leadershipHint':
+            'Highlight this profile in the leadership section.',
         'admin.form.published': 'Published',
         'admin.form.publishedHint': 'Unpublished staff stay in admin only.',
         'admin.form.fullName': 'Full name',
@@ -219,9 +237,12 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.replaceFileOptional': 'Replace File (optional)',
         'admin.form.currentFile': 'Current file',
         'admin.form.currentPhotoUploaded': 'Current photo is already uploaded.',
-        'admin.form.staffCreateHint': 'Create a public profile and place it in the reporting hierarchy.',
-        'admin.form.staffEditHint': 'Update hierarchy, translations, and publication state.',
-        'admin.form.staffDirectoryHint': 'Maintain the public leadership and reporting structure.',
+        'admin.form.staffCreateHint':
+            'Create a public profile and place it in the reporting hierarchy.',
+        'admin.form.staffEditHint':
+            'Update hierarchy, translations, and publication state.',
+        'admin.form.staffDirectoryHint':
+            'Maintain the public leadership and reporting structure.',
         'admin.form.addStaffMember': 'Add staff member',
         'admin.form.deleteStaffRecord': 'Delete this staff record?',
         'admin.form.currentlyUploading': 'Uploading…',
@@ -230,23 +251,27 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.preview': 'Open Preview',
         'admin.form.preparingPreview': 'Preparing preview…',
         'admin.form.previewUnavailable': 'Preview unavailable',
-        'admin.form.previewError': 'Preview could not be generated. Check the form and try again.',
+        'admin.form.previewError':
+            'Preview could not be generated. Check the form and try again.',
         'admin.form.loadingEditor': 'Loading editor...',
         'admin.form.write': 'Write',
         'admin.form.previewTab': 'Preview',
         'admin.form.nothingToPreview': 'Nothing to preview yet.',
         'admin.form.insertLink': 'Insert link',
-        'admin.form.linkDescription': 'Add or update a URL for the selected text.',
+        'admin.form.linkDescription':
+            'Add or update a URL for the selected text.',
         'admin.form.url': 'URL',
         'admin.form.saveLink': 'Save link',
         'admin.form.insertImage': 'Insert image',
-        'admin.form.imageDescription': 'Upload an image to the media library or provide a public URL.',
+        'admin.form.imageDescription':
+            'Upload an image to the media library or provide a public URL.',
         'admin.form.uploadImage': 'Upload image',
         'admin.form.imageUrl': 'Image URL',
         'admin.form.altText': 'Alt text',
         'admin.form.describeImage': 'Describe the image',
         'admin.form.imageUploadFailed': 'Image upload failed.',
-        'admin.form.imageSourceRequired': 'Provide an image URL or upload a file.',
+        'admin.form.imageSourceRequired':
+            'Provide an image URL or upload a file.',
         'admin.form.messages': 'Messages',
         'admin.form.noMessages': 'No messages yet.',
         'admin.form.attachments': 'Attachments',
@@ -257,68 +282,90 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.noHistory': 'No history yet.',
         'admin.form.submittedOn': 'Submitted',
         'admin.form.by': 'by',
-        'admin.form.contactMasked': 'Contact details are masked for read-only GRM access.',
-        'admin.form.messagingRestricted': 'Messaging is available only to GRM staff with operational permissions.',
-        'admin.form.attachmentsRestricted': 'Attachment downloads are restricted to GRM staff with operational permissions.',
-        'admin.form.statusRestricted': 'Status changes are restricted to GRM staff with operational permissions.',
+        'admin.form.contactMasked':
+            'Contact details are masked for read-only GRM access.',
+        'admin.form.messagingRestricted':
+            'Messaging is available only to GRM staff with operational permissions.',
+        'admin.form.attachmentsRestricted':
+            'Attachment downloads are restricted to GRM staff with operational permissions.',
+        'admin.form.statusRestricted':
+            'Status changes are restricted to GRM staff with operational permissions.',
         'grm.submit': 'Submit Complaint',
         'grm.track': 'Track Case',
         'grm.title': 'Grievance Redress Mechanism',
-        'grm.description': 'Have concerns about project implementation? Submit a complaint or track an existing case through our transparent GRM system.',
-        'grm.indexLead': 'The GRM provides a transparent, accessible, and accountable process for project-affected people to raise concerns and grievances.',
+        'grm.description':
+            'Have concerns about project implementation? Submit a complaint or track an existing case through our transparent GRM system.',
+        'grm.indexLead':
+            'The GRM provides a transparent, accessible, and accountable process for project-affected people to raise concerns and grievances.',
         'grm.cardSubmitTitle': 'Submit Complaint',
-        'grm.cardSubmitDescription': 'Have a grievance? Submit it online for review.',
+        'grm.cardSubmitDescription':
+            'Have a grievance? Submit it online for review.',
         'grm.cardSubmitAction': 'Submit Now',
         'grm.cardTrackTitle': 'Track Your Case',
-        'grm.cardTrackDescription': 'Check the status of your existing complaint.',
+        'grm.cardTrackDescription':
+            'Check the status of your existing complaint.',
         'grm.cardTrackAction': 'Track Case',
         'grm.cardPolicyTitle': 'GRM Policy',
-        'grm.cardPolicyDescription': 'Learn about our grievance handling process.',
+        'grm.cardPolicyDescription':
+            'Learn about our grievance handling process.',
         'grm.cardPolicyAction': 'Read Policy',
         'grm.categoriesTitle': 'Complaint Categories',
         'grm.category.procurement': 'Procurement issues',
-        'grm.category.project_implementation': 'Project implementation concerns',
+        'grm.category.project_implementation':
+            'Project implementation concerns',
         'grm.category.environment_social': 'Environmental and social impacts',
         'grm.category.corruption': 'Corruption allegations',
         'grm.category.other': 'Other project-related concerns',
         'grm.submitTitle': 'Submit a Complaint',
-        'grm.submitLead': 'Please fill in the form below. All submissions are treated confidentially.',
+        'grm.submitLead':
+            'Please fill in the form below. All submissions are treated confidentially.',
         'grm.fullName': 'Full Name',
         'grm.phoneOptional': 'Phone (optional)',
         'grm.categoryLabel': 'Category',
         'grm.descriptionLabel': 'Description',
-        'grm.descriptionPlaceholder': 'Please describe your complaint in detail (minimum 20 characters)...',
-        'grm.descriptionHelp': 'Include enough detail for review. Minimum 20 characters.',
+        'grm.descriptionPlaceholder':
+            'Please describe your complaint in detail (minimum 20 characters)...',
+        'grm.descriptionHelp':
+            'Include enough detail for review. Minimum 20 characters.',
         'grm.attachmentsOptional': 'Attachments (optional, max 5 files)',
         'grm.attachmentsHelpPrefix': 'Allowed formats:',
         'grm.attachmentsHelpSuffix': 'files',
         'grm.privacyNoticeLabel': 'Privacy notice:',
-        'grm.privacyNoticeText': 'Your information will be handled confidentially and used only for processing this complaint.',
+        'grm.privacyNoticeText':
+            'Your information will be handled confidentially and used only for processing this complaint.',
         'grm.submitting': 'Submitting…',
         'grm.submittedPageTitle': 'Complaint Submitted',
-        'grm.submittedLead': 'Your complaint has been received. Keep your tracking details to follow the case securely.',
-        'grm.submittedEmailNotice': 'Your complaint has been received. A confirmation email has been sent.',
+        'grm.submittedLead':
+            'Your complaint has been received. Keep your tracking details to follow the case securely.',
+        'grm.submittedEmailNotice':
+            'Your complaint has been received. A confirmation email has been sent.',
         'grm.trackingDetails': 'Tracking details',
         'grm.ticketNumberLabel': 'Your ticket number:',
         'grm.trackingTokenLabel': 'Your tracking token:',
-        'grm.trackingSaveNotice': 'Save both values to track your complaint status securely.',
+        'grm.trackingSaveNotice':
+            'Save both values to track your complaint status securely.',
         'grm.trackStatusAction': 'Track Status',
         'grm.trackTitle': 'Track Your Complaint',
-        'grm.trackLead': 'Enter your ticket number and tracking token to check the current status of your complaint.',
+        'grm.trackLead':
+            'Enter your ticket number and tracking token to check the current status of your complaint.',
         'grm.ticketNumber': 'Ticket number',
         'grm.ticketFormatHelp': 'Format: GRM-YYYY-12345',
         'grm.trackingToken': 'Tracking token',
         'grm.trackingTokenPlaceholder': '32-character token',
         'grm.trackingTokenHelpPrefix': 'Use the',
-        'grm.trackingTokenHelpSuffix': 'character tracking token shown on submission confirmation.',
+        'grm.trackingTokenHelpSuffix':
+            'character tracking token shown on submission confirmation.',
         'grm.searching': 'Searching…',
-        'grm.notFound': 'No complaint matched the ticket number and tracking token provided. Please check both values and try again.',
-        'grm.trackingExpired': 'Public tracking for this closed complaint has expired. Please contact the GRM team if you need additional follow-up.',
+        'grm.notFound':
+            'No complaint matched the ticket number and tracking token provided. Please check both values and try again.',
+        'grm.trackingExpired':
+            'Public tracking for this closed complaint has expired. Please contact the GRM team if you need additional follow-up.',
         'grm.submittedOn': 'Submitted:',
         'grm.progress': 'Progress:',
         'grm.updates': 'updates',
         'grm.statusHistory': 'Status History',
-        'footer.description': 'The Projects Implementation Center oversees the Tajikistan Digital Foundations Project, strengthening digital infrastructure, e-government services, and digital skills across Tajikistan.',
+        'footer.description':
+            'The Projects Implementation Center oversees the Tajikistan Digital Foundations Project, strengthening digital infrastructure, e-government services, and digital skills across Tajikistan.',
         'footer.documentRepository': 'Document Repository',
         'footer.procurementNotices': 'Procurement Notices',
         'footer.mediaGallery': 'Media Gallery',
@@ -326,8 +373,10 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.rights': 'All rights reserved.',
         'footer.fundedBy': 'Funded by',
         'footer.kicker': 'Government Service Portal',
-        'footer.heading': 'Public information, services, and grievance access in one place.',
-        'footer.subheading': 'The portal provides official project updates, procurement notices, document access, and public-service channels for beneficiaries, citizens, and suppliers.',
+        'footer.heading':
+            'Public information, services, and grievance access in one place.',
+        'footer.subheading':
+            'The portal provides official project updates, procurement notices, document access, and public-service channels for beneficiaries, citizens, and suppliers.',
         'footer.sections': 'Sections',
         'footer.services': 'Services',
         'footer.contact': 'Contact',
@@ -335,7 +384,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.emailSubscriptions': 'Email subscriptions',
         'common.menu': 'Menu',
         'common.siteNavigation': 'Site navigation',
-        'common.navigationDescription': 'Browse public sections, switch language, or access search and grievance services.',
+        'common.navigationDescription':
+            'Browse public sections, switch language, or access search and grievance services.',
         'common.skipToContent': 'Skip to main content',
         'common.address': 'Address',
         'common.leadership': 'Leadership',
@@ -346,9 +396,12 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'common.filterByFileType': 'Filter by file type',
         'home.badge': 'World Bank Funded Project',
         'home.title': 'Tajikistan Digital Foundations Project',
-        'home.description': "Strengthening Tajikistan's digital infrastructure through government e-services, digital authentication, cybersecurity and digital skills development.",
-        'home.heroTitle': 'Official project portal for public information, procurement, and grievance access.',
-        'home.heroDescription': 'A single institutional portal for verified updates, key project activities, official documents, and public-facing service channels.',
+        'home.description':
+            "Strengthening Tajikistan's digital infrastructure through government e-services, digital authentication, cybersecurity and digital skills development.",
+        'home.heroTitle':
+            'Official project portal for public information, procurement, and grievance access.',
+        'home.heroDescription':
+            'A single institutional portal for verified updates, key project activities, official documents, and public-facing service channels.',
         'home.learnMore': 'Learn More',
         'home.contactAction': 'Contact',
         'home.projectComponents': 'Project Components',
@@ -362,16 +415,22 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.documentsCaption': 'Published documents',
         'home.contactLabel': 'Official contact',
         'home.metrics.contentUnits': 'Operational content units and updates',
-        'home.metrics.interactions': 'Stakeholder interactions and published records',
-        'home.metrics.materials': 'Project documents and notices in circulation',
-        'home.metrics.workstreams': 'Priority workstreams and procurement milestones',
+        'home.metrics.interactions':
+            'Stakeholder interactions and published records',
+        'home.metrics.materials':
+            'Project documents and notices in circulation',
+        'home.metrics.workstreams':
+            'Priority workstreams and procurement milestones',
         'home.mission': 'Our mission',
-        'home.missionTitle': 'A credible digital public portal with clear access to project information.',
-        'home.missionFallback': 'The portal supports public transparency, institutional communication, and accessible service delivery for project beneficiaries, partners, and citizens.',
+        'home.missionTitle':
+            'A credible digital public portal with clear access to project information.',
+        'home.missionFallback':
+            'The portal supports public transparency, institutional communication, and accessible service delivery for project beneficiaries, partners, and citizens.',
         'home.publicContentAreas': 'Public content areas',
         'home.visibleOperationalRecords': 'Visible operational records',
         'home.publishedReferenceMaterials': 'Published reference materials',
-        'home.currentImplementationPriorities': 'Current implementation priorities',
+        'home.currentImplementationPriorities':
+            'Current implementation priorities',
         'home.projectActivities': 'Project Activities',
         'home.activitiesSectionTitle': 'Core implementation directions',
         'home.latestNews': 'Latest News',
@@ -379,11 +438,14 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.servicesTitle': 'Quick access to public services',
         'home.servicesOpenSection': 'Open section',
         'home.services.activitiesTitle': 'Project activities',
-        'home.services.activitiesDescription': 'Track implementation progress and published updates from the project.',
+        'home.services.activitiesDescription':
+            'Track implementation progress and published updates from the project.',
         'home.services.procurementTitle': 'Procurement notices',
-        'home.services.procurementDescription': 'Review open notices, references, and deadlines for suppliers.',
+        'home.services.procurementDescription':
+            'Review open notices, references, and deadlines for suppliers.',
         'home.services.documentsTitle': 'Public documents',
-        'home.services.documentsDescription': 'Access official project documents and published materials.',
+        'home.services.documentsDescription':
+            'Access official project documents and published materials.',
         'home.openProcurement': 'Open Procurement',
         'home.noOpenProcurement': 'No open procurement notices.',
         'home.procurement': 'Procurement',
@@ -391,23 +453,28 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.grmService': 'GRM Service',
         'page.title': 'Page',
         'activities.title': 'Project Activities',
-        'activities.description': 'Key initiatives and components of the Tajikistan Digital Foundations Project',
+        'activities.description':
+            'Key initiatives and components of the Tajikistan Digital Foundations Project',
         'activities.back': 'Back to Activities',
         'activities.empty': 'No activities found.',
         'news.title': 'News',
         'news.indexTitle': 'News & Events',
-        'news.indexDescription': 'Latest updates from the Tajikistan Digital Foundations Project',
+        'news.indexDescription':
+            'Latest updates from the Tajikistan Digital Foundations Project',
         'news.searchPlaceholder': 'Search news...',
         'news.empty': 'No news articles found.',
         'news.whatsNew': "What's New",
-        'news.whatsNewDescription': 'Time-sensitive project updates and official announcements.',
+        'news.whatsNewDescription':
+            'Time-sensitive project updates and official announcements.',
         'news.featured': 'Featured',
         'news.new': 'New',
         'media.title': 'Media Gallery',
-        'media.description': 'Photos and videos from project activities and public events.',
+        'media.description':
+            'Photos and videos from project activities and public events.',
         'media.empty': 'No media items found.',
         'search.title': 'Search',
-        'search.description': 'Search across public pages, news, activities, and procurement notices.',
+        'search.description':
+            'Search across public pages, news, activities, and procurement notices.',
         'search.placeholder': 'Search the public portal...',
         'search.filterByType': 'Filter by content type',
         'search.resultsFor': 'results for',
@@ -423,21 +490,27 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'search.entity.media': 'Media',
         'documents.title': 'Documents',
         'documents.indexTitle': 'Document Repository',
-        'documents.indexDescription': 'Project documentation, reports, technical studies and policies',
+        'documents.indexDescription':
+            'Project documentation, reports, technical studies and policies',
         'documents.searchPlaceholder': 'Search documents...',
         'documents.empty': 'No documents found.',
         'procurement.title': 'Procurement',
         'procurement.notice': 'Procurement Notice',
-        'procurement.indexDescription': 'Notices, RFQs, RFPs and contract awards',
+        'procurement.indexDescription':
+            'Notices, RFQs, RFPs and contract awards',
         'procurement.searchPlaceholder': 'Search procurement notices...',
         'procurement.back': 'Back to Procurement',
         'procurement.empty': 'No procurement notices found.',
         'procurement.process': 'Process',
         'procurement.processSummaryOpen': 'Submission window is open.',
-        'procurement.processSummaryDeadlinePassed': 'Submission deadline has passed and the notice is pending formal closure.',
-        'procurement.processSummaryUnderEvaluation': 'Submission window is closed and the notice is under evaluation or administrative processing.',
-        'procurement.processSummaryAwarded': 'Procurement outcome has been published.',
-        'procurement.processSummaryArchived': 'This notice is kept for archive and reference purposes.',
+        'procurement.processSummaryDeadlinePassed':
+            'Submission deadline has passed and the notice is pending formal closure.',
+        'procurement.processSummaryUnderEvaluation':
+            'Submission window is closed and the notice is under evaluation or administrative processing.',
+        'procurement.processSummaryAwarded':
+            'Procurement outcome has been published.',
+        'procurement.processSummaryArchived':
+            'This notice is kept for archive and reference purposes.',
         'procurement.processState.submission_open': 'Submission Open',
         'procurement.processState.deadline_passed': 'Deadline Passed',
         'procurement.processState.under_evaluation': 'Under Evaluation',
@@ -450,44 +523,61 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'procurement.documentsAttached': 'documents attached',
         'contact.title': 'Contact',
         'contact.heading': 'Contact Us',
-        'contact.description': 'Get in touch with the Projects Implementation Center',
+        'contact.description':
+            'Get in touch with the Projects Implementation Center',
         'staff.title': 'Staff Directory',
         'staff.heading': 'Leadership and Team Structure',
-        'staff.description': 'Meet the leadership team and reporting structure responsible for project delivery.',
+        'staff.description':
+            'Meet the leadership team and reporting structure responsible for project delivery.',
         'staff.empty': 'The staff directory will be published soon.',
         'subscriptions.title': 'Email Subscriptions',
         'subscriptions.heading': 'Subscribe to Project Updates',
-        'subscriptions.description': 'Receive official updates when new project news, documents, and procurement notices are published.',
+        'subscriptions.description':
+            'Receive official updates when new project news, documents, and procurement notices are published.',
         'subscriptions.emailLabel': 'Email address',
-        'subscriptions.notice': 'You will receive a confirmation email before your subscription becomes active.',
+        'subscriptions.notice':
+            'You will receive a confirmation email before your subscription becomes active.',
         'subscriptions.submit': 'Subscribe',
         'subscriptions.submitting': 'Submitting…',
         'subscriptions.confirmRequest': 'Confirm request',
         'subscriptions.unsubscribeRequest': 'Unsubscribe request',
-        'subscriptions.confirmReviewTitle': 'Review and confirm your email subscription',
-        'subscriptions.unsubscribeReviewTitle': 'Review and confirm unsubscribe request',
-        'subscriptions.confirmReviewBodyPrefix': 'Activate project update emails for',
-        'subscriptions.unsubscribeReviewBodyPrefix': 'Stop sending project update emails to',
+        'subscriptions.confirmReviewTitle':
+            'Review and confirm your email subscription',
+        'subscriptions.unsubscribeReviewTitle':
+            'Review and confirm unsubscribe request',
+        'subscriptions.confirmReviewBodyPrefix':
+            'Activate project update emails for',
+        'subscriptions.unsubscribeReviewBodyPrefix':
+            'Stop sending project update emails to',
         'subscriptions.processing': 'Processing…',
         'subscriptions.confirmAction': 'Confirm subscription',
         'subscriptions.unsubscribeAction': 'Unsubscribe',
         'subscriptions.status.confirmation-sent.title': 'Check your email',
-        'subscriptions.status.confirmation-sent.body': 'We sent a confirmation link to activate your subscription.',
+        'subscriptions.status.confirmation-sent.body':
+            'We sent a confirmation link to activate your subscription.',
         'subscriptions.status.confirmed.title': 'Subscription confirmed',
-        'subscriptions.status.confirmed.body': 'You are now subscribed to project updates.',
+        'subscriptions.status.confirmed.body':
+            'You are now subscribed to project updates.',
         'subscriptions.status.unsubscribed.title': 'You have been unsubscribed',
-        'subscriptions.status.unsubscribed.body': 'You will no longer receive project update emails.',
+        'subscriptions.status.unsubscribed.body':
+            'You will no longer receive project update emails.',
         'subscriptions.status.already-active.title': 'Already subscribed',
-        'subscriptions.status.already-active.body': 'This email address is already active in the mailing list.',
-        'subscriptions.status.invalid-confirmation.title': 'Confirmation link is invalid',
-        'subscriptions.status.invalid-confirmation.body': 'Request a new subscription confirmation if you still want to join the list.',
-        'subscriptions.status.invalid-unsubscribe.title': 'Unsubscribe link is invalid',
-        'subscriptions.status.invalid-unsubscribe.body': 'The management link is no longer valid.',
+        'subscriptions.status.already-active.body':
+            'This email address is already active in the mailing list.',
+        'subscriptions.status.invalid-confirmation.title':
+            'Confirmation link is invalid',
+        'subscriptions.status.invalid-confirmation.body':
+            'Request a new subscription confirmation if you still want to join the list.',
+        'subscriptions.status.invalid-unsubscribe.title':
+            'Unsubscribe link is invalid',
+        'subscriptions.status.invalid-unsubscribe.body':
+            'The management link is no longer valid.',
         'share.share': 'Share',
         'share.copy': 'Copy link',
         'share.copied': 'Copied',
         'share.title': 'Share this page',
-        'share.description': 'Send this page to colleagues or share it on your social channels.',
+        'share.description':
+            'Send this page to colleagues or share it on your social channels.',
         'status.planned': 'Planned',
         'status.in_progress': 'In Progress',
         'status.completed': 'Completed',
@@ -516,8 +606,19 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.accessibility': 'Заявление о доступности',
         'footer.sitemap': 'Карта сайта',
         'nav.home': 'Главная',
-        'nav.about': 'О ЦРП',
-        'nav.project': 'Проект',
+        'nav.about': 'О нас',
+        'nav.projects': 'Проекты',
+        'nav.projectActivities': 'Мероприятия',
+        'nav.projectActivitiesDescription':
+            'Этапы программы, потоки внедрения и обновления по реализации.',
+        'nav.projectDocuments': 'Документы проекта',
+        'nav.projectDocumentsDescription':
+            'Рамочные документы, отчеты и справочные материалы по реализации.',
+        'nav.projectProcurement': 'Закупки',
+        'nav.projectProcurementDescription':
+            'Актуальные объявления, тендерные возможности и обновления по закупкам.',
+        'nav.projectPageDescription':
+            'Страница проекта из системы управления контентом.',
         'nav.activities': 'Мероприятия',
         'nav.news': 'Новости',
         'nav.announcements': 'Объявления',
@@ -581,7 +682,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'common.noItemsFound': 'Элементы не найдены.',
         'common.noContent': 'Для этой страницы пока нет содержимого.',
         'common.notFound': 'Страница не найдена',
-        'common.notFoundDescription': 'Страница не существует или была удалена.',
+        'common.notFoundDescription':
+            'Страница не существует или была удалена.',
         'common.returnHome': 'Вернуться на главную',
         'common.navigation': 'Навигация',
         'common.resources': 'Ресурсы',
@@ -619,10 +721,14 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.dashboard.openGrmCases': 'Открытые обращения GRM',
         'admin.dashboard.openProcurements': 'Открытые закупки',
         'admin.dashboard.operationalReadiness': 'Операционная готовность',
-        'admin.dashboard.operationalReadinessDescription': 'Базовая готовность по владельцам запуска, поддержке, отчетности и резервным копиям.',
-        'admin.dashboard.operationsReady': 'Базовая операционная готовность настроена.',
-        'admin.dashboard.operationsMissing': 'элемент(ов) готовности все еще требуют заполнения ответственных значений.',
-        'admin.dashboard.operationsEvidenceNote': 'Это продуктовая проверка governance, а не инфраструктурное подтверждение.',
+        'admin.dashboard.operationalReadinessDescription':
+            'Базовая готовность по владельцам запуска, поддержке, отчетности и резервным копиям.',
+        'admin.dashboard.operationsReady':
+            'Базовая операционная готовность настроена.',
+        'admin.dashboard.operationsMissing':
+            'элемент(ов) готовности все еще требуют заполнения ответственных значений.',
+        'admin.dashboard.operationsEvidenceNote':
+            'Это продуктовая проверка governance, а не инфраструктурное подтверждение.',
         'admin.dashboard.notConfigured': 'Не настроено',
         'admin.dashboard.ready': 'Готово',
         'admin.dashboard.missing': 'Не заполнено',
@@ -657,7 +763,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.content.addProcurement': 'Добавить закупку',
         'admin.content.uploadMedia': 'Загрузить медиа',
         'admin.content.exportCsv': 'Экспорт CSV',
-        'admin.content.reviewSubscriptions': 'Просматривайте подтвержденных, ожидающих и отписавшихся получателей.',
+        'admin.content.reviewSubscriptions':
+            'Просматривайте подтвержденных, ожидающих и отписавшихся получателей.',
         'admin.content.noMedia': 'Медиаматериалов пока нет.',
         'admin.content.pageSummary': 'Страница',
         'admin.content.of': 'из',
@@ -673,7 +780,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.content.allActions': 'Все действия',
         'admin.content.allEntityTypes': 'Все типы сущностей',
         'admin.content.allUsers': 'Все пользователи',
-        'admin.content.searchAuditLogs': 'Поиск по действию, сущности, IP, пользователю...',
+        'admin.content.searchAuditLogs':
+            'Поиск по действию, сущности, IP, пользователю...',
         'admin.content.saveSettings': 'Сохранить настройки',
         'admin.content.saving': 'Сохранение…',
         'admin.content.noSettings': 'Настройки не настроены.',
@@ -702,14 +810,17 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.confirmPassword': 'Подтвердите пароль',
         'admin.form.newPassword': 'Новый пароль',
         'admin.form.confirmNewPassword': 'Подтвердите новый пароль',
-        'admin.form.leaveBlankPassword': 'оставьте пустым, чтобы сохранить текущий',
+        'admin.form.leaveBlankPassword':
+            'оставьте пустым, чтобы сохранить текущий',
         'admin.form.reportsTo': 'Подчиняется',
         'admin.form.topLevel': 'Верхний уровень',
         'admin.form.sortOrder': 'Порядок сортировки',
         'admin.form.leadership': 'Руководство',
-        'admin.form.leadershipHint': 'Показывать этот профиль в блоке руководства.',
+        'admin.form.leadershipHint':
+            'Показывать этот профиль в блоке руководства.',
         'admin.form.published': 'Опубликовано',
-        'admin.form.publishedHint': 'Неопубликованные сотрудники остаются только в админке.',
+        'admin.form.publishedHint':
+            'Неопубликованные сотрудники остаются только в админке.',
         'admin.form.fullName': 'Полное имя',
         'admin.form.jobTitle': 'Должность',
         'admin.form.department': 'Отдел',
@@ -717,9 +828,12 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.replaceFileOptional': 'Заменить файл (необязательно)',
         'admin.form.currentFile': 'Текущий файл',
         'admin.form.currentPhotoUploaded': 'Текущее фото уже загружено.',
-        'admin.form.staffCreateHint': 'Создайте публичный профиль и поместите его в иерархию подчинения.',
-        'admin.form.staffEditHint': 'Обновите иерархию, переводы и состояние публикации.',
-        'admin.form.staffDirectoryHint': 'Поддерживайте публичную структуру руководства и подчинения.',
+        'admin.form.staffCreateHint':
+            'Создайте публичный профиль и поместите его в иерархию подчинения.',
+        'admin.form.staffEditHint':
+            'Обновите иерархию, переводы и состояние публикации.',
+        'admin.form.staffDirectoryHint':
+            'Поддерживайте публичную структуру руководства и подчинения.',
         'admin.form.addStaffMember': 'Добавить сотрудника',
         'admin.form.deleteStaffRecord': 'Удалить эту запись о сотруднике?',
         'admin.form.currentlyUploading': 'Загрузка…',
@@ -728,23 +842,27 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.preview': 'Открыть превью',
         'admin.form.preparingPreview': 'Подготовка превью…',
         'admin.form.previewUnavailable': 'Превью недоступно',
-        'admin.form.previewError': 'Не удалось сгенерировать превью. Проверьте форму и попробуйте снова.',
+        'admin.form.previewError':
+            'Не удалось сгенерировать превью. Проверьте форму и попробуйте снова.',
         'admin.form.loadingEditor': 'Загрузка редактора...',
         'admin.form.write': 'Редактировать',
         'admin.form.previewTab': 'Превью',
         'admin.form.nothingToPreview': 'Пока нечего показывать в превью.',
         'admin.form.insertLink': 'Вставить ссылку',
-        'admin.form.linkDescription': 'Добавьте или обновите URL для выбранного текста.',
+        'admin.form.linkDescription':
+            'Добавьте или обновите URL для выбранного текста.',
         'admin.form.url': 'URL',
         'admin.form.saveLink': 'Сохранить ссылку',
         'admin.form.insertImage': 'Вставить изображение',
-        'admin.form.imageDescription': 'Загрузите изображение в медиатеку или укажите публичный URL.',
+        'admin.form.imageDescription':
+            'Загрузите изображение в медиатеку или укажите публичный URL.',
         'admin.form.uploadImage': 'Загрузить изображение',
         'admin.form.imageUrl': 'URL изображения',
         'admin.form.altText': 'Alt текст',
         'admin.form.describeImage': 'Опишите изображение',
         'admin.form.imageUploadFailed': 'Не удалось загрузить изображение.',
-        'admin.form.imageSourceRequired': 'Укажите URL изображения или загрузите файл.',
+        'admin.form.imageSourceRequired':
+            'Укажите URL изображения или загрузите файл.',
         'admin.form.messages': 'Сообщения',
         'admin.form.noMessages': 'Сообщений пока нет.',
         'admin.form.attachments': 'Вложения',
@@ -755,20 +873,28 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.noHistory': 'Истории пока нет.',
         'admin.form.submittedOn': 'Отправлено',
         'admin.form.by': 'кем',
-        'admin.form.contactMasked': 'Контактные данные скрыты для режима просмотра GRM без чувствительных данных.',
-        'admin.form.messagingRestricted': 'Переписка доступна только сотрудникам GRM с операционными правами.',
-        'admin.form.attachmentsRestricted': 'Скачивание вложений доступно только сотрудникам GRM с операционными правами.',
-        'admin.form.statusRestricted': 'Изменение статуса доступно только сотрудникам GRM с операционными правами.',
+        'admin.form.contactMasked':
+            'Контактные данные скрыты для режима просмотра GRM без чувствительных данных.',
+        'admin.form.messagingRestricted':
+            'Переписка доступна только сотрудникам GRM с операционными правами.',
+        'admin.form.attachmentsRestricted':
+            'Скачивание вложений доступно только сотрудникам GRM с операционными правами.',
+        'admin.form.statusRestricted':
+            'Изменение статуса доступно только сотрудникам GRM с операционными правами.',
         'grm.submit': 'Подать жалобу',
         'grm.track': 'Проверить обращение',
         'grm.title': 'Механизм рассмотрения жалоб',
-        'grm.description': 'Есть вопросы по реализации проекта? Подайте жалобу или отследите существующее обращение через нашу прозрачную систему GRM.',
-        'grm.indexLead': 'GRM обеспечивает прозрачный, доступный и подотчётный процесс для людей, затронутых проектом, чтобы они могли поднимать вопросы и жалобы.',
+        'grm.description':
+            'Есть вопросы по реализации проекта? Подайте жалобу или отследите существующее обращение через нашу прозрачную систему GRM.',
+        'grm.indexLead':
+            'GRM обеспечивает прозрачный, доступный и подотчётный процесс для людей, затронутых проектом, чтобы они могли поднимать вопросы и жалобы.',
         'grm.cardSubmitTitle': 'Подать жалобу',
-        'grm.cardSubmitDescription': 'Есть жалоба? Подайте её онлайн на рассмотрение.',
+        'grm.cardSubmitDescription':
+            'Есть жалоба? Подайте её онлайн на рассмотрение.',
         'grm.cardSubmitAction': 'Подать сейчас',
         'grm.cardTrackTitle': 'Проверить обращение',
-        'grm.cardTrackDescription': 'Проверьте статус вашего существующего обращения.',
+        'grm.cardTrackDescription':
+            'Проверьте статус вашего существующего обращения.',
         'grm.cardTrackAction': 'Проверить статус',
         'grm.cardPolicyTitle': 'Политика GRM',
         'grm.cardPolicyDescription': 'Узнайте о процессе рассмотрения жалоб.',
@@ -776,47 +902,61 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'grm.categoriesTitle': 'Категории жалоб',
         'grm.category.procurement': 'Вопросы закупок',
         'grm.category.project_implementation': 'Вопросы реализации проекта',
-        'grm.category.environment_social': 'Экологические и социальные воздействия',
+        'grm.category.environment_social':
+            'Экологические и социальные воздействия',
         'grm.category.corruption': 'Сообщения о коррупции',
         'grm.category.other': 'Другие вопросы, связанные с проектом',
         'grm.submitTitle': 'Подать жалобу',
-        'grm.submitLead': 'Пожалуйста, заполните форму ниже. Все обращения рассматриваются конфиденциально.',
+        'grm.submitLead':
+            'Пожалуйста, заполните форму ниже. Все обращения рассматриваются конфиденциально.',
         'grm.fullName': 'Полное имя',
         'grm.phoneOptional': 'Телефон (необязательно)',
         'grm.categoryLabel': 'Категория',
         'grm.descriptionLabel': 'Описание',
-        'grm.descriptionPlaceholder': 'Пожалуйста, подробно опишите вашу жалобу (минимум 20 символов)...',
-        'grm.descriptionHelp': 'Укажите достаточно деталей для рассмотрения. Минимум 20 символов.',
-        'grm.attachmentsOptional': 'Вложения (необязательно, максимум 5 файлов)',
+        'grm.descriptionPlaceholder':
+            'Пожалуйста, подробно опишите вашу жалобу (минимум 20 символов)...',
+        'grm.descriptionHelp':
+            'Укажите достаточно деталей для рассмотрения. Минимум 20 символов.',
+        'grm.attachmentsOptional':
+            'Вложения (необязательно, максимум 5 файлов)',
         'grm.attachmentsHelpPrefix': 'Разрешённые форматы:',
         'grm.attachmentsHelpSuffix': 'файлов',
         'grm.privacyNoticeLabel': 'Уведомление о конфиденциальности:',
-        'grm.privacyNoticeText': 'Ваша информация будет обрабатываться конфиденциально и использоваться только для рассмотрения этой жалобы.',
+        'grm.privacyNoticeText':
+            'Ваша информация будет обрабатываться конфиденциально и использоваться только для рассмотрения этой жалобы.',
         'grm.submitting': 'Отправка…',
         'grm.submittedPageTitle': 'Жалоба отправлена',
-        'grm.submittedLead': 'Ваша жалоба получена. Сохраните данные для отслеживания, чтобы безопасно следить за делом.',
-        'grm.submittedEmailNotice': 'Ваша жалоба получена. Письмо с подтверждением уже отправлено.',
+        'grm.submittedLead':
+            'Ваша жалоба получена. Сохраните данные для отслеживания, чтобы безопасно следить за делом.',
+        'grm.submittedEmailNotice':
+            'Ваша жалоба получена. Письмо с подтверждением уже отправлено.',
         'grm.trackingDetails': 'Данные для отслеживания',
         'grm.ticketNumberLabel': 'Ваш номер обращения:',
         'grm.trackingTokenLabel': 'Ваш токен отслеживания:',
-        'grm.trackingSaveNotice': 'Сохраните оба значения, чтобы безопасно отслеживать статус жалобы.',
+        'grm.trackingSaveNotice':
+            'Сохраните оба значения, чтобы безопасно отслеживать статус жалобы.',
         'grm.trackStatusAction': 'Отследить статус',
         'grm.trackTitle': 'Проверить вашу жалобу',
-        'grm.trackLead': 'Введите номер обращения и токен отслеживания, чтобы проверить текущий статус вашей жалобы.',
+        'grm.trackLead':
+            'Введите номер обращения и токен отслеживания, чтобы проверить текущий статус вашей жалобы.',
         'grm.ticketNumber': 'Номер обращения',
         'grm.ticketFormatHelp': 'Формат: GRM-ГГГГ-12345',
         'grm.trackingToken': 'Токен отслеживания',
         'grm.trackingTokenPlaceholder': 'Токен из 32 символов',
         'grm.trackingTokenHelpPrefix': 'Используйте',
-        'grm.trackingTokenHelpSuffix': 'символьный токен отслеживания, указанный в подтверждении отправки.',
+        'grm.trackingTokenHelpSuffix':
+            'символьный токен отслеживания, указанный в подтверждении отправки.',
         'grm.searching': 'Поиск…',
-        'grm.notFound': 'Жалоба с указанным номером и токеном отслеживания не найдена. Проверьте оба значения и попробуйте снова.',
-        'grm.trackingExpired': 'Срок публичного отслеживания этой закрытой жалобы истёк. Свяжитесь с командой GRM, если вам нужна дополнительная информация.',
+        'grm.notFound':
+            'Жалоба с указанным номером и токеном отслеживания не найдена. Проверьте оба значения и попробуйте снова.',
+        'grm.trackingExpired':
+            'Срок публичного отслеживания этой закрытой жалобы истёк. Свяжитесь с командой GRM, если вам нужна дополнительная информация.',
         'grm.submittedOn': 'Отправлено:',
         'grm.progress': 'Прогресс:',
         'grm.updates': 'обновлений',
         'grm.statusHistory': 'История статусов',
-        'footer.description': 'Центр реализации проектов координирует Проект цифровых основ Таджикистана, укрепляя цифровую инфраструктуру, электронные госуслуги и цифровые навыки по всей стране.',
+        'footer.description':
+            'Центр реализации проектов координирует Проект цифровых основ Таджикистана, укрепляя цифровую инфраструктуру, электронные госуслуги и цифровые навыки по всей стране.',
         'footer.documentRepository': 'Репозиторий документов',
         'footer.procurementNotices': 'Объявления о закупках',
         'footer.mediaGallery': 'Медиагалерея',
@@ -824,8 +964,10 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.rights': 'Все права защищены.',
         'footer.fundedBy': 'Финансируется',
         'footer.kicker': 'Государственный портал услуг',
-        'footer.heading': 'Публичная информация, услуги и подача жалоб в одном месте.',
-        'footer.subheading': 'Портал предоставляет официальные обновления по проекту, объявления о закупках, доступ к документам и публичные сервисы для бенефициаров, граждан и поставщиков.',
+        'footer.heading':
+            'Публичная информация, услуги и подача жалоб в одном месте.',
+        'footer.subheading':
+            'Портал предоставляет официальные обновления по проекту, объявления о закупках, доступ к документам и публичные сервисы для бенефициаров, граждан и поставщиков.',
         'footer.sections': 'Разделы',
         'footer.services': 'Услуги',
         'footer.contact': 'Контакты',
@@ -833,7 +975,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.emailSubscriptions': 'Подписка по email',
         'common.menu': 'Меню',
         'common.siteNavigation': 'Навигация по сайту',
-        'common.navigationDescription': 'Просматривайте разделы сайта, переключайте язык или открывайте поиск и сервисы жалоб.',
+        'common.navigationDescription':
+            'Просматривайте разделы сайта, переключайте язык или открывайте поиск и сервисы жалоб.',
         'common.skipToContent': 'Перейти к основному содержанию',
         'common.address': 'Адрес',
         'common.leadership': 'Руководство',
@@ -844,9 +987,12 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'common.filterByFileType': 'Фильтр по типу файла',
         'home.badge': 'Проект, финансируемый Всемирным банком',
         'home.title': 'Проект цифровых основ Таджикистана',
-        'home.description': 'Укрепление цифровой инфраструктуры Таджикистана через электронные госуслуги, цифровую идентификацию, кибербезопасность и развитие цифровых навыков.',
-        'home.heroTitle': 'Официальный портал проекта для публичной информации, закупок и подачи жалоб.',
-        'home.heroDescription': 'Единый институциональный портал с проверенными обновлениями, ключевыми проектными мероприятиями, официальными документами и публичными сервисами.',
+        'home.description':
+            'Укрепление цифровой инфраструктуры Таджикистана через электронные госуслуги, цифровую идентификацию, кибербезопасность и развитие цифровых навыков.',
+        'home.heroTitle':
+            'Официальный портал проекта для публичной информации, закупок и подачи жалоб.',
+        'home.heroDescription':
+            'Единый институциональный портал с проверенными обновлениями, ключевыми проектными мероприятиями, официальными документами и публичными сервисами.',
         'home.learnMore': 'Подробнее',
         'home.contactAction': 'Связаться с нами',
         'home.projectComponents': 'Компоненты проекта',
@@ -860,15 +1006,21 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.documentsCaption': 'Опубликованные документы',
         'home.contactLabel': 'Официальный контакт',
         'home.metrics.contentUnits': 'Операционные блоки контента и обновления',
-        'home.metrics.interactions': 'Взаимодействия со стейкхолдерами и опубликованные записи',
-        'home.metrics.materials': 'Проектные документы и уведомления в обращении',
-        'home.metrics.workstreams': 'Приоритетные направления работ и этапы закупок',
+        'home.metrics.interactions':
+            'Взаимодействия со стейкхолдерами и опубликованные записи',
+        'home.metrics.materials':
+            'Проектные документы и уведомления в обращении',
+        'home.metrics.workstreams':
+            'Приоритетные направления работ и этапы закупок',
         'home.mission': 'Наша миссия',
-        'home.missionTitle': 'Надёжный цифровой публичный портал с понятным доступом к проектной информации.',
-        'home.missionFallback': 'Портал поддерживает общественную прозрачность, институциональную коммуникацию и доступные сервисы для бенефициаров проекта, партнёров и граждан.',
+        'home.missionTitle':
+            'Надёжный цифровой публичный портал с понятным доступом к проектной информации.',
+        'home.missionFallback':
+            'Портал поддерживает общественную прозрачность, институциональную коммуникацию и доступные сервисы для бенефициаров проекта, партнёров и граждан.',
         'home.publicContentAreas': 'Публичные разделы контента',
         'home.visibleOperationalRecords': 'Видимые операционные записи',
-        'home.publishedReferenceMaterials': 'Опубликованные справочные материалы',
+        'home.publishedReferenceMaterials':
+            'Опубликованные справочные материалы',
         'home.currentImplementationPriorities': 'Текущие приоритеты реализации',
         'home.projectActivities': 'Мероприятия проекта',
         'home.activitiesSectionTitle': 'Ключевые направления реализации',
@@ -877,11 +1029,14 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.servicesTitle': 'Быстрый доступ к публичным сервисам',
         'home.servicesOpenSection': 'Открыть раздел',
         'home.services.activitiesTitle': 'Мероприятия проекта',
-        'home.services.activitiesDescription': 'Отслеживайте ход реализации и опубликованные обновления по проекту.',
+        'home.services.activitiesDescription':
+            'Отслеживайте ход реализации и опубликованные обновления по проекту.',
         'home.services.procurementTitle': 'Закупочные объявления',
-        'home.services.procurementDescription': 'Просматривайте открытые объявления, референсы и сроки для поставщиков.',
+        'home.services.procurementDescription':
+            'Просматривайте открытые объявления, референсы и сроки для поставщиков.',
         'home.services.documentsTitle': 'Публичные документы',
-        'home.services.documentsDescription': 'Получайте доступ к официальным документам проекта и опубликованным материалам.',
+        'home.services.documentsDescription':
+            'Получайте доступ к официальным документам проекта и опубликованным материалам.',
         'home.openProcurement': 'Открытые закупки',
         'home.noOpenProcurement': 'Открытых закупок нет.',
         'home.procurement': 'Закупки',
@@ -889,23 +1044,28 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.grmService': 'Сервис GRM',
         'page.title': 'Страница',
         'activities.title': 'Мероприятия проекта',
-        'activities.description': 'Ключевые инициативы и компоненты Проекта цифровых основ Таджикистана',
+        'activities.description':
+            'Ключевые инициативы и компоненты Проекта цифровых основ Таджикистана',
         'activities.back': 'Назад к мероприятиям',
         'activities.empty': 'Мероприятия не найдены.',
         'news.title': 'Новости',
         'news.indexTitle': 'Новости и события',
-        'news.indexDescription': 'Последние обновления по Проекту цифровых основ Таджикистана',
+        'news.indexDescription':
+            'Последние обновления по Проекту цифровых основ Таджикистана',
         'news.searchPlaceholder': 'Поиск новостей...',
         'news.empty': 'Новости не найдены.',
         'news.whatsNew': 'Что нового',
-        'news.whatsNewDescription': 'Актуальные обновления по проекту и официальные объявления.',
+        'news.whatsNewDescription':
+            'Актуальные обновления по проекту и официальные объявления.',
         'news.featured': 'Важное',
         'news.new': 'Новое',
         'media.title': 'Медиагалерея',
-        'media.description': 'Фотографии и видеоматериалы с проектных мероприятий и публичных событий.',
+        'media.description':
+            'Фотографии и видеоматериалы с проектных мероприятий и публичных событий.',
         'media.empty': 'Медиаматериалы не найдены.',
         'search.title': 'Поиск',
-        'search.description': 'Поиск по публичным страницам, новостям, мероприятиям и закупкам.',
+        'search.description':
+            'Поиск по публичным страницам, новостям, мероприятиям и закупкам.',
         'search.placeholder': 'Поиск по публичному порталу...',
         'search.filterByType': 'Фильтр по типу контента',
         'search.resultsFor': 'результатов по запросу',
@@ -921,21 +1081,26 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'search.entity.media': 'Медиа',
         'documents.title': 'Документы',
         'documents.indexTitle': 'Репозиторий документов',
-        'documents.indexDescription': 'Проектная документация, отчеты, технические исследования и политики',
+        'documents.indexDescription':
+            'Проектная документация, отчеты, технические исследования и политики',
         'documents.searchPlaceholder': 'Поиск документов...',
         'documents.empty': 'Документы не найдены.',
         'procurement.title': 'Закупки',
         'procurement.notice': 'Закупочное объявление',
-        'procurement.indexDescription': 'Объявления, RFQ, RFP и итоги контрактов',
+        'procurement.indexDescription':
+            'Объявления, RFQ, RFP и итоги контрактов',
         'procurement.searchPlaceholder': 'Поиск объявлений о закупках...',
         'procurement.back': 'Назад к закупкам',
         'procurement.empty': 'Объявления о закупках не найдены.',
         'procurement.process': 'Этап',
         'procurement.processSummaryOpen': 'Окно подачи заявок открыто.',
-        'procurement.processSummaryDeadlinePassed': 'Срок подачи заявок истёк, объявление ожидает формального закрытия.',
-        'procurement.processSummaryUnderEvaluation': 'Подача заявок завершена, объявление находится на этапе оценки или административной обработки.',
+        'procurement.processSummaryDeadlinePassed':
+            'Срок подачи заявок истёк, объявление ожидает формального закрытия.',
+        'procurement.processSummaryUnderEvaluation':
+            'Подача заявок завершена, объявление находится на этапе оценки или административной обработки.',
         'procurement.processSummaryAwarded': 'Итог закупки опубликован.',
-        'procurement.processSummaryArchived': 'Объявление хранится в архиве для справки.',
+        'procurement.processSummaryArchived':
+            'Объявление хранится в архиве для справки.',
         'procurement.processState.submission_open': 'Приём заявок открыт',
         'procurement.processState.deadline_passed': 'Срок истёк',
         'procurement.processState.under_evaluation': 'На оценке',
@@ -951,41 +1116,58 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'contact.description': 'Свяжитесь с Центром реализации проектов',
         'staff.title': 'Справочник сотрудников',
         'staff.heading': 'Руководство и структура команды',
-        'staff.description': 'Познакомьтесь с руководством и структурой подчиненности команды, отвечающей за реализацию проекта.',
-        'staff.empty': 'Справочник сотрудников будет опубликован в ближайшее время.',
+        'staff.description':
+            'Познакомьтесь с руководством и структурой подчиненности команды, отвечающей за реализацию проекта.',
+        'staff.empty':
+            'Справочник сотрудников будет опубликован в ближайшее время.',
         'subscriptions.title': 'Email-подписки',
         'subscriptions.heading': 'Подписка на обновления проекта',
-        'subscriptions.description': 'Получайте официальные обновления, когда публикуются новости проекта, документы и закупочные объявления.',
+        'subscriptions.description':
+            'Получайте официальные обновления, когда публикуются новости проекта, документы и закупочные объявления.',
         'subscriptions.emailLabel': 'Email адрес',
-        'subscriptions.notice': 'Перед активацией подписки вам будет отправлено письмо с подтверждением.',
+        'subscriptions.notice':
+            'Перед активацией подписки вам будет отправлено письмо с подтверждением.',
         'subscriptions.submit': 'Подписаться',
         'subscriptions.submitting': 'Отправка…',
         'subscriptions.confirmRequest': 'Подтверждение запроса',
         'subscriptions.unsubscribeRequest': 'Запрос на отписку',
-        'subscriptions.confirmReviewTitle': 'Проверьте и подтвердите подписку по email',
-        'subscriptions.unsubscribeReviewTitle': 'Проверьте и подтвердите запрос на отписку',
-        'subscriptions.confirmReviewBodyPrefix': 'Активируйте письма с обновлениями проекта для',
-        'subscriptions.unsubscribeReviewBodyPrefix': 'Прекратите отправку писем с обновлениями проекта на',
+        'subscriptions.confirmReviewTitle':
+            'Проверьте и подтвердите подписку по email',
+        'subscriptions.unsubscribeReviewTitle':
+            'Проверьте и подтвердите запрос на отписку',
+        'subscriptions.confirmReviewBodyPrefix':
+            'Активируйте письма с обновлениями проекта для',
+        'subscriptions.unsubscribeReviewBodyPrefix':
+            'Прекратите отправку писем с обновлениями проекта на',
         'subscriptions.processing': 'Обработка…',
         'subscriptions.confirmAction': 'Подтвердить подписку',
         'subscriptions.unsubscribeAction': 'Отписаться',
         'subscriptions.status.confirmation-sent.title': 'Проверьте email',
-        'subscriptions.status.confirmation-sent.body': 'Мы отправили ссылку подтверждения для активации вашей подписки.',
+        'subscriptions.status.confirmation-sent.body':
+            'Мы отправили ссылку подтверждения для активации вашей подписки.',
         'subscriptions.status.confirmed.title': 'Подписка подтверждена',
-        'subscriptions.status.confirmed.body': 'Теперь вы подписаны на обновления проекта.',
+        'subscriptions.status.confirmed.body':
+            'Теперь вы подписаны на обновления проекта.',
         'subscriptions.status.unsubscribed.title': 'Вы отписаны',
-        'subscriptions.status.unsubscribed.body': 'Вы больше не будете получать письма с обновлениями проекта.',
+        'subscriptions.status.unsubscribed.body':
+            'Вы больше не будете получать письма с обновлениями проекта.',
         'subscriptions.status.already-active.title': 'Уже подписаны',
-        'subscriptions.status.already-active.body': 'Этот адрес email уже активен в списке рассылки.',
-        'subscriptions.status.invalid-confirmation.title': 'Ссылка подтверждения недействительна',
-        'subscriptions.status.invalid-confirmation.body': 'Запросите новое письмо подтверждения, если всё ещё хотите подписаться.',
-        'subscriptions.status.invalid-unsubscribe.title': 'Ссылка для отписки недействительна',
-        'subscriptions.status.invalid-unsubscribe.body': 'Ссылка управления больше не действует.',
+        'subscriptions.status.already-active.body':
+            'Этот адрес email уже активен в списке рассылки.',
+        'subscriptions.status.invalid-confirmation.title':
+            'Ссылка подтверждения недействительна',
+        'subscriptions.status.invalid-confirmation.body':
+            'Запросите новое письмо подтверждения, если всё ещё хотите подписаться.',
+        'subscriptions.status.invalid-unsubscribe.title':
+            'Ссылка для отписки недействительна',
+        'subscriptions.status.invalid-unsubscribe.body':
+            'Ссылка управления больше не действует.',
         'share.share': 'Поделиться',
         'share.copy': 'Скопировать ссылку',
         'share.copied': 'Скопировано',
         'share.title': 'Поделиться страницей',
-        'share.description': 'Отправьте эту страницу коллегам или поделитесь ею в социальных сетях.',
+        'share.description':
+            'Отправьте эту страницу коллегам или поделитесь ею в социальных сетях.',
         'status.planned': 'Запланировано',
         'status.in_progress': 'В процессе',
         'status.completed': 'Завершено',
@@ -1014,8 +1196,19 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.accessibility': 'Баёния дар бораи дастрасӣ',
         'footer.sitemap': 'Харитаи сайт',
         'nav.home': 'Асосӣ',
-        'nav.about': 'Дар бораи МТЛ',
-        'nav.project': 'Лоиҳа',
+        'nav.about': 'Дар бораи мо',
+        'nav.projects': 'Лоиҳаҳо',
+        'nav.projectActivities': 'Фаъолиятҳо',
+        'nav.projectActivitiesDescription':
+            'Марҳилаҳои барнома, ҷараёнҳои татбиқ ва навсозиҳои иҷро.',
+        'nav.projectDocuments': 'Ҳуҷҷатҳои лоиҳа',
+        'nav.projectDocumentsDescription':
+            'Ҳуҷҷатҳои асосӣ, ҳисоботҳо ва маводи маълумотӣ барои татбиқ.',
+        'nav.projectProcurement': 'Харид',
+        'nav.projectProcurementDescription':
+            'Эълонҳои ҷорӣ, имкониятҳои тендерӣ ва навсозиҳои харид.',
+        'nav.projectPageDescription':
+            'Саҳифаи лоиҳа аз низоми идоракунии муҳтаво.',
         'nav.activities': 'Фаъолиятҳо',
         'nav.news': 'Хабарҳо',
         'nav.announcements': 'Эълонҳо',
@@ -1079,7 +1272,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'common.noItemsFound': 'Ягон сабт ёфт нашуд.',
         'common.noContent': 'Барои ин саҳифа ҳоло мундариҷа мавҷуд нест.',
         'common.notFound': 'Саҳифа ёфт нашуд',
-        'common.notFoundDescription': 'Саҳифаи дархостшуда вуҷуд надорад ё ҳазф шудааст.',
+        'common.notFoundDescription':
+            'Саҳифаи дархостшуда вуҷуд надорад ё ҳазф шудааст.',
         'common.returnHome': 'Бозгашт ба саҳифаи асосӣ',
         'common.navigation': 'Навигатсия',
         'common.resources': 'Захираҳо',
@@ -1117,10 +1311,13 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.dashboard.openGrmCases': 'Муроҷиатҳои кушодаи GRM',
         'admin.dashboard.openProcurements': 'Харидҳои кушода',
         'admin.dashboard.operationalReadiness': 'Омодагии амалиётӣ',
-        'admin.dashboard.operationalReadinessDescription': 'Заминаи ибтидоии масъулияти оғоз, дастгирӣ, ҳисоботдиҳӣ ва нусхаҳои эҳтиётӣ.',
+        'admin.dashboard.operationalReadinessDescription':
+            'Заминаи ибтидоии масъулияти оғоз, дастгирӣ, ҳисоботдиҳӣ ва нусхаҳои эҳтиётӣ.',
         'admin.dashboard.operationsReady': 'Заминаи амалиётӣ танзим шудааст.',
-        'admin.dashboard.operationsMissing': 'банди(ҳо)-и омодагӣ ҳанӯз ба арзишҳои масъул ниёз доранд.',
-        'admin.dashboard.operationsEvidenceNote': 'Ин санҷиши governance-и маҳсулот аст, на далели инфрасохторӣ.',
+        'admin.dashboard.operationsMissing':
+            'банди(ҳо)-и омодагӣ ҳанӯз ба арзишҳои масъул ниёз доранд.',
+        'admin.dashboard.operationsEvidenceNote':
+            'Ин санҷиши governance-и маҳсулот аст, на далели инфрасохторӣ.',
         'admin.dashboard.notConfigured': 'Танзим нашудааст',
         'admin.dashboard.ready': 'Омода',
         'admin.dashboard.missing': 'Норасо',
@@ -1155,7 +1352,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.content.addProcurement': 'Иловаи харид',
         'admin.content.uploadMedia': 'Боркунии медиа',
         'admin.content.exportCsv': 'Содироти CSV',
-        'admin.content.reviewSubscriptions': 'Қабулкунандагони тасдиқшуда, интизорӣ ва бекоршударо бинед.',
+        'admin.content.reviewSubscriptions':
+            'Қабулкунандагони тасдиқшуда, интизорӣ ва бекоршударо бинед.',
         'admin.content.noMedia': 'Ҳанӯз медиа нест.',
         'admin.content.pageSummary': 'Саҳифа',
         'admin.content.of': 'аз',
@@ -1171,7 +1369,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.content.allActions': 'Ҳама амалҳо',
         'admin.content.allEntityTypes': 'Ҳама навъҳои объект',
         'admin.content.allUsers': 'Ҳама корбарон',
-        'admin.content.searchAuditLogs': 'Ҷустуҷӯ аз рӯи амал, объект, IP, корбар...',
+        'admin.content.searchAuditLogs':
+            'Ҷустуҷӯ аз рӯи амал, объект, IP, корбар...',
         'admin.content.saveSettings': 'Захира кардани танзимот',
         'admin.content.saving': 'Захира шуда истодааст…',
         'admin.content.noSettings': 'Ҳанӯз танзимот мавҷуд нест.',
@@ -1200,14 +1399,17 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.confirmPassword': 'Тасдиқи парол',
         'admin.form.newPassword': 'Пароли нав',
         'admin.form.confirmNewPassword': 'Тасдиқи пароли нав',
-        'admin.form.leaveBlankPassword': 'холӣ монед, то пароли ҷорӣ нигоҳ дошта шавад',
+        'admin.form.leaveBlankPassword':
+            'холӣ монед, то пароли ҷорӣ нигоҳ дошта шавад',
         'admin.form.reportsTo': 'Ҳисобот медиҳад ба',
         'admin.form.topLevel': 'Сатҳи болоӣ',
         'admin.form.sortOrder': 'Тартиби ҷобаҷогузорӣ',
         'admin.form.leadership': 'Роҳбарият',
-        'admin.form.leadershipHint': 'Ин профилро дар бахши роҳбарият намоиш диҳед.',
+        'admin.form.leadershipHint':
+            'Ин профилро дар бахши роҳбарият намоиш диҳед.',
         'admin.form.published': 'Нашршуда',
-        'admin.form.publishedHint': 'Кормандони нашрнашуда танҳо дар админка мемонанд.',
+        'admin.form.publishedHint':
+            'Кормандони нашрнашуда танҳо дар админка мемонанд.',
         'admin.form.fullName': 'Номи пурра',
         'admin.form.jobTitle': 'Вазифа',
         'admin.form.department': 'Шуъба',
@@ -1215,9 +1417,12 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.replaceFileOptional': 'Иваз кардани файл (ихтиёрӣ)',
         'admin.form.currentFile': 'Файли ҷорӣ',
         'admin.form.currentPhotoUploaded': 'Акси ҷорӣ аллакай бор шудааст.',
-        'admin.form.staffCreateHint': 'Профили оммавиро эҷод карда, онро дар иерархияи ҳисоботдиҳӣ ҷойгир кунед.',
-        'admin.form.staffEditHint': 'Иерархия, тарҷумаҳо ва ҳолати нашрро навсозӣ кунед.',
-        'admin.form.staffDirectoryHint': 'Сохтори оммавии роҳбарият ва ҳисоботдиҳиро нигоҳ доред.',
+        'admin.form.staffCreateHint':
+            'Профили оммавиро эҷод карда, онро дар иерархияи ҳисоботдиҳӣ ҷойгир кунед.',
+        'admin.form.staffEditHint':
+            'Иерархия, тарҷумаҳо ва ҳолати нашрро навсозӣ кунед.',
+        'admin.form.staffDirectoryHint':
+            'Сохтори оммавии роҳбарият ва ҳисоботдиҳиро нигоҳ доред.',
         'admin.form.addStaffMember': 'Иловаи корманд',
         'admin.form.deleteStaffRecord': 'Ин сабти кормандро нест мекунед?',
         'admin.form.currentlyUploading': 'Бор шуда истодааст…',
@@ -1226,23 +1431,27 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.preview': 'Кушодани пешнамоиш',
         'admin.form.preparingPreview': 'Омода кардани пешнамоиш…',
         'admin.form.previewUnavailable': 'Пешнамоиш дастнорас аст',
-        'admin.form.previewError': 'Пешнамоиш сохта нашуд. Формаро санҷида, боз кӯшиш кунед.',
+        'admin.form.previewError':
+            'Пешнамоиш сохта нашуд. Формаро санҷида, боз кӯшиш кунед.',
         'admin.form.loadingEditor': 'Боркунии муҳаррир...',
         'admin.form.write': 'Навиштан',
         'admin.form.previewTab': 'Пешнамоиш',
         'admin.form.nothingToPreview': 'Ҳоло барои пешнамоиш чизе нест.',
         'admin.form.insertLink': 'Ворид кардани пайванд',
-        'admin.form.linkDescription': 'Барои матни интихобшуда URL илова ё навсозӣ кунед.',
+        'admin.form.linkDescription':
+            'Барои матни интихобшуда URL илова ё навсозӣ кунед.',
         'admin.form.url': 'URL',
         'admin.form.saveLink': 'Захира кардани пайванд',
         'admin.form.insertImage': 'Ворид кардани тасвир',
-        'admin.form.imageDescription': 'Тасвирро ба медиатека бор кунед ё URL-и оммавиро ворид намоед.',
+        'admin.form.imageDescription':
+            'Тасвирро ба медиатека бор кунед ё URL-и оммавиро ворид намоед.',
         'admin.form.uploadImage': 'Боркунии тасвир',
         'admin.form.imageUrl': 'URL тасвир',
         'admin.form.altText': 'Матни alt',
         'admin.form.describeImage': 'Тасвирро тавсиф кунед',
         'admin.form.imageUploadFailed': 'Боркунии тасвир ноком шуд.',
-        'admin.form.imageSourceRequired': 'URL-и тасвирро ворид кунед ё файлро бор намоед.',
+        'admin.form.imageSourceRequired':
+            'URL-и тасвирро ворид кунед ё файлро бор намоед.',
         'admin.form.messages': 'Паёмҳо',
         'admin.form.noMessages': 'Ҳанӯз паём нест.',
         'admin.form.attachments': 'Замимаҳо',
@@ -1253,68 +1462,89 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'admin.form.noHistory': 'Ҳанӯз таърих нест.',
         'admin.form.submittedOn': 'Ирсол шуд',
         'admin.form.by': 'аз ҷониби',
-        'admin.form.contactMasked': 'Маълумоти тамос барои дастрасии танҳо-хондани GRM пинҳон карда шудааст.',
-        'admin.form.messagingRestricted': 'Паёмнависӣ танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
-        'admin.form.attachmentsRestricted': 'Боргирии замимаҳо танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
-        'admin.form.statusRestricted': 'Тағйири ҳолат танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
+        'admin.form.contactMasked':
+            'Маълумоти тамос барои дастрасии танҳо-хондани GRM пинҳон карда шудааст.',
+        'admin.form.messagingRestricted':
+            'Паёмнависӣ танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
+        'admin.form.attachmentsRestricted':
+            'Боргирии замимаҳо танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
+        'admin.form.statusRestricted':
+            'Тағйири ҳолат танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
         'grm.submit': 'Шикоят ирсол кунед',
         'grm.track': 'Парвандаро пайгирӣ кунед',
         'grm.title': 'Механизми баррасии шикоятҳо',
-        'grm.description': 'Оё оид ба татбиқи лоиҳа нигаронӣ доред? Шикоят ирсол кунед ё парвандаи мавҷударо тавассути низоми шаффофи GRM пайгирӣ намоед.',
-        'grm.indexLead': 'GRM барои шахсони ба лоиҳа вобаста раванди шаффоф, дастрас ва ҳисоботдиҳандаро фароҳам меорад, то онҳо тавонанд нигарониҳо ва шикоятҳои худро пешниҳод намоянд.',
+        'grm.description':
+            'Оё оид ба татбиқи лоиҳа нигаронӣ доред? Шикоят ирсол кунед ё парвандаи мавҷударо тавассути низоми шаффофи GRM пайгирӣ намоед.',
+        'grm.indexLead':
+            'GRM барои шахсони ба лоиҳа вобаста раванди шаффоф, дастрас ва ҳисоботдиҳандаро фароҳам меорад, то онҳо тавонанд нигарониҳо ва шикоятҳои худро пешниҳод намоянд.',
         'grm.cardSubmitTitle': 'Шикоят ирсол кунед',
-        'grm.cardSubmitDescription': 'Шикоят доред? Онро онлайн барои баррасӣ ирсол кунед.',
+        'grm.cardSubmitDescription':
+            'Шикоят доред? Онро онлайн барои баррасӣ ирсол кунед.',
         'grm.cardSubmitAction': 'Ҳозир ирсол кунед',
         'grm.cardTrackTitle': 'Парвандаи худро пайгирӣ кунед',
         'grm.cardTrackDescription': 'Ҳолати шикояти мавҷудаи худро санҷед.',
         'grm.cardTrackAction': 'Парвандаро пайгирӣ кунед',
         'grm.cardPolicyTitle': 'Сиёсати GRM',
-        'grm.cardPolicyDescription': 'Дар бораи раванди баррасии шикоятҳо маълумот гиред.',
+        'grm.cardPolicyDescription':
+            'Дар бораи раванди баррасии шикоятҳо маълумот гиред.',
         'grm.cardPolicyAction': 'Хондани сиёсат',
         'grm.categoriesTitle': 'Категорияҳои шикоят',
         'grm.category.procurement': 'Масъалаҳои харид',
-        'grm.category.project_implementation': 'Нигарониҳо оид ба татбиқи лоиҳа',
+        'grm.category.project_implementation':
+            'Нигарониҳо оид ба татбиқи лоиҳа',
         'grm.category.environment_social': 'Таъсирҳои экологӣ ва иҷтимоӣ',
         'grm.category.corruption': 'Иттиҳомоти фасод',
         'grm.category.other': 'Дигар масъалаҳои вобаста ба лоиҳа',
         'grm.submitTitle': 'Шикоят ирсол кунед',
-        'grm.submitLead': 'Лутфан шакли зерро пур кунед. Ҳамаи муроҷиатҳо махфӣ баррасӣ мешаванд.',
+        'grm.submitLead':
+            'Лутфан шакли зерро пур кунед. Ҳамаи муроҷиатҳо махфӣ баррасӣ мешаванд.',
         'grm.fullName': 'Ному насаби пурра',
         'grm.phoneOptional': 'Телефон (ихтиёрӣ)',
         'grm.categoryLabel': 'Категория',
         'grm.descriptionLabel': 'Тавсиф',
-        'grm.descriptionPlaceholder': 'Лутфан шикояти худро муфассал тавсиф кунед (ҳадди ақал 20 аломат)...',
-        'grm.descriptionHelp': 'Барои баррасӣ маълумоти кофӣ пешниҳод кунед. Ҳадди ақал 20 аломат.',
+        'grm.descriptionPlaceholder':
+            'Лутфан шикояти худро муфассал тавсиф кунед (ҳадди ақал 20 аломат)...',
+        'grm.descriptionHelp':
+            'Барои баррасӣ маълумоти кофӣ пешниҳод кунед. Ҳадди ақал 20 аломат.',
         'grm.attachmentsOptional': 'Замимаҳо (ихтиёрӣ, ҳадди аксар 5 файл)',
         'grm.attachmentsHelpPrefix': 'Форматҳои иҷозатдодашуда:',
         'grm.attachmentsHelpSuffix': 'файл',
         'grm.privacyNoticeLabel': 'Огоҳии махфият:',
-        'grm.privacyNoticeText': 'Маълумоти шумо махфӣ коркард шуда, танҳо барои баррасии ин шикоят истифода мешавад.',
+        'grm.privacyNoticeText':
+            'Маълумоти шумо махфӣ коркард шуда, танҳо барои баррасии ин шикоят истифода мешавад.',
         'grm.submitting': 'Ирсол шуда истодааст…',
         'grm.submittedPageTitle': 'Шикоят ирсол шуд',
-        'grm.submittedLead': 'Шикояти шумо қабул шуд. Маълумоти пайгириро нигоҳ доред, то парвандаро бехатар пайгирӣ кунед.',
-        'grm.submittedEmailNotice': 'Шикояти шумо қабул шуд. Паёми тасдиқ ба email фиристода шуд.',
+        'grm.submittedLead':
+            'Шикояти шумо қабул шуд. Маълумоти пайгириро нигоҳ доред, то парвандаро бехатар пайгирӣ кунед.',
+        'grm.submittedEmailNotice':
+            'Шикояти шумо қабул шуд. Паёми тасдиқ ба email фиристода шуд.',
         'grm.trackingDetails': 'Маълумоти пайгирӣ',
         'grm.ticketNumberLabel': 'Рақами муроҷиати шумо:',
         'grm.trackingTokenLabel': 'Токени пайгирии шумо:',
-        'grm.trackingSaveNotice': 'Ҳар ду арзишро нигоҳ доред, то ҳолати шикоятро бехатар пайгирӣ кунед.',
+        'grm.trackingSaveNotice':
+            'Ҳар ду арзишро нигоҳ доред, то ҳолати шикоятро бехатар пайгирӣ кунед.',
         'grm.trackStatusAction': 'Пайгирии ҳолат',
         'grm.trackTitle': 'Шикояти худро пайгирӣ кунед',
-        'grm.trackLead': 'Рақами муроҷиат ва токени пайгириро ворид намоед, то ҳолати ҷории шикояти худро бинед.',
+        'grm.trackLead':
+            'Рақами муроҷиат ва токени пайгириро ворид намоед, то ҳолати ҷории шикояти худро бинед.',
         'grm.ticketNumber': 'Рақами муроҷиат',
         'grm.ticketFormatHelp': 'Формат: GRM-СОЛ-12345',
         'grm.trackingToken': 'Токени пайгирӣ',
         'grm.trackingTokenPlaceholder': 'Токени 32-аломатӣ',
         'grm.trackingTokenHelpPrefix': 'Аз',
-        'grm.trackingTokenHelpSuffix': 'аломатии токени пайгирие, ки дар тасдиқи ирсол нишон дода шудааст, истифода баред.',
+        'grm.trackingTokenHelpSuffix':
+            'аломатии токени пайгирие, ки дар тасдиқи ирсол нишон дода шудааст, истифода баред.',
         'grm.searching': 'Ҷустуҷӯ…',
-        'grm.notFound': 'Шикояте бо рақами муроҷиат ва токени пайгирии пешниҳодшуда ёфт нашуд. Лутфан ҳар ду арзишро санҷида, дубора кӯшиш кунед.',
-        'grm.trackingExpired': 'Муҳлати пайгирии оммавии ин шикояти пӯшида ба охир расидааст. Агар ба шумо маълумоти иловагӣ лозим бошад, бо дастаи GRM тамос гиред.',
+        'grm.notFound':
+            'Шикояте бо рақами муроҷиат ва токени пайгирии пешниҳодшуда ёфт нашуд. Лутфан ҳар ду арзишро санҷида, дубора кӯшиш кунед.',
+        'grm.trackingExpired':
+            'Муҳлати пайгирии оммавии ин шикояти пӯшида ба охир расидааст. Агар ба шумо маълумоти иловагӣ лозим бошад, бо дастаи GRM тамос гиред.',
         'grm.submittedOn': 'Ирсол шудааст:',
         'grm.progress': 'Пешрафт:',
         'grm.updates': 'навсозӣ',
         'grm.statusHistory': 'Таърихи ҳолат',
-        'footer.description': 'Маркази татбиқи лоиҳаҳо Лоиҳаи асосҳои рақамии Тоҷикистонро ҳамоҳанг намуда, инфрасохтори рақамӣ, хизматрасониҳои электронии давлатӣ ва малакаҳои рақамиро дар саросари кишвар тақвият медиҳад.',
+        'footer.description':
+            'Маркази татбиқи лоиҳаҳо Лоиҳаи асосҳои рақамии Тоҷикистонро ҳамоҳанг намуда, инфрасохтори рақамӣ, хизматрасониҳои электронии давлатӣ ва малакаҳои рақамиро дар саросари кишвар тақвият медиҳад.',
         'footer.documentRepository': 'Феҳристи ҳуҷҷатҳо',
         'footer.procurementNotices': 'Эълонҳои харид',
         'footer.mediaGallery': 'Галереяи медиа',
@@ -1323,7 +1553,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.fundedBy': 'Аз ҷониби зерин маблағгузорӣ мешавад',
         'footer.kicker': 'Портали хизматрасониҳои давлатӣ',
         'footer.heading': 'Иттилооти оммавӣ, хидматҳо ва шикоятҳо дар як ҷо.',
-        'footer.subheading': 'Портал навсозиҳои расмии лоиҳа, эълонҳои харид, дастрасӣ ба ҳуҷҷатҳо ва каналҳои хизматрасонии оммавиро барои баҳрабардорон, шаҳрвандон ва таъминкунандагон фароҳам меорад.',
+        'footer.subheading':
+            'Портал навсозиҳои расмии лоиҳа, эълонҳои харид, дастрасӣ ба ҳуҷҷатҳо ва каналҳои хизматрасонии оммавиро барои баҳрабардорон, шаҳрвандон ва таъминкунандагон фароҳам меорад.',
         'footer.sections': 'Бахшҳо',
         'footer.services': 'Хидматҳо',
         'footer.contact': 'Тамос',
@@ -1331,7 +1562,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'footer.emailSubscriptions': 'Обуна тавассути email',
         'common.menu': 'Меню',
         'common.siteNavigation': 'Навигатсияи сайт',
-        'common.navigationDescription': 'Бахшҳои оммавии сайтро мурур кунед, забонро иваз кунед ё ба ҷустуҷӯ ва хидматҳои шикоятҳо дастрасӣ пайдо кунед.',
+        'common.navigationDescription':
+            'Бахшҳои оммавии сайтро мурур кунед, забонро иваз кунед ё ба ҷустуҷӯ ва хидматҳои шикоятҳо дастрасӣ пайдо кунед.',
         'common.skipToContent': 'Ба мундариҷаи асосӣ гузаред',
         'common.address': 'Суроға',
         'common.leadership': 'Роҳбарият',
@@ -1342,9 +1574,12 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'common.filterByFileType': 'Тарошидан тибқи намуди файл',
         'home.badge': 'Лоиҳаи маблағгузоришуда аз ҷониби Бонки Ҷаҳонӣ',
         'home.title': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
-        'home.description': 'Тақвияти инфрасохтори рақамии Тоҷикистон тавассути хизматрасониҳои электронии давлатӣ, тасдиқи рақамӣ, амнияти киберӣ ва рушди малакаҳои рақамӣ.',
-        'home.heroTitle': 'Портали расмии лоиҳа барои иттилооти оммавӣ, харид ва дастрасӣ ба шикоятҳо.',
-        'home.heroDescription': 'Портали ягонаи институтсионалӣ барои навсозиҳои санҷидашуда, фаъолиятҳои калидии лоиҳа, ҳуҷҷатҳои расмӣ ва каналҳои хизматрасонии оммавӣ.',
+        'home.description':
+            'Тақвияти инфрасохтори рақамии Тоҷикистон тавассути хизматрасониҳои электронии давлатӣ, тасдиқи рақамӣ, амнияти киберӣ ва рушди малакаҳои рақамӣ.',
+        'home.heroTitle':
+            'Портали расмии лоиҳа барои иттилооти оммавӣ, харид ва дастрасӣ ба шикоятҳо.',
+        'home.heroDescription':
+            'Портали ягонаи институтсионалӣ барои навсозиҳои санҷидашуда, фаъолиятҳои калидии лоиҳа, ҳуҷҷатҳои расмӣ ва каналҳои хизматрасонии оммавӣ.',
         'home.learnMore': 'Маълумоти бештар',
         'home.contactAction': 'Тамос',
         'home.projectComponents': 'Ҷузъҳои лоиҳа',
@@ -1357,13 +1592,19 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.activitiesCaption': 'Сабтҳои нашршудаи фаъолият',
         'home.documentsCaption': 'Ҳуҷҷатҳои нашршуда',
         'home.contactLabel': 'Тамоси расмӣ',
-        'home.metrics.contentUnits': 'Воҳидҳои мундариҷаи амалиётӣ ва навсозиҳо',
-        'home.metrics.interactions': 'Муошират бо ҷонибҳои манфиатдор ва сабтҳои нашршуда',
-        'home.metrics.materials': 'Ҳуҷҷатҳои лоиҳа ва огоҳиномаҳои дар гардишбуда',
-        'home.metrics.workstreams': 'Самтҳои афзалиятноки кор ва марҳилаҳои харид',
+        'home.metrics.contentUnits':
+            'Воҳидҳои мундариҷаи амалиётӣ ва навсозиҳо',
+        'home.metrics.interactions':
+            'Муошират бо ҷонибҳои манфиатдор ва сабтҳои нашршуда',
+        'home.metrics.materials':
+            'Ҳуҷҷатҳои лоиҳа ва огоҳиномаҳои дар гардишбуда',
+        'home.metrics.workstreams':
+            'Самтҳои афзалиятноки кор ва марҳилаҳои харид',
         'home.mission': 'Рисолати мо',
-        'home.missionTitle': 'Портали боэътимоди оммавии рақамӣ бо дастрасии равшан ба иттилооти лоиҳа.',
-        'home.missionFallback': 'Портал шаффофияти оммавӣ, иртиботи институтсионалӣ ва хизматрасонии дастрасро барои баҳрабардорон, шарикон ва шаҳрвандон дастгирӣ мекунад.',
+        'home.missionTitle':
+            'Портали боэътимоди оммавии рақамӣ бо дастрасии равшан ба иттилооти лоиҳа.',
+        'home.missionFallback':
+            'Портал шаффофияти оммавӣ, иртиботи институтсионалӣ ва хизматрасонии дастрасро барои баҳрабардорон, шарикон ва шаҳрвандон дастгирӣ мекунад.',
         'home.publicContentAreas': 'Бахшҳои оммавии мундариҷа',
         'home.visibleOperationalRecords': 'Сабтҳои намоёни амалиётӣ',
         'home.publishedReferenceMaterials': 'Маводи нашршудаи истинодӣ',
@@ -1375,11 +1616,14 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.servicesTitle': 'Дастрасии зуд ба хидматҳои оммавӣ',
         'home.servicesOpenSection': 'Кушодани бахш',
         'home.services.activitiesTitle': 'Фаъолиятҳои лоиҳа',
-        'home.services.activitiesDescription': 'Раванди татбиқ ва навсозиҳои нашршудаи лоиҳаро пайгирӣ кунед.',
+        'home.services.activitiesDescription':
+            'Раванди татбиқ ва навсозиҳои нашршудаи лоиҳаро пайгирӣ кунед.',
         'home.services.procurementTitle': 'Эълонҳои харид',
-        'home.services.procurementDescription': 'Эълонҳои кушода, рақамҳои истинодӣ ва муҳлатҳоро барои таъминкунандагон бинед.',
+        'home.services.procurementDescription':
+            'Эълонҳои кушода, рақамҳои истинодӣ ва муҳлатҳоро барои таъминкунандагон бинед.',
         'home.services.documentsTitle': 'Ҳуҷҷатҳои оммавӣ',
-        'home.services.documentsDescription': 'Ба ҳуҷҷатҳои расмии лоиҳа ва маводи нашршуда дастрасӣ пайдо кунед.',
+        'home.services.documentsDescription':
+            'Ба ҳуҷҷатҳои расмии лоиҳа ва маводи нашршуда дастрасӣ пайдо кунед.',
         'home.openProcurement': 'Харидҳои кушода',
         'home.noOpenProcurement': 'Эълонҳои хариди кушода мавҷуд нестанд.',
         'home.procurement': 'Харид',
@@ -1387,23 +1631,28 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'home.grmService': 'Хидмати GRM',
         'page.title': 'Саҳифа',
         'activities.title': 'Фаъолиятҳои лоиҳа',
-        'activities.description': 'Ташаббусҳо ва ҷузъҳои асосии Лоиҳаи асосҳои рақамии Тоҷикистон',
+        'activities.description':
+            'Ташаббусҳо ва ҷузъҳои асосии Лоиҳаи асосҳои рақамии Тоҷикистон',
         'activities.back': 'Бозгашт ба фаъолиятҳо',
         'activities.empty': 'Фаъолиятҳо ёфт нашуданд.',
         'news.title': 'Хабарҳо',
         'news.indexTitle': 'Хабарҳо ва рӯйдодҳо',
-        'news.indexDescription': 'Навгониҳои охирин аз Лоиҳаи асосҳои рақамии Тоҷикистон',
+        'news.indexDescription':
+            'Навгониҳои охирин аз Лоиҳаи асосҳои рақамии Тоҷикистон',
         'news.searchPlaceholder': 'Ҷустуҷӯи хабарҳо...',
         'news.empty': 'Хабарҳо ёфт нашуданд.',
         'news.whatsNew': 'Чӣ нав аст',
-        'news.whatsNewDescription': 'Навгониҳои муҳим ва эълонҳои расмии лоиҳа.',
+        'news.whatsNewDescription':
+            'Навгониҳои муҳим ва эълонҳои расмии лоиҳа.',
         'news.featured': 'Муҳим',
         'news.new': 'Нав',
         'media.title': 'Галереяи медиа',
-        'media.description': 'Аксҳо ва наворҳо аз фаъолиятҳои лоиҳа ва чорабиниҳои оммавӣ.',
+        'media.description':
+            'Аксҳо ва наворҳо аз фаъолиятҳои лоиҳа ва чорабиниҳои оммавӣ.',
         'media.empty': 'Ягон маводи медиа ёфт нашуд.',
         'search.title': 'Ҷустуҷӯ',
-        'search.description': 'Ҷустуҷӯ дар саҳифаҳои оммавӣ, хабарҳо, фаъолиятҳо ва эълонҳои харид.',
+        'search.description':
+            'Ҷустуҷӯ дар саҳифаҳои оммавӣ, хабарҳо, фаъолиятҳо ва эълонҳои харид.',
         'search.placeholder': 'Ҷустуҷӯ дар портали оммавӣ...',
         'search.filterByType': 'Филтр аз рӯи навъи муҳтаво',
         'search.resultsFor': 'натиҷа барои дархост',
@@ -1419,22 +1668,29 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'search.entity.media': 'Медиа',
         'documents.title': 'Ҳуҷҷатҳо',
         'documents.indexTitle': 'Феҳристи ҳуҷҷатҳо',
-        'documents.indexDescription': 'Ҳуҷҷатҳои лоиҳа, ҳисоботҳо, таҳқиқоти техникӣ ва сиёсатҳо',
+        'documents.indexDescription':
+            'Ҳуҷҷатҳои лоиҳа, ҳисоботҳо, таҳқиқоти техникӣ ва сиёсатҳо',
         'documents.searchPlaceholder': 'Ҷустуҷӯи ҳуҷҷатҳо...',
         'documents.empty': 'Ҳуҷҷатҳо ёфт нашуданд.',
         'procurement.title': 'Харид',
         'procurement.notice': 'Эълони харид',
-        'procurement.indexDescription': 'Эълонҳо, RFQ, RFP ва натиҷаҳои шартномаҳо',
+        'procurement.indexDescription':
+            'Эълонҳо, RFQ, RFP ва натиҷаҳои шартномаҳо',
         'procurement.searchPlaceholder': 'Ҷустуҷӯи эълонҳои харид...',
         'procurement.back': 'Бозгашт ба харид',
         'procurement.empty': 'Эълонҳои харид ёфт нашуданд.',
         'procurement.process': 'Марҳила',
-        'procurement.processSummaryOpen': 'Муҳлати пешниҳоди дархостҳо кушода аст.',
-        'procurement.processSummaryDeadlinePassed': 'Муҳлати пешниҳоди дархостҳо гузаштааст ва эълон дар интизори басташавии расмӣ қарор дорад.',
-        'procurement.processSummaryUnderEvaluation': 'Қабули дархостҳо анҷом ёфта, эълон дар марҳилаи арзёбӣ ё коркарди маъмурӣ қарор дорад.',
+        'procurement.processSummaryOpen':
+            'Муҳлати пешниҳоди дархостҳо кушода аст.',
+        'procurement.processSummaryDeadlinePassed':
+            'Муҳлати пешниҳоди дархостҳо гузаштааст ва эълон дар интизори басташавии расмӣ қарор дорад.',
+        'procurement.processSummaryUnderEvaluation':
+            'Қабули дархостҳо анҷом ёфта, эълон дар марҳилаи арзёбӣ ё коркарди маъмурӣ қарор дорад.',
         'procurement.processSummaryAwarded': 'Натиҷаи харид нашр шудааст.',
-        'procurement.processSummaryArchived': 'Ин эълон барои бойгонӣ ва маълумот нигоҳ дошта мешавад.',
-        'procurement.processState.submission_open': 'Қабули дархостҳо кушода аст',
+        'procurement.processSummaryArchived':
+            'Ин эълон барои бойгонӣ ва маълумот нигоҳ дошта мешавад.',
+        'procurement.processState.submission_open':
+            'Қабули дархостҳо кушода аст',
         'procurement.processState.deadline_passed': 'Муҳлат гузаштааст',
         'procurement.processState.under_evaluation': 'Дар марҳилаи арзёбӣ',
         'procurement.processState.contract_awarded': 'Шартнома дода шуд',
@@ -1449,41 +1705,57 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
         'contact.description': 'Бо Маркази татбиқи лоиҳаҳо дар тамос шавед',
         'staff.title': 'Феҳристи кормандон',
         'staff.heading': 'Роҳбарият ва сохтори даста',
-        'staff.description': 'Бо роҳбарият ва сохтори иерархии дастае, ки барои татбиқи лоиҳа масъул аст, шинос шавед.',
+        'staff.description':
+            'Бо роҳбарият ва сохтори иерархии дастае, ки барои татбиқи лоиҳа масъул аст, шинос шавед.',
         'staff.empty': 'Феҳристи кормандон ба наздикӣ нашр мешавад.',
         'subscriptions.title': 'Обунаи email',
         'subscriptions.heading': 'Ба навсозиҳои лоиҳа обуна шавед',
-        'subscriptions.description': 'Ҳангоми нашри хабарҳо, ҳуҷҷатҳо ва эълонҳои харид расмӣ навсозиҳоро дастрас намоед.',
+        'subscriptions.description':
+            'Ҳангоми нашри хабарҳо, ҳуҷҷатҳо ва эълонҳои харид расмӣ навсозиҳоро дастрас намоед.',
         'subscriptions.emailLabel': 'Суроғаи email',
-        'subscriptions.notice': 'Пеш аз фаъол шудани обуна ба шумо паёми тасдиқ фиристода мешавад.',
+        'subscriptions.notice':
+            'Пеш аз фаъол шудани обуна ба шумо паёми тасдиқ фиристода мешавад.',
         'subscriptions.submit': 'Обуна шудан',
         'subscriptions.submitting': 'Ирсол...',
         'subscriptions.confirmRequest': 'Тасдиқи дархост',
         'subscriptions.unsubscribeRequest': 'Дархости қатъи обуна',
-        'subscriptions.confirmReviewTitle': 'Обунаи email-и худро баррасӣ ва тасдиқ кунед',
-        'subscriptions.unsubscribeReviewTitle': 'Дархости қатъи обунаро баррасӣ ва тасдиқ кунед',
-        'subscriptions.confirmReviewBodyPrefix': 'Паёмҳои навсозии лоиҳаро барои ин суроға фаъол кунед',
-        'subscriptions.unsubscribeReviewBodyPrefix': 'Фиристодани паёмҳои навсозии лоиҳаро ба ин суроға қатъ кунед',
+        'subscriptions.confirmReviewTitle':
+            'Обунаи email-и худро баррасӣ ва тасдиқ кунед',
+        'subscriptions.unsubscribeReviewTitle':
+            'Дархости қатъи обунаро баррасӣ ва тасдиқ кунед',
+        'subscriptions.confirmReviewBodyPrefix':
+            'Паёмҳои навсозии лоиҳаро барои ин суроға фаъол кунед',
+        'subscriptions.unsubscribeReviewBodyPrefix':
+            'Фиристодани паёмҳои навсозии лоиҳаро ба ин суроға қатъ кунед',
         'subscriptions.processing': 'Коркард…',
         'subscriptions.confirmAction': 'Тасдиқи обуна',
         'subscriptions.unsubscribeAction': 'Қатъи обуна',
         'subscriptions.status.confirmation-sent.title': 'Email-и худро санҷед',
-        'subscriptions.status.confirmation-sent.body': 'Мо барои фаъол кардани обунаи шумо пайванди тасдиқ фиристодем.',
+        'subscriptions.status.confirmation-sent.body':
+            'Мо барои фаъол кардани обунаи шумо пайванди тасдиқ фиристодем.',
         'subscriptions.status.confirmed.title': 'Обуна тасдиқ шуд',
-        'subscriptions.status.confirmed.body': 'Акнун шумо ба навсозиҳои лоиҳа обуна ҳастед.',
+        'subscriptions.status.confirmed.body':
+            'Акнун шумо ба навсозиҳои лоиҳа обуна ҳастед.',
         'subscriptions.status.unsubscribed.title': 'Обуна қатъ шуд',
-        'subscriptions.status.unsubscribed.body': 'Шумо дигар паёмҳои навсозии лоиҳаро қабул намекунед.',
+        'subscriptions.status.unsubscribed.body':
+            'Шумо дигар паёмҳои навсозии лоиҳаро қабул намекунед.',
         'subscriptions.status.already-active.title': 'Аллакай обуна ҳастед',
-        'subscriptions.status.already-active.body': 'Ин суроғаи email аллакай дар рӯйхати обуна фаъол аст.',
-        'subscriptions.status.invalid-confirmation.title': 'Пайванди тасдиқ беэътибор аст',
-        'subscriptions.status.invalid-confirmation.body': 'Агар ҳанӯз мехоҳед ба рӯйхат ҳамроҳ шавед, тасдиқи навро дархост кунед.',
-        'subscriptions.status.invalid-unsubscribe.title': 'Пайванди қатъи обуна беэътибор аст',
-        'subscriptions.status.invalid-unsubscribe.body': 'Пайванди идоракунӣ дигар эътибор надорад.',
+        'subscriptions.status.already-active.body':
+            'Ин суроғаи email аллакай дар рӯйхати обуна фаъол аст.',
+        'subscriptions.status.invalid-confirmation.title':
+            'Пайванди тасдиқ беэътибор аст',
+        'subscriptions.status.invalid-confirmation.body':
+            'Агар ҳанӯз мехоҳед ба рӯйхат ҳамроҳ шавед, тасдиқи навро дархост кунед.',
+        'subscriptions.status.invalid-unsubscribe.title':
+            'Пайванди қатъи обуна беэътибор аст',
+        'subscriptions.status.invalid-unsubscribe.body':
+            'Пайванди идоракунӣ дигар эътибор надорад.',
         'share.share': 'Мубодила',
         'share.copy': 'Нусхаи пайванд',
         'share.copied': 'Нусхабардорӣ шуд',
         'share.title': 'Ин саҳифаро мубодила кунед',
-        'share.description': 'Ин саҳифаро ба ҳамкорон фиристед ё онро дар шабакаҳои иҷтимоӣ мубодила намоед.',
+        'share.description':
+            'Ин саҳифаро ба ҳамкорон фиристед ё онро дар шабакаҳои иҷтимоӣ мубодила намоед.',
         'status.planned': 'Банақшагирифташуда',
         'status.in_progress': 'Дар ҷараён',
         'status.completed': 'Анҷомёфта',
@@ -1514,11 +1786,16 @@ export function normalizeLocale(locale?: string): SupportedLocale {
 export function t(locale: string, key: string, fallback?: string): string {
     const normalizedLocale = normalizeLocale(locale);
 
-    return messages[normalizedLocale][key] ?? messages.en[key] ?? fallback ?? key;
+    return (
+        messages[normalizedLocale][key] ?? messages.en[key] ?? fallback ?? key
+    );
 }
 
-export function formatLocalizedDate(value: string | Date | null | undefined, locale: string): string {
-    if (! value) {
+export function formatLocalizedDate(
+    value: string | Date | null | undefined,
+    locale: string,
+): string {
+    if (!value) {
         return '';
     }
 
@@ -1527,8 +1804,11 @@ export function formatLocalizedDate(value: string | Date | null | undefined, loc
     return new Date(value).toLocaleDateString(dateLocales[normalizedLocale]);
 }
 
-export function formatLocalizedDateTime(value: string | Date | null | undefined, locale: string): string {
-    if (! value) {
+export function formatLocalizedDateTime(
+    value: string | Date | null | undefined,
+    locale: string,
+): string {
+    if (!value) {
         return '';
     }
 
@@ -1537,30 +1817,47 @@ export function formatLocalizedDateTime(value: string | Date | null | undefined,
     return new Date(value).toLocaleString(dateLocales[normalizedLocale]);
 }
 
-export function getStatusLabel(status: string | null | undefined, locale: string): string {
-    if (! status) {
+export function getStatusLabel(
+    status: string | null | undefined,
+    locale: string,
+): string {
+    if (!status) {
         return '';
     }
 
     return t(locale, `status.${status}`, status.replaceAll('_', ' '));
 }
 
-export function getProcurementProcessLabel(processState: string | null | undefined, locale: string): string {
-    if (! processState) {
+export function getProcurementProcessLabel(
+    processState: string | null | undefined,
+    locale: string,
+): string {
+    if (!processState) {
         return '';
     }
 
-    return t(locale, `procurement.processState.${processState}`, processState.replaceAll('_', ' '));
+    return t(
+        locale,
+        `procurement.processState.${processState}`,
+        processState.replaceAll('_', ' '),
+    );
 }
 
-export function getTranslation(item: any, locale: string = 'en'): Record<string, any> {
-    if (! item?.translations?.length) {
+export function getTranslation(
+    item: any,
+    locale: string = 'en',
+): Record<string, any> {
+    if (!item?.translations?.length) {
         return {};
     }
 
     const normalizedLocale = normalizeLocale(locale);
 
-    return item.translations.find((translation: any) => translation.language === normalizedLocale)
-        ?? item.translations[0]
-        ?? {};
+    return (
+        item.translations.find(
+            (translation: any) => translation.language === normalizedLocale,
+        ) ??
+        item.translations[0] ??
+        {}
+    );
 }

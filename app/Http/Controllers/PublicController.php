@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use App\Modules\Activities\Repositories\ActivityRepository;
+use App\Modules\CMS\Repositories\PageRepository;
 use App\Modules\Documents\Repositories\DocumentRepository;
 use App\Modules\News\Repositories\NewsRepository;
 use App\Modules\Procurement\Repositories\ProcurementRepository;
@@ -15,6 +16,7 @@ class PublicController extends Controller
     public function __construct(
         private NewsRepository $newsRepository,
         private ActivityRepository $activityRepository,
+        private PageRepository $pageRepository,
         private DocumentRepository $documentRepository,
         private ProcurementRepository $procurementRepository,
     ) {}
@@ -36,6 +38,13 @@ class PublicController extends Controller
     {
         return Inertia::render('public/contact', [
             'settings' => Setting::whereIn('key', ['contact_email', 'contact_phone', 'contact_address'])->get()->pluck('value', 'key'),
+        ]);
+    }
+
+    public function about(): Response
+    {
+        return Inertia::render('public/about', [
+            'page' => $this->pageRepository->findPublishedBySlug('about'),
         ]);
     }
 }

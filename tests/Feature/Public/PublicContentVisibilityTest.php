@@ -156,17 +156,17 @@ test('public procurement index and detail expose public lifecycle statuses', fun
         );
 });
 
-test('default about and project pages are available after database seeding', function () {
+test('about page is always available through the dedicated route and project remains on the generic cms route', function () {
     $this->seed(DatabaseSeeder::class);
 
     $this->get('/about')
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('public/page')
+            ->component('public/about')
             ->where('page.slug', 'about')
         );
 
-    $this->get('/project')
+    $this->get('/pages/project')
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/page')
@@ -257,7 +257,7 @@ test('public search uses the current locale, exposes entity filters, and returns
         'title' => 'Project Overview',
         'content' => 'General project overview content.',
         'language' => 'en',
-        'url' => '/project',
+        'url' => '/pages/project',
     ]);
 
     SearchIndex::create([
@@ -330,7 +330,7 @@ test('public search keeps query string filters in paginator links', function () 
         'title' => 'Portal Overview',
         'content' => 'A general portal overview page.',
         'language' => 'en',
-        'url' => '/project',
+        'url' => '/pages/project',
     ]);
 
     $this->get('/search?q=portal&lang=en&entity_type='.urlencode(\App\Models\News::class))
@@ -360,7 +360,7 @@ test('language switch stores the locale in session and shares it with inertia', 
         ->assertOk()
         ->assertSessionHas('locale', 'ru')
         ->assertInertia(fn (Assert $page) => $page
-            ->component('public/page')
+            ->component('public/about')
             ->where('locale', 'ru')
             ->where('page.slug', 'about')
         );
@@ -373,12 +373,12 @@ test('public pages accept lang query parameters and persist the locale for follo
         ->assertOk()
         ->assertSessionHas('locale', 'tj')
         ->assertInertia(fn (Assert $page) => $page
-            ->component('public/page')
+            ->component('public/about')
             ->where('locale', 'tj')
             ->where('page.slug', 'about')
         );
 
-    $this->get('/project')
+    $this->get('/pages/project')
         ->assertOk()
         ->assertSessionHas('locale', 'tj')
         ->assertInertia(fn (Assert $page) => $page

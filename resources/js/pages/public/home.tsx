@@ -1,5 +1,12 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { ArrowRight, FileText, HelpCircle, Megaphone, MessageSquare, ShoppingBag } from 'lucide-react';
+import {
+    ArrowRight,
+    FileText,
+    HelpCircle,
+    Megaphone,
+    MessageSquare,
+    ShoppingBag,
+} from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -147,7 +154,7 @@ export default function Home({
                                     size="lg"
                                     className="rounded-md bg-(--public-primary) px-6 text-white hover:bg-(--public-primary-hover)"
                                 >
-                                    <Link href={publicHref('/project')}>
+                                    <Link href={publicHref('/activities')}>
                                         {t(locale, 'home.learnMore')}
                                     </Link>
                                 </Button>
@@ -257,10 +264,26 @@ export default function Home({
                 <div className="gov-container py-6">
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                         {[
-                            { icon: FileText, labelKey: 'home.services.documentsTitle', href: '/documents' },
-                            { icon: ShoppingBag, labelKey: 'home.services.procurementTitle', href: '/procurement' },
-                            { icon: MessageSquare, labelKey: 'grm.submit', href: '/grm/submit' },
-                            { icon: HelpCircle, labelKey: 'nav.contact', href: '/contact' },
+                            {
+                                icon: FileText,
+                                labelKey: 'home.services.documentsTitle',
+                                href: '/documents',
+                            },
+                            {
+                                icon: ShoppingBag,
+                                labelKey: 'home.services.procurementTitle',
+                                href: '/procurement',
+                            },
+                            {
+                                icon: MessageSquare,
+                                labelKey: 'grm.submit',
+                                href: '/grm/submit',
+                            },
+                            {
+                                icon: HelpCircle,
+                                labelKey: 'nav.contact',
+                                href: '/contact',
+                            },
                         ].map((item) => (
                             <Link
                                 key={item.href}
@@ -279,7 +302,9 @@ export default function Home({
                 <div className="gov-container py-16">
                     <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
                         <div>
-                            <p className="gov-kicker mb-4">{t(locale, 'home.mission')}</p>
+                            <p className="gov-kicker mb-4">
+                                {t(locale, 'home.mission')}
+                            </p>
                             <h2 className="gov-section-title">
                                 {t(locale, 'home.missionTitle')}
                             </h2>
@@ -289,7 +314,7 @@ export default function Home({
                             </p>
                             <div className="mt-6">
                                 <Link
-                                    href={publicHref('/about')}
+                                    href={publicHref('/activities')}
                                     className="inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]"
                                 >
                                     {t(locale, 'home.learnMore')}
@@ -312,7 +337,10 @@ export default function Home({
                                     200+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    {t(locale, 'home.visibleOperationalRecords')}
+                                    {t(
+                                        locale,
+                                        'home.visibleOperationalRecords',
+                                    )}
                                 </p>
                             </div>
                             <div className="gov-stat-card">
@@ -320,7 +348,10 @@ export default function Home({
                                     50+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    {t(locale, 'home.publishedReferenceMaterials')}
+                                    {t(
+                                        locale,
+                                        'home.publishedReferenceMaterials',
+                                    )}
                                 </p>
                             </div>
                             <div className="gov-stat-card">
@@ -328,7 +359,10 @@ export default function Home({
                                     15+
                                 </p>
                                 <p className="mt-2 text-sm text-slate-500">
-                                    {t(locale, 'home.currentImplementationPriorities')}
+                                    {t(
+                                        locale,
+                                        'home.currentImplementationPriorities',
+                                    )}
                                 </p>
                             </div>
                         </div>
@@ -339,7 +373,9 @@ export default function Home({
             <section className="gov-soft-section border-y border-[var(--public-border)]">
                 <div className="gov-container py-16">
                     <div className="mb-8">
-                        <p className="gov-kicker mb-3">{t(locale, 'home.activities')}</p>
+                        <p className="gov-kicker mb-3">
+                            {t(locale, 'home.activities')}
+                        </p>
                         <h2 className="gov-section-title">
                             {t(locale, 'home.activitiesSectionTitle')}
                         </h2>
@@ -385,7 +421,9 @@ export default function Home({
                 <div className="gov-container py-16">
                     <div className="mb-8 flex items-end justify-between gap-4">
                         <div>
-                            <p className="gov-kicker mb-3">{t(locale, 'home.services')}</p>
+                            <p className="gov-kicker mb-3">
+                                {t(locale, 'home.services')}
+                            </p>
                             <h2 className="gov-section-title">
                                 {t(locale, 'home.servicesTitle')}
                             </h2>

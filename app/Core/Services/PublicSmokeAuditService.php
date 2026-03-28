@@ -56,7 +56,6 @@ class PublicSmokeAuditService
         $urls = [
             route('home'),
             route('about'),
-            route('project'),
             route('activities.index'),
             route('news.index'),
             route('documents.index'),
@@ -74,7 +73,7 @@ class PublicSmokeAuditService
 
         Page::query()
             ->published()
-            ->whereNotIn('slug', ['about', 'project'])
+            ->where('slug', '!=', 'about')
             ->pluck('slug')
             ->each(fn (string $slug) => $urls[] = route('pages.show', ['slug' => $slug]));
 

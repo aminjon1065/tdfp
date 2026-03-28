@@ -17,7 +17,6 @@ class SitemapController extends Controller
         $urls = collect([
             $this->makeUrl(route('home'), now()),
             $this->makeUrl(route('about'), $this->pageLastModified('about')),
-            $this->makeUrl(route('project'), $this->pageLastModified('project')),
             $this->makeUrl(route('activities.index'), $this->activityLastModified()),
             $this->makeUrl(route('news.index'), $this->newsLastModified()),
             $this->makeUrl(route('documents.index'), $this->documentLastModified()),
@@ -49,9 +48,17 @@ class SitemapController extends Controller
     {
         return Page::query()
             ->published()
-            ->whereNotIn('slug', ['about', 'project'])
+            ->where('slug', '!=', 'about')
             ->get(['slug', 'updated_at'])
             ->map(fn (Page $page) => $this->makeUrl(route('pages.show', ['slug' => $page->slug]), $page->updated_at));
+    }
+
+    private function pageLastModified(string $slug): mixed
+    {
+        return Page::query()
+            ->published()
+            ->where('slug', $slug)
+            ->value('updated_at');
     }
 
     private function activityUrls(): Collection
@@ -93,14 +100,6 @@ class SitemapController extends Controller
             'location' => $location,
             'last_modified' => optional($lastModified)->toAtomString(),
         ];
-    }
-
-    private function pageLastModified(string $slug): mixed
-    {
-        return Page::query()
-            ->published()
-            ->where('slug', $slug)
-            ->value('updated_at');
     }
 
     private function activityLastModified(): mixed

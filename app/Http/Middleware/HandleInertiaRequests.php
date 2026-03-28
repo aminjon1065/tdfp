@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -70,6 +71,25 @@ class HandleInertiaRequests extends Middleware
                 'analytics_enabled' => filter_var(Setting::get('analytics_enabled', false), FILTER_VALIDATE_BOOLEAN),
                 'analytics_provider' => Setting::get('analytics_provider', 'ga4'),
                 'google_analytics_id' => Setting::get('google_analytics_id'),
+            ],
+            'navigation' => [
+                'project_pages' => fn () => Page::query()
+                    ->published()
+                    ->where('slug', 'like', 'project-%')
+                    ->with('translations:page_id,language,title')
+                    ->orderByDesc('published_at')
+                    ->get(['id', 'slug'])
+                    ->map(fn (Page $page) => [
+                        'slug' => $page->slug,
+                        'href' => route('pages.show', ['slug' => $page->slug], false),
+                        'translations' => $page->translations
+                            ->map(fn ($translation) => [
+                                'language' => $translation->language,
+                                'title' => $translation->title,
+                            ])
+                            ->values(),
+                    ])
+                    ->values(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale' => app()->getLocale(),

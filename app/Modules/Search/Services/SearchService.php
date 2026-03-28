@@ -250,11 +250,9 @@ class SearchService
     private function publicUrl(Model $model): string
     {
         return match ($model::class) {
-            Page::class => match ($model->slug) {
-                'about' => route('about'),
-                'project' => route('project'),
-                default => route('pages.show', ['slug' => $model->slug]),
-            },
+            Page::class => $model->slug === 'about'
+                ? route('about')
+                : route('pages.show', ['slug' => $model->slug]),
             News::class => route('news.show', ['slug' => $model->slug]),
             Activity::class => route('activities.show', ['slug' => $model->slug]),
             Procurement::class => route('procurement.show', ['ref' => $model->reference_number]),
