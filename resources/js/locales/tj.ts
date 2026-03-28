@@ -360,7 +360,7 @@ export default {
     'home.heroDescription': 'Маркази татбиқи лоиҳаҳо зери Дастгоҳи иҷроияи Президент ин лоиҳаро бо маблағгузории Бонки Ҷаҳонӣ ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ татбиқ мекунад. Декабри 2024\u2013Декабри 2030.',
     'home.learnMore': 'Фаъолиятҳои лоиҳа',
     'home.contactAction': 'Шикоят пешниҳод кунед',
-    'home.projectComponentsTitle': 'Ҷузъҳо ва маблағгузории лоиҳа',
+    'home.projectComponentsTitle': 'Ҷузъҳои лоиҳа',
     'home.domainTilesTitle': 'Самтҳои татбиқ',
     'home.domainTilesSubtitle': '34 фаъолият дар доираи лоиҳа.',
     'home.activitiesCount': 'фаъолият',

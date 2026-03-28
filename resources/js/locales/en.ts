@@ -360,7 +360,7 @@ export default {
     'home.heroDescription': 'The Projects Implementation Center, under the Executive Office of the President, implements this project with financing from the World Bank and the Swiss Development Cooperation. December 2024\u2013December 2030.',
     'home.learnMore': 'View Project Activities',
     'home.contactAction': 'Submit a Complaint',
-    'home.projectComponentsTitle': 'Project Components & Financing',
+    'home.projectComponentsTitle': 'Project Components',
     'home.domainTilesTitle': 'Implementation Domains',
     'home.domainTilesSubtitle': '34 activities within the project.',
     'home.activitiesCount': 'activities',

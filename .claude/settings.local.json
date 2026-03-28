@@ -27,7 +27,8 @@
       "Bash(php -r \"echo app_path\\(\\);\")",
       "Bash(grep -E \"\\\\.\\(tsx|jsx\\)$\")",
       "Bash(head -20 grep -n 'idaCredit\\\\|sdcGrant\\\\|totalFinancing\\\\|financingSources\\\\|financingNote\\\\|heroDescription' /Users/aminjon/Herd/tdfp/resources/js/locales/tj.ts)",
-      "Bash(head -10 grep -rn 'Project Updates\\\\|Events\\\\|Workshops' /Users/aminjon/Herd/tdfp/database/seeders/)"
+      "Bash(head -10 grep -rn 'Project Updates\\\\|Events\\\\|Workshops' /Users/aminjon/Herd/tdfp/database/seeders/)",
+      "Bash(curl -I https://tdfp.test/documents/1/download)"
     ]
   }
 }

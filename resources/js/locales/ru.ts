@@ -360,7 +360,7 @@ export default {
     'home.heroDescription': 'Центр реализации проектов при Исполнительном аппарате Президента реализует данный проект при финансировании Всемирного банка и Швейцарского агентства по развитию и сотрудничеству. Декабрь 2024\u2013Декабрь 2030.',
     'home.learnMore': 'Мероприятия проекта',
     'home.contactAction': 'Подать жалобу',
-    'home.projectComponentsTitle': 'Компоненты и финансирование проекта',
+    'home.projectComponentsTitle': 'Компоненты проекта',
     'home.domainTilesTitle': 'Направления реализации',
     'home.domainTilesSubtitle': '34 мероприятия в рамках проекта.',
     'home.activitiesCount': 'мероприятий',

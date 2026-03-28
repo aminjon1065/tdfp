@@ -154,8 +154,9 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                         const domainColor = getDomainColor(activity.domain_slug);
 
                         return (
-                            <article
+                            <Link
                                 key={activity.id}
+                                href={`/activities/${activity.slug}`}
                                 className="gov-panel flex flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-md"
                             >
                                 {activity.featured_image && (
@@ -193,14 +194,8 @@ export default function ActivitiesIndex({ activities, filters }: { activities: a
                                     <p className="mt-2 flex-1 text-sm text-slate-500 line-clamp-3 leading-6">
                                         {translation.description}
                                     </p>
-                                    <Link
-                                        href={`/activities/${activity.slug}`}
-                                        className="mt-4 text-sm font-medium text-[var(--public-accent)] hover:underline"
-                                    >
-                                        {t(locale, 'common.learnMore')} →
-                                    </Link>
                                 </div>
-                            </article>
+                            </Link>
                         );
                     })}
                 </div>

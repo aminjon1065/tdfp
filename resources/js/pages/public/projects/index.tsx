@@ -41,8 +41,9 @@ export default function ProjectsIndex() {
             <div className="container mx-auto px-4 py-10">
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {PROJECTS.map((project) => (
-                        <article
+                        <Link
                             key={project.slug}
+                            href={project.href}
                             className="gov-panel flex flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-md"
                         >
                             <div className="flex flex-1 flex-col p-6">
@@ -59,16 +60,8 @@ export default function ProjectsIndex() {
                                         {project.period}
                                     </span>
                                 </div>
-                                <div className="mt-auto pt-5">
-                                    <Link
-                                        href={project.href}
-                                        className="text-sm font-medium text-[var(--public-accent)] hover:underline"
-                                    >
-                                        {t(locale, 'common.learnMore')} →
-                                    </Link>
-                                </div>
                             </div>
-                        </article>
+                        </Link>
                     ))}
                 </div>
             </div>

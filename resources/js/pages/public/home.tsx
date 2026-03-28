@@ -205,10 +205,10 @@ export default function Home({
                 <div className="gov-container py-16">
                     <div className="mb-8">
                         <p className="gov-kicker mb-3">
-                            {t(locale, 'home.projectComponentsTitle')}
+                            {t(locale, 'nav.projects')}
                         </p>
                         <h2 className="gov-section-title">
-                            {t(locale, 'nav.projects')}
+                            {t(locale, 'home.projectComponentsTitle')}
                         </h2>
                     </div>
                     <div className="grid gap-5 lg:grid-cols-3">
@@ -240,11 +240,7 @@ export default function Home({
                                 href={publicHref(comp.href)}
                                 className="gov-panel group p-6 transition hover:-translate-y-0.5 hover:shadow-md"
                             >
-                                <p className="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">
-                                    {t(locale, 'home.projectComponents')}{' '}
-                                    {comp.number}
-                                </p>
-                                <h3 className="mt-3 text-lg font-semibold text-[var(--public-primary-hover)]">
+                                <h3 className="text-lg font-semibold text-[var(--public-primary-hover)]">
                                     {t(locale, comp.titleKey)}
                                 </h3>
                                 <p className="mt-2 flex-1 text-sm leading-7 text-slate-600">
@@ -383,9 +379,10 @@ export default function Home({
                             const translation = getTranslation(item, locale);
 
                             return (
-                                <article
+                                <Link
                                     key={item.id}
-                                    className="gov-panel overflow-hidden p-5"
+                                    href={publicHref(`/news/${item.slug}`)}
+                                    className="gov-panel overflow-hidden p-5 block transition hover:-translate-y-0.5 hover:shadow-md"
                                 >
                                     <div className="flex items-center justify-between gap-3">
                                         <div className="flex items-center gap-2">
@@ -417,14 +414,7 @@ export default function Home({
                                     <p className="mt-3 text-sm leading-7 text-slate-600">
                                         {translation.summary}
                                     </p>
-                                    <Link
-                                        href={publicHref(`/news/${item.slug}`)}
-                                        className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)]"
-                                    >
-                                        {t(locale, 'common.readMore')}
-                                        <ArrowRight className="h-4 w-4" />
-                                    </Link>
-                                </article>
+                                </Link>
                             );
                         })}
                     </div>

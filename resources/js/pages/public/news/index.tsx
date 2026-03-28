@@ -15,7 +15,6 @@ import { useState } from 'react';
 export default function NewsIndex({ news, categories, filters }: { news: any; categories: any[]; filters: any }) {
     const page = usePage().props as any;
     const locale = page.locale ?? 'en';
-    const currentUrl = page.ziggy?.location ?? '';
     const defaultLocale = page.localization?.default_locale ?? 'en';
     const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const [search, setSearch] = useState(filters.search ?? '');
@@ -44,11 +43,6 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
             />
             <div className="container mx-auto space-y-8 px-4 py-12">
 
-                {/* Отложенная загрузка важных объявлений */}
-                <Deferred data="featuredAnnouncements" fallback={<FeaturedAnnouncementsSkeleton />}>
-                    <FeaturedAnnouncements locale={locale} isRecent={isRecent} />
-                </Deferred>
-
                 <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                     <form onSubmit={(event) => { event.preventDefault(); router.get('/news', { ...localeQuery, search, category_id: filters.category_id }); }} className="flex flex-col gap-3 sm:flex-row" role="search">
                         <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t(locale, 'news.searchPlaceholder')} className="w-full sm:w-64" />
@@ -66,14 +60,14 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                     </div>
                 </section>
 
-                {/* Отложенная загрузка основного списка новостей */}
+                {/* Основной список новостей */}
                 <Deferred data="news" fallback={<NewsGridSkeleton />}>
                     {news && news.data.length > 0 ? (
                         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                             {news.data.map((item: any) => {
                                 const translation = getTranslation(item, locale);
                                 return (
-                                    <li key={item.id}>
+                                    <li key={item.id} className="relative">
                                         <Card className="overflow-hidden rounded-3xl border-slate-200 bg-white transition-shadow hover:shadow-md h-full flex flex-col">
                                             {item.featured_image && (
                                                 <div className="aspect-video overflow-hidden bg-slate-100">
@@ -93,14 +87,12 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                                             </CardHeader>
                                             <CardContent className="flex-1 flex flex-col justify-between">
                                                 <p className="text-sm text-gray-500 line-clamp-2 mb-4">{translation.summary}</p>
-                                                <div className="flex items-center justify-between">
-                                                    <time className="text-xs text-gray-400">
-                                                        {formatLocalizedDate(item.published_at, locale)}
-                                                    </time>
-                                                    <Link href={`/news/${item.slug}`} className="text-sm font-medium text-[var(--public-accent)] hover:underline">{t(locale, 'common.readMore')}</Link>
-                                                </div>
+                                                <time className="text-xs text-gray-400">
+                                                    {formatLocalizedDate(item.published_at, locale)}
+                                                </time>
                                             </CardContent>
                                         </Card>
+                                        <Link href={`/news/${item.slug}`} className="absolute inset-0" aria-label={translation.title} />
                                     </li>
                                 );
                             })}
@@ -111,50 +103,6 @@ export default function NewsIndex({ news, categories, filters }: { news: any; ca
                 </Deferred>
             </div>
         </PublicLayout>
-    );
-}
-
-function FeaturedAnnouncements({ locale, isRecent }: { locale: string, isRecent: any }) {
-    const { featuredAnnouncements } = usePage().props as any;
-    if (!featuredAnnouncements?.length) return null;
-
-    return (
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm mb-8">
-            <div className="mb-4">
-                <p className="text-sm font-semibold uppercase tracking-wide text-[var(--public-accent)]">{t(locale, 'news.whatsNew')}</p>
-                <h2 className="text-sm text-slate-600">{t(locale, 'news.whatsNewDescription')}</h2>
-            </div>
-            <ul className="grid gap-4 lg:grid-cols-3">
-                {featuredAnnouncements.map((item: any) => {
-                    const translation = getTranslation(item, locale);
-                    return (
-                        <li key={item.id}>
-                            <Link href={`/news/${item.slug}`} className="block rounded-2xl border border-slate-200 bg-[var(--public-surface)] p-4 transition hover:border-[var(--public-accent)]/30 hover:shadow-sm">
-                                <div className="mb-2 flex items-center gap-2">
-                                    {item.is_featured && <Badge>{t(locale, 'news.featured')}</Badge>}
-                                    {isRecent(item.published_at) && <Badge variant="outline">{t(locale, 'news.new')}</Badge>}
-                                </div>
-                                <p className="font-medium text-gray-900 line-clamp-2">{translation.title}</p>
-                            </Link>
-                        </li>
-                    );
-                })}
-            </ul>
-        </section>
-    );
-}
-
-function FeaturedAnnouncementsSkeleton() {
-    return (
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm mb-8">
-            <Skeleton className="h-4 w-32 mb-2" />
-            <Skeleton className="h-4 w-64 mb-6" />
-            <div className="grid gap-4 lg:grid-cols-3">
-                <Skeleton className="h-24 rounded-2xl" />
-                <Skeleton className="h-24 rounded-2xl" />
-                <Skeleton className="h-24 rounded-2xl" />
-            </div>
-        </div>
     );
 }
 

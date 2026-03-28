@@ -5,7 +5,7 @@ import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
 import { getTranslation, t } from '@/lib/i18n';
 import { publicLocaleQuery } from '@/lib/public-locale';
-import { Link, router, usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { Download, FileText, Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -155,9 +155,9 @@ export default function DocumentsIndex({
                                     </div>
                                 </div>
                                 <Button asChild variant="outline" size="sm" className="shrink-0">
-                                    <Link href={`/documents/${document.id}/download`}>
+                                    <a href={`/documents/${document.id}/download`} target="_blank" rel="noopener noreferrer">
                                         <Download className="mr-1.5 h-4 w-4" /> {t(locale, 'common.download')}
-                                    </Link>
+                                    </a>
                                 </Button>
                             </li>
                         );
