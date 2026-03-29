@@ -240,7 +240,7 @@ export default function Home({
                                 href={publicHref(comp.href)}
                                 className="gov-panel group p-6 transition hover:-translate-y-0.5 hover:shadow-md"
                             >
-                                <h3 className="text-lg font-semibold text-[var(--public-primary-hover)]">
+                                <h3 className="text-lg font-semibold text-(--public-primary-hover)">
                                     {t(locale, comp.titleKey)}
                                 </h3>
                                 <p className="mt-2 flex-1 text-sm leading-7 text-slate-600">
