@@ -372,8 +372,10 @@ export default function ProjectShow({ projectDocuments }: Props) {
                                             const translation = getTranslation(doc, locale);
                                             return (
                                                 <li key={doc.id}>
-                                                    <Link
-                                                        href={publicHref(`/documents/${doc.id}/download`)}
+                                                    <a
+                                                        href={`/documents/${doc.id}/download`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                         className="flex items-center justify-between gap-4 px-5 py-4 text-sm transition-colors hover:bg-slate-50"
                                                     >
                                                         <span className="flex items-center gap-3">
@@ -383,7 +385,7 @@ export default function ProjectShow({ projectDocuments }: Props) {
                                                             </span>
                                                         </span>
                                                         <ExternalLink className="h-4 w-4 shrink-0 text-slate-400" />
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                             );
                                         })}

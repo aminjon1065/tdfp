@@ -508,6 +508,7 @@ export default {
     'documents.indexDescription': 'Project documentation, reports, technical studies and policies',
     'documents.searchPlaceholder': 'Search documents...',
     'documents.empty': 'No documents found.',
+    'documents.previewUnavailable': 'Preview is not available for this file type. Please download the file to view it.',
     'procurement.title': 'Procurement',
     'procurement.notice': 'Procurement Notice',
     'procurement.indexDescription': 'Notices, RFQs, RFPs and contract awards',

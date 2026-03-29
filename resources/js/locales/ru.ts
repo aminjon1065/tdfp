@@ -508,6 +508,7 @@ export default {
     'documents.indexDescription': 'Проектная документация, отчеты, технические исследования и политики',
     'documents.searchPlaceholder': 'Поиск документов...',
     'documents.empty': 'Документы не найдены.',
+    'documents.previewUnavailable': 'Предварительный просмотр недоступен для этого типа файла. Скачайте файл для просмотра.',
     'procurement.title': 'Закупки',
     'procurement.notice': 'Закупочное объявление',
     'procurement.indexDescription': 'Объявления, RFQ, RFP и итоги контрактов',

@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
@@ -37,6 +38,7 @@ export default function DocumentsIndex({
     const defaultLocale = page.localization?.default_locale ?? 'en';
     const localeQuery = publicLocaleQuery(locale, defaultLocale);
     const [search, setSearch] = useState(filters.search ?? '');
+    const [previewDoc, setPreviewDoc] = useState<any>(null);
     const structuredData = [
         {
             '@context': 'https://schema.org',
@@ -132,7 +134,11 @@ export default function DocumentsIndex({
                         const translation = getTranslation(document, locale);
 
                         return (
-                            <li key={document.id} className="flex items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-[var(--public-accent)]/30">
+                            <li
+                                key={document.id}
+                                className="flex items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-[var(--public-accent)]/30 cursor-pointer"
+                                onClick={() => setPreviewDoc(document)}
+                            >
                                 <div className="flex items-start gap-3">
                                     <FileText className="mt-0.5 h-5 w-5 shrink-0 text-[var(--public-accent)]" aria-hidden="true" />
                                     <div>
@@ -154,10 +160,8 @@ export default function DocumentsIndex({
                                         )}
                                     </div>
                                 </div>
-                                <Button asChild variant="outline" size="sm" className="shrink-0">
-                                    <a href={`/documents/${document.id}/download`} target="_blank" rel="noopener noreferrer">
-                                        <Download className="mr-1.5 h-4 w-4" /> {t(locale, 'common.download')}
-                                    </a>
+                                <Button variant="outline" size="sm" className="shrink-0 pointer-events-none">
+                                    <FileText className="mr-1.5 h-4 w-4" /> {t(locale, 'common.view')}
                                 </Button>
                             </li>
                         );
@@ -165,6 +169,89 @@ export default function DocumentsIndex({
                 </ul>
                 {documents.data.length === 0 && <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-gray-500">{t(locale, 'documents.empty')}</div>}
             </div>
+
+            <DocumentPreviewModal
+                document={previewDoc}
+                locale={locale}
+                onClose={() => setPreviewDoc(null)}
+                tFn={t}
+            />
         </PublicLayout>
+    );
+}
+
+function DocumentPreviewModal({ document, locale, onClose, tFn }: { document: any; locale: string; onClose: () => void; tFn: typeof t }) {
+    if (!document) return null;
+
+    const translation = getTranslation(document, locale);
+    const title = translation.title ?? tFn(locale, 'common.document');
+    const type = document.file_type?.toLowerCase() ?? '';
+    const fileAbsUrl = `${window.location.origin}/storage/${document.file_path}`;
+
+    const officeTypes = ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt'];
+    const isPdf = type === 'pdf';
+    const isOffice = officeTypes.includes(type);
+    const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileAbsUrl)}`;
+
+    return (
+        <Dialog open={!!document} onOpenChange={(open) => { if (!open) onClose(); }}>
+            <DialogContent className="max-w-5xl w-full h-[90vh] flex flex-col p-0 gap-0">
+                <DialogHeader className="px-6 py-4 border-b flex-row items-center justify-between shrink-0">
+                    <DialogTitle className="text-base font-semibold line-clamp-1 pr-4">{title}</DialogTitle>
+                    <a
+                        href={`/documents/${document.id}/download`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <Button size="sm" variant="outline">
+                            <Download className="mr-1.5 h-4 w-4" />
+                            {tFn(locale, 'common.download')}
+                        </Button>
+                    </a>
+                </DialogHeader>
+
+                <div className="flex-1 overflow-hidden bg-slate-100">
+                    {isPdf && (
+                        <object
+                            data={`/storage/${document.file_path}`}
+                            type="application/pdf"
+                            className="w-full h-full"
+                        >
+                            <iframe
+                                src={`/storage/${document.file_path}`}
+                                className="w-full h-full border-0"
+                                title={title}
+                            />
+                        </object>
+                    )}
+                    {isOffice && (
+                        <iframe
+                            src={officeViewerUrl}
+                            className="w-full h-full border-0"
+                            title={title}
+                            sandbox="allow-scripts allow-same-origin allow-popups"
+                        />
+                    )}
+                    {!isPdf && !isOffice && (
+                        <div className="flex flex-col items-center justify-center h-full gap-4 text-slate-500">
+                            <FileText className="h-16 w-16 text-slate-300" />
+                            <p className="text-sm">{tFn(locale, 'documents.previewUnavailable')}</p>
+                            <a
+                                href={`/documents/${document.id}/download`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button>
+                                    <Download className="mr-1.5 h-4 w-4" />
+                                    {tFn(locale, 'common.download')}
+                                </Button>
+                            </a>
+                        </div>
+                    )}
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }

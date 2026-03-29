@@ -508,6 +508,7 @@ export default {
     'documents.indexDescription': 'Ҳуҷҷатҳои лоиҳа, ҳисоботҳо, таҳқиқоти техникӣ ва сиёсатҳо',
     'documents.searchPlaceholder': 'Ҷустуҷӯи ҳуҷҷатҳо...',
     'documents.empty': 'Ҳуҷҷатҳо ёфт нашуданд.',
+    'documents.previewUnavailable': 'Пешнамоиш барои ин намуди файл дастрас нест. Барои дидан файлро зеркашӣ кунед.',
     'procurement.title': 'Харид',
     'procurement.notice': 'Эълони харид',
     'procurement.indexDescription': 'Эълонҳо, RFQ, RFP ва натиҷаҳои шартномаҳо',
