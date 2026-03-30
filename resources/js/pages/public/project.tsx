@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import {
     Building2,
@@ -10,6 +9,7 @@ import {
     Landmark,
     TrendingUp,
 } from 'lucide-react';
+import React, { useState } from 'react';
 
 import PageHero from '@/components/page-hero';
 import PublicLayout from '@/layouts/public-layout';
@@ -50,8 +50,14 @@ export default function Project({ projectDocuments }: Props) {
             titleKey: 'project.component1' as const,
             amount: '$24.7M',
             sub: [
-                { titleKey: 'project.component1.sub1' as const, amount: '$21.4M' },
-                { titleKey: 'project.component1.sub2' as const, amount: '$3.3M' },
+                {
+                    titleKey: 'project.component1.sub1' as const,
+                    amount: '$21.4M',
+                },
+                {
+                    titleKey: 'project.component1.sub2' as const,
+                    amount: '$3.3M',
+                },
             ],
         },
         {
@@ -70,7 +76,7 @@ export default function Project({ projectDocuments }: Props) {
 
     const timeline = [
         { date: 'May 2025', noteKey: 'project.timeline.step1' as const },
-        { date: 'Q1 2025',  noteKey: 'project.timeline.step2' as const },
+        { date: 'Q1 2025', noteKey: 'project.timeline.step2' as const },
         { date: '2025–2027', noteKey: 'project.timeline.step3' as const },
         { date: '2028–2030', noteKey: 'project.timeline.step4' as const },
         { date: 'Dec 2030', noteKey: 'project.timeline.step5' as const },
@@ -123,12 +129,18 @@ export default function Project({ projectDocuments }: Props) {
                             {
                                 icon: Calendar,
                                 labelKey: 'project.approvalDate',
-                                value: formatLocalizedDate('2025-05-08', locale),
+                                value: formatLocalizedDate(
+                                    '2025-05-08',
+                                    locale,
+                                ),
                             },
                             {
                                 icon: Calendar,
                                 labelKey: 'project.closingDate',
-                                value: formatLocalizedDate('2030-12-31', locale),
+                                value: formatLocalizedDate(
+                                    '2030-12-31',
+                                    locale,
+                                ),
                             },
                             {
                                 icon: Landmark,

@@ -624,7 +624,7 @@ export default function PublicLayout({
                     ? 'pt-9'
                     : bviState.enabled
                       ? 'pt-48'
-                      : 'pt-[calc(2.25rem+3.5rem)]',
+                      : 'pt-23',
             )}
         >
             {children}
