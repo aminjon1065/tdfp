@@ -349,6 +349,27 @@ test('public search keeps query string filters in paginator links', function () 
         );
 });
 
+test('public search falls back to like matching for short queries', function () {
+    SearchIndex::create([
+        'entity_type' => \App\Models\Page::class,
+        'entity_id' => 910,
+        'title' => 'PIC Service Charter',
+        'content' => 'PIC service standards and support commitments.',
+        'language' => 'en',
+        'url' => '/pages/pic-service-charter',
+    ]);
+
+    $this->get('/search?q=PIC&lang=en')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/search')
+            ->where('query', 'PIC')
+            ->where('results.total', 1)
+            ->where('results.data.0.title', 'PIC Service Charter')
+            ->where('results.data.0.entity_type', \App\Models\Page::class)
+        );
+});
+
 test('language switch stores the locale in session and shares it with inertia', function () {
     $this->seed(DatabaseSeeder::class);
 

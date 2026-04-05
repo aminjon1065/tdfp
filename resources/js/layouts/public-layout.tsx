@@ -449,8 +449,18 @@ export default function PublicLayout({
                                         }}
                                     >
                                         <div className="relative flex-1">
+                                            <label
+                                                htmlFor="desktop-site-search"
+                                                className="sr-only"
+                                            >
+                                                {t(
+                                                    currentLocale,
+                                                    'common.search',
+                                                )}
+                                            </label>
                                             <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                                             <input
+                                                id="desktop-site-search"
                                                 ref={searchInputRef}
                                                 value={searchQuery}
                                                 onChange={(e) =>
@@ -559,8 +569,18 @@ export default function PublicLayout({
                                             }}
                                         >
                                             <div className="relative flex-1">
+                                                <label
+                                                    htmlFor="mobile-site-search"
+                                                    className="sr-only"
+                                                >
+                                                    {t(
+                                                        currentLocale,
+                                                        'common.search',
+                                                    )}
+                                                </label>
                                                 <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                                                 <input
+                                                    id="mobile-site-search"
                                                     value={searchQuery}
                                                     onChange={(e) =>
                                                         setSearchQuery(

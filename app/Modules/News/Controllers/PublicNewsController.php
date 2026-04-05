@@ -18,14 +18,11 @@ class PublicNewsController extends Controller
         $filters = $request->only('category_id', 'search', 'lang');
 
         return Inertia::render('public/news/index', [
-            // Этот пропс загрузится мгновенно
             'categories' => NewsCategory::all(),
             'filters' => $filters,
             'recentWindowDays' => $this->repository->recentWindowDays(),
-
-            // Эти пропсы загрузятся вторым запросом (Deferred)
-            'news' => Inertia::defer(fn () => $this->repository->paginatePublishedWithTranslations(12, $filters)),
-            'featuredAnnouncements' => Inertia::defer(fn () => $this->repository->featuredAnnouncements(3)),
+            'news' => $this->repository->paginatePublishedWithTranslations(12, $filters),
+            'featuredAnnouncements' => $this->repository->featuredAnnouncements(3),
         ]);
     }
 

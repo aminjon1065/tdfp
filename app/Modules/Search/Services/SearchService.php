@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class SearchService
@@ -21,26 +22,18 @@ class SearchService
     public function search(string $query, string $language = 'en', array $filters = []): LengthAwarePaginator
     {
         $searchTerm = trim($query);
-        $q = $this->buildSearchQuery($searchTerm, $language, $filters);
 
-        return $q
-            ->orderByRaw(
-                'CASE
-                    WHEN LOWER(title) = LOWER(?) THEN 0
-                    WHEN LOWER(title) LIKE LOWER(?) THEN 1
-                    WHEN LOWER(title) LIKE LOWER(?) THEN 2
-                    WHEN LOWER(content) LIKE LOWER(?) THEN 3
-                    ELSE 4
-                END',
-                [
-                    $searchTerm,
-                    $searchTerm.'%',
-                    '%'.$searchTerm.'%',
-                    '%'.$searchTerm.'%',
-                ]
-            )
-            ->orderByRaw('LENGTH(title) asc')
-            ->latest('updated_at')
+        if ($this->canUseFullText($searchTerm)) {
+            $fullTextResults = $this->buildFullTextSearchQuery($searchTerm, $language, $filters)
+                ->paginate(15)
+                ->withQueryString();
+
+            if ($fullTextResults->total() > 0) {
+                return $fullTextResults;
+            }
+        }
+
+        return $this->buildLikeSearchQuery($searchTerm, $language, $filters)
             ->paginate(15)
             ->withQueryString();
     }
@@ -89,7 +82,31 @@ class SearchService
      */
     public function facetCounts(string $query, string $language = 'en'): array
     {
-        return $this->buildSearchQuery($query, $language)
+        $searchTerm = trim($query);
+        $fullTextCounts = [];
+
+        if ($this->canUseFullText($searchTerm)) {
+            $fullTextCounts = $this->entityTypeCounts(
+                $this->buildFullTextSearchQuery($searchTerm, $language)
+            );
+        }
+
+        if ($fullTextCounts !== []) {
+            return $fullTextCounts;
+        }
+
+        return $this->entityTypeCounts(
+            $this->buildLikeSearchQuery($searchTerm, $language)
+        );
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    private function entityTypeCounts(Builder $query): array
+    {
+        return $query
+            ->reorder()
             ->select('entity_type', new Expression('COUNT(*) as aggregate'))
             ->groupBy('entity_type')
             ->pluck('aggregate', 'entity_type')
@@ -177,18 +194,68 @@ class SearchService
         });
     }
 
-    private function buildSearchQuery(string $searchTerm, string $language, array $filters = []): Builder
+    private function buildBaseSearchQuery(string $language, array $filters = []): Builder
     {
         return SearchIndex::query()
             ->where('language', $language)
             ->when(
                 ! empty($filters['entity_type']),
                 fn ($query) => $query->where('entity_type', $filters['entity_type'])
+            );
+    }
+
+    private function buildFullTextSearchQuery(string $searchTerm, string $language, array $filters = []): Builder
+    {
+        return $this->buildBaseSearchQuery($language, $filters)
+            ->select('search_index.*')
+            ->selectRaw(
+                'MATCH(title, content) AGAINST (? IN NATURAL LANGUAGE MODE) as relevance_score',
+                [$searchTerm],
             )
+            ->whereFullText(['title', 'content'], $searchTerm)
+            ->orderByDesc('relevance_score')
+            ->latest('updated_at');
+    }
+
+    private function buildLikeSearchQuery(string $searchTerm, string $language, array $filters = []): Builder
+    {
+        return $this->buildBaseSearchQuery($language, $filters)
             ->where(function ($builder) use ($searchTerm) {
                 $builder->where('title', 'like', '%'.$searchTerm.'%')
                     ->orWhere('content', 'like', '%'.$searchTerm.'%');
-            });
+            })
+            ->orderByRaw(
+                'CASE
+                    WHEN LOWER(title) = LOWER(?) THEN 0
+                    WHEN LOWER(title) LIKE LOWER(?) THEN 1
+                    WHEN LOWER(title) LIKE LOWER(?) THEN 2
+                    WHEN LOWER(content) LIKE LOWER(?) THEN 3
+                    ELSE 4
+                END',
+                [
+                    $searchTerm,
+                    $searchTerm.'%',
+                    '%'.$searchTerm.'%',
+                    '%'.$searchTerm.'%',
+                ]
+            )
+            ->orderByRaw('LENGTH(title) asc')
+            ->latest('updated_at');
+    }
+
+    private function canUseFullText(string $searchTerm): bool
+    {
+        if (mb_strlen($searchTerm) < 3) {
+            return false;
+        }
+
+        $terms = preg_split('/[\s\p{P}\p{S}]+/u', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+        if (! is_array($terms) || $terms === []) {
+            return false;
+        }
+
+        return collect(Arr::where($terms, fn (string $term) => mb_strlen($term) >= 3))->isNotEmpty();
     }
 
     private function supportsModel(Model $model): bool

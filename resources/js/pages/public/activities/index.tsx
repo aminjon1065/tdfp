@@ -144,8 +144,12 @@ export default function ActivitiesIndex({
             <div className="container mx-auto px-4 py-10">
                 {/* Search */}
                 <div className="relative mb-6 max-w-lg">
+                    <label htmlFor="activity-search-query" className="sr-only">
+                        {t(locale, 'common.search')}
+                    </label>
                     <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                     <Input
+                        id="activity-search-query"
                         value={searchValue}
                         onChange={(e) => handleSearchChange(e.target.value)}
                         placeholder={t(locale, 'common.search')}

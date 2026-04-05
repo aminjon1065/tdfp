@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
+use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 
 test('login screen can be rendered', function () {
@@ -98,4 +99,21 @@ test('inactive users can not authenticate', function () {
     ]);
 
     $this->assertGuest();
+});
+
+test('authenticated inertia responses expose the expected auth user payload', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('appearance.edit'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('auth.user.id', $user->id)
+            ->where('auth.user.name', $user->name)
+            ->where('auth.user.email', $user->email)
+            ->where('auth.user.roles', [])
+            ->where('auth.user.permissions', [])
+        );
 });

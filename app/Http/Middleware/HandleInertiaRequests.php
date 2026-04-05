@@ -37,11 +37,29 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $siteSettings = Setting::many([
+            'site_title',
+            'site_description',
+            'contact_email',
+            'contact_phone',
+            'contact_address',
+            'facebook_url',
+            'twitter_url',
+            'youtube_url',
+            'analytics_enabled',
+            'analytics_provider',
+            'google_analytics_id',
+        ], [
+            'site_title' => config('app.name'),
+            'analytics_enabled' => false,
+            'analytics_provider' => 'ga4',
+        ]);
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user() ? [
+                'user' => fn () => $request->user() ? [
                     'id' => $request->user()->id,
                     'name' => $request->user()->name,
                     'email' => $request->user()->email,
@@ -60,17 +78,8 @@ class HandleInertiaRequests extends Middleware
                 'supported_locales' => config('app.supported_locales'),
             ],
             'siteSettings' => [
-                'site_title' => Setting::get('site_title', config('app.name')),
-                'site_description' => Setting::get('site_description'),
-                'contact_email' => Setting::get('contact_email'),
-                'contact_phone' => Setting::get('contact_phone'),
-                'contact_address' => Setting::get('contact_address'),
-                'facebook_url' => Setting::get('facebook_url'),
-                'twitter_url' => Setting::get('twitter_url'),
-                'youtube_url' => Setting::get('youtube_url'),
-                'analytics_enabled' => filter_var(Setting::get('analytics_enabled', false), FILTER_VALIDATE_BOOLEAN),
-                'analytics_provider' => Setting::get('analytics_provider', 'ga4'),
-                'google_analytics_id' => Setting::get('google_analytics_id'),
+                ...$siteSettings,
+                'analytics_enabled' => filter_var($siteSettings['analytics_enabled'], FILTER_VALIDATE_BOOLEAN),
             ],
             'navigation' => [
                 'project_pages' => fn () => Page::query()

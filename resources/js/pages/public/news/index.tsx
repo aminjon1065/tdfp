@@ -1,4 +1,4 @@
-import { Deferred, Link, router, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -70,7 +70,11 @@ export default function NewsIndex({
                         className="flex flex-col gap-3 sm:flex-row"
                         role="search"
                     >
+                        <label htmlFor="news-search-query" className="sr-only">
+                            {t(locale, 'news.searchPlaceholder')}
+                        </label>
                         <Input
+                            id="news-search-query"
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
                             placeholder={t(locale, 'news.searchPlaceholder')}
@@ -121,109 +125,80 @@ export default function NewsIndex({
                     </div>
                 </section>
 
-                {/* Основной список новостей */}
-                <Deferred data="news" fallback={<NewsGridSkeleton />}>
-                    {news && news.data.length > 0 ? (
-                        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {news.data.map((item: any) => {
-                                const translation = getTranslation(
-                                    item,
-                                    locale,
-                                );
-                                return (
-                                    <li key={item.id} className="relative">
-                                        <Card className="flex h-full flex-col overflow-hidden rounded-3xl border-slate-200 bg-white transition-shadow hover:shadow-md">
-                                            {item.featured_image && (
-                                                <div className="aspect-video overflow-hidden bg-slate-100">
-                                                    <PublicImage
-                                                        src={`/storage/${item.featured_image}`}
-                                                        alt={translation.title}
-                                                        className="h-full w-full object-cover"
-                                                    />
-                                                </div>
-                                            )}
-                                            <CardHeader className="pb-2">
-                                                <div className="flex flex-wrap gap-2">
-                                                    {item.category && (
-                                                        <Badge
-                                                            variant="outline"
-                                                            className="w-fit text-xs"
-                                                        >
-                                                            {t(
-                                                                locale,
-                                                                `news.category.${item.category.slug}` as any,
-                                                            ) ||
-                                                                item.category
-                                                                    .name}
-                                                        </Badge>
-                                                    )}
-                                                    {isRecent(
-                                                        item.published_at,
-                                                    ) && (
-                                                        <Badge
-                                                            variant="outline"
-                                                            className="border-emerald-200 bg-emerald-50 text-emerald-700"
-                                                        >
-                                                            {t(
-                                                                locale,
-                                                                'news.new',
-                                                            )}
-                                                        </Badge>
-                                                    )}
-                                                </div>
-                                                <CardTitle className="line-clamp-2 text-base">
-                                                    {translation.title}
-                                                </CardTitle>
-                                            </CardHeader>
-                                            <CardContent className="flex flex-1 flex-col justify-between">
-                                                <p className="mb-4 line-clamp-2 text-sm text-gray-500">
-                                                    {translation.summary}
-                                                </p>
-                                                <time className="text-xs text-gray-400">
-                                                    {formatLocalizedDate(
-                                                        item.published_at,
-                                                        locale,
-                                                    )}
-                                                </time>
-                                            </CardContent>
-                                        </Card>
-                                        <Link
-                                            href={`/news/${item.slug}`}
-                                            className="absolute inset-0"
-                                            aria-label={translation.title}
-                                        />
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    ) : (
-                        <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-gray-500">
-                            {t(locale, 'news.empty')}
-                        </div>
-                    )}
-                </Deferred>
+                {news && news.data.length > 0 ? (
+                    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {news.data.map((item: any) => {
+                            const translation = getTranslation(item, locale);
+
+                            return (
+                                <li key={item.id} className="relative">
+                                    <Card className="flex h-full flex-col overflow-hidden rounded-3xl border-slate-200 bg-white transition-shadow hover:shadow-md">
+                                        {item.featured_image && (
+                                            <div className="aspect-video overflow-hidden bg-slate-100">
+                                                <PublicImage
+                                                    src={`/storage/${item.featured_image}`}
+                                                    alt={translation.title}
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                        <CardHeader className="pb-2">
+                                            <div className="flex flex-wrap gap-2">
+                                                {item.category && (
+                                                    <Badge
+                                                        variant="outline"
+                                                        className="w-fit text-xs"
+                                                    >
+                                                        {t(
+                                                            locale,
+                                                            `news.category.${item.category.slug}` as any,
+                                                        ) ||
+                                                            item.category.name}
+                                                    </Badge>
+                                                )}
+                                                {isRecent(item.published_at) && (
+                                                    <Badge
+                                                        variant="outline"
+                                                        className="border-emerald-200 bg-emerald-50 text-emerald-700"
+                                                    >
+                                                        {t(
+                                                            locale,
+                                                            'news.new',
+                                                        )}
+                                                    </Badge>
+                                                )}
+                                            </div>
+                                            <CardTitle className="line-clamp-2 text-base">
+                                                {translation.title}
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="flex flex-1 flex-col justify-between">
+                                            <p className="mb-4 line-clamp-2 text-sm text-gray-500">
+                                                {translation.summary}
+                                            </p>
+                                            <time className="text-xs text-gray-400">
+                                                {formatLocalizedDate(
+                                                    item.published_at,
+                                                    locale,
+                                                )}
+                                            </time>
+                                        </CardContent>
+                                    </Card>
+                                    <Link
+                                        href={`/news/${item.slug}`}
+                                        className="absolute inset-0"
+                                        aria-label={translation.title}
+                                    />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                ) : (
+                    <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-gray-500">
+                        {t(locale, 'news.empty')}
+                    </div>
+                )}
             </div>
         </PublicLayout>
-    );
-}
-
-function NewsGridSkeleton() {
-    return (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div
-                    key={i}
-                    className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-4"
-                >
-                    <Skeleton className="mb-4 aspect-video w-full rounded-2xl" />
-                    <Skeleton className="mb-2 h-4 w-3/4" />
-                    <Skeleton className="mb-4 h-4 w-full" />
-                    <div className="flex justify-between">
-                        <Skeleton className="h-3 w-20" />
-                        <Skeleton className="h-3 w-16" />
-                    </div>
-                </div>
-            ))}
-        </div>
     );
 }

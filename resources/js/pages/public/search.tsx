@@ -1,3 +1,4 @@
+import type { PageProps } from '@inertiajs/core';
 import { Link, router, useForm, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 
@@ -7,12 +8,43 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import PublicLayout from '@/layouts/public-layout';
 import { t } from '@/lib/i18n';
+import { type Paginator, type SharedData } from '@/types';
+
+interface SearchResult {
+    id: number;
+    entity_type: string;
+    entity_label_key: string | null;
+    title: string;
+    snippet: string | null;
+    url: string | null;
+}
+
+interface SearchFilters {
+    entity_type?: string;
+    lang: string;
+}
+
+interface SearchEntityType {
+    value: string;
+    label_key: string;
+    count: number;
+}
+
+interface SearchPageProps extends PageProps, SharedData {
+    filters: SearchFilters;
+    query: string;
+    results: Paginator<SearchResult> | null;
+    entityTypes: SearchEntityType[];
+    ziggy?: {
+        location?: string;
+    };
+}
 
 interface Props {
-    results: any;
+    results: Paginator<SearchResult> | null;
     query: string;
-    filters: any;
-    entityTypes: { value: string; label_key: string; count: number }[];
+    filters: SearchFilters;
+    entityTypes: SearchEntityType[];
 }
 
 export default function SearchPage({
@@ -21,8 +53,13 @@ export default function SearchPage({
     filters,
     entityTypes,
 }: Props) {
-    const locale = (usePage().props as any).locale ?? 'en';
-    const currentUrl = (usePage().props as any).ziggy?.location ?? '';
+    const { props } = usePage<SearchPageProps>();
+    const locale = props.locale ?? 'en';
+    const currentUrl = props.ziggy?.location ?? '';
+    const resultItems = results?.data ?? [];
+    const resultLinks = results?.links ?? [];
+    const hasResults = resultItems.length > 0;
+    const hasPagination = (results?.last_page ?? 0) > 1;
     const { data, setData, processing } = useForm({
         q: query ?? '',
         entity_type: filters.entity_type ?? '',
@@ -35,17 +72,15 @@ export default function SearchPage({
             description: t(locale, 'search.description'),
             inLanguage: locale,
             url: currentUrl || undefined,
-            mainEntity: results?.data?.length
+            mainEntity: hasResults
                 ? {
                       '@type': 'ItemList',
-                      itemListElement: results.data.map(
-                          (item: any, index: number) => ({
-                              '@type': 'ListItem',
-                              position: index + 1,
-                              name: item.title,
-                              url: item.url,
-                          }),
-                      ),
+                      itemListElement: resultItems.map((item, index) => ({
+                          '@type': 'ListItem',
+                          position: index + 1,
+                          name: item.title,
+                          url: item.url,
+                      })),
                   }
                 : undefined,
         },
@@ -180,9 +215,9 @@ export default function SearchPage({
                     </p>
                 )}
 
-                {results?.data?.length > 0 ? (
+                {hasResults ? (
                     <ol className="space-y-4">
-                        {results.data.map((item: any) => (
+                        {resultItems.map((item) => (
                             <li
                                 key={item.id}
                                 className="rounded-lg border p-4 transition-colors hover:border-blue-300"
@@ -224,7 +259,7 @@ export default function SearchPage({
                     </p>
                 ) : null}
 
-                {results?.last_page > 1 && (
+                {hasPagination && results ? (
                     <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm text-gray-500">
                             {t(locale, 'search.page')} {results.current_page}{' '}
@@ -232,7 +267,7 @@ export default function SearchPage({
                             {results.total} {t(locale, 'search.total')})
                         </p>
                         <div className="flex flex-wrap gap-2">
-                            {results.links.map((link: any, index: number) => (
+                            {resultLinks.map((link, index) => (
                                 <Button
                                     key={`${link.label}-${index}`}
                                     type="button"
@@ -251,7 +286,7 @@ export default function SearchPage({
                             ))}
                         </div>
                     </div>
-                )}
+                ) : null}
             </div>
         </PublicLayout>
     );
