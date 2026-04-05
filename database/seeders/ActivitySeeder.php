@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\ActivityStatus;
 use App\Models\Activity;
 use App\Models\ActivityTranslation;
 use Illuminate\Database\Seeder;
@@ -135,8 +136,8 @@ class ActivitySeeder extends Seeder
                 'number' => 18,
                 'domain' => 'digital-public-services',
                 'en' => "Operationalization of a User Support Center and physical information kiosks 'InfoPoints' to provide technical support to service providers and beneficiaries",
-                'ru' => "Ввод в эксплуатацию Центра поддержки пользователей и физических информационных киосков «Инфопункты» для оказания технической поддержки поставщикам услуг и бенефициарам",
-                'tj' => "Ба истифода додани Маркази дастгирии истифодабарандагон ва киоскҳои иттилоотии ҷисмонӣ «Нуқтаҳои маълумот» барои расонидани дастгирии техникӣ ба таъминкунандагони хизматрасониҳо ва бенефитсиарҳо (Баҳрабарандагон)",
+                'ru' => 'Ввод в эксплуатацию Центра поддержки пользователей и физических информационных киосков «Инфопункты» для оказания технической поддержки поставщикам услуг и бенефициарам',
+                'tj' => 'Ба истифода додани Маркази дастгирии истифодабарандагон ва киоскҳои иттилоотии ҷисмонӣ «Нуқтаҳои маълумот» барои расонидани дастгирии техникӣ ба таъминкунандагони хизматрасониҳо ва бенефитсиарҳо (Баҳрабарандагон)',
             ],
             [
                 'number' => 19,
@@ -255,13 +256,13 @@ class ActivitySeeder extends Seeder
         foreach ($activities as $data) {
             $baseSlug = Str::slug($data['en']);
             // Truncate to keep slugs manageable
-            $slug = Str::limit($baseSlug, 80, '') . '-' . $data['number'];
+            $slug = Str::limit($baseSlug, 80, '').'-'.$data['number'];
 
             $activity = Activity::query()->updateOrCreate(
                 ['activity_number' => $data['number']],
                 [
                     'slug' => $slug,
-                    'status' => 'in_progress',
+                    'status' => ActivityStatus::InProgress->value,
                     'domain_slug' => $data['domain'],
                     'start_date' => null,
                     'end_date' => null,

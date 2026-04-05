@@ -1,8 +1,10 @@
+import { usePage } from '@inertiajs/react';
+import { Copy, Facebook, Linkedin, Send, Share2, Twitter } from 'lucide-react';
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { t } from '@/lib/i18n';
-import { Copy, Facebook, Linkedin, Share2, Send, Twitter } from 'lucide-react';
-import { usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { type SharedData } from '@/types';
 
 interface SocialShareProps {
     title: string;
@@ -22,11 +24,12 @@ export default function SocialShare({
     className,
 }: SocialShareProps) {
     const [copied, setCopied] = useState(false);
-    const locale = (usePage().props as any).locale ?? 'en';
-    const canUseNativeShare = typeof navigator !== 'undefined' && 'share' in navigator;
+    const locale = usePage<SharedData>().props.locale ?? 'en';
+    const canUseNativeShare =
+        typeof navigator !== 'undefined' && 'share' in navigator;
 
     async function shareNative(): Promise<void> {
-        if (! navigator.share) {
+        if (!navigator.share) {
             return;
         }
 
@@ -56,7 +59,10 @@ export default function SocialShare({
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h2 id="social-share-heading" className="text-sm font-semibold text-slate-900">
+                        <h2
+                            id="social-share-heading"
+                            className="text-sm font-semibold text-slate-900"
+                        >
                             {t(locale, 'share.title')}
                         </h2>
                         <p className="mt-1 text-sm text-slate-600">
@@ -65,7 +71,11 @@ export default function SocialShare({
                     </div>
 
                     {canUseNativeShare && (
-                        <Button type="button" variant="outline" onClick={() => void shareNative()}>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => void shareNative()}
+                        >
                             <Share2 className="mr-2 h-4 w-4" />
                             {t(locale, 'share.share')}
                         </Button>
@@ -73,14 +83,24 @@ export default function SocialShare({
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">
-                    <Button type="button" variant="outline" onClick={() => void copyLink()}>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => void copyLink()}
+                    >
                         <Copy className="mr-2 h-4 w-4" />
-                        {copied ? t(locale, 'share.copied') : t(locale, 'share.copy')}
+                        {copied
+                            ? t(locale, 'share.copied')
+                            : t(locale, 'share.copy')}
                     </Button>
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => popup(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`)}
+                        onClick={() =>
+                            popup(
+                                `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                            )
+                        }
                     >
                         <Facebook className="mr-2 h-4 w-4" />
                         Facebook
@@ -88,15 +108,22 @@ export default function SocialShare({
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => popup(`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`)}
+                        onClick={() =>
+                            popup(
+                                `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                            )
+                        }
                     >
-                        <Twitter className="mr-2 h-4 w-4" />
-                        X
+                        <Twitter className="mr-2 h-4 w-4" />X
                     </Button>
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => popup(`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`)}
+                        onClick={() =>
+                            popup(
+                                `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                            )
+                        }
                     >
                         <Linkedin className="mr-2 h-4 w-4" />
                         LinkedIn
@@ -104,7 +131,11 @@ export default function SocialShare({
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => popup(`https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}%20${encodedDescription}`)}
+                        onClick={() =>
+                            popup(
+                                `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}%20${encodedDescription}`,
+                            )
+                        }
                     >
                         <Send className="mr-2 h-4 w-4" />
                         Telegram

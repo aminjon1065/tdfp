@@ -30,14 +30,21 @@ class PublicController extends Controller
             'activities' => $this->activityRepository->allPublicWithTranslations(),
             'latestDocuments' => $this->documentRepository->latestPublished(4),
             'openProcurements' => $this->procurementRepository->openProcurements(4),
-            'settings' => Setting::all()->pluck('value', 'key'),
         ]);
     }
 
     public function contact(): Response
     {
         return Inertia::render('public/contact', [
-            'settings' => Setting::whereIn('key', ['contact_email', 'contact_phone', 'contact_address'])->get()->pluck('value', 'key'),
+            'settings' => Setting::many([
+                'contact_email',
+                'contact_phone',
+                'contact_address',
+            ], [
+                'contact_email' => 'info@pic.tj',
+                'contact_phone' => '+992 000 000 000',
+                'contact_address' => 'Dushanbe, Tajikistan',
+            ]),
         ]);
     }
 

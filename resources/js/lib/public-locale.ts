@@ -1,4 +1,7 @@
-export function publicLocaleQuery(locale: string, defaultLocale: string): Record<string, string> {
+export function publicLocaleQuery(
+    locale: string,
+    defaultLocale: string,
+): Record<string, string> {
     if (locale === defaultLocale) {
         return {};
     }
@@ -8,7 +11,11 @@ export function publicLocaleQuery(locale: string, defaultLocale: string): Record
     };
 }
 
-export function localizedPublicHref(path: string, locale: string, defaultLocale: string): string {
+export function localizedPublicHref(
+    path: string,
+    locale: string,
+    defaultLocale: string,
+): string {
     if (locale === defaultLocale) {
         return path;
     }

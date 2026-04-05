@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Modules\Activities\Services;
+
+use App\ActivityStatus;
 use App\Core\Helpers\FileHelper;
 use App\Core\Helpers\SlugHelper;
 use App\Models\Activity;
@@ -25,7 +28,9 @@ class ActivityService
 
             $activity = $this->repository->create([
                 'slug' => $slug,
-                'status' => $data['status'] ?? 'planned',
+                'status' => $data['status'] ?? ActivityStatus::Planned->value,
+                'domain_slug' => $data['domain_slug'] ?? null,
+                'activity_number' => $data['activity_number'] ?? null,
                 'start_date' => $data['start_date'] ?? null,
                 'end_date' => $data['end_date'] ?? null,
                 'featured_image' => $imagePath,
@@ -51,6 +56,8 @@ class ActivityService
         return DB::transaction(function () use ($activity, $data) {
             $updateData = [
                 'status' => $data['status'] ?? $activity->status,
+                'domain_slug' => $data['domain_slug'] ?? $activity->domain_slug,
+                'activity_number' => $data['activity_number'] ?? $activity->activity_number,
                 'start_date' => $data['start_date'] ?? $activity->start_date,
                 'end_date' => $data['end_date'] ?? $activity->end_date,
             ];

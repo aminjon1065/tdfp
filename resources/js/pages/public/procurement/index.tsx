@@ -14,8 +14,7 @@ import {
     getTranslation,
     t,
 } from '@/lib/i18n';
-import { localizedPublicHref } from '@/lib/public-locale';
-import { publicLocaleQuery } from '@/lib/public-locale';
+import { localizedPublicHref, publicLocaleQuery } from '@/lib/public-locale';
 
 export default function ProcurementIndex({
     procurements,

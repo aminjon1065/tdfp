@@ -21,7 +21,11 @@ const Header = () => {
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between gap-8">
                         {/* Logo */}
-                        <Link href="/" prefetch className="flex shrink-0 items-center gap-3">
+                        <Link
+                            href="/"
+                            prefetch
+                            className="flex shrink-0 items-center gap-3"
+                        >
                             <NishonLogo />
                             <div className="hidden md:block">
                                 <div className="text-lg leading-none font-bold text-slate-900">

@@ -1,12 +1,13 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, useForm, usePage } from '@inertiajs/react';
+
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import AdminLayout from '@/layouts/admin-layout';
 import { t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
 
 interface Setting {
     id: number;
@@ -30,7 +31,9 @@ export default function AdminSettingsIndex({ settings }: Props) {
         return acc;
     }, {});
 
-    const { data, setData, post, processing, errors } = useForm<{ settings: Record<string, string> }>({
+    const { data, setData, post, processing, errors } = useForm<{
+        settings: Record<string, string>;
+    }>({
         settings: initialValues,
     });
 
@@ -50,69 +53,117 @@ export default function AdminSettingsIndex({ settings }: Props) {
         key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.settings'), href: '/admin/settings' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.settings'),
+                    href: '/admin/settings',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.settings')} />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.settings')}</h1>
+                <h1 className="text-2xl font-bold">
+                    {t(locale, 'admin.content.settings')}
+                </h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {Object.entries(groups).map(([group, items]) => (
                         <Card key={group}>
                             <CardHeader>
-                                <CardTitle className="text-base">{groupLabel(group)}</CardTitle>
+                                <CardTitle className="text-base">
+                                    {groupLabel(group)}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 {items.map((setting, idx) => (
                                     <div key={setting.key}>
-                                        {idx > 0 && <Separator className="mb-4" />}
+                                        {idx > 0 && (
+                                            <Separator className="mb-4" />
+                                        )}
                                         <div className="space-y-2">
-                                            <Label htmlFor={setting.key}>{setting.label}</Label>
+                                            <Label htmlFor={setting.key}>
+                                                {setting.label}
+                                            </Label>
                                             {setting.type === 'textarea' ? (
                                                 <textarea
                                                     id={setting.key}
-                                                    value={data.settings[setting.key] ?? ''}
+                                                    value={
+                                                        data.settings[
+                                                            setting.key
+                                                        ] ?? ''
+                                                    }
                                                     onChange={(e) =>
                                                         setData('settings', {
                                                             ...data.settings,
-                                                            [setting.key]: e.target.value,
+                                                            [setting.key]:
+                                                                e.target.value,
                                                         })
                                                     }
                                                     rows={4}
-                                                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                                                 />
                                             ) : setting.type === 'boolean' ? (
                                                 <div className="flex items-center gap-2">
                                                     <input
                                                         id={setting.key}
                                                         type="checkbox"
-                                                        checked={data.settings[setting.key] === '1' || data.settings[setting.key] === 'true'}
+                                                        checked={
+                                                            data.settings[
+                                                                setting.key
+                                                            ] === '1' ||
+                                                            data.settings[
+                                                                setting.key
+                                                            ] === 'true'
+                                                        }
                                                         onChange={(e) =>
-                                                            setData('settings', {
-                                                                ...data.settings,
-                                                                [setting.key]: e.target.checked ? '1' : '0',
-                                                            })
+                                                            setData(
+                                                                'settings',
+                                                                {
+                                                                    ...data.settings,
+                                                                    [setting.key]:
+                                                                        e.target
+                                                                            .checked
+                                                                            ? '1'
+                                                                            : '0',
+                                                                },
+                                                            )
                                                         }
                                                         className="h-4 w-4 rounded border-input"
                                                     />
                                                     <span className="text-sm text-muted-foreground">
-                                                        {t(locale, 'common.enabled')}
+                                                        {t(
+                                                            locale,
+                                                            'common.enabled',
+                                                        )}
                                                     </span>
                                                 </div>
                                             ) : (
                                                 <Input
                                                     id={setting.key}
                                                     type={setting.type}
-                                                    value={data.settings[setting.key] ?? ''}
+                                                    value={
+                                                        data.settings[
+                                                            setting.key
+                                                        ] ?? ''
+                                                    }
                                                     onChange={(e) =>
                                                         setData('settings', {
                                                             ...data.settings,
-                                                            [setting.key]: e.target.value,
+                                                            [setting.key]:
+                                                                e.target.value,
                                                         })
                                                     }
                                                 />
                                             )}
-                                            {errors[`settings.${setting.key}`] && (
+                                            {errors[
+                                                `settings.${setting.key}`
+                                            ] && (
                                                 <p className="text-sm text-destructive">
-                                                    {errors[`settings.${setting.key}`]}
+                                                    {
+                                                        errors[
+                                                            `settings.${setting.key}`
+                                                        ]
+                                                    }
                                                 </p>
                                             )}
                                         </div>
@@ -123,11 +174,15 @@ export default function AdminSettingsIndex({ settings }: Props) {
                     ))}
 
                     {settings.length === 0 && (
-                        <p className="text-sm text-muted-foreground">{t(locale, 'admin.content.noSettings')}</p>
+                        <p className="text-sm text-muted-foreground">
+                            {t(locale, 'admin.content.noSettings')}
+                        </p>
                     )}
 
                     <Button type="submit" disabled={processing}>
-                        {processing ? t(locale, 'admin.content.saving') : t(locale, 'admin.content.saveSettings')}
+                        {processing
+                            ? t(locale, 'admin.content.saving')
+                            : t(locale, 'admin.content.saveSettings')}
                     </Button>
                 </form>
             </div>

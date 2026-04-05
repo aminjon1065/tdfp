@@ -1,10 +1,11 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, useForm, usePage } from '@inertiajs/react';
+
 import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AdminLayout from '@/layouts/admin-layout';
 import { t } from '@/lib/i18n';
-import { Head, useForm, usePage } from '@inertiajs/react';
 import { type SharedData } from '@/types';
 
 export default function AdminMediaCreate() {
@@ -26,7 +27,11 @@ export default function AdminMediaCreate() {
         },
     });
 
-    const handleTranslationChange = (lang: string, field: string, value: string) => {
+    const handleTranslationChange = (
+        lang: string,
+        field: string,
+        value: string,
+    ) => {
         setData('translations', {
             ...data.translations,
             [lang]: { ...data.translations[lang], [field]: value },
@@ -41,42 +46,70 @@ export default function AdminMediaCreate() {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: t(locale, 'admin.content.media'), href: '/admin/media' },
-                { title: t(locale, 'common.upload'), href: '/admin/media/create' },
+                {
+                    title: t(locale, 'admin.content.media'),
+                    href: '/admin/media',
+                },
+                {
+                    title: t(locale, 'common.upload'),
+                    href: '/admin/media/create',
+                },
             ]}
         >
-            <Head title={`${t(locale, 'common.upload')} ${t(locale, 'admin.content.media')}`} />
+            <Head
+                title={`${t(locale, 'common.upload')} ${t(locale, 'admin.content.media')}`}
+            />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.uploadMedia')}</h1>
+                <h1 className="text-2xl font-bold">
+                    {t(locale, 'admin.content.uploadMedia')}
+                </h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <Label htmlFor="type">{t(locale, 'common.type')}</Label>
                         <select
                             id="type"
                             value={data.type}
-                            onChange={(e) => setData('type', e.target.value as 'image' | 'video')}
+                            onChange={(e) =>
+                                setData(
+                                    'type',
+                                    e.target.value as 'image' | 'video',
+                                )
+                            }
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                         >
-                            <option value="image">{t(locale, 'common.image')}</option>
-                            <option value="video">{t(locale, 'common.video')}</option>
+                            <option value="image">
+                                {t(locale, 'common.image')}
+                            </option>
+                            <option value="video">
+                                {t(locale, 'common.video')}
+                            </option>
                         </select>
-                        {errors.type && <p className="text-sm text-destructive">{errors.type}</p>}
+                        {errors.type && (
+                            <p className="text-sm text-destructive">
+                                {errors.type}
+                            </p>
+                        )}
                     </div>
 
                     {data.type === 'image' && (
                         <div className="space-y-2">
                             <Label htmlFor="file">
-                                {t(locale, 'admin.form.imageFile')} <span className="text-destructive">*</span>
+                                {t(locale, 'admin.form.imageFile')}{' '}
+                                <span className="text-destructive">*</span>
                             </Label>
                             <input
                                 id="file"
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => setData('file', e.target.files?.[0] ?? null)}
+                                onChange={(e) =>
+                                    setData('file', e.target.files?.[0] ?? null)
+                                }
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium"
                             />
                             {errors.file && (
-                                <p className="text-sm text-destructive">{errors.file}</p>
+                                <p className="text-sm text-destructive">
+                                    {errors.file}
+                                </p>
                             )}
                         </div>
                     )}
@@ -84,26 +117,40 @@ export default function AdminMediaCreate() {
                     {data.type === 'video' && (
                         <>
                             <div className="space-y-2">
-                                <Label htmlFor="file">{t(locale, 'admin.form.videoFileOptional')}</Label>
+                                <Label htmlFor="file">
+                                    {t(locale, 'admin.form.videoFileOptional')}
+                                </Label>
                                 <input
                                     id="file"
                                     type="file"
                                     accept="video/*"
-                                    onChange={(e) => setData('file', e.target.files?.[0] ?? null)}
+                                    onChange={(e) =>
+                                        setData(
+                                            'file',
+                                            e.target.files?.[0] ?? null,
+                                        )
+                                    }
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="embed_url">{t(locale, 'admin.form.embedUrl')} ({t(locale, 'admin.form.embedUrlHint')})</Label>
+                                <Label htmlFor="embed_url">
+                                    {t(locale, 'admin.form.embedUrl')} (
+                                    {t(locale, 'admin.form.embedUrlHint')})
+                                </Label>
                                 <Input
                                     id="embed_url"
                                     type="url"
                                     value={data.embed_url}
-                                    onChange={(e) => setData('embed_url', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('embed_url', e.target.value)
+                                    }
                                     placeholder="https://www.youtube.com/embed/…"
                                 />
                                 {errors.embed_url && (
-                                    <p className="text-sm text-destructive">{errors.embed_url}</p>
+                                    <p className="text-sm text-destructive">
+                                        {errors.embed_url}
+                                    </p>
                                 )}
                             </div>
                         </>
@@ -113,8 +160,17 @@ export default function AdminMediaCreate() {
                         <Label>{t(locale, 'common.translations')}</Label>
                         <TranslationTabs
                             fields={[
-                                { name: 'title', label: t(locale, 'common.title'), type: 'input', required: true },
-                                { name: 'description', label: t(locale, 'common.descriptionLabel'), type: 'textarea' },
+                                {
+                                    name: 'title',
+                                    label: t(locale, 'common.title'),
+                                    type: 'input',
+                                    required: true,
+                                },
+                                {
+                                    name: 'description',
+                                    label: t(locale, 'common.descriptionLabel'),
+                                    type: 'textarea',
+                                },
                             ]}
                             data={data.translations}
                             onChange={handleTranslationChange}
@@ -124,9 +180,15 @@ export default function AdminMediaCreate() {
 
                     <div className="flex gap-3">
                         <Button type="submit" disabled={processing}>
-                            {processing ? t(locale, 'admin.form.currentlyUploading') : t(locale, 'admin.content.uploadMedia')}
+                            {processing
+                                ? t(locale, 'admin.form.currentlyUploading')
+                                : t(locale, 'admin.content.uploadMedia')}
                         </Button>
-                        <Button type="button" variant="outline" onClick={() => history.back()}>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => history.back()}
+                        >
                             {t(locale, 'common.cancel')}
                         </Button>
                     </div>

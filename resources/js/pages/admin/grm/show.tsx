@@ -1,13 +1,14 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { Clock, Download, Send } from 'lucide-react';
+
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import AdminLayout from '@/layouts/admin-layout';
 import { formatLocalizedDate, t } from '@/lib/i18n';
-import { Head, useForm, usePage } from '@inertiajs/react';
-import { Download, Send, Clock } from 'lucide-react';
 import { type SharedData } from '@/types';
 
 interface GrmMessage {
@@ -44,7 +45,11 @@ interface GrmCase {
     can_message: boolean;
     messages: GrmMessage[];
     status_history: GrmStatusHistory[];
-    attachments?: { id: number; original_name: string | null; uploaded_at: string }[];
+    attachments?: {
+        id: number;
+        original_name: string | null;
+        uploaded_at: string;
+    }[];
 }
 
 interface Props {
@@ -58,7 +63,9 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
     const messageForm = useForm({ message: '' });
     const statusForm = useForm({
         status: grm.status,
-        officer_id: grm.assigned_officer_id ? String(grm.assigned_officer_id) : '',
+        officer_id: grm.assigned_officer_id
+            ? String(grm.assigned_officer_id)
+            : '',
         notes: '',
     });
 
@@ -81,13 +88,18 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                 { title: grm.ticket_number, href: `/admin/grm/${grm.id}` },
             ]}
         >
-            <Head title={`${t(locale, 'admin.content.grm')} ${grm.ticket_number}`} />
+            <Head
+                title={`${t(locale, 'admin.content.grm')} ${grm.ticket_number}`}
+            />
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold">{grm.ticket_number}</h1>
+                        <h1 className="text-2xl font-bold">
+                            {grm.ticket_number}
+                        </h1>
                         <p className="text-sm text-muted-foreground">
-                            {t(locale, 'admin.form.submittedOn')} {formatLocalizedDate(grm.created_at, locale)}
+                            {t(locale, 'admin.form.submittedOn')}{' '}
+                            {formatLocalizedDate(grm.created_at, locale)}
                         </p>
                     </div>
                     <StatusBadge status={grm.status} />
@@ -99,30 +111,48 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                         {/* Complainant info */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-base">{t(locale, 'admin.content.complainant')}</CardTitle>
+                                <CardTitle className="text-base">
+                                    {t(locale, 'admin.content.complainant')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <p className="text-xs text-muted-foreground">{t(locale, 'common.name')}</p>
-                                        <p className="text-sm font-medium">{grm.complainant_name}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {t(locale, 'common.name')}
+                                        </p>
+                                        <p className="text-sm font-medium">
+                                            {grm.complainant_name}
+                                        </p>
                                     </div>
                                     {grm.complainant_email && (
                                         <div>
-                                            <p className="text-xs text-muted-foreground">{t(locale, 'common.email')}</p>
-                                            <p className="text-sm">{grm.complainant_email}</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {t(locale, 'common.email')}
+                                            </p>
+                                            <p className="text-sm">
+                                                {grm.complainant_email}
+                                            </p>
                                         </div>
                                     )}
                                     {grm.complainant_phone && (
                                         <div>
-                                            <p className="text-xs text-muted-foreground">{t(locale, 'common.phone')}</p>
-                                            <p className="text-sm">{grm.complainant_phone}</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {t(locale, 'common.phone')}
+                                            </p>
+                                            <p className="text-sm">
+                                                {grm.complainant_phone}
+                                            </p>
                                         </div>
                                     )}
                                     {grm.category && (
                                         <div>
-                                            <p className="text-xs text-muted-foreground">{t(locale, 'common.category')}</p>
-                                            <p className="text-sm">{grm.category}</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {t(locale, 'common.category')}
+                                            </p>
+                                            <p className="text-sm">
+                                                {grm.category}
+                                            </p>
                                         </div>
                                     )}
                                 </div>
@@ -133,8 +163,12 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                 )}
                                 <Separator />
                                 <div>
-                                    <p className="text-xs text-muted-foreground mb-1">{t(locale, 'common.descriptionLabel')}</p>
-                                    <p className="text-sm whitespace-pre-wrap">{grm.description}</p>
+                                    <p className="mb-1 text-xs text-muted-foreground">
+                                        {t(locale, 'common.descriptionLabel')}
+                                    </p>
+                                    <p className="text-sm whitespace-pre-wrap">
+                                        {grm.description}
+                                    </p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -142,11 +176,15 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                         {/* Messages */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-base">{t(locale, 'admin.form.messages')}</CardTitle>
+                                <CardTitle className="text-base">
+                                    {t(locale, 'admin.form.messages')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 {grm.messages.length === 0 && (
-                                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.form.noMessages')}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {t(locale, 'admin.form.noMessages')}
+                                    </p>
                                 )}
                                 {grm.messages.map((msg) => (
                                     <div
@@ -160,7 +198,9 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                                     : 'bg-muted text-muted-foreground'
                                             }`}
                                         >
-                                            {msg.sender_name.charAt(0).toUpperCase()}
+                                            {msg.sender_name
+                                                .charAt(0)
+                                                .toUpperCase()}
                                         </div>
                                         <div
                                             className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${
@@ -169,16 +209,23 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                                     : 'bg-muted'
                                             }`}
                                         >
-                                            <p className="font-medium text-xs mb-1">{msg.sender_name}</p>
-                                            <p className="whitespace-pre-wrap">{msg.message}</p>
+                                            <p className="mb-1 text-xs font-medium">
+                                                {msg.sender_name}
+                                            </p>
+                                            <p className="whitespace-pre-wrap">
+                                                {msg.message}
+                                            </p>
                                             <p
                                                 className={`mt-1 text-xs ${
-                                                    msg.sender_type === 'officer'
+                                                    msg.sender_type ===
+                                                    'officer'
                                                         ? 'text-primary-foreground/70'
                                                         : 'text-muted-foreground'
                                                 }`}
                                             >
-                                                {new Date(msg.created_at).toLocaleString()}
+                                                {new Date(
+                                                    msg.created_at,
+                                                ).toLocaleString()}
                                             </p>
                                         </div>
                                     </div>
@@ -188,11 +235,22 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
 
                                 {/* Send message form */}
                                 {grm.can_message ? (
-                                    <form onSubmit={handleSendMessage} className="flex gap-2">
+                                    <form
+                                        onSubmit={handleSendMessage}
+                                        className="flex gap-2"
+                                    >
                                         <Input
                                             value={messageForm.data.message}
-                                            onChange={(e) => messageForm.setData('message', e.target.value)}
-                                            placeholder={t(locale, 'admin.form.typeMessage')}
+                                            onChange={(e) =>
+                                                messageForm.setData(
+                                                    'message',
+                                                    e.target.value,
+                                                )
+                                            }
+                                            placeholder={t(
+                                                locale,
+                                                'admin.form.typeMessage',
+                                            )}
                                             className="flex-1"
                                         />
                                         <Button
@@ -205,7 +263,10 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                                     </form>
                                 ) : (
                                     <p className="text-sm text-muted-foreground">
-                                        {t(locale, 'admin.form.messagingRestricted')}
+                                        {t(
+                                            locale,
+                                            'admin.form.messagingRestricted',
+                                        )}
                                     </p>
                                 )}
                             </CardContent>
@@ -213,30 +274,54 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
 
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-base">{t(locale, 'admin.form.attachments')}</CardTitle>
+                                <CardTitle className="text-base">
+                                    {t(locale, 'admin.form.attachments')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 {!grm.can_view_sensitive_data ? (
                                     <p className="text-sm text-muted-foreground">
-                                        {t(locale, 'admin.form.attachmentsRestricted')}
+                                        {t(
+                                            locale,
+                                            'admin.form.attachmentsRestricted',
+                                        )}
                                     </p>
-                                ) : !grm.attachments || grm.attachments.length === 0 ? (
-                                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.form.noAttachments')}</p>
+                                ) : !grm.attachments ||
+                                  grm.attachments.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">
+                                        {t(locale, 'admin.form.noAttachments')}
+                                    </p>
                                 ) : (
                                     grm.attachments.map((attachment) => (
-                                        <div key={attachment.id} className="flex items-center justify-between rounded-lg border p-3">
+                                        <div
+                                            key={attachment.id}
+                                            className="flex items-center justify-between rounded-lg border p-3"
+                                        >
                                             <div>
                                                 <p className="text-sm font-medium">
-                                                    {attachment.original_name ?? `Attachment ${attachment.id}`}
+                                                    {attachment.original_name ??
+                                                        `Attachment ${attachment.id}`}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                    {t(locale, 'common.upload')} {new Date(attachment.uploaded_at).toLocaleString()}
+                                                    {t(locale, 'common.upload')}{' '}
+                                                    {new Date(
+                                                        attachment.uploaded_at,
+                                                    ).toLocaleString()}
                                                 </p>
                                             </div>
-                                            <Button asChild variant="outline" size="sm">
-                                                <a href={`/admin/grm/${grm.id}/attachments/${attachment.id}`}>
+                                            <Button
+                                                asChild
+                                                variant="outline"
+                                                size="sm"
+                                            >
+                                                <a
+                                                    href={`/admin/grm/${grm.id}/attachments/${attachment.id}`}
+                                                >
                                                     <Download className="mr-1.5 h-4 w-4" />
-                                                    {t(locale, 'admin.form.download')}
+                                                    {t(
+                                                        locale,
+                                                        'admin.form.download',
+                                                    )}
                                                 </a>
                                             </Button>
                                         </div>
@@ -251,62 +336,141 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                         {/* Update status */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-base">{t(locale, 'admin.form.updateStatus')}</CardTitle>
+                                <CardTitle className="text-base">
+                                    {t(locale, 'admin.form.updateStatus')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {grm.can_update_status ? (
-                                    <form onSubmit={handleUpdateStatus} className="space-y-4">
+                                    <form
+                                        onSubmit={handleUpdateStatus}
+                                        className="space-y-4"
+                                    >
                                         <div className="space-y-2">
-                                            <Label htmlFor="new_status">{t(locale, 'admin.form.status')}</Label>
+                                            <Label htmlFor="new_status">
+                                                {t(locale, 'admin.form.status')}
+                                            </Label>
                                             <select
                                                 id="new_status"
                                                 value={statusForm.data.status}
-                                                onChange={(e) => statusForm.setData('status', e.target.value)}
+                                                onChange={(e) =>
+                                                    statusForm.setData(
+                                                        'status',
+                                                        e.target.value,
+                                                    )
+                                                }
                                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                             >
-                                                <option value="submitted">{t(locale, 'status.submitted')}</option>
-                                                <option value="under_review">{t(locale, 'status.under_review')}</option>
-                                                <option value="investigation">{t(locale, 'status.investigation')}</option>
-                                                <option value="resolved">{t(locale, 'status.resolved')}</option>
-                                                <option value="closed">{t(locale, 'status.closed')}</option>
+                                                <option value="submitted">
+                                                    {t(
+                                                        locale,
+                                                        'status.submitted',
+                                                    )}
+                                                </option>
+                                                <option value="under_review">
+                                                    {t(
+                                                        locale,
+                                                        'status.under_review',
+                                                    )}
+                                                </option>
+                                                <option value="investigation">
+                                                    {t(
+                                                        locale,
+                                                        'status.investigation',
+                                                    )}
+                                                </option>
+                                                <option value="resolved">
+                                                    {t(
+                                                        locale,
+                                                        'status.resolved',
+                                                    )}
+                                                </option>
+                                                <option value="closed">
+                                                    {t(locale, 'status.closed')}
+                                                </option>
                                             </select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="officer">{t(locale, 'admin.form.assignOfficer')}</Label>
+                                            <Label htmlFor="officer">
+                                                {t(
+                                                    locale,
+                                                    'admin.form.assignOfficer',
+                                                )}
+                                            </Label>
                                             <select
                                                 id="officer"
-                                            value={statusForm.data.officer_id}
-                                            onChange={(e) =>
-                                                statusForm.setData('officer_id', e.target.value)
-                                            }
+                                                value={
+                                                    statusForm.data.officer_id
+                                                }
+                                                onChange={(e) =>
+                                                    statusForm.setData(
+                                                        'officer_id',
+                                                        e.target.value,
+                                                    )
+                                                }
                                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                             >
-                                                <option value="">— {t(locale, 'admin.form.unassigned')} —</option>
+                                                <option value="">
+                                                    —{' '}
+                                                    {t(
+                                                        locale,
+                                                        'admin.form.unassigned',
+                                                    )}{' '}
+                                                    —
+                                                </option>
                                                 {officers.map((o) => (
-                                                    <option key={o.id} value={o.id}>
+                                                    <option
+                                                        key={o.id}
+                                                        value={o.id}
+                                                    >
                                                         {o.name}
                                                     </option>
                                                 ))}
                                             </select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="notes">{t(locale, 'common.notes')}</Label>
+                                            <Label htmlFor="notes">
+                                                {t(locale, 'common.notes')}
+                                            </Label>
                                             <textarea
                                                 id="notes"
                                                 value={statusForm.data.notes}
-                                                onChange={(e) => statusForm.setData('notes', e.target.value)}
+                                                onChange={(e) =>
+                                                    statusForm.setData(
+                                                        'notes',
+                                                        e.target.value,
+                                                    )
+                                                }
                                                 rows={3}
-                                                placeholder={t(locale, 'admin.form.optionalNotes')}
-                                                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                                placeholder={t(
+                                                    locale,
+                                                    'admin.form.optionalNotes',
+                                                )}
+                                                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                                             />
                                         </div>
-                                        <Button type="submit" className="w-full" disabled={statusForm.processing}>
-                                            {statusForm.processing ? t(locale, 'admin.form.currentlyUpdating') : t(locale, 'admin.form.updateStatus')}
+                                        <Button
+                                            type="submit"
+                                            className="w-full"
+                                            disabled={statusForm.processing}
+                                        >
+                                            {statusForm.processing
+                                                ? t(
+                                                      locale,
+                                                      'admin.form.currentlyUpdating',
+                                                  )
+                                                : t(
+                                                      locale,
+                                                      'admin.form.updateStatus',
+                                                  )}
                                         </Button>
                                     </form>
                                 ) : (
                                     <p className="text-sm text-muted-foreground">
-                                        {t(locale, 'admin.form.statusRestricted')}
+                                        {t(
+                                            locale,
+                                            'admin.form.statusRestricted',
+                                        )}
                                     </p>
                                 )}
                             </CardContent>
@@ -315,38 +479,60 @@ export default function AdminGrmShow({ case: grm, officers }: Props) {
                         {/* Status history timeline */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-base">{t(locale, 'admin.form.statusHistory')}</CardTitle>
+                                <CardTitle className="text-base">
+                                    {t(locale, 'admin.form.statusHistory')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {grm.status_history.length === 0 && (
-                                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.form.noHistory')}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {t(locale, 'admin.form.noHistory')}
+                                    </p>
                                 )}
                                 <div className="space-y-3">
                                     {grm.status_history.map((entry, i) => (
-                                        <div key={entry.id} className="flex gap-3">
+                                        <div
+                                            key={entry.id}
+                                            className="flex gap-3"
+                                        >
                                             <div className="flex flex-col items-center">
                                                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted">
                                                     <Clock className="h-3 w-3 text-muted-foreground" />
                                                 </div>
-                                                {i < grm.status_history.length - 1 && (
-                                                    <div className="w-px flex-1 bg-border mt-1" />
+                                                {i <
+                                                    grm.status_history.length -
+                                                        1 && (
+                                                    <div className="mt-1 w-px flex-1 bg-border" />
                                                 )}
                                             </div>
                                             <div className="pb-3">
                                                 <div className="flex items-center gap-2">
                                                     {entry.from_status && (
                                                         <>
-                                                            <StatusBadge status={entry.from_status} />
-                                                    <span className="text-xs text-muted-foreground">→</span>
+                                                            <StatusBadge
+                                                                status={
+                                                                    entry.from_status
+                                                                }
+                                                            />
+                                                            <span className="text-xs text-muted-foreground">
+                                                                →
+                                                            </span>
                                                         </>
                                                     )}
-                                                    <StatusBadge status={entry.to_status} />
+                                                    <StatusBadge
+                                                        status={entry.to_status}
+                                                    />
                                                 </div>
-                                                <p className="text-xs text-muted-foreground mt-1">
-                                                    {t(locale, 'admin.form.by')} {entry.changed_by} · {formatLocalizedDate(entry.created_at, locale)}
+                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                    {t(locale, 'admin.form.by')}{' '}
+                                                    {entry.changed_by} ·{' '}
+                                                    {formatLocalizedDate(
+                                                        entry.created_at,
+                                                        locale,
+                                                    )}
                                                 </p>
                                                 {entry.notes && (
-                                                    <p className="text-xs mt-1 text-muted-foreground italic">
+                                                    <p className="mt-1 text-xs text-muted-foreground italic">
                                                         {entry.notes}
                                                     </p>
                                                 )}

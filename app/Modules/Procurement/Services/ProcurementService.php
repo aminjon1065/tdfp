@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\Procurement\Services;
+
 use App\Models\Procurement;
 use App\Models\ProcurementTranslation;
 use App\Modules\Procurement\Repositories\ProcurementRepository;
@@ -29,7 +31,7 @@ class ProcurementService
                 ]);
             }
 
-            if (!empty($data['document_ids'])) {
+            if (! empty($data['document_ids'])) {
                 $procurement->documents()->sync($data['document_ids']);
             }
 

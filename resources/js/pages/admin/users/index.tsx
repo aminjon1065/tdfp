@@ -1,11 +1,12 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+
 import { DataTable } from '@/components/admin/data-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import AdminLayout from '@/layouts/admin-layout';
 import { t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
     users: any;
@@ -20,18 +21,22 @@ export default function AdminUsersIndex({ users }: Props) {
         {
             key: 'name',
             header: t(locale, 'common.name'),
-            render: (row: any) => <span className="font-medium">{row.name}</span>,
+            render: (row: any) => (
+                <span className="font-medium">{row.name}</span>
+            ),
         },
         {
             key: 'email',
             header: t(locale, 'common.email'),
-            render: (row: any) => <span className="text-muted-foreground">{row.email}</span>,
+            render: (row: any) => (
+                <span className="text-muted-foreground">{row.email}</span>
+            ),
         },
         {
             key: 'roles',
             header: t(locale, 'common.roles'),
             render: (row: any) => (
-                <div className="flex gap-1 flex-wrap">
+                <div className="flex flex-wrap gap-1">
                     {(row.roles ?? []).map((role: any) => (
                         <Badge key={role.id ?? role} variant="secondary">
                             {role.name ?? role}
@@ -48,7 +53,9 @@ export default function AdminUsersIndex({ users }: Props) {
             header: t(locale, 'common.active'),
             render: (row: any) => (
                 <Badge variant={row.is_active ? 'default' : 'secondary'}>
-                    {row.is_active ? t(locale, 'status.active') : t(locale, 'status.inactive')}
+                    {row.is_active
+                        ? t(locale, 'status.active')
+                        : t(locale, 'status.inactive')}
                 </Badge>
             ),
         },
@@ -66,7 +73,9 @@ export default function AdminUsersIndex({ users }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm(t(locale, 'admin.content.deleteUser'))) {
+                            if (
+                                confirm(t(locale, 'admin.content.deleteUser'))
+                            ) {
                                 router.delete(`/admin/users/${row.id}`);
                             }
                         }}
@@ -79,11 +88,20 @@ export default function AdminUsersIndex({ users }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.users'), href: '/admin/users' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.users'),
+                    href: '/admin/users',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.users')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.users')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.content.users')}
+                    </h1>
                     <Button asChild>
                         <Link href="/admin/users/create">
                             <Plus className="mr-2 h-4 w-4" />

@@ -81,8 +81,18 @@ export interface GrmCase {
     complainant_name: string;
     email: string;
     phone: string | null;
-    category: 'procurement' | 'project_implementation' | 'environment_social' | 'corruption' | 'other';
-    status: 'submitted' | 'under_review' | 'investigation' | 'resolved' | 'closed';
+    category:
+        | 'procurement'
+        | 'project_implementation'
+        | 'environment_social'
+        | 'corruption'
+        | 'other';
+    status:
+        | 'submitted'
+        | 'under_review'
+        | 'investigation'
+        | 'resolved'
+        | 'closed';
     assigned_to: number | null;
     created_at: string;
     updated_at: string;

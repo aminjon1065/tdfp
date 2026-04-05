@@ -1,10 +1,11 @@
+import { useForm, usePage } from '@inertiajs/react';
+
 import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { t } from '@/lib/i18n';
-import { useForm, usePage } from '@inertiajs/react';
 import { type SharedData } from '@/types';
 
 interface ParentOption {
@@ -24,12 +25,15 @@ interface StaffMemberPayload {
     is_leadership: boolean;
     is_published: boolean;
     sort_order: number;
-    translations: Record<string, {
-        full_name: string;
-        job_title: string;
-        department: string;
-        biography: string;
-    }>;
+    translations: Record<
+        string,
+        {
+            full_name: string;
+            job_title: string;
+            department: string;
+            biography: string;
+        }
+    >;
 }
 
 interface StaffMemberFormProps {
@@ -58,12 +62,15 @@ export default function StaffMemberForm({
         is_leadership: boolean;
         is_published: boolean;
         sort_order: number;
-        translations: Record<string, {
-            full_name: string;
-            job_title: string;
-            department: string;
-            biography: string;
-        }>;
+        translations: Record<
+            string,
+            {
+                full_name: string;
+                job_title: string;
+                department: string;
+                biography: string;
+            }
+        >;
     }>({
         parent_id: staffMember?.parent_id ? String(staffMember.parent_id) : '',
         email: staffMember?.email ?? '',
@@ -79,7 +86,11 @@ export default function StaffMemberForm({
         },
     });
 
-    function handleTranslationChange(lang: string, field: string, value: string): void {
+    function handleTranslationChange(
+        lang: string,
+        field: string,
+        value: string,
+    ): void {
         setData('translations', {
             ...data.translations,
             [lang]: {
@@ -105,35 +116,56 @@ export default function StaffMemberForm({
         <form onSubmit={submit} className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                    <Label htmlFor="parent_id">{t(locale, 'admin.form.reportsTo')}</Label>
+                    <Label htmlFor="parent_id">
+                        {t(locale, 'admin.form.reportsTo')}
+                    </Label>
                     <select
                         id="parent_id"
                         value={data.parent_id}
-                        onChange={(event) => setData('parent_id', event.target.value)}
+                        onChange={(event) =>
+                            setData('parent_id', event.target.value)
+                        }
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">{t(locale, 'admin.form.topLevel')}</option>
+                        <option value="">
+                            {t(locale, 'admin.form.topLevel')}
+                        </option>
                         {parentOptions.map((option) => (
                             <option key={option.id} value={option.id}>
-                                {option.translations.find((translation) => translation.language === 'en')?.full_name
-                                    ?? option.translations[0]?.full_name
-                                    ?? `#${option.id}`}
+                                {option.translations.find(
+                                    (translation) =>
+                                        translation.language === 'en',
+                                )?.full_name ??
+                                    option.translations[0]?.full_name ??
+                                    `#${option.id}`}
                             </option>
                         ))}
                     </select>
-                    {errors.parent_id && <p className="text-sm text-destructive">{errors.parent_id}</p>}
+                    {errors.parent_id && (
+                        <p className="text-sm text-destructive">
+                            {errors.parent_id}
+                        </p>
+                    )}
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="sort_order">{t(locale, 'admin.form.sortOrder')}</Label>
+                    <Label htmlFor="sort_order">
+                        {t(locale, 'admin.form.sortOrder')}
+                    </Label>
                     <Input
                         id="sort_order"
                         type="number"
                         min={0}
                         value={data.sort_order}
-                        onChange={(event) => setData('sort_order', Number(event.target.value))}
+                        onChange={(event) =>
+                            setData('sort_order', Number(event.target.value))
+                        }
                     />
-                    {errors.sort_order && <p className="text-sm text-destructive">{errors.sort_order}</p>}
+                    {errors.sort_order && (
+                        <p className="text-sm text-destructive">
+                            {errors.sort_order}
+                        </p>
+                    )}
                 </div>
 
                 <div className="space-y-2">
@@ -142,9 +174,15 @@ export default function StaffMemberForm({
                         id="email"
                         type="email"
                         value={data.email}
-                        onChange={(event) => setData('email', event.target.value)}
+                        onChange={(event) =>
+                            setData('email', event.target.value)
+                        }
                     />
-                    {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                    {errors.email && (
+                        <p className="text-sm text-destructive">
+                            {errors.email}
+                        </p>
+                    )}
                 </div>
 
                 <div className="space-y-2">
@@ -152,9 +190,15 @@ export default function StaffMemberForm({
                     <Input
                         id="phone"
                         value={data.phone}
-                        onChange={(event) => setData('phone', event.target.value)}
+                        onChange={(event) =>
+                            setData('phone', event.target.value)
+                        }
                     />
-                    {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+                    {errors.phone && (
+                        <p className="text-sm text-destructive">
+                            {errors.phone}
+                        </p>
+                    )}
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
@@ -163,12 +207,20 @@ export default function StaffMemberForm({
                         id="photo"
                         type="file"
                         accept="image/*"
-                        onChange={(event) => setData('photo', event.target.files?.[0] ?? null)}
+                        onChange={(event) =>
+                            setData('photo', event.target.files?.[0] ?? null)
+                        }
                     />
-                    {staffMember?.photo_path && ! data.photo && (
-                        <p className="text-sm text-muted-foreground">{t(locale, 'admin.form.currentPhotoUploaded')}</p>
+                    {staffMember?.photo_path && !data.photo && (
+                        <p className="text-sm text-muted-foreground">
+                            {t(locale, 'admin.form.currentPhotoUploaded')}
+                        </p>
                     )}
-                    {errors.photo && <p className="text-sm text-destructive">{errors.photo}</p>}
+                    {errors.photo && (
+                        <p className="text-sm text-destructive">
+                            {errors.photo}
+                        </p>
+                    )}
                 </div>
             </div>
 
@@ -176,10 +228,14 @@ export default function StaffMemberForm({
                 <label className="flex items-start gap-3">
                     <Checkbox
                         checked={data.is_leadership}
-                        onCheckedChange={(checked) => setData('is_leadership', checked === true)}
+                        onCheckedChange={(checked) =>
+                            setData('is_leadership', checked === true)
+                        }
                     />
                     <span>
-                        <span className="block text-sm font-medium">{t(locale, 'admin.form.leadership')}</span>
+                        <span className="block text-sm font-medium">
+                            {t(locale, 'admin.form.leadership')}
+                        </span>
                         <span className="block text-sm text-muted-foreground">
                             {t(locale, 'admin.form.leadershipHint')}
                         </span>
@@ -189,10 +245,14 @@ export default function StaffMemberForm({
                 <label className="flex items-start gap-3">
                     <Checkbox
                         checked={data.is_published}
-                        onCheckedChange={(checked) => setData('is_published', checked === true)}
+                        onCheckedChange={(checked) =>
+                            setData('is_published', checked === true)
+                        }
                     />
                     <span>
-                        <span className="block text-sm font-medium">{t(locale, 'admin.form.published')}</span>
+                        <span className="block text-sm font-medium">
+                            {t(locale, 'admin.form.published')}
+                        </span>
                         <span className="block text-sm text-muted-foreground">
                             {t(locale, 'admin.form.publishedHint')}
                         </span>
@@ -204,10 +264,28 @@ export default function StaffMemberForm({
                 <Label>{t(locale, 'common.translations')}</Label>
                 <TranslationTabs
                     fields={[
-                        { name: 'full_name', label: t(locale, 'admin.form.fullName'), type: 'input', required: true },
-                        { name: 'job_title', label: t(locale, 'admin.form.jobTitle'), type: 'input', required: true },
-                        { name: 'department', label: t(locale, 'admin.form.department'), type: 'input' },
-                        { name: 'biography', label: t(locale, 'admin.form.biography'), type: 'textarea' },
+                        {
+                            name: 'full_name',
+                            label: t(locale, 'admin.form.fullName'),
+                            type: 'input',
+                            required: true,
+                        },
+                        {
+                            name: 'job_title',
+                            label: t(locale, 'admin.form.jobTitle'),
+                            type: 'input',
+                            required: true,
+                        },
+                        {
+                            name: 'department',
+                            label: t(locale, 'admin.form.department'),
+                            type: 'input',
+                        },
+                        {
+                            name: 'biography',
+                            label: t(locale, 'admin.form.biography'),
+                            type: 'textarea',
+                        },
                     ]}
                     data={data.translations}
                     onChange={handleTranslationChange}
@@ -217,9 +295,15 @@ export default function StaffMemberForm({
 
             <div className="flex gap-3">
                 <Button type="submit" disabled={processing}>
-                    {processing ? t(locale, 'admin.content.saving') : submitLabel}
+                    {processing
+                        ? t(locale, 'admin.content.saving')
+                        : submitLabel}
                 </Button>
-                <Button type="button" variant="outline" onClick={() => history.back()}>
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => history.back()}
+                >
                     {t(locale, 'common.cancel')}
                 </Button>
             </div>

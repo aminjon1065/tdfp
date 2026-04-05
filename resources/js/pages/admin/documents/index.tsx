@@ -1,10 +1,11 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+
 import { DataTable } from '@/components/admin/data-table';
 import { Button } from '@/components/ui/button';
+import AdminLayout from '@/layouts/admin-layout';
 import { getTranslation, t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
     documents: any;
@@ -20,7 +21,8 @@ export default function AdminDocumentsIndex({ documents }: Props) {
             key: 'title',
             header: t(locale, 'common.title'),
             render: (row: any) =>
-                getTranslation(row, locale).title ?? t(locale, 'admin.content.untitled'),
+                getTranslation(row, locale).title ??
+                t(locale, 'admin.content.untitled'),
         },
         {
             key: 'category',
@@ -31,7 +33,7 @@ export default function AdminDocumentsIndex({ documents }: Props) {
             key: 'file_type',
             header: t(locale, 'common.fileType'),
             render: (row: any) => (
-                <span className="uppercase text-xs font-medium text-muted-foreground">
+                <span className="text-xs font-medium text-muted-foreground uppercase">
                     {row.file_type ?? '—'}
                 </span>
             ),
@@ -55,7 +57,11 @@ export default function AdminDocumentsIndex({ documents }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm(t(locale, 'admin.content.deleteDocument'))) {
+                            if (
+                                confirm(
+                                    t(locale, 'admin.content.deleteDocument'),
+                                )
+                            ) {
                                 router.delete(`/admin/documents/${row.id}`);
                             }
                         }}
@@ -68,11 +74,20 @@ export default function AdminDocumentsIndex({ documents }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.documents'), href: '/admin/documents' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.documents'),
+                    href: '/admin/documents',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.documents')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.documents')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.content.documents')}
+                    </h1>
                     <Button asChild>
                         <Link href="/admin/documents/create">
                             <Plus className="mr-2 h-4 w-4" />
@@ -84,7 +99,9 @@ export default function AdminDocumentsIndex({ documents }: Props) {
                     data={documents}
                     columns={columns}
                     searchable
-                    onSearch={(s) => router.get('/admin/documents', { search: s })}
+                    onSearch={(s) =>
+                        router.get('/admin/documents', { search: s })
+                    }
                 />
             </div>
         </AdminLayout>

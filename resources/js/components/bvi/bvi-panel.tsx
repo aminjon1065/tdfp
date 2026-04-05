@@ -1,11 +1,20 @@
-import { useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { t } from '@/lib/i18n';
-import { type SharedData } from '@/types';
-import { Button } from '@/components/ui/button';
-import { useBVI } from '@/providers/bvi-provider';
 import { usePage } from '@inertiajs/react';
-import { RotateCcw, Image as ImageIcon, ImageOff, AlignLeft, X, Volume2, VolumeX } from 'lucide-react';
+import {
+    AlignLeft,
+    Image as ImageIcon,
+    ImageOff,
+    RotateCcw,
+    Volume2,
+    VolumeX,
+    X,
+} from 'lucide-react';
+import { useEffect } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { t } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
+import { useBVI } from '@/providers/bvi-provider';
+import { type SharedData } from '@/types';
 
 const TTS_LANG: Record<string, string> = {
     ru: 'ru-RU',
@@ -102,19 +111,32 @@ export function BVIPanel() {
             className="bvi-panel w-full border-b bg-background p-3"
         >
             <div className="gov-container flex flex-wrap items-center gap-3">
-
                 {/* Font size */}
                 <div className="flex items-center gap-1.5 border-r border-border pr-3">
                     {(['normal', 'large', 'xlarge'] as const).map((size) => (
                         <Button
                             key={size}
-                            variant={state.fontSize === size ? 'default' : 'outline'}
+                            variant={
+                                state.fontSize === size ? 'default' : 'outline'
+                            }
                             size="sm"
                             className="h-8 w-10 p-0"
-                            onClick={() => setState((s) => ({ ...s, fontSize: size }))}
+                            onClick={() =>
+                                setState((s) => ({ ...s, fontSize: size }))
+                            }
                             aria-pressed={state.fontSize === size}
                         >
-                            <span className={size === 'normal' ? 'text-xs' : size === 'large' ? 'text-sm' : 'text-lg font-bold'}>A</span>
+                            <span
+                                className={
+                                    size === 'normal'
+                                        ? 'text-xs'
+                                        : size === 'large'
+                                          ? 'text-sm'
+                                          : 'text-lg font-bold'
+                                }
+                            >
+                                A
+                            </span>
                         </Button>
                     ))}
                 </div>
@@ -122,22 +144,31 @@ export function BVIPanel() {
                 {/* Contrast */}
                 <div className="flex items-center gap-1.5 border-r border-border pr-3">
                     <Button
-                        variant={state.contrast === 'default' ? 'default' : 'outline'}
+                        variant={
+                            state.contrast === 'default' ? 'default' : 'outline'
+                        }
                         size="sm"
                         className="h-8 px-3"
-                        onClick={() => setState((s) => ({ ...s, contrast: 'default' }))}
+                        onClick={() =>
+                            setState((s) => ({ ...s, contrast: 'default' }))
+                        }
                         aria-pressed={state.contrast === 'default'}
                     >
                         {t(locale, 'bvi.contrastStandard')}
                     </Button>
                     <Button
-                        variant={state.contrast === 'high' ? 'default' : 'outline'}
+                        variant={
+                            state.contrast === 'high' ? 'default' : 'outline'
+                        }
                         size="sm"
                         className={cn(
                             'h-8 px-3',
-                            state.contrast !== 'high' && 'bg-black text-white hover:bg-black/90',
+                            state.contrast !== 'high' &&
+                                'bg-black text-white hover:bg-black/90',
                         )}
-                        onClick={() => setState((s) => ({ ...s, contrast: 'high' }))}
+                        onClick={() =>
+                            setState((s) => ({ ...s, contrast: 'high' }))
+                        }
                         aria-pressed={state.contrast === 'high'}
                     >
                         {t(locale, 'bvi.contrastHigh')}
@@ -147,10 +178,18 @@ export function BVIPanel() {
                 {/* Extra options */}
                 <div className="flex items-center gap-1.5 border-r border-border pr-3">
                     <Button
-                        variant={state.lineHeight === 'wide' ? 'default' : 'outline'}
+                        variant={
+                            state.lineHeight === 'wide' ? 'default' : 'outline'
+                        }
                         size="sm"
                         className="h-8 px-3"
-                        onClick={() => setState((s) => ({ ...s, lineHeight: s.lineHeight === 'wide' ? 'normal' : 'wide' }))}
+                        onClick={() =>
+                            setState((s) => ({
+                                ...s,
+                                lineHeight:
+                                    s.lineHeight === 'wide' ? 'normal' : 'wide',
+                            }))
+                        }
                         aria-pressed={state.lineHeight === 'wide'}
                     >
                         <AlignLeft className="mr-1.5 h-4 w-4" />
@@ -161,14 +200,22 @@ export function BVIPanel() {
                         variant={state.images === 'off' ? 'default' : 'outline'}
                         size="sm"
                         className="h-8 px-3"
-                        onClick={() => setState((s) => ({ ...s, images: s.images === 'on' ? 'off' : 'on' }))}
+                        onClick={() =>
+                            setState((s) => ({
+                                ...s,
+                                images: s.images === 'on' ? 'off' : 'on',
+                            }))
+                        }
                         aria-pressed={state.images === 'off'}
                     >
+                        {state.images === 'on' ? (
+                            <ImageIcon className="mr-1.5 h-4 w-4" />
+                        ) : (
+                            <ImageOff className="mr-1.5 h-4 w-4" />
+                        )}
                         {state.images === 'on'
-                            ? <ImageIcon className="mr-1.5 h-4 w-4" />
-                            : <ImageOff className="mr-1.5 h-4 w-4" />
-                        }
-                        {state.images === 'on' ? t(locale, 'bvi.imagesOn') : t(locale, 'bvi.imagesOff')}
+                            ? t(locale, 'bvi.imagesOn')
+                            : t(locale, 'bvi.imagesOff')}
                     </Button>
                 </div>
 
@@ -177,13 +224,19 @@ export function BVIPanel() {
                     variant={state.tts === 'on' ? 'default' : 'outline'}
                     size="sm"
                     className="h-8 px-3"
-                    onClick={() => setState((s) => ({ ...s, tts: s.tts === 'on' ? 'off' : 'on' }))}
+                    onClick={() =>
+                        setState((s) => ({
+                            ...s,
+                            tts: s.tts === 'on' ? 'off' : 'on',
+                        }))
+                    }
                     aria-pressed={state.tts === 'on'}
                 >
-                    {state.tts === 'on'
-                        ? <Volume2 className="mr-1.5 h-4 w-4" />
-                        : <VolumeX className="mr-1.5 h-4 w-4" />
-                    }
+                    {state.tts === 'on' ? (
+                        <Volume2 className="mr-1.5 h-4 w-4" />
+                    ) : (
+                        <VolumeX className="mr-1.5 h-4 w-4" />
+                    )}
                     {t(locale, 'bvi.tts')}
                 </Button>
 
@@ -205,7 +258,9 @@ export function BVIPanel() {
                         variant="destructive"
                         size="sm"
                         className="h-8 px-3"
-                        onClick={() => setState((s) => ({ ...s, enabled: false }))}
+                        onClick={() =>
+                            setState((s) => ({ ...s, enabled: false }))
+                        }
                     >
                         <X className="mr-1.5 h-4 w-4" />
                         {t(locale, 'bvi.close')}

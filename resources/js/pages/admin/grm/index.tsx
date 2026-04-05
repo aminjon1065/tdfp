@@ -1,10 +1,11 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Eye } from 'lucide-react';
+
 import { DataTable } from '@/components/admin/data-table';
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
+import AdminLayout from '@/layouts/admin-layout';
 import { formatLocalizedDate, t } from '@/lib/i18n';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Eye } from 'lucide-react';
 import { GrmCase, Paginator, type SharedData } from '@/types';
 
 interface Props {
@@ -29,7 +30,9 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
             key: 'ticket_number',
             header: t(locale, 'admin.content.ticket'),
             render: (row: GrmCase) => (
-                <span className="font-mono text-xs font-medium">{row.ticket_number}</span>
+                <span className="font-mono text-xs font-medium">
+                    {row.ticket_number}
+                </span>
             ),
         },
         {
@@ -51,7 +54,9 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
             key: 'created_at',
             header: t(locale, 'admin.content.submitted'),
             render: (row: GrmCase) =>
-                row.created_at ? formatLocalizedDate(row.created_at, locale) : '—',
+                row.created_at
+                    ? formatLocalizedDate(row.created_at, locale)
+                    : '—',
         },
         {
             key: 'actions',
@@ -67,23 +72,39 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.grm'), href: '/admin/grm' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                { title: t(locale, 'admin.content.grm'), href: '/admin/grm' },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.grm')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.grm')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.content.grm')}
+                    </h1>
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">{t(locale, 'admin.content.filterByStatus')}</span>
-                    <div className="flex gap-1 flex-wrap">
+                    <span className="text-sm text-muted-foreground">
+                        {t(locale, 'admin.content.filterByStatus')}
+                    </span>
+                    <div className="flex flex-wrap gap-1">
                         {statusOptions.map((opt) => (
                             <Button
                                 key={opt.value}
-                                variant={filters.status === opt.value || (!filters.status && opt.value === '') ? 'default' : 'outline'}
+                                variant={
+                                    filters.status === opt.value ||
+                                    (!filters.status && opt.value === '')
+                                        ? 'default'
+                                        : 'outline'
+                                }
                                 size="sm"
                                 onClick={() =>
-                                    router.get('/admin/grm', opt.value ? { status: opt.value } : {})
+                                    router.get(
+                                        '/admin/grm',
+                                        opt.value ? { status: opt.value } : {},
+                                    )
                                 }
                             >
                                 {opt.label}
@@ -99,7 +120,9 @@ export default function AdminGrmIndex({ cases, filters }: Props) {
                     onSearch={(s) =>
                         router.get('/admin/grm', {
                             search: s,
-                            ...(filters.status ? { status: filters.status } : {}),
+                            ...(filters.status
+                                ? { status: filters.status }
+                                : {}),
                         })
                     }
                 />

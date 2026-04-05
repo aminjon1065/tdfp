@@ -1,7 +1,11 @@
 import { type ImgHTMLAttributes } from 'react';
 
-type NativeLoading = NonNullable<ImgHTMLAttributes<HTMLImageElement>['loading']>;
-type NativeDecoding = NonNullable<ImgHTMLAttributes<HTMLImageElement>['decoding']>;
+type NativeLoading = NonNullable<
+    ImgHTMLAttributes<HTMLImageElement>['loading']
+>;
+type NativeDecoding = NonNullable<
+    ImgHTMLAttributes<HTMLImageElement>['decoding']
+>;
 
 interface PublicImageProps extends ImgHTMLAttributes<HTMLImageElement> {
     priority?: boolean;
@@ -16,7 +20,8 @@ export default function PublicImage({
     draggable,
     ...props
 }: PublicImageProps) {
-    const resolvedLoading: NativeLoading = loading ?? (priority ? 'eager' : 'lazy');
+    const resolvedLoading: NativeLoading =
+        loading ?? (priority ? 'eager' : 'lazy');
     const resolvedDecoding: NativeDecoding = decoding ?? 'async';
 
     return (

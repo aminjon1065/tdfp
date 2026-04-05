@@ -1,5 +1,5 @@
-import { type PropsWithChildren } from 'react';
 import { Link } from '@inertiajs/react';
+import { type PropsWithChildren } from 'react';
 
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -57,7 +57,10 @@ export default function SettingsLayout({
 
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
                     <aside className="w-full max-w-xl lg:w-56">
-                        <nav className="flex flex-col gap-1" aria-label="Settings">
+                        <nav
+                            className="flex flex-col gap-1"
+                            aria-label="Settings"
+                        >
                             {settingsNavItems.map((item, index) => (
                                 <Button
                                     key={`${toUrl(item.href)}-${index}`}

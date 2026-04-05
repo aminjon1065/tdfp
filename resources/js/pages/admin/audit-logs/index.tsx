@@ -1,12 +1,13 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, router, usePage } from '@inertiajs/react';
+import { useState } from 'react';
+
 import { DataTable } from '@/components/admin/data-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import AdminLayout from '@/layouts/admin-layout';
 import { t } from '@/lib/i18n';
-import { Head, router, usePage } from '@inertiajs/react';
 import { AuditLogEntry, Paginator, type SharedData } from '@/types';
-import { useState } from 'react';
 
 interface Props {
     logs: Paginator<AuditLogEntry>;
@@ -23,7 +24,10 @@ interface Props {
     users: { id: number; name: string }[];
 }
 
-const ACTION_COLORS: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+const ACTION_COLORS: Record<
+    string,
+    'default' | 'secondary' | 'destructive' | 'outline'
+> = {
     created: 'default',
     updated: 'secondary',
     deleted: 'destructive',
@@ -31,7 +35,13 @@ const ACTION_COLORS: Record<string, 'default' | 'secondary' | 'destructive' | 'o
     logout: 'outline',
 };
 
-export default function AdminAuditLogsIndex({ logs, filters, actions, entityTypes, users }: Props) {
+export default function AdminAuditLogsIndex({
+    logs,
+    filters,
+    actions,
+    entityTypes,
+    users,
+}: Props) {
     const { props } = usePage<SharedData>();
     const locale = props.locale ?? 'en';
     const [search, setSearch] = useState(filters.search ?? '');
@@ -40,7 +50,9 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
             key: 'user',
             header: t(locale, 'common.user'),
             render: (row: AuditLogEntry) => (
-                <span className="font-medium">{row.user?.name ?? t(locale, 'common.system')}</span>
+                <span className="font-medium">
+                    {row.user?.name ?? t(locale, 'common.system')}
+                </span>
             ),
         },
         {
@@ -56,7 +68,7 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
             key: 'entity_type',
             header: t(locale, 'common.entityType'),
             render: (row: AuditLogEntry) => (
-                <span className="text-xs font-mono text-muted-foreground">
+                <span className="font-mono text-xs text-muted-foreground">
                     {row.entity_type ?? '—'}
                 </span>
             ),
@@ -65,14 +77,16 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
             key: 'entity_id',
             header: t(locale, 'common.entityId'),
             render: (row: AuditLogEntry) => (
-                <span className="text-xs font-mono">{row.entity_id ?? '—'}</span>
+                <span className="font-mono text-xs">
+                    {row.entity_id ?? '—'}
+                </span>
             ),
         },
         {
             key: 'ip_address',
             header: t(locale, 'common.ipAddress'),
             render: (row: AuditLogEntry) => (
-                <span className="text-xs font-mono text-muted-foreground">
+                <span className="font-mono text-xs text-muted-foreground">
                     {row.ip_address ?? '—'}
                 </span>
             ),
@@ -81,11 +95,15 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
             key: 'created_at',
             header: t(locale, 'common.date'),
             render: (row: AuditLogEntry) =>
-                row.created_at ? new Date(row.created_at).toLocaleString() : '—',
+                row.created_at
+                    ? new Date(row.created_at).toLocaleString()
+                    : '—',
         },
     ];
 
-    const applyFilters = (nextFilters: Record<string, string | number | null | undefined>) => {
+    const applyFilters = (
+        nextFilters: Record<string, string | number | null | undefined>,
+    ) => {
         router.get('/admin/audit-logs', {
             search: search || undefined,
             action: filters.action ?? undefined,
@@ -98,10 +116,19 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
     };
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.auditLogs'), href: '/admin/audit-logs' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.auditLogs'),
+                    href: '/admin/audit-logs',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.auditLogs')} />
             <div className="space-y-4">
-                <h1 className="text-2xl font-bold">{t(locale, 'admin.content.auditLogs')}</h1>
+                <h1 className="text-2xl font-bold">
+                    {t(locale, 'admin.content.auditLogs')}
+                </h1>
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                     <form
                         onSubmit={(event) => {
@@ -113,7 +140,10 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
                         <Input
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
-                            placeholder={t(locale, 'admin.content.searchAuditLogs')}
+                            placeholder={t(
+                                locale,
+                                'admin.content.searchAuditLogs',
+                            )}
                         />
                         <Button type="submit" variant="outline">
                             {t(locale, 'common.search')}
@@ -122,10 +152,16 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
 
                     <select
                         value={filters.action ?? ''}
-                        onChange={(event) => applyFilters({ action: event.target.value || undefined })}
+                        onChange={(event) =>
+                            applyFilters({
+                                action: event.target.value || undefined,
+                            })
+                        }
                         className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">{t(locale, 'admin.content.allActions')}</option>
+                        <option value="">
+                            {t(locale, 'admin.content.allActions')}
+                        </option>
                         {actions.map((action) => (
                             <option key={action} value={action}>
                                 {action}
@@ -135,10 +171,16 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
 
                     <select
                         value={filters.entity_type ?? ''}
-                        onChange={(event) => applyFilters({ entity_type: event.target.value || undefined })}
+                        onChange={(event) =>
+                            applyFilters({
+                                entity_type: event.target.value || undefined,
+                            })
+                        }
                         className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">{t(locale, 'admin.content.allEntityTypes')}</option>
+                        <option value="">
+                            {t(locale, 'admin.content.allEntityTypes')}
+                        </option>
                         {entityTypes.map((entityType) => (
                             <option key={entityType} value={entityType}>
                                 {entityType}
@@ -148,10 +190,18 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
 
                     <select
                         value={filters.user_id ?? ''}
-                        onChange={(event) => applyFilters({ user_id: event.target.value ? Number(event.target.value) : undefined })}
+                        onChange={(event) =>
+                            applyFilters({
+                                user_id: event.target.value
+                                    ? Number(event.target.value)
+                                    : undefined,
+                            })
+                        }
                         className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                        <option value="">{t(locale, 'admin.content.allUsers')}</option>
+                        <option value="">
+                            {t(locale, 'admin.content.allUsers')}
+                        </option>
                         {users.map((user) => (
                             <option key={user.id} value={user.id}>
                                 {user.name}
@@ -162,20 +212,25 @@ export default function AdminAuditLogsIndex({ logs, filters, actions, entityType
                     <Input
                         type="date"
                         value={filters.date_from ?? ''}
-                        onChange={(event) => applyFilters({ date_from: event.target.value || undefined })}
+                        onChange={(event) =>
+                            applyFilters({
+                                date_from: event.target.value || undefined,
+                            })
+                        }
                     />
 
                     <Input
                         type="date"
                         value={filters.date_to ?? ''}
-                        onChange={(event) => applyFilters({ date_to: event.target.value || undefined })}
+                        onChange={(event) =>
+                            applyFilters({
+                                date_to: event.target.value || undefined,
+                            })
+                        }
                     />
                 </div>
 
-                <DataTable
-                    data={logs}
-                    columns={columns}
-                />
+                <DataTable data={logs} columns={columns} />
             </div>
         </AdminLayout>
     );

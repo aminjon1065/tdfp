@@ -23,11 +23,14 @@ export default {
     'nav.viewAllActivities': 'Ҳамаи фаъолиятҳо',
     'nav.projects': 'Лоиҳаҳо',
     'nav.projectActivities': 'Фаъолиятҳо',
-    'nav.projectActivitiesDescription': 'Марҳилаҳои барнома, ҷараёнҳои татбиқ ва навсозиҳои иҷро.',
+    'nav.projectActivitiesDescription':
+        'Марҳилаҳои барнома, ҷараёнҳои татбиқ ва навсозиҳои иҷро.',
     'nav.projectDocuments': 'Ҳуҷҷатҳои лоиҳа',
-    'nav.projectDocumentsDescription': 'Ҳуҷҷатҳои асосӣ, ҳисоботҳо ва маводи маълумотӣ барои татбиқ.',
+    'nav.projectDocumentsDescription':
+        'Ҳуҷҷатҳои асосӣ, ҳисоботҳо ва маводи маълумотӣ барои татбиқ.',
     'nav.projectProcurement': 'Харид',
-    'nav.projectProcurementDescription': 'Эълонҳои ҷорӣ, имкониятҳои тендерӣ ва навсозиҳои харид.',
+    'nav.projectProcurementDescription':
+        'Эълонҳои ҷорӣ, имкониятҳои тендерӣ ва навсозиҳои харид.',
     'nav.projectPageDescription': 'Саҳифаи лоиҳа аз низоми идоракунии муҳтаво.',
     'nav.activities': 'Фаъолиятҳо',
     'nav.news': 'Хабарҳо',
@@ -92,7 +95,8 @@ export default {
     'common.noItemsFound': 'Ягон сабт ёфт нашуд.',
     'common.noContent': 'Барои ин саҳифа ҳоло мундариҷа мавҷуд нест.',
     'common.notFound': 'Саҳифа ёфт нашуд',
-    'common.notFoundDescription': 'Саҳифаи дархостшуда вуҷуд надорад ё ҳазф шудааст.',
+    'common.notFoundDescription':
+        'Саҳифаи дархостшуда вуҷуд надорад ё ҳазф шудааст.',
     'common.returnHome': 'Бозгашт ба саҳифаи асосӣ',
     'common.navigation': 'Навигатсия',
     'common.resources': 'Захираҳо',
@@ -130,10 +134,13 @@ export default {
     'admin.dashboard.openGrmCases': 'Муроҷиатҳои кушодаи GRM',
     'admin.dashboard.openProcurements': 'Харидҳои кушода',
     'admin.dashboard.operationalReadiness': 'Омодагии амалиётӣ',
-    'admin.dashboard.operationalReadinessDescription': 'Заминаи ибтидоии масъулияти оғоз, дастгирӣ, ҳисоботдиҳӣ ва нусхаҳои эҳтиётӣ.',
+    'admin.dashboard.operationalReadinessDescription':
+        'Заминаи ибтидоии масъулияти оғоз, дастгирӣ, ҳисоботдиҳӣ ва нусхаҳои эҳтиётӣ.',
     'admin.dashboard.operationsReady': 'Заминаи амалиётӣ танзим шудааст.',
-    'admin.dashboard.operationsMissing': 'банди(ҳо)-и омодагӣ ҳанӯз ба арзишҳои масъул ниёз доранд.',
-    'admin.dashboard.operationsEvidenceNote': 'Ин санҷиши governance-и маҳсулот аст, на далели инфрасохторӣ.',
+    'admin.dashboard.operationsMissing':
+        'банди(ҳо)-и омодагӣ ҳанӯз ба арзишҳои масъул ниёз доранд.',
+    'admin.dashboard.operationsEvidenceNote':
+        'Ин санҷиши governance-и маҳсулот аст, на далели инфрасохторӣ.',
     'admin.dashboard.notConfigured': 'Танзим нашудааст',
     'admin.dashboard.ready': 'Омода',
     'admin.dashboard.missing': 'Норасо',
@@ -168,7 +175,8 @@ export default {
     'admin.content.addProcurement': 'Иловаи харид',
     'admin.content.uploadMedia': 'Боркунии медиа',
     'admin.content.exportCsv': 'Содироти CSV',
-    'admin.content.reviewSubscriptions': 'Қабулкунандагони тасдиқшуда, интизорӣ ва бекоршударо бинед.',
+    'admin.content.reviewSubscriptions':
+        'Қабулкунандагони тасдиқшуда, интизорӣ ва бекоршударо бинед.',
     'admin.content.noMedia': 'Ҳанӯз медиа нест.',
     'admin.content.pageSummary': 'Саҳифа',
     'admin.content.of': 'аз',
@@ -184,7 +192,8 @@ export default {
     'admin.content.allActions': 'Ҳама амалҳо',
     'admin.content.allEntityTypes': 'Ҳама навъҳои объект',
     'admin.content.allUsers': 'Ҳама корбарон',
-    'admin.content.searchAuditLogs': 'Ҷустуҷӯ аз рӯи амал, объект, IP, корбар...',
+    'admin.content.searchAuditLogs':
+        'Ҷустуҷӯ аз рӯи амал, объект, IP, корбар...',
     'admin.content.saveSettings': 'Захира кардани танзимот',
     'admin.content.saving': 'Захира шуда истодааст…',
     'admin.content.noSettings': 'Ҳанӯз танзимот мавҷуд нест.',
@@ -213,14 +222,17 @@ export default {
     'admin.form.confirmPassword': 'Тасдиқи парол',
     'admin.form.newPassword': 'Пароли нав',
     'admin.form.confirmNewPassword': 'Тасдиқи пароли нав',
-    'admin.form.leaveBlankPassword': 'холӣ монед, то пароли ҷорӣ нигоҳ дошта шавад',
+    'admin.form.leaveBlankPassword':
+        'холӣ монед, то пароли ҷорӣ нигоҳ дошта шавад',
     'admin.form.reportsTo': 'Ҳисобот медиҳад ба',
     'admin.form.topLevel': 'Сатҳи болоӣ',
     'admin.form.sortOrder': 'Тартиби ҷобаҷогузорӣ',
     'admin.form.leadership': 'Роҳбарият',
-    'admin.form.leadershipHint': 'Ин профилро дар бахши роҳбарият намоиш диҳед.',
+    'admin.form.leadershipHint':
+        'Ин профилро дар бахши роҳбарият намоиш диҳед.',
     'admin.form.published': 'Нашршуда',
-    'admin.form.publishedHint': 'Кормандони нашрнашуда танҳо дар админка мемонанд.',
+    'admin.form.publishedHint':
+        'Кормандони нашрнашуда танҳо дар админка мемонанд.',
     'admin.form.fullName': 'Номи пурра',
     'admin.form.jobTitle': 'Вазифа',
     'admin.form.department': 'Шуъба',
@@ -228,9 +240,12 @@ export default {
     'admin.form.replaceFileOptional': 'Иваз кардани файл (ихтиёрӣ)',
     'admin.form.currentFile': 'Файли ҷорӣ',
     'admin.form.currentPhotoUploaded': 'Акси ҷорӣ аллакай бор шудааст.',
-    'admin.form.staffCreateHint': 'Профили оммавиро эҷод карда, онро дар иерархияи ҳисоботдиҳӣ ҷойгир кунед.',
-    'admin.form.staffEditHint': 'Иерархия, тарҷумаҳо ва ҳолати нашрро навсозӣ кунед.',
-    'admin.form.staffDirectoryHint': 'Сохтори оммавии роҳбарият ва ҳисоботдиҳиро нигоҳ доред.',
+    'admin.form.staffCreateHint':
+        'Профили оммавиро эҷод карда, онро дар иерархияи ҳисоботдиҳӣ ҷойгир кунед.',
+    'admin.form.staffEditHint':
+        'Иерархия, тарҷумаҳо ва ҳолати нашрро навсозӣ кунед.',
+    'admin.form.staffDirectoryHint':
+        'Сохтори оммавии роҳбарият ва ҳисоботдиҳиро нигоҳ доред.',
     'admin.form.addStaffMember': 'Иловаи корманд',
     'admin.form.deleteStaffRecord': 'Ин сабти кормандро нест мекунед?',
     'admin.form.currentlyUploading': 'Бор шуда истодааст…',
@@ -239,23 +254,27 @@ export default {
     'admin.form.preview': 'Кушодани пешнамоиш',
     'admin.form.preparingPreview': 'Омода кардани пешнамоиш…',
     'admin.form.previewUnavailable': 'Пешнамоиш дастнорас аст',
-    'admin.form.previewError': 'Пешнамоиш сохта нашуд. Формаро санҷида, боз кӯшиш кунед.',
+    'admin.form.previewError':
+        'Пешнамоиш сохта нашуд. Формаро санҷида, боз кӯшиш кунед.',
     'admin.form.loadingEditor': 'Боркунии муҳаррир...',
     'admin.form.write': 'Навиштан',
     'admin.form.previewTab': 'Пешнамоиш',
     'admin.form.nothingToPreview': 'Ҳоло барои пешнамоиш чизе нест.',
     'admin.form.insertLink': 'Ворид кардани пайванд',
-    'admin.form.linkDescription': 'Барои матни интихобшуда URL илова ё навсозӣ кунед.',
+    'admin.form.linkDescription':
+        'Барои матни интихобшуда URL илова ё навсозӣ кунед.',
     'admin.form.url': 'URL',
     'admin.form.saveLink': 'Захира кардани пайванд',
     'admin.form.insertImage': 'Ворид кардани тасвир',
-    'admin.form.imageDescription': 'Тасвирро ба медиатека бор кунед ё URL-и оммавиро ворид намоед.',
+    'admin.form.imageDescription':
+        'Тасвирро ба медиатека бор кунед ё URL-и оммавиро ворид намоед.',
     'admin.form.uploadImage': 'Боркунии тасвир',
     'admin.form.imageUrl': 'URL тасвир',
     'admin.form.altText': 'Матни alt',
     'admin.form.describeImage': 'Тасвирро тавсиф кунед',
     'admin.form.imageUploadFailed': 'Боркунии тасвир ноком шуд.',
-    'admin.form.imageSourceRequired': 'URL-и тасвирро ворид кунед ё файлро бор намоед.',
+    'admin.form.imageSourceRequired':
+        'URL-и тасвирро ворид кунед ё файлро бор намоед.',
     'admin.form.messages': 'Паёмҳо',
     'admin.form.noMessages': 'Ҳанӯз паём нест.',
     'admin.form.attachments': 'Замимаҳо',
@@ -266,23 +285,31 @@ export default {
     'admin.form.noHistory': 'Ҳанӯз таърих нест.',
     'admin.form.submittedOn': 'Ирсол шуд',
     'admin.form.by': 'аз ҷониби',
-    'admin.form.contactMasked': 'Маълумоти тамос барои дастрасии танҳо-хондани GRM пинҳон карда шудааст.',
-    'admin.form.messagingRestricted': 'Паёмнависӣ танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
-    'admin.form.attachmentsRestricted': 'Боргирии замимаҳо танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
-    'admin.form.statusRestricted': 'Тағйири ҳолат танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
+    'admin.form.contactMasked':
+        'Маълумоти тамос барои дастрасии танҳо-хондани GRM пинҳон карда шудааст.',
+    'admin.form.messagingRestricted':
+        'Паёмнависӣ танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
+    'admin.form.attachmentsRestricted':
+        'Боргирии замимаҳо танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
+    'admin.form.statusRestricted':
+        'Тағйири ҳолат танҳо барои кормандони GRM бо иҷозатҳои амалиётӣ дастрас аст.',
     'grm.submit': 'Шикоят ирсол кунед',
     'grm.track': 'Парвандаро пайгирӣ кунед',
     'grm.title': 'Механизми баррасии шикоятҳо',
-    'grm.description': 'Оё оид ба татбиқи лоиҳа нигаронӣ доред? Шикоят ирсол кунед ё парвандаи мавҷударо тавассути низоми шаффофи GRM пайгирӣ намоед.',
-    'grm.indexLead': 'GRM барои шахсони ба лоиҳа вобаста раванди шаффоф, дастрас ва ҳисоботдиҳандаро фароҳам меорад, то онҳо тавонанд нигарониҳо ва шикоятҳои худро пешниҳод намоянд.',
+    'grm.description':
+        'Оё оид ба татбиқи лоиҳа нигаронӣ доред? Шикоят ирсол кунед ё парвандаи мавҷударо тавассути низоми шаффофи GRM пайгирӣ намоед.',
+    'grm.indexLead':
+        'GRM барои шахсони ба лоиҳа вобаста раванди шаффоф, дастрас ва ҳисоботдиҳандаро фароҳам меорад, то онҳо тавонанд нигарониҳо ва шикоятҳои худро пешниҳод намоянд.',
     'grm.cardSubmitTitle': 'Шикоят ирсол кунед',
-    'grm.cardSubmitDescription': 'Шикоят доред? Онро онлайн барои баррасӣ ирсол кунед.',
+    'grm.cardSubmitDescription':
+        'Шикоят доред? Онро онлайн барои баррасӣ ирсол кунед.',
     'grm.cardSubmitAction': 'Ҳозир ирсол кунед',
     'grm.cardTrackTitle': 'Парвандаи худро пайгирӣ кунед',
     'grm.cardTrackDescription': 'Ҳолати шикояти мавҷудаи худро санҷед.',
     'grm.cardTrackAction': 'Парвандаро пайгирӣ кунед',
     'grm.cardPolicyTitle': 'Сиёсати GRM',
-    'grm.cardPolicyDescription': 'Дар борая раванди баррасии шикоятҳо маълумот гиред.',
+    'grm.cardPolicyDescription':
+        'Дар борая раванди баррасии шикоятҳо маълумот гиред.',
     'grm.cardPolicyAction': 'Хондани сиёсат',
     'grm.categoriesTitle': 'Категорияҳои шикоят',
     'grm.category.procurement': 'Масъалаҳои харид',
@@ -291,43 +318,55 @@ export default {
     'grm.category.corruption': 'Иттиҳомоти фасод',
     'grm.category.other': 'Дигар масъалаҳои вобаста ба лоиҳа',
     'grm.submitTitle': 'Шикоят ирсол кунед',
-    'grm.submitLead': 'Лутфан шакли зерро пур кунед. Ҳамаи муроҷиатҳо махфӣ баррасӣ мешаванд.',
+    'grm.submitLead':
+        'Лутфан шакли зерро пур кунед. Ҳамаи муроҷиатҳо махфӣ баррасӣ мешаванд.',
     'grm.fullName': 'Ному насаби пурра',
     'grm.phoneOptional': 'Телефон (ихтиёрӣ)',
     'grm.categoryLabel': 'Категория',
     'grm.descriptionLabel': 'Тавсиф',
-    'grm.descriptionPlaceholder': 'Лутфан шикояти худро муфассал тавсиф кунед (ҳадди ақал 20 аломат)...',
-    'grm.descriptionHelp': 'Барои баррасӣ маълумоти кофӣ пешниҳод кунед. Ҳадди ақал 20 аломат.',
+    'grm.descriptionPlaceholder':
+        'Лутфан шикояти худро муфассал тавсиф кунед (ҳадди ақал 20 аломат)...',
+    'grm.descriptionHelp':
+        'Барои баррасӣ маълумоти кофӣ пешниҳод кунед. Ҳадди ақал 20 аломат.',
     'grm.attachmentsOptional': 'Замимаҳо (ихтиёрӣ, ҳадди аксар 5 файл)',
     'grm.attachmentsHelpPrefix': 'Форматҳои иҷозатдодашуда:',
     'grm.attachmentsHelpSuffix': 'файл',
     'grm.privacyNoticeLabel': 'Огоҳии махфият:',
-    'grm.privacyNoticeText': 'Маълумоти шумо махфӣ коркард шуда, танҳо барои баррасии ин шикоят истифода мешавад.',
+    'grm.privacyNoticeText':
+        'Маълумоти шумо махфӣ коркард шуда, танҳо барои баррасии ин шикоят истифода мешавад.',
     'grm.submitting': 'Ирсол шуда истодааст…',
     'grm.submittedPageTitle': 'Шикоят ирсол шуд',
-    'grm.submittedLead': 'Шикояти шумо қабул шуд. Маълумоти пайгириро нигоҳ доред, то парвандаро бехатар пайгирӣ кунед.',
-    'grm.submittedEmailNotice': 'Шикояти шумо қабул шуд. Паёми тасдиқ ба email фиристода шуд.',
+    'grm.submittedLead':
+        'Шикояти шумо қабул шуд. Маълумоти пайгириро нигоҳ доред, то парвандаро бехатар пайгирӣ кунед.',
+    'grm.submittedEmailNotice':
+        'Шикояти шумо қабул шуд. Паёми тасдиқ ба email фиристода шуд.',
     'grm.trackingDetails': 'Маълумоти пайгирӣ',
     'grm.ticketNumberLabel': 'Рақами муроҷиати шумо:',
     'grm.trackingTokenLabel': 'Токени пайгирии шумо:',
-    'grm.trackingSaveNotice': 'Ҳар ду арзишро нигоҳ доред, то ҳолати шикоятро бехатар пайгирӣ кунед.',
+    'grm.trackingSaveNotice':
+        'Ҳар ду арзишро нигоҳ доред, то ҳолати шикоятро бехатар пайгирӣ кунед.',
     'grm.trackStatusAction': 'Пайгирии ҳолат',
     'grm.trackTitle': 'Шикояти худро пайгирӣ кунед',
-    'grm.trackLead': 'Рақами муроҷиат ва токени пайгириро ворид намоед, то ҳолати ҷории шикояти худро бинед.',
+    'grm.trackLead':
+        'Рақами муроҷиат ва токени пайгириро ворид намоед, то ҳолати ҷории шикояти худро бинед.',
     'grm.ticketNumber': 'Рақами муроҷиат',
     'grm.ticketFormatHelp': 'Формат: GRM-СОЛ-12345',
     'grm.trackingToken': 'Токени пайгирӣ',
     'grm.trackingTokenPlaceholder': 'Токени 32-аломатӣ',
     'grm.trackingTokenHelpPrefix': 'Аз',
-    'grm.trackingTokenHelpSuffix': 'аломатии токени пайгирие, ки дар тасдиқи ирсол нишон дода шудааст, истифода баред.',
+    'grm.trackingTokenHelpSuffix':
+        'аломатии токени пайгирие, ки дар тасдиқи ирсол нишон дода шудааст, истифода баред.',
     'grm.searching': 'Ҷустуҷӯ…',
-    'grm.notFound': 'Шикояте бо рақами муроҷиат ва токени пайгирии пешниҳодшуда ёфт нашуд. Лутфан ҳар ду арзишро санҷида, дубора кӯшиш кунед.',
-    'grm.trackingExpired': 'Муҳлати пайгирии оммавии ин шикояти пӯшида ба охир расидааст. Агар ба шумо маълумоти иловагӣ лозим бошад, бо дастаи GRM тамос гиред.',
+    'grm.notFound':
+        'Шикояте бо рақами муроҷиат ва токени пайгирии пешниҳодшуда ёфт нашуд. Лутфан ҳар ду арзишро санҷида, дубора кӯшиш кунед.',
+    'grm.trackingExpired':
+        'Муҳлати пайгирии оммавии ин шикояти пӯшида ба охир расидааст. Агар ба шумо маълумоти иловагӣ лозим бошад, бо дастаи GRM тамос гиред.',
     'grm.submittedOn': 'Ирсол шудааст:',
     'grm.progress': 'Пешрафт:',
     'grm.updates': 'навсозӣ',
     'grm.statusHistory': 'Таърихи ҳолат',
-    'footer.description': 'Маркази татбиқи лоиҳаҳо Лоиҳаи асосҳои рақамии Тоҷикистонро ҳамоҳанг намуда, инфрасохтори рақамӣ, хизматрасониҳои электронии давлатӣ ва малакаҳои рақамиро дар саросари кишвар тақвият медиҳад.',
+    'footer.description':
+        'Маркази татбиқи лоиҳаҳо Лоиҳаи асосҳои рақамии Тоҷикистонро ҳамоҳанг намуда, инфрасохтори рақамӣ, хизматрасониҳои электронии давлатӣ ва малакаҳои рақамиро дар саросари кишвар тақвият медиҳад.',
     'footer.documentRepository': 'Феҳристи ҳуҷҷатҳо',
     'footer.procurementNotices': 'Эълонҳои харид',
     'footer.mediaGallery': 'Галереяи медиа',
@@ -336,7 +375,8 @@ export default {
     'footer.fundedBy': 'Аз ҷониби зерин маблағгузорӣ мешавад',
     'footer.kicker': 'Портали хизматрасониҳои давлатӣ',
     'footer.heading': 'Иттилооти оммавӣ, хидматҳо ва шикоятҳо дар як ҷо.',
-    'footer.subheading': 'Портал навсозиҳои расмии лоиҳа, эълонҳои харид, дастрасӣ ба ҳуҷҷатҳо ва каналҳои хизматрасонии оммавиро барои баҳрабардорон, шаҳрвандон ва таъминкунандагон фароҳам меорад.',
+    'footer.subheading':
+        'Портал навсозиҳои расмии лоиҳа, эълонҳои харид, дастрасӣ ба ҳуҷҷатҳо ва каналҳои хизматрасонии оммавиро барои баҳрабардорон, шаҳрвандон ва таъминкунандагон фароҳам меорад.',
     'footer.sections': 'Бахшҳо',
     'footer.services': 'Хидматҳо',
     'footer.contact': 'Тамос',
@@ -344,7 +384,8 @@ export default {
     'footer.emailSubscriptions': 'Обуна тавассути email',
     'common.menu': 'Меню',
     'common.siteNavigation': 'Навигатсияи сайт',
-    'common.navigationDescription': 'Бахшҳои оммавии сайтро мурур кунед, забонро иваз кунед ё ба ҷустуҷӯ ва хидматҳои шикоятҳо дастрасӣ пайдо кунед.',
+    'common.navigationDescription':
+        'Бахшҳои оммавии сайтро мурур кунед, забонро иваз кунед ё ба ҷустуҷӯ ва хидматҳои шикоятҳо дастрасӣ пайдо кунед.',
     'common.skipToContent': 'Ба мундариҷаи асосӣ гузаред',
     'common.address': 'Суроға',
     'common.leadership': 'Роҳбарият',
@@ -355,9 +396,11 @@ export default {
     'common.filterByFileType': 'Тарошидан тибқи намуди файл',
     'home.badge': 'Лоиҳаи маблағгузоришуда аз ҷониби Бонки Ҷаҳонӣ',
     'home.title': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
-    'home.description': 'Тақвияти инфрасохтори рақамии Тоҷикистон тавассути хизматрасониҳои электронии давлатӣ, тасдиқи рақамӣ, амнияти киберӣ ва рушди малакаҳои рақамӣ.',
+    'home.description':
+        'Тақвияти инфрасохтори рақамии Тоҷикистон тавассути хизматрасониҳои электронии давлатӣ, тасдиқи рақамӣ, амнияти киберӣ ва рушди малакаҳои рақамӣ.',
     'home.heroTitle': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
-    'home.heroDescription': 'Маркази татбиқи лоиҳаҳо зери Дастгоҳи иҷроияи Президент ин лоиҳаро бо маблағгузории Бонки Ҷаҳонӣ ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ татбиқ мекунад. Декабри 2024\u2013Декабри 2030.',
+    'home.heroDescription':
+        'Маркази татбиқи лоиҳаҳо зери Дастгоҳи иҷроияи Президент ин лоиҳаро бо маблағгузории Бонки Ҷаҳонӣ ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ татбиқ мекунад. Декабри 2024\u2013Декабри 2030.',
     'home.learnMore': 'Фаъолиятҳои лоиҳа',
     'home.contactAction': 'Шикоят пешниҳод кунед',
     'home.projectComponentsTitle': 'Ҷузъҳои лоиҳа',
@@ -365,25 +408,33 @@ export default {
     'home.domainTilesSubtitle': '34 фаъолият дар доираи лоиҳа.',
     'home.activitiesCount': 'фаъолият',
     'home.component1.title': 'Асосҳои ҳукумати рақамӣ',
-    'home.component1.desc': 'Инфрасохтори рақамии оммавӣ, хизматрасониҳои давлатӣ, ҳамгироӣ, шаносоии рақамӣ ва пардохтҳо.',
+    'home.component1.desc':
+        'Инфрасохтори рақамии оммавӣ, хизматрасониҳои давлатӣ, ҳамгироӣ, шаносоии рақамӣ ва пардохтҳо.',
     'home.component2.title': 'Малакаҳои рақамӣ',
-    'home.component2.desc': 'Барномаҳои омӯзишӣ, кампанияҳои огоҳсозӣ ва пайвастшавии мактабҳо.',
+    'home.component2.desc':
+        'Барномаҳои омӯзишӣ, кампанияҳои огоҳсозӣ ва пайвастшавии мактабҳо.',
     'home.component3.title': 'Идоракунии лоиҳа',
-    'home.component3.desc': 'Ҳамоҳангсозӣ, идоракунии молиявӣ, мониторинг ва арзёбӣ.',
+    'home.component3.desc':
+        'Ҳамоҳангсозӣ, идоракунии молиявӣ, мониторинг ва арзёбӣ.',
     'footer.partners': 'Шарикон ва донорон',
-    'footer.fundedByFull': 'Аз ҷониби Ассотсиатсияи рушди байналмилалӣ (АРБ) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (SDC) маблағгузорӣ мешавад.',
+    'footer.fundedByFull':
+        'Аз ҷониби Ассотсиатсияи рушди байналмилалӣ (АРБ) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (SDC) маблағгузорӣ мешавад.',
     'project.title': 'Лоиҳаи асосҳои рақамии Тоҷикистон',
     'project.worldBankRef': 'Лоиҳаи Бонки Ҷаҳонӣ P180432',
     'project.pdo': 'Ҳадафи рушди лоиҳа',
-    'project.pdoText': 'Беҳтар намудани расонидани хизматрасониҳои бо дастгирии рақамӣ ва баланд бардоштани малакаҳои рақамии аҳолӣ.',
-    'project.pdoSource': 'Манбаъ: Ҳуҷҷати арзёбии лоиҳаи Бонки Ҷаҳонӣ, декабри 2024.',
+    'project.pdoText':
+        'Беҳтар намудани расонидани хизматрасониҳои бо дастгирии рақамӣ ва баланд бардоштани малакаҳои рақамии аҳолӣ.',
+    'project.pdoSource':
+        'Манбаъ: Ҳуҷҷати арзёбии лоиҳаи Бонки Ҷаҳонӣ, декабри 2024.',
     'project.component1': 'Ҷузъи 1: Асосҳои ҳукумати рақамӣ',
     'project.component1.sub1': 'Зерҷузъи 1.1: Инфрасохтори оммавии рақамӣ',
-    'project.component1.sub2': 'Зерҷузъи 1.2: Муҳофизатҳои рақамӣ ва омилҳои мусоидаткунанда',
+    'project.component1.sub2':
+        'Зерҷузъи 1.2: Муҳофизатҳои рақамӣ ва омилҳои мусоидаткунанда',
     'project.component2': 'Ҷузъи 2: Малакаҳои рақамӣ',
     'project.component3': 'Ҷузъи 3: Идоракунии лоиҳа',
     'project.totalFinancing': 'Маблағгузории умумӣ',
-    'project.financingSources': 'Гранти МАР (БҶ): $30M · Гранти SDC: $9M · ҲДХ: $5M · Ҳукумати ТҶ: $1.4M',
+    'project.financingSources':
+        'Гранти МАР (БҶ): $30M · Гранти SDC: $9M · ҲДХ: $5M · Ҳукумати ТҶ: $1.4M',
     'project.timeline': 'Нақшаи татбиқ',
     'project.results': 'Чорчӯбаи натиҷаҳо',
     'project.approvalDate': 'Санаи тасдиқ',
@@ -396,30 +447,40 @@ export default {
     'project.indicator2.target': 'Ҳадаф: 28,000 иштирокчӣ то декабри 2030',
     'project.relatedDocuments': 'Ҳуҷҷатҳои марбут',
     'project.statusActive': 'Татбиқ',
-    'project.overview': 'Лоиҳаи асосҳои рақамии Тоҷикистон аз ҷониби гранти МАР Бонки Ҷаҳонӣ ($30 млн), гранти SDC ($9 млн), бахши хусусӣ тавассути ҲДБХ ($5 млн) ва ҳиссаи Ҳукумати Тоҷикистон ($1.4 млн) маблағгузорӣ мешавад. Маблағгузории тасдиқшудаи умумӣ $45.4 млн мебошад. Лоиҳа аз ҷониби МТЛ зери Дастгоҳи иҷроияи Президенти Ҷумҳурии Тоҷикистон амалӣ мегардад. Муддати татбиқ: декабри 2024 — декабри 2030.',
+    'project.overview':
+        'Лоиҳаи асосҳои рақамии Тоҷикистон аз ҷониби гранти МАР Бонки Ҷаҳонӣ ($30 млн), гранти SDC ($9 млн), бахши хусусӣ тавассути ҲДБХ ($5 млн) ва ҳиссаи Ҳукумати Тоҷикистон ($1.4 млн) маблағгузорӣ мешавад. Маблағгузории тасдиқшудаи умумӣ $45.4 млн мебошад. Лоиҳа аз ҷониби МТЛ зери Дастгоҳи иҷроияи Президенти Ҷумҳурии Тоҷикистон амалӣ мегардад. Муддати татбиқ: декабри 2024 — декабри 2030.',
     'project.componentLabel': 'Ҷузъ',
     'project.financing': 'Маблағгузорӣ',
-    'project.financingNote': 'Гранти МАР $30M + Гранти SDC $9M + ҲДБХ $5M + Ҳукумати ТҶ $1.4M = $45.4M маблағгузории тасдиқшуда. Арзиши умумии амалиёт $51.2M (аз ҷумла $5.8M SDC барои солҳои 2028–2031).',
+    'project.financingNote':
+        'Гранти МАР $30M + Гранти SDC $9M + ҲДБХ $5M + Ҳукумати ТҶ $1.4M = $45.4M маблағгузории тасдиқшуда. Арзиши умумии амалиёт $51.2M (аз ҷумла $5.8M SDC барои солҳои 2028–2031).',
     'project.timeline.step1': 'Тасдиқи Шӯрои Бонки Ҷаҳонӣ',
     'project.timeline.step2': 'МТЛ таъсис ёфт, гурӯҳҳои татбиқ ҷалб шуданд',
-    'project.timeline.step3': 'Марҳилаи 1 — инфраструктураи рақамӣ ва хидматҳои давлатӣ',
-    'project.timeline.step4': 'Марҳилаи 2 — малакаҳои рақамӣ ва пайвасткунии мактабҳо',
+    'project.timeline.step3':
+        'Марҳилаи 1 — инфраструктураи рақамӣ ва хидматҳои давлатӣ',
+    'project.timeline.step4':
+        'Марҳилаи 2 — малакаҳои рақамӣ ва пайвасткунии мактабҳо',
     'project.timeline.step5': 'Пӯшидани лоиҳа',
     'project.idaCredit': 'Гранти МАР (Бонки Ҷаҳонӣ)',
     'project.sdcGrant': 'Гранти SDC (Швейтсария)',
     'project.privateFinancing': 'Бахши хусусӣ (ҲДБХ)',
     'project.govContribution': 'Ҳукумати Тоҷикистон',
     'about.highlight1.title': 'Назорати татбиқ',
-    'about.highlight1.description': '34 фаъолияти лоиҳаро дар доираи 3 ҷузъ зери Дастгоҳи иҷроияи Президент ҳамоҳанг мекунад.',
+    'about.highlight1.description':
+        '34 фаъолияти лоиҳаро дар доираи 3 ҷузъ зери Дастгоҳи иҷроияи Президент ҳамоҳанг мекунад.',
     'about.highlight2.title': 'Идоракунии харид',
-    'about.highlight2.description': 'Ҳамаи харидҳоро мувофиқи протседураҳои сармоягузорӣ ва ТҲД-и Бонки Ҷаҳонӣ ва SDC иҷро мекунад.',
+    'about.highlight2.description':
+        'Ҳамаи харидҳоро мувофиқи протседураҳои сармоягузорӣ ва ТҲД-и Бонки Ҷаҳонӣ ва SDC иҷро мекунад.',
     'about.highlight3.title': 'Иртиботи оммавӣ',
-    'about.highlight3.description': 'Канали расмии иртиботӣ барои хабарҳо, навсозиҳо, ҳуҷҷатҳо ва сабтҳои рӯйдодҳои лоиҳа.',
+    'about.highlight3.description':
+        'Канали расмии иртиботӣ барои хабарҳо, навсозиҳо, ҳуҷҷатҳо ва сабтҳои рӯйдодҳои лоиҳа.',
     'about.highlight4.title': 'Механизми шикоятҳо',
-    'about.highlight4.description': 'Механизми МРМ-ро идора мекунад, ки барои ҳамаи шахсони зарардида ва шаҳрвандон дастрас аст.',
-    'about.mandate': 'Маркази татбиқи лоиҳаҳо (МТЛ) барои татбиқи ҳаррӯзаи Лоиҳаи асосҳои рақамии Тоҷикистон масъул аст. МТЛ зери Дастгоҳи иҷроияи Президенти Ҷумҳурии Тоҷикистон фаъолият мекунад ва ба Кумитаи роҳбарикунандаи лоиҳа ҳисобот медиҳад.',
+    'about.highlight4.description':
+        'Механизми МРМ-ро идора мекунад, ки барои ҳамаи шахсони зарардида ва шаҳрвандон дастрас аст.',
+    'about.mandate':
+        'Маркази татбиқи лоиҳаҳо (МТЛ) барои татбиқи ҳаррӯзаи Лоиҳаи асосҳои рақамии Тоҷикистон масъул аст. МТЛ зери Дастгоҳи иҷроияи Президенти Ҷумҳурии Тоҷикистон фаъолият мекунад ва ба Кумитаи роҳбарикунандаи лоиҳа ҳисобот медиҳад.',
     'about.staffLink': 'Роҳбарият ва феҳристи кормандон',
-    'about.partnerAcknowledgment': 'Ин лоиҳа аз ҷониби Ассотсиатсияи рушди байналмилалӣ (Бонки Ҷаҳонӣ) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (SDC) маблағгузорӣ мешавад.',
+    'about.partnerAcknowledgment':
+        'Ин лоиҳа аз ҷониби Ассотсиатсияи рушди байналмилалӣ (Бонки Ҷаҳонӣ) ва Агентии Швейтсария оид ба рушд ва ҳамкорӣ (SDC) маблағгузорӣ мешавад.',
     'home.projectComponents': 'Ҷузъҳои лоиҳа',
     'home.budget': 'Буҷет (USD)',
     'home.activities': 'Фаъолиятҳо',
@@ -431,12 +492,15 @@ export default {
     'home.documentsCaption': 'Ҳуҷҷатҳои нашршуда',
     'home.contactLabel': 'Тамоси расмӣ',
     'home.metrics.contentUnits': 'Воҳидҳои мундариҷаи амалиётӣ ва навсозиҳо',
-    'home.metrics.interactions': 'Муошират со ҷонибҳои манфиатдор ва сабтҳои нашршуда',
+    'home.metrics.interactions':
+        'Муошират со ҷонибҳои манфиатдор ва сабтҳои нашршуда',
     'home.metrics.materials': 'Ҳуҷҷатҳои лоиҳа ва огоҳиномаҳои дар гардишбуда',
     'home.metrics.workstreams': 'Самтҳои афзалиятноки кор ва марҳилаҳои харид',
     'home.mission': 'Рисолати мо',
-    'home.missionTitle': 'Портали боэътимоди оммавии рақамӣ бо дастрасии равшан ба иттилооти лоиҳа.',
-    'home.missionFallback': 'Портал шаффофияти оммавӣ, иртиботи институтсионалӣ ва хизматрасонии дастрасро барои баҳрабардорон, шарикон ва шаҳрвандон дастгирӣ мекунад.',
+    'home.missionTitle':
+        'Портали боэътимоди оммавии рақамӣ бо дастрасии равшан ба иттилооти лоиҳа.',
+    'home.missionFallback':
+        'Портал шаффофияти оммавӣ, иртиботи институтсионалӣ ва хизматрасонии дастрасро барои баҳрабардорон, шарикон ва шаҳрвандон дастгирӣ мекунад.',
     'home.publicContentAreas': 'Бахшҳои оммавии мундариҷа',
     'home.visibleOperationalRecords': 'Сабтҳои намоёни амалиётӣ',
     'home.publishedReferenceMaterials': 'Маводи нашршудаи истинодӣ',
@@ -448,11 +512,14 @@ export default {
     'home.servicesTitle': 'Дастрасии зуд ба хидматҳои оммавӣ',
     'home.servicesOpenSection': 'Кушодани бахш',
     'home.services.activitiesTitle': 'Фаъолиятҳои лоиҳа',
-    'home.services.activitiesDescription': 'Раванди татбиқ ва навсозиҳои нашршудаи лоиҳаро пайгирӣ кунед.',
+    'home.services.activitiesDescription':
+        'Раванди татбиқ ва навсозиҳои нашршудаи лоиҳаро пайгирӣ кунед.',
     'home.services.procurementTitle': 'Эълонҳои харид',
-    'home.services.procurementDescription': 'Эълонҳои кушода, рақамҳои истинодӣ ва муҳлатҳоро барои таъминкунандагон бинед.',
+    'home.services.procurementDescription':
+        'Эълонҳои кушода, рақамҳои истинодӣ ва муҳлатҳоро барои таъминкунандагон бинед.',
     'home.services.documentsTitle': 'Ҳуҷҷатҳои оммавӣ',
-    'home.services.documentsDescription': 'Ба ҳуҷҷатҳои расмии лоиҳа ва маводи нашршуда дастрасӣ пайдо кунед.',
+    'home.services.documentsDescription':
+        'Ба ҳуҷҷатҳои расмии лоиҳа ва маводи нашршуда дастрасӣ пайдо кунед.',
     'home.openProcurement': 'Харидҳои кушода',
     'home.noOpenProcurement': 'Эълонҳои хариди кушода мавҷуд нестанд.',
     'home.procurement': 'Харид',
@@ -460,18 +527,22 @@ export default {
     'home.grmService': 'Хидмати GRM',
     'page.title': 'Саҳифа',
     'error.404.title': 'Саҳифа ёфт нашуд',
-    'error.404.description': 'Саҳифае, ки шумо меҷӯед, эҳтимол интиқол дода шуд, нест карда шуд ё ҳаргиз вуҷуд надошт.',
+    'error.404.description':
+        'Саҳифае, ки шумо меҷӯед, эҳтимол интиқол дода шуд, нест карда шуд ё ҳаргиз вуҷуд надошт.',
     'error.404.backHome': 'Ба саҳифаи асосӣ',
     'projects.title': 'Лоиҳаҳо',
-    'projects.description': 'Лоиҳаҳое, ки аз ҷониби Маркази татбиқи лоиҳаҳо амалӣ карда мешаванд.',
+    'projects.description':
+        'Лоиҳаҳое, ки аз ҷониби Маркази татбиқи лоиҳаҳо амалӣ карда мешаванд.',
     'activities.title': 'Фаъолиятҳои лоиҳа',
-    'activities.description': 'Ташаббусҳо ва ҷузъҳои асосии Лоиҳаи асосҳои рақамии Тоҷикистон',
+    'activities.description':
+        'Ташаббусҳо ва ҷузъҳои асосии Лоиҳаи асосҳои рақамии Тоҷикистон',
     'activities.back': 'Бозгашт ба фаъолиятҳо',
     'activities.empty': 'Фаъолиятҳо бо филтрҳои интихобшуда ёфт нашуданд.',
     'activities.resetFilters': 'Филтрҳоро аз нав танзим кунед',
     'news.title': 'Хабарҳо',
     'news.indexTitle': 'Хабарҳо ва рӯйдодҳо',
-    'news.indexDescription': 'Навгониҳои охирин аз Лоиҳаи асосҳои рақамии Тоҷикистон',
+    'news.indexDescription':
+        'Навгониҳои охирин аз Лоиҳаи асосҳои рақамии Тоҷикистон',
     'news.searchPlaceholder': 'Ҷустуҷӯи хабарҳо...',
     'news.empty': 'Хабарҳо ёфт нашуданд.',
     'news.whatsNew': 'Чӣ нав аст',
@@ -486,10 +557,12 @@ export default {
     'news.category.government-initiatives': 'Ташаббусҳои давлатӣ',
     'news.category.press-releases': 'Хабарномаҳои матбуотӣ',
     'media.title': 'Галереяи медиа',
-    'media.description': 'Аксҳо ва наворҳо аз фаъолиятҳои лоиҳа ва чорабиниҳои оммавӣ.',
+    'media.description':
+        'Аксҳо ва наворҳо аз фаъолиятҳои лоиҳа ва чорабиниҳои оммавӣ.',
     'media.empty': 'Ягон маводи медиа ёфт нашуд.',
     'search.title': 'Ҷустуҷӯ',
-    'search.description': 'Ҷустуҷӯ дар саҳифаҳои оммавӣ, хабарҳо, фаъолиятҳо ва эълонҳои харид.',
+    'search.description':
+        'Ҷустуҷӯ дар саҳифаҳои оммавӣ, хабарҳо, фаъолиятҳо ва эълонҳои харид.',
     'search.placeholder': 'Ҷустуҷӯ дар портали оммавӣ...',
     'search.filterByType': 'Филтр аз рӯи навъи муҳтаво',
     'search.resultsFor': 'натиҷа барои дархост',
@@ -505,10 +578,12 @@ export default {
     'search.entity.media': 'Медиа',
     'documents.title': 'Ҳуҷҷатҳо',
     'documents.indexTitle': 'Феҳристи ҳуҷҷатҳо',
-    'documents.indexDescription': 'Ҳуҷҷатҳои лоиҳа, ҳисоботҳо, таҳқиқоти техникӣ ва сиёсатҳо',
+    'documents.indexDescription':
+        'Ҳуҷҷатҳои лоиҳа, ҳисоботҳо, таҳқиқоти техникӣ ва сиёсатҳо',
     'documents.searchPlaceholder': 'Ҷустуҷӯи ҳуҷҷатҳо...',
     'documents.empty': 'Ҳуҷҷатҳо ёфт нашуданд.',
-    'documents.previewUnavailable': 'Пешнамоиш барои ин намуди файл дастрас нест. Барои дидан файлро зеркашӣ кунед.',
+    'documents.previewUnavailable':
+        'Пешнамоиш барои ин намуди файл дастрас нест. Барои дидан файлро зеркашӣ кунед.',
     'procurement.title': 'Харид',
     'procurement.notice': 'Эълони харид',
     'procurement.indexDescription': 'Эълонҳо, RFQ, RFP ва натиҷаҳои шартномаҳо',
@@ -517,10 +592,13 @@ export default {
     'procurement.empty': 'Эълонҳои харид ёфт нашуданд.',
     'procurement.process': 'Марҳила',
     'procurement.processSummaryOpen': 'Муҳлати пешниҳоди дархостҳо кушода аст.',
-    'procurement.processSummaryDeadlinePassed': 'Муҳлати пешниҳоди дархостҳо гузаштааст ва эълон дар интизори басташавии расмӣ қарор дорад.',
-    'procurement.processSummaryUnderEvaluation': 'Қабули дархостҳо анҷом ёфта, эълон дар марҳилаи арзёбӣ ё коркарди маъмурӣ қарор дорад.',
+    'procurement.processSummaryDeadlinePassed':
+        'Муҳлати пешниҳоди дархостҳо гузаштааст ва эълон дар интизори басташавии расмӣ қарор дорад.',
+    'procurement.processSummaryUnderEvaluation':
+        'Қабули дархостҳо анҷом ёфта, эълон дар марҳилаи арзёбӣ ё коркарди маъмурӣ қарор дорад.',
     'procurement.processSummaryAwarded': 'Натиҷаи харид нашр шудааст.',
-    'procurement.processSummaryArchived': 'Ин эълон барои бойгонӣ ва маълумот нигоҳ дошта мешавад.',
+    'procurement.processSummaryArchived':
+        'Ин эълон барои бойгонӣ ва маълумот нигоҳ дошта мешавад.',
     'procurement.processState.submission_open': 'Қабули дархостҳо кушода аст',
     'procurement.processState.deadline_passed': 'Муҳлат гузаштааст',
     'procurement.processState.under_evaluation': 'Дар марҳилаи арзёбӣ',
@@ -536,41 +614,57 @@ export default {
     'contact.description': 'Бо Маркази татбиқи лоиҳаҳо дар тамос шавед',
     'staff.title': 'Феҳристи кормандон',
     'staff.heading': 'Роҳбарият ва сохтори даста',
-    'staff.description': 'Бо роҳбарият ва сохтори иерархии дастае, ки барои татбиқи лоиҳа масъул аст, шинос шавед.',
+    'staff.description':
+        'Бо роҳбарият ва сохтори иерархии дастае, ки барои татбиқи лоиҳа масъул аст, шинос шавед.',
     'staff.empty': 'Феҳристи кормандон ба наздикӣ нашр мешавад.',
     'subscriptions.title': 'Обунаи email',
     'subscriptions.heading': 'Ба навсозиҳои лоиҳа обуна шавед',
-    'subscriptions.description': 'Ҳангоми нашри хабарҳо, ҳуҷҷатҳо ва эълонҳои харид расмӣ навсозиҳоро дастрас намоед.',
+    'subscriptions.description':
+        'Ҳангоми нашри хабарҳо, ҳуҷҷатҳо ва эълонҳои харид расмӣ навсозиҳоро дастрас намоед.',
     'subscriptions.emailLabel': 'Суроғаи email',
-    'subscriptions.notice': 'Пеш аз фаъол шудани обуна ба шумо паёми тасдиқ фиристода мешавад.',
+    'subscriptions.notice':
+        'Пеш аз фаъол шудани обуна ба шумо паёми тасдиқ фиристода мешавад.',
     'subscriptions.submit': 'Обуна шудан',
     'subscriptions.submitting': 'Ирсол...',
     'subscriptions.confirmRequest': 'Тасдиқи дархост',
     'subscriptions.unsubscribeRequest': 'Дархости қатъи обуна',
-    'subscriptions.confirmReviewTitle': 'Обунаи email-и худро баррасӣ ва тасдиқ кунед',
-    'subscriptions.unsubscribeReviewTitle': 'Дархости қатъи обунаро баррасӣ ва тасдиқ кунед',
-    'subscriptions.confirmReviewBodyPrefix': 'Паёмҳои навсозии лоиҳаро барои ин суроға фаъол кунед',
-    'subscriptions.unsubscribeReviewBodyPrefix': 'Фиристодани паёмҳои навсозии лоиҳаро ба ин суроға қатъ кунед',
+    'subscriptions.confirmReviewTitle':
+        'Обунаи email-и худро баррасӣ ва тасдиқ кунед',
+    'subscriptions.unsubscribeReviewTitle':
+        'Дархости қатъи обунаро баррасӣ ва тасдиқ кунед',
+    'subscriptions.confirmReviewBodyPrefix':
+        'Паёмҳои навсозии лоиҳаро барои ин суроға фаъол кунед',
+    'subscriptions.unsubscribeReviewBodyPrefix':
+        'Фиристодани паёмҳои навсозии лоиҳаро ба ин суроға қатъ кунед',
     'subscriptions.processing': 'Коркард…',
     'subscriptions.confirmAction': 'Тасдиқи обуна',
     'subscriptions.unsubscribeAction': 'Қатъи обуна',
     'subscriptions.status.confirmation-sent.title': 'Email-и худро санҷед',
-    'subscriptions.status.confirmation-sent.body': 'Мо барои фаъол кардани обунаи шумо пайванди тасдиқ фиристодем.',
+    'subscriptions.status.confirmation-sent.body':
+        'Мо барои фаъол кардани обунаи шумо пайванди тасдиқ фиристодем.',
     'subscriptions.status.confirmed.title': 'Обуна тасдиқ шуд',
-    'subscriptions.status.confirmed.body': 'Акнун шумо ба навсозиҳои лоиҳа обуна ҳастед.',
+    'subscriptions.status.confirmed.body':
+        'Акнун шумо ба навсозиҳои лоиҳа обуна ҳастед.',
     'subscriptions.status.unsubscribed.title': 'Обуна қатъ шуд',
-    'subscriptions.status.unsubscribed.body': 'Шумо дигар паёмҳои навсозии лоиҳаро қабул намекунед.',
+    'subscriptions.status.unsubscribed.body':
+        'Шумо дигар паёмҳои навсозии лоиҳаро қабул намекунед.',
     'subscriptions.status.already-active.title': 'Аллакай обуна ҳастед',
-    'subscriptions.status.already-active.body': 'Ин суроғаи email аллакай дар рӯйхати обуна фаъол аст.',
-    'subscriptions.status.invalid-confirmation.title': 'Пайванди тасдиқ беэътибор аст',
-    'subscriptions.status.invalid-confirmation.body': 'Агар ҳанӯз мехоҳед ба рӯйхат ҳамроҳ шавед, тасдиқи навро дархост кунед.',
-    'subscriptions.status.invalid-unsubscribe.title': 'Пайванди қатъи обуна беэътибор аст',
-    'subscriptions.status.invalid-unsubscribe.body': 'Пайванди идоракунӣ дигар эътибор надорад.',
+    'subscriptions.status.already-active.body':
+        'Ин суроғаи email аллакай дар рӯйхати обуна фаъол аст.',
+    'subscriptions.status.invalid-confirmation.title':
+        'Пайванди тасдиқ беэътибор аст',
+    'subscriptions.status.invalid-confirmation.body':
+        'Агар ҳанӯз мехоҳед ба рӯйхат ҳамроҳ шавед, тасдиқи навро дархост кунед.',
+    'subscriptions.status.invalid-unsubscribe.title':
+        'Пайванди қатъи обуна беэътибор аст',
+    'subscriptions.status.invalid-unsubscribe.body':
+        'Пайванди идоракунӣ дигар эътибор надорад.',
     'share.share': 'Мубодила',
     'share.copy': 'Нусхаи пайванд',
     'share.copied': 'Нусхабардорӣ шуд!',
     'share.title': 'Ин саҳифаро мубодила кунед',
-    'share.description': 'Ин саҳифаро ба ҳамкорон фиристед ё онро дар шабакаҳои иҷтимоӣ мубодила намоед.',
+    'share.description':
+        'Ин саҳифаро ба ҳамкорон фиристед ё онро дар шабакаҳои иҷтимоӣ мубодила намоед.',
     'status.planned': 'Банақшагирифташуда',
     'status.in_progress': 'Дар ҷараён',
     'status.completed': 'Анҷомёфта',

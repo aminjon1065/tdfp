@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityStatus;
 use App\Models\Activity;
 use App\Models\Document;
 use App\Models\News;
@@ -64,7 +65,7 @@ class SitemapController extends Controller
     private function activityUrls(): Collection
     {
         return Activity::query()
-            ->whereIn('status', ['planned', 'in_progress', 'completed'])
+            ->whereIn('status', ActivityStatus::publicValues())
             ->get(['slug', 'updated_at'])
             ->map(fn (Activity $activity) => $this->makeUrl(route('activities.show', ['slug' => $activity->slug]), $activity->updated_at));
     }
@@ -105,7 +106,7 @@ class SitemapController extends Controller
     private function activityLastModified(): mixed
     {
         return Activity::query()
-            ->whereIn('status', ['planned', 'in_progress', 'completed'])
+            ->whereIn('status', ActivityStatus::publicValues())
             ->latest('updated_at')
             ->value('updated_at');
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\SyncSearchIndexJob;
 use App\Models\Document;
 use App\Models\DocumentTranslation;
 use App\Models\MediaItem;
@@ -9,6 +10,34 @@ use App\Models\NewsTranslation;
 use App\Models\Page;
 use App\Models\PageTranslation;
 use App\Models\SearchIndex;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Queue;
+
+beforeEach(function () {
+    Config::set('queue.default', 'sync');
+});
+
+test('search sync is queued after content changes', function () {
+    Queue::fake();
+
+    $page = Page::create([
+        'slug' => 'queued-search-page',
+        'status' => 'published',
+        'published_at' => now(),
+    ]);
+
+    PageTranslation::create([
+        'page_id' => $page->id,
+        'language' => 'en',
+        'title' => 'Queued Search Page',
+        'content' => '<p>Queued content.</p>',
+    ]);
+
+    Queue::assertPushed(SyncSearchIndexJob::class, function (SyncSearchIndexJob $job) use ($page) {
+        return $job->entityType === Page::class
+            && $job->entityId === $page->id;
+    });
+});
 
 test('published pages are synced into the public search index and removed when unpublished', function () {
     $page = Page::create([

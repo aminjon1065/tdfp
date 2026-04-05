@@ -1,10 +1,15 @@
 <?php
+
 namespace App\Modules\News\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreNewsRequest extends FormRequest
 {
-    public function authorize(): bool { return true; }
+    public function authorize(): bool
+    {
+        return true;
+    }
 
     public function rules(): array
     {

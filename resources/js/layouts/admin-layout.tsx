@@ -1,14 +1,18 @@
+import { type PropsWithChildren } from 'react';
+
+import { AdminSidebar } from '@/components/admin/admin-sidebar';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AdminSidebar } from '@/components/admin/admin-sidebar';
 import { type BreadcrumbItem } from '@/types';
-import { type PropsWithChildren } from 'react';
 
 interface AdminLayoutProps extends PropsWithChildren {
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export default function AdminLayout({ children, breadcrumbs = [] }: AdminLayoutProps) {
+export default function AdminLayout({
+    children,
+    breadcrumbs = [],
+}: AdminLayoutProps) {
     return (
         <SidebarProvider>
             <AdminSidebar />
@@ -19,9 +23,7 @@ export default function AdminLayout({ children, breadcrumbs = [] }: AdminLayoutP
                         <Breadcrumbs breadcrumbs={breadcrumbs} />
                     )}
                 </header>
-                <div className="flex-1 p-6">
-                    {children}
-                </div>
+                <div className="flex-1 p-6">{children}</div>
             </main>
         </SidebarProvider>
     );

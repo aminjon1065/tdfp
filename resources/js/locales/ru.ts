@@ -11,7 +11,8 @@ export default {
     'nav.home': 'Главная',
     'nav.about': 'О нас',
     'nav.theProject': 'Проекты',
-    'nav.theProjectDescription': 'ЦРП, компоненты, финансирование и план реализации.',
+    'nav.theProjectDescription':
+        'ЦРП, компоненты, финансирование и план реализации.',
     'nav.grm': 'Жалобы',
     'nav.domain1': 'Цифровая инфраструктура',
     'nav.domain2': 'Цифровые государственные услуги',
@@ -23,12 +24,16 @@ export default {
     'nav.viewAllActivities': 'Все мероприятия',
     'nav.projects': 'Проекты',
     'nav.projectActivities': 'Мероприятия',
-    'nav.projectActivitiesDescription': 'Этапы программы, потоки внедрения и обновления по реализации.',
+    'nav.projectActivitiesDescription':
+        'Этапы программы, потоки внедрения и обновления по реализации.',
     'nav.projectDocuments': 'Документы проекта',
-    'nav.projectDocumentsDescription': 'Рамочные документы, отчеты и справочные материалы по реализации.',
+    'nav.projectDocumentsDescription':
+        'Рамочные документы, отчеты и справочные материалы по реализации.',
     'nav.projectProcurement': 'Закупки',
-    'nav.projectProcurementDescription': 'Актуальные объявления, тендерные возможности и обновления по закупкам.',
-    'nav.projectPageDescription': 'Страница проекта из системы управления контентом.',
+    'nav.projectProcurementDescription':
+        'Актуальные объявления, тендерные возможности и обновления по закупкам.',
+    'nav.projectPageDescription':
+        'Страница проекта из системы управления контентом.',
     'nav.activities': 'Мероприятия',
     'nav.news': 'Новости',
     'nav.announcements': 'Объявления',
@@ -130,10 +135,14 @@ export default {
     'admin.dashboard.openGrmCases': 'Открытые обращения GRM',
     'admin.dashboard.openProcurements': 'Открытые закупки',
     'admin.dashboard.operationalReadiness': 'Операционная готовность',
-    'admin.dashboard.operationalReadinessDescription': 'Базовая готовность по владельцам запуска, поддержке, отчетности и резервным копиям.',
-    'admin.dashboard.operationsReady': 'Базовая операционная готовность настроена.',
-    'admin.dashboard.operationsMissing': 'элемент(ов) готовности все еще требуют заполнения ответственных значений.',
-    'admin.dashboard.operationsEvidenceNote': 'Это продуктовая проверка governance, а не инфраструктурное подтверждение.',
+    'admin.dashboard.operationalReadinessDescription':
+        'Базовая готовность по владельцам запуска, поддержке, отчетности и резервным копиям.',
+    'admin.dashboard.operationsReady':
+        'Базовая операционная готовность настроена.',
+    'admin.dashboard.operationsMissing':
+        'элемент(ов) готовности все еще требуют заполнения ответственных значений.',
+    'admin.dashboard.operationsEvidenceNote':
+        'Это продуктовая проверка governance, а не инфраструктурное подтверждение.',
     'admin.dashboard.notConfigured': 'Не настроено',
     'admin.dashboard.ready': 'Готово',
     'admin.dashboard.missing': 'Не заполнено',
@@ -168,7 +177,8 @@ export default {
     'admin.content.addProcurement': 'Добавить закупку',
     'admin.content.uploadMedia': 'Загрузить медиа',
     'admin.content.exportCsv': 'Экспорт CSV',
-    'admin.content.reviewSubscriptions': 'Просматривайте подтвержденных, ожидающих и отписавшихся получателей.',
+    'admin.content.reviewSubscriptions':
+        'Просматривайте подтвержденных, ожидающих и отписавшихся получателей.',
     'admin.content.noMedia': 'Медиаматериалов пока нет.',
     'admin.content.pageSummary': 'Страница',
     'admin.content.of': 'из',
@@ -184,7 +194,8 @@ export default {
     'admin.content.allActions': 'Все действия',
     'admin.content.allEntityTypes': 'Все типы сущностей',
     'admin.content.allUsers': 'Все пользователи',
-    'admin.content.searchAuditLogs': 'Поиск по действию, сущности, IP, пользователю...',
+    'admin.content.searchAuditLogs':
+        'Поиск по действию, сущности, IP, пользователю...',
     'admin.content.saveSettings': 'Сохранить настройки',
     'admin.content.saving': 'Сохранение…',
     'admin.content.noSettings': 'Настройки не настроены.',
@@ -220,7 +231,8 @@ export default {
     'admin.form.leadership': 'Руководство',
     'admin.form.leadershipHint': 'Показывать этот профиль в блоке руководства.',
     'admin.form.published': 'Опубликовано',
-    'admin.form.publishedHint': 'Неопубликованные сотрудники остаются только в админке.',
+    'admin.form.publishedHint':
+        'Неопубликованные сотрудники остаются только в админке.',
     'admin.form.fullName': 'Полное имя',
     'admin.form.jobTitle': 'Должность',
     'admin.form.department': 'Отдел',
@@ -228,9 +240,12 @@ export default {
     'admin.form.replaceFileOptional': 'Заменить файл (необязательно)',
     'admin.form.currentFile': 'Текущий файл',
     'admin.form.currentPhotoUploaded': 'Текущее фото уже загружено.',
-    'admin.form.staffCreateHint': 'Создайте публичный профиль и поместите его в иерархию подчинения.',
-    'admin.form.staffEditHint': 'Обновите иерархию, переводы и состояние публикации.',
-    'admin.form.staffDirectoryHint': 'Поддерживайте публичную структуру руководства и подчинения.',
+    'admin.form.staffCreateHint':
+        'Создайте публичный профиль и поместите его в иерархию подчинения.',
+    'admin.form.staffEditHint':
+        'Обновите иерархию, переводы и состояние публикации.',
+    'admin.form.staffDirectoryHint':
+        'Поддерживайте публичную структуру руководства и подчинения.',
     'admin.form.addStaffMember': 'Добавить сотрудника',
     'admin.form.deleteStaffRecord': 'Удалить эту запись о сотруднике?',
     'admin.form.currentlyUploading': 'Загрузка…',
@@ -239,23 +254,27 @@ export default {
     'admin.form.preview': 'Открыть превью',
     'admin.form.preparingPreview': 'Подготовка превью…',
     'admin.form.previewUnavailable': 'Превью недоступно',
-    'admin.form.previewError': 'Не удалось сгенерировать превью. Проверьте форму и попробуйте снова.',
+    'admin.form.previewError':
+        'Не удалось сгенерировать превью. Проверьте форму и попробуйте снова.',
     'admin.form.loadingEditor': 'Загрузка редактора...',
     'admin.form.write': 'Редактировать',
     'admin.form.previewTab': 'Превью',
     'admin.form.nothingToPreview': 'Пока нечего показывать в превью.',
     'admin.form.insertLink': 'Вставить ссылку',
-    'admin.form.linkDescription': 'Добавьте или обновите URL для выбранного текста.',
+    'admin.form.linkDescription':
+        'Добавьте или обновите URL для выбранного текста.',
     'admin.form.url': 'URL',
     'admin.form.saveLink': 'Сохранить ссылку',
     'admin.form.insertImage': 'Вставить изображение',
-    'admin.form.imageDescription': 'Загрузите изображение в медиатеку или укажите публичный URL.',
+    'admin.form.imageDescription':
+        'Загрузите изображение в медиатеку или укажите публичный URL.',
     'admin.form.uploadImage': 'Загрузить изображение',
     'admin.form.imageUrl': 'URL изображения',
     'admin.form.altText': 'Alt текст',
     'admin.form.describeImage': 'Опишите изображение',
     'admin.form.imageUploadFailed': 'Не удалось загрузить изображение.',
-    'admin.form.imageSourceRequired': 'Укажите URL изображения или загрузите файл.',
+    'admin.form.imageSourceRequired':
+        'Укажите URL изображения или загрузите файл.',
     'admin.form.messages': 'Сообщения',
     'admin.form.noMessages': 'Сообщений пока нет.',
     'admin.form.attachments': 'Вложения',
@@ -266,20 +285,28 @@ export default {
     'admin.form.noHistory': 'Истории пока нет.',
     'admin.form.submittedOn': 'Отправлено',
     'admin.form.by': 'кем',
-    'admin.form.contactMasked': 'Контактные данные скрыты для режима просмотра GRM без чувствительных данных.',
-    'admin.form.messagingRestricted': 'Переписка доступна только сотрудникам GRM с операционными правами.',
-    'admin.form.attachmentsRestricted': 'Скачивание вложений доступно только сотрудникам GRM с операционными правами.',
-    'admin.form.statusRestricted': 'Изменение статуса доступно только сотрудникам GRM с операционными правами.',
+    'admin.form.contactMasked':
+        'Контактные данные скрыты для режима просмотра GRM без чувствительных данных.',
+    'admin.form.messagingRestricted':
+        'Переписка доступна только сотрудникам GRM с операционными правами.',
+    'admin.form.attachmentsRestricted':
+        'Скачивание вложений доступно только сотрудникам GRM с операционными правами.',
+    'admin.form.statusRestricted':
+        'Изменение статуса доступно только сотрудникам GRM с операционными правами.',
     'grm.submit': 'Подать жалобу',
     'grm.track': 'Проверить обращение',
     'grm.title': 'Механизм рассмотрения жалоб',
-    'grm.description': 'Есть вопросы по реализации проекта? Подайте жалобу или отследите существующее обращение через нашу прозрачную систему GRM.',
-    'grm.indexLead': 'GRM обеспечивает прозрачный, доступный и подотчётный процесс для людей, затронутых проектом, чтобы они могли поднимать вопросы и жалобы.',
+    'grm.description':
+        'Есть вопросы по реализации проекта? Подайте жалобу или отследите существующее обращение через нашу прозрачную систему GRM.',
+    'grm.indexLead':
+        'GRM обеспечивает прозрачный, доступный и подотчётный процесс для людей, затронутых проектом, чтобы они могли поднимать вопросы и жалобы.',
     'grm.cardSubmitTitle': 'Подать жалобу',
-    'grm.cardSubmitDescription': 'Есть жалоба? Подайте её онлайн на рассмотрение.',
+    'grm.cardSubmitDescription':
+        'Есть жалоба? Подайте её онлайн на рассмотрение.',
     'grm.cardSubmitAction': 'Подать сейчас',
     'grm.cardTrackTitle': 'Проверить обращение',
-    'grm.cardTrackDescription': 'Проверьте статус вашего существующего обращения.',
+    'grm.cardTrackDescription':
+        'Проверьте статус вашего существующего обращения.',
     'grm.cardTrackAction': 'Проверить статус',
     'grm.cardPolicyTitle': 'Политика GRM',
     'grm.cardPolicyDescription': 'Узнайте о процессе рассмотрения жалоб.',
@@ -291,43 +318,55 @@ export default {
     'grm.category.corruption': 'Сообщения о коррупции',
     'grm.category.other': 'Другие вопросы, связанные с проектом',
     'grm.submitTitle': 'Подать жалобу',
-    'grm.submitLead': 'Пожалуйста, заполните форму ниже. Все обращения рассматриваются конфиденциально.',
+    'grm.submitLead':
+        'Пожалуйста, заполните форму ниже. Все обращения рассматриваются конфиденциально.',
     'grm.fullName': 'Полное имя',
     'grm.phoneOptional': 'Телефон (необязательно)',
     'grm.categoryLabel': 'Категория',
     'grm.descriptionLabel': 'Описание',
-    'grm.descriptionPlaceholder': 'Пожалуйста, подробно опишите вашу жалобу (минимум 20 символов)...',
-    'grm.descriptionHelp': 'Укажите достаточно деталей для рассмотрения. Минимум 20 символов.',
+    'grm.descriptionPlaceholder':
+        'Пожалуйста, подробно опишите вашу жалобу (минимум 20 символов)...',
+    'grm.descriptionHelp':
+        'Укажите достаточно деталей для рассмотрения. Минимум 20 символов.',
     'grm.attachmentsOptional': 'Вложения (необязательно, максимум 5 файлов)',
     'grm.attachmentsHelpPrefix': 'Разрешённые форматы:',
     'grm.attachmentsHelpSuffix': 'файлов',
     'grm.privacyNoticeLabel': 'Уведомление о конфиденциальности:',
-    'grm.privacyNoticeText': 'Ваша информация будет обрабатываться конфиденциально и использоваться только для рассмотрения этой жалобы.',
+    'grm.privacyNoticeText':
+        'Ваша информация будет обрабатываться конфиденциально и использоваться только для рассмотрения этой жалобы.',
     'grm.submitting': 'Отправка…',
     'grm.submittedPageTitle': 'Жалоба отправлена',
-    'grm.submittedLead': 'Ваша жалоба получена. Сохраните данные для отслеживания, чтобы безопасно следить за делом.',
-    'grm.submittedEmailNotice': 'Ваша жалоба получена. Письмо с подтверждением уже отправлено.',
+    'grm.submittedLead':
+        'Ваша жалоба получена. Сохраните данные для отслеживания, чтобы безопасно следить за делом.',
+    'grm.submittedEmailNotice':
+        'Ваша жалоба получена. Письмо с подтверждением уже отправлено.',
     'grm.trackingDetails': 'Данные для отслеживания',
     'grm.ticketNumberLabel': 'Ваш номер обращения:',
     'grm.trackingTokenLabel': 'Ваш токен отслеживания:',
-    'grm.trackingSaveNotice': 'Сохраните оба значения, чтобы безопасно отслеживать статус жалобы.',
+    'grm.trackingSaveNotice':
+        'Сохраните оба значения, чтобы безопасно отслеживать статус жалобы.',
     'grm.trackStatusAction': 'Отследить статус',
     'grm.trackTitle': 'Проверить вашу жалобу',
-    'grm.trackLead': 'Введите номер обращения и токен отслеживания, чтобы проверить текущий статус вашей жалобы.',
+    'grm.trackLead':
+        'Введите номер обращения и токен отслеживания, чтобы проверить текущий статус вашей жалобы.',
     'grm.ticketNumber': 'Номер обращения',
     'grm.ticketFormatHelp': 'Формат: GRM-ГГГГ-12345',
     'grm.trackingToken': 'Токен отслеживания',
     'grm.trackingTokenPlaceholder': 'Токен из 32 символов',
     'grm.trackingTokenHelpPrefix': 'Используйте',
-    'grm.trackingTokenHelpSuffix': 'символьный токен отслеживания, указанный в подтверждении отправки.',
+    'grm.trackingTokenHelpSuffix':
+        'символьный токен отслеживания, указанный в подтверждении отправки.',
     'grm.searching': 'Поиск…',
-    'grm.notFound': 'Жалоба с указанным номером и токеном отслеживания не найдена. Проверьте оба значения и попробуйте снова.',
-    'grm.trackingExpired': 'Срок публичного отслеживания этой закрытой жалобы истёк. Свяжитесь с командой GRM, если вам нужна дополнительная информация.',
+    'grm.notFound':
+        'Жалоба с указанным номером и токеном отслеживания не найдена. Проверьте оба значения и попробуйте снова.',
+    'grm.trackingExpired':
+        'Срок публичного отслеживания этой закрытой жалобы истёк. Свяжитесь с командой GRM, если вам нужна дополнительная информация.',
     'grm.submittedOn': 'Отправлено:',
     'grm.progress': 'Прогресс:',
     'grm.updates': 'обновлений',
     'grm.statusHistory': 'История статусов',
-    'footer.description': 'Центр реализации проектов координирует Проект цифровых основ Таджикистана, укрепляя цифровую инфраструктуру, электронные госуслуги и цифровые навыки по всей стране.',
+    'footer.description':
+        'Центр реализации проектов координирует Проект цифровых основ Таджикистана, укрепляя цифровую инфраструктуру, электронные госуслуги и цифровые навыки по всей стране.',
     'footer.documentRepository': 'Репозиторий документов',
     'footer.procurementNotices': 'Объявления о закупках',
     'footer.mediaGallery': 'Медиагалерея',
@@ -335,8 +374,10 @@ export default {
     'footer.rights': 'Все права защищены.',
     'footer.fundedBy': 'Финансируется',
     'footer.kicker': 'Государственный портал услуг',
-    'footer.heading': 'Публичная информация, услуги и подача жалоб в одном месте.',
-    'footer.subheading': 'Портал предоставляет официальные обновления по проекту, объявления о закупках, доступ к документам и публичные сервисы для бенефициаров, граждан и поставщиков.',
+    'footer.heading':
+        'Публичная информация, услуги и подача жалоб в одном месте.',
+    'footer.subheading':
+        'Портал предоставляет официальные обновления по проекту, объявления о закупках, доступ к документам и публичные сервисы для бенефициаров, граждан и поставщиков.',
     'footer.sections': 'Разделы',
     'footer.services': 'Услуги',
     'footer.contact': 'Контакты',
@@ -344,7 +385,8 @@ export default {
     'footer.emailSubscriptions': 'Подписка по email',
     'common.menu': 'Меню',
     'common.siteNavigation': 'Навигация по сайту',
-    'common.navigationDescription': 'Просматривайте разделы сайта, переключайте язык или открывайте поиск и сервисы жалоб.',
+    'common.navigationDescription':
+        'Просматривайте разделы сайта, переключайте язык или открывайте поиск и сервисы жалоб.',
     'common.skipToContent': 'Перейти к основному содержанию',
     'common.address': 'Адрес',
     'common.leadership': 'Руководство',
@@ -355,9 +397,11 @@ export default {
     'common.filterByFileType': 'Фильтр по типу файла',
     'home.badge': 'Проект, финансируемый Всемирным банком',
     'home.title': 'Проект цифровых основ Таджикистана',
-    'home.description': 'Укрепление цифровой инфраструктуры Таджикистана через электронные госуслуги, цифровую идентификацию, кибербезопасность и развитие цифровых навыков.',
+    'home.description':
+        'Укрепление цифровой инфраструктуры Таджикистана через электронные госуслуги, цифровую идентификацию, кибербезопасность и развитие цифровых навыков.',
     'home.heroTitle': 'Проект цифровых основ Таджикистана',
-    'home.heroDescription': 'Центр реализации проектов при Исполнительном аппарате Президента реализует данный проект при финансировании Всемирного банка и Швейцарского агентства по развитию и сотрудничеству. Декабрь 2024\u2013Декабрь 2030.',
+    'home.heroDescription':
+        'Центр реализации проектов при Исполнительном аппарате Президента реализует данный проект при финансировании Всемирного банка и Швейцарского агентства по развитию и сотрудничеству. Декабрь 2024\u2013Декабрь 2030.',
     'home.learnMore': 'Мероприятия проекта',
     'home.contactAction': 'Подать жалобу',
     'home.projectComponentsTitle': 'Компоненты проекта',
@@ -365,25 +409,34 @@ export default {
     'home.domainTilesSubtitle': '34 мероприятия в рамках проекта.',
     'home.activitiesCount': 'мероприятий',
     'home.component1.title': 'Основы цифрового правительства',
-    'home.component1.desc': 'Цифровая публичная инфраструктура, госуслуги, интероперабельность, цифровое удостоверение и платежи.',
+    'home.component1.desc':
+        'Цифровая публичная инфраструктура, госуслуги, интероперабельность, цифровое удостоверение и платежи.',
     'home.component2.title': 'Цифровые навыки',
-    'home.component2.desc': 'Учебные программы, кампании по повышению осведомлённости и подключение школ.',
+    'home.component2.desc':
+        'Учебные программы, кампании по повышению осведомлённости и подключение школ.',
     'home.component3.title': 'Управление проектом',
-    'home.component3.desc': 'Координация, финансовый менеджмент, мониторинг и оценка.',
+    'home.component3.desc':
+        'Координация, финансовый менеджмент, мониторинг и оценка.',
     'footer.partners': 'Партнёры и доноры',
-    'footer.fundedByFull': 'Финансируется Международной ассоциацией развития (МАР) и Швейцарским агентством по развитию и сотрудничеству (SDC).',
+    'footer.fundedByFull':
+        'Финансируется Международной ассоциацией развития (МАР) и Швейцарским агентством по развитию и сотрудничеству (SDC).',
     'project.title': 'Проект цифровых основ Таджикистана',
     'project.worldBankRef': 'Проект Всемирного банка P180432',
     'project.pdo': 'Цель развития проекта',
-    'project.pdoText': 'Улучшение предоставления услуг с цифровым обеспечением и повышение цифровых навыков населения.',
-    'project.pdoSource': 'Источник: Оценочный документ проекта Всемирного банка, декабрь 2024.',
+    'project.pdoText':
+        'Улучшение предоставления услуг с цифровым обеспечением и повышение цифровых навыков населения.',
+    'project.pdoSource':
+        'Источник: Оценочный документ проекта Всемирного банка, декабрь 2024.',
     'project.component1': 'Компонент 1: Основы цифрового правительства',
-    'project.component1.sub1': 'Субкомпонент 1.1: Цифровая публичная инфраструктура',
-    'project.component1.sub2': 'Субкомпонент 1.2: Цифровые меры защиты и обеспечивающие факторы',
+    'project.component1.sub1':
+        'Субкомпонент 1.1: Цифровая публичная инфраструктура',
+    'project.component1.sub2':
+        'Субкомпонент 1.2: Цифровые меры защиты и обеспечивающие факторы',
     'project.component2': 'Компонент 2: Цифровые навыки',
     'project.component3': 'Компонент 3: Управление проектом',
     'project.totalFinancing': 'Общее финансирование',
-    'project.financingSources': 'Грант МАР (ВБ): $30 млн · Грант SDC: $9 млн · ГЧП: $5 млн · Правительство РТ: $1,4 млн',
+    'project.financingSources':
+        'Грант МАР (ВБ): $30 млн · Грант SDC: $9 млн · ГЧП: $5 млн · Правительство РТ: $1,4 млн',
     'project.timeline': 'План реализации',
     'project.results': 'Рамки результатов',
     'project.approvalDate': 'Дата одобрения',
@@ -393,16 +446,20 @@ export default {
     'project.indicator1': 'Цифровые государственные услуги',
     'project.indicator1.target': 'Целевой показатель: 25 услуг к декабрю 2030',
     'project.indicator2': 'Участники программ цифровых навыков',
-    'project.indicator2.target': 'Целевой показатель: 28 000 участников к декабрю 2030',
+    'project.indicator2.target':
+        'Целевой показатель: 28 000 участников к декабрю 2030',
     'project.relatedDocuments': 'Связанные документы',
     'project.statusActive': 'Реализация',
-    'project.overview': 'Проект цифровых основ Таджикистана финансируется за счёт гранта МАР Всемирного банка ($30 млн), гранта SDC ($9 млн), частного сектора в рамках ГЧП ($5 млн) и вклада Правительства Таджикистана ($1,4 млн). Общее подтверждённое финансирование составляет $45,4 млн. Проект реализуется Центром реализации проектов (ЦРП) при Исполнительном аппарате Президента Республики Таджикистан. Срок реализации: декабрь 2024 — декабрь 2030 года.',
+    'project.overview':
+        'Проект цифровых основ Таджикистана финансируется за счёт гранта МАР Всемирного банка ($30 млн), гранта SDC ($9 млн), частного сектора в рамках ГЧП ($5 млн) и вклада Правительства Таджикистана ($1,4 млн). Общее подтверждённое финансирование составляет $45,4 млн. Проект реализуется Центром реализации проектов (ЦРП) при Исполнительном аппарате Президента Республики Таджикистан. Срок реализации: декабрь 2024 — декабрь 2030 года.',
     'project.componentLabel': 'Компонент',
     'project.financing': 'Финансирование',
-    'project.financingNote': 'Грант МАР $30 млн + Грант SDC $9 млн + ГЧП $5 млн + Правительство РТ $1,4 млн = $45,4 млн подтверждённого финансирования. Общая стоимость операции $51,2 млн (включает $5,8 млн SDC на 2028–2031 гг., пока учитываемых как разрыв финансирования).',
+    'project.financingNote':
+        'Грант МАР $30 млн + Грант SDC $9 млн + ГЧП $5 млн + Правительство РТ $1,4 млн = $45,4 млн подтверждённого финансирования. Общая стоимость операции $51,2 млн (включает $5,8 млн SDC на 2028–2031 гг., пока учитываемых как разрыв финансирования).',
     'project.timeline.step1': 'Одобрение Советом Всемирного банка',
     'project.timeline.step2': 'Создан ЦРП, набраны команды реализации',
-    'project.timeline.step3': 'Фаза 1 — цифровая инфраструктура и государственные услуги',
+    'project.timeline.step3':
+        'Фаза 1 — цифровая инфраструктура и государственные услуги',
     'project.timeline.step4': 'Фаза 2 — цифровые навыки и подключение школ',
     'project.timeline.step5': 'Закрытие проекта',
     'project.idaCredit': 'Грант МАР (Всемирный банк)',
@@ -410,16 +467,22 @@ export default {
     'project.privateFinancing': 'Частный сектор (ГЧП)',
     'project.govContribution': 'Правительство Таджикистана',
     'about.highlight1.title': 'Координация реализации',
-    'about.highlight1.description': 'Координирует 34 мероприятия проекта в рамках 3 компонентов при Исполнительном аппарате Президента.',
+    'about.highlight1.description':
+        'Координирует 34 мероприятия проекта в рамках 3 компонентов при Исполнительном аппарате Президента.',
     'about.highlight2.title': 'Управление закупками',
-    'about.highlight2.description': 'Осуществляет все закупки в соответствии с фидуциарными процедурами Всемирного банка и SDC.',
+    'about.highlight2.description':
+        'Осуществляет все закупки в соответствии с фидуциарными процедурами Всемирного банка и SDC.',
     'about.highlight3.title': 'Публичная коммуникация',
-    'about.highlight3.description': 'Официальный канал коммуникации по новостям проекта, обновлениям, документам и мероприятиям.',
+    'about.highlight3.description':
+        'Официальный канал коммуникации по новостям проекта, обновлениям, документам и мероприятиям.',
     'about.highlight4.title': 'Механизм обращений',
-    'about.highlight4.description': 'Управляет механизмом ОРЖ, доступным для всех пострадавших лиц и граждан.',
-    'about.mandate': 'Центр реализации проектов (ЦРП) несёт ответственность за повседневную реализацию, координацию и управление Проектом цифровых основ Таджикистана. ЦРП действует при Исполнительном аппарате Президента Республики Таджикистан и отчитывается перед Руководящим комитетом проекта.',
+    'about.highlight4.description':
+        'Управляет механизмом ОРЖ, доступным для всех пострадавших лиц и граждан.',
+    'about.mandate':
+        'Центр реализации проектов (ЦРП) несёт ответственность за повседневную реализацию, координацию и управление Проектом цифровых основ Таджикистана. ЦРП действует при Исполнительном аппарате Президента Республики Таджикистан и отчитывается перед Руководящим комитетом проекта.',
     'about.staffLink': 'Руководство и структура организации',
-    'about.partnerAcknowledgment': 'Проект финансируется Международной ассоциацией развития (Всемирный банк) и Швейцарским агентством по развитию и сотрудничеству (SDC).',
+    'about.partnerAcknowledgment':
+        'Проект финансируется Международной ассоциацией развития (Всемирный банк) и Швейцарским агентством по развитию и сотрудничеству (SDC).',
     'home.projectComponents': 'Компоненты проекта',
     'home.budget': 'Бюджет (USD)',
     'home.activities': 'Мероприятия',
@@ -431,12 +494,16 @@ export default {
     'home.documentsCaption': 'Опубликованные документы',
     'home.contactLabel': 'Официальный контакт',
     'home.metrics.contentUnits': 'Операционные блоки контента и обновления',
-    'home.metrics.interactions': 'Взаимодействия со стейкхолдерами и опубликованные записи',
+    'home.metrics.interactions':
+        'Взаимодействия со стейкхолдерами и опубликованные записи',
     'home.metrics.materials': 'Проектные документы и уведомления в обращении',
-    'home.metrics.workstreams': 'Приоритетные направления работ и этапы закупок',
+    'home.metrics.workstreams':
+        'Приоритетные направления работ и этапы закупок',
     'home.mission': 'Наша миссия',
-    'home.missionTitle': 'Надёжный цифровой публичный портал с понятным доступом к проектной информации.',
-    'home.missionFallback': 'Портал поддерживает общественную прозрачность, институциональную коммуникацию и доступные сервисы для бенефициаров проекта, партнёров и граждан.',
+    'home.missionTitle':
+        'Надёжный цифровой публичный портал с понятным доступом к проектной информации.',
+    'home.missionFallback':
+        'Портал поддерживает общественную прозрачность, институциональную коммуникацию и доступные сервисы для бенефициаров проекта, партнёров и граждан.',
     'home.publicContentAreas': 'Публичные разделы контента',
     'home.visibleOperationalRecords': 'Видимые операционные записи',
     'home.publishedReferenceMaterials': 'Опубликованные справочные материалы',
@@ -448,11 +515,14 @@ export default {
     'home.servicesTitle': 'Быстрый доступ к публичным сервисам',
     'home.servicesOpenSection': 'Открыть раздел',
     'home.services.activitiesTitle': 'Мероприятия проекта',
-    'home.services.activitiesDescription': 'Отслеживайте ход реализации и опубликованные обновления по проекту.',
+    'home.services.activitiesDescription':
+        'Отслеживайте ход реализации и опубликованные обновления по проекту.',
     'home.services.procurementTitle': 'Закупочные объявления',
-    'home.services.procurementDescription': 'Просматривайте открытые объявления, референсы и сроки для поставщиков.',
+    'home.services.procurementDescription':
+        'Просматривайте открытые объявления, референсы и сроки для поставщиков.',
     'home.services.documentsTitle': 'Публичные документы',
-    'home.services.documentsDescription': 'Получайте доступ к официальным документам проекта и опубликованным материалам.',
+    'home.services.documentsDescription':
+        'Получайте доступ к официальным документам проекта и опубликованным материалам.',
     'home.openProcurement': 'Открытые закупки',
     'home.noOpenProcurement': 'Открытых закупок нет.',
     'home.procurement': 'Закупки',
@@ -460,22 +530,26 @@ export default {
     'home.grmService': 'Сервис GRM',
     'page.title': 'Страница',
     'error.404.title': 'Страница не найдена',
-    'error.404.description': 'Возможно, страница была перемещена, удалена или никогда не существовала.',
+    'error.404.description':
+        'Возможно, страница была перемещена, удалена или никогда не существовала.',
     'error.404.backHome': 'На главную',
     'projects.title': 'Проекты',
     'projects.description': 'Проекты, реализуемые Центром реализации проектов.',
     'activities.title': 'Мероприятия проекта',
-    'activities.description': 'Ключевые инициативы и компоненты Проекта цифровых основ Таджикистана',
+    'activities.description':
+        'Ключевые инициативы и компоненты Проекта цифровых основ Таджикистана',
     'activities.back': 'Назад к мероприятиям',
     'activities.empty': 'Мероприятия по выбранным фильтрам не найдены.',
     'activities.resetFilters': 'Сбросить фильтры',
     'news.title': 'Новости',
     'news.indexTitle': 'Новости и события',
-    'news.indexDescription': 'Последние обновления по Проекту цифровых основ Таджикистана',
+    'news.indexDescription':
+        'Последние обновления по Проекту цифровых основ Таджикистана',
     'news.searchPlaceholder': 'Поиск новостей...',
     'news.empty': 'Новости не найдены.',
     'news.whatsNew': 'Что нового',
-    'news.whatsNewDescription': 'Актуальные обновления по проекту и официальные объявления.',
+    'news.whatsNewDescription':
+        'Актуальные обновления по проекту и официальные объявления.',
     'news.featured': 'Важное',
     'news.new': 'Новое',
     'news.category.project-updates': 'Обновления проекта',
@@ -486,10 +560,12 @@ export default {
     'news.category.government-initiatives': 'Государственные инициативы',
     'news.category.press-releases': 'Пресс-релизы',
     'media.title': 'Медиагалерея',
-    'media.description': 'Фотографии и видеоматериалы с проектных мероприятий и публичных событий.',
+    'media.description':
+        'Фотографии и видеоматериалы с проектных мероприятий и публичных событий.',
     'media.empty': 'Медиаматериалы не найдены.',
     'search.title': 'Поиск',
-    'search.description': 'Поиск по публичным страницам, новостям, мероприятиям и закупкам.',
+    'search.description':
+        'Поиск по публичным страницам, новостям, мероприятиям и закупкам.',
     'search.placeholder': 'Поиск по публичному порталу...',
     'search.filterByType': 'Фильтр по типу контента',
     'search.resultsFor': 'результатов по запросу',
@@ -505,10 +581,12 @@ export default {
     'search.entity.media': 'Медиа',
     'documents.title': 'Документы',
     'documents.indexTitle': 'Репозиторий документов',
-    'documents.indexDescription': 'Проектная документация, отчеты, технические исследования и политики',
+    'documents.indexDescription':
+        'Проектная документация, отчеты, технические исследования и политики',
     'documents.searchPlaceholder': 'Поиск документов...',
     'documents.empty': 'Документы не найдены.',
-    'documents.previewUnavailable': 'Предварительный просмотр недоступен для этого типа файла. Скачайте файл для просмотра.',
+    'documents.previewUnavailable':
+        'Предварительный просмотр недоступен для этого типа файла. Скачайте файл для просмотра.',
     'procurement.title': 'Закупки',
     'procurement.notice': 'Закупочное объявление',
     'procurement.indexDescription': 'Объявления, RFQ, RFP и итоги контрактов',
@@ -517,10 +595,13 @@ export default {
     'procurement.empty': 'Объявления о закупках не найдены.',
     'procurement.process': 'Этап',
     'procurement.processSummaryOpen': 'Окно подачи заявок открыто.',
-    'procurement.processSummaryDeadlinePassed': 'Срок подачи заявок истёк, объявление ожидает формального закрытия.',
-    'procurement.processSummaryUnderEvaluation': 'Подача заявок завершена, объявление находится на этапе оценки или административной обработки.',
+    'procurement.processSummaryDeadlinePassed':
+        'Срок подачи заявок истёк, объявление ожидает формального закрытия.',
+    'procurement.processSummaryUnderEvaluation':
+        'Подача заявок завершена, объявление находится на этапе оценки или административной обработки.',
     'procurement.processSummaryAwarded': 'Итог закупки опубликован.',
-    'procurement.processSummaryArchived': 'Объявление хранится в архиве для справки.',
+    'procurement.processSummaryArchived':
+        'Объявление хранится в архиве для справки.',
     'procurement.processState.submission_open': 'Приём заявок открыт',
     'procurement.processState.deadline_passed': 'Срок истёк',
     'procurement.processState.under_evaluation': 'На оценке',
@@ -536,41 +617,58 @@ export default {
     'contact.description': 'Свяжитесь с Центром реализации проектов',
     'staff.title': 'Справочник сотрудников',
     'staff.heading': 'Руководство и структура команды',
-    'staff.description': 'Познакомьтесь с руководством и структурой подчиненности команды, отвечающей за реализацию проекта.',
-    'staff.empty': 'Справочник сотрудников будет опубликован в ближайшее время.',
+    'staff.description':
+        'Познакомьтесь с руководством и структурой подчиненности команды, отвечающей за реализацию проекта.',
+    'staff.empty':
+        'Справочник сотрудников будет опубликован в ближайшее время.',
     'subscriptions.title': 'Email-подписки',
     'subscriptions.heading': 'Подписка на обновления проекта',
-    'subscriptions.description': 'Получайте официальные обновления, когда публикуются новости проекта, документы и закупочные объявления.',
+    'subscriptions.description':
+        'Получайте официальные обновления, когда публикуются новости проекта, документы и закупочные объявления.',
     'subscriptions.emailLabel': 'Email адрес',
-    'subscriptions.notice': 'Перед активацией подписки вам будет отправлено письмо с подтверждением.',
+    'subscriptions.notice':
+        'Перед активацией подписки вам будет отправлено письмо с подтверждением.',
     'subscriptions.submit': 'Подписаться',
     'subscriptions.submitting': 'Отправка…',
     'subscriptions.confirmRequest': 'Подтверждение запроса',
     'subscriptions.unsubscribeRequest': 'Запрос на отписку',
-    'subscriptions.confirmReviewTitle': 'Проверьте и подтвердите подписку по email',
-    'subscriptions.unsubscribeReviewTitle': 'Проверьте и подтвердите запрос на отписку',
-    'subscriptions.confirmReviewBodyPrefix': 'Активируйте письма с обновлениями проекта для',
-    'subscriptions.unsubscribeReviewBodyPrefix': 'Прекратите отправку писем с обновлениями проекта на',
+    'subscriptions.confirmReviewTitle':
+        'Проверьте и подтвердите подписку по email',
+    'subscriptions.unsubscribeReviewTitle':
+        'Проверьте и подтвердите запрос на отписку',
+    'subscriptions.confirmReviewBodyPrefix':
+        'Активируйте письма с обновлениями проекта для',
+    'subscriptions.unsubscribeReviewBodyPrefix':
+        'Прекратите отправку писем с обновлениями проекта на',
     'subscriptions.processing': 'Обработка…',
     'subscriptions.confirmAction': 'Подтвердить подписку',
     'subscriptions.unsubscribeAction': 'Отписаться',
     'subscriptions.status.confirmation-sent.title': 'Проверьте email',
-    'subscriptions.status.confirmation-sent.body': 'Мы отправили ссылку подтверждения для активации вашей подписки.',
+    'subscriptions.status.confirmation-sent.body':
+        'Мы отправили ссылку подтверждения для активации вашей подписки.',
     'subscriptions.status.confirmed.title': 'Подписка подтверждена',
-    'subscriptions.status.confirmed.body': 'Теперь вы подписаны на обновления проекта.',
+    'subscriptions.status.confirmed.body':
+        'Теперь вы подписаны на обновления проекта.',
     'subscriptions.status.unsubscribed.title': 'Вы отписаны',
-    'subscriptions.status.unsubscribed.body': 'Вы больше не будете получать письма с обновлениями проекта.',
+    'subscriptions.status.unsubscribed.body':
+        'Вы больше не будете получать письма с обновлениями проекта.',
     'subscriptions.status.already-active.title': 'Уже подписаны',
-    'subscriptions.status.already-active.body': 'Этот адрес email уже активен в списке рассылки.',
-    'subscriptions.status.invalid-confirmation.title': 'Ссылка подтверждения недействительна',
-    'subscriptions.status.invalid-confirmation.body': 'Запросите новое письмо подтверждения, если всё ещё хотите подписаться.',
-    'subscriptions.status.invalid-unsubscribe.title': 'Ссылка для отписки недействительна',
-    'subscriptions.status.invalid-unsubscribe.body': 'Ссылка управления больше не действует.',
+    'subscriptions.status.already-active.body':
+        'Этот адрес email уже активен в списке рассылки.',
+    'subscriptions.status.invalid-confirmation.title':
+        'Ссылка подтверждения недействительна',
+    'subscriptions.status.invalid-confirmation.body':
+        'Запросите новое письмо подтверждения, если всё ещё хотите подписаться.',
+    'subscriptions.status.invalid-unsubscribe.title':
+        'Ссылка для отписки недействительна',
+    'subscriptions.status.invalid-unsubscribe.body':
+        'Ссылка управления больше не действует.',
     'share.share': 'Поделиться',
     'share.copy': 'Скопировать ссылку',
     'share.copied': 'Скопировано',
     'share.title': 'Поделиться страницей',
-    'share.description': 'Отправьте эту страницу коллегам или поделитесь ею в социальных сетях.',
+    'share.description':
+        'Отправьте эту страницу коллегам или поделитесь ею в социальных сетях.',
     'status.planned': 'Запланировано',
     'status.in_progress': 'В процессе',
     'status.completed': 'Завершено',

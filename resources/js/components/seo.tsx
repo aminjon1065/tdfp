@@ -34,7 +34,8 @@ export default function Seo({
     structuredData,
     alternates = [],
 }: SeoProps) {
-    const metaTitle = title && siteName ? `${title} | ${siteName}` : (title ?? siteName);
+    const metaTitle =
+        title && siteName ? `${title} | ${siteName}` : (title ?? siteName);
     const schemas = Array.isArray(structuredData)
         ? structuredData
         : structuredData

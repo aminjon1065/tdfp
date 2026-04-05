@@ -1,10 +1,11 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, useForm, usePage } from '@inertiajs/react';
+
 import { EditorialPreviewButton } from '@/components/admin/editorial-preview-button';
 import { TranslationTabs } from '@/components/admin/translation-tabs';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import AdminLayout from '@/layouts/admin-layout';
 import { t } from '@/lib/i18n';
-import { Head, useForm, usePage } from '@inertiajs/react';
 import { SupportedLocale, type SharedData } from '@/types';
 
 interface Props {
@@ -50,7 +51,11 @@ export default function AdminPagesEdit({ page }: Props) {
         },
     });
 
-    const handleTranslationChange = (lang: SupportedLocale, field: string, value: string) => {
+    const handleTranslationChange = (
+        lang: SupportedLocale,
+        field: string,
+        value: string,
+    ) => {
         setData('translations', {
             ...data.translations,
             [lang]: { ...data.translations[lang], [field]: value },
@@ -65,13 +70,24 @@ export default function AdminPagesEdit({ page }: Props) {
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: t(locale, 'admin.content.pages'), href: '/admin/pages' },
-                { title: t(locale, 'admin.form.edit'), href: `/admin/pages/${page.id}/edit` },
+                {
+                    title: t(locale, 'admin.content.pages'),
+                    href: '/admin/pages',
+                },
+                {
+                    title: t(locale, 'admin.form.edit'),
+                    href: `/admin/pages/${page.id}/edit`,
+                },
             ]}
         >
-            <Head title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.content.pages')}`} />
+            <Head
+                title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.content.pages')}`}
+            />
             <div className="max-w-3xl space-y-6">
-                <h1 className="text-2xl font-bold">{t(locale, 'admin.form.edit')} {t(locale, 'admin.content.pages').slice(0, -1)}</h1>
+                <h1 className="text-2xl font-bold">
+                    {t(locale, 'admin.form.edit')}{' '}
+                    {t(locale, 'admin.content.pages').slice(0, -1)}
+                </h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <Label>{t(locale, 'admin.form.status')}</Label>
@@ -80,9 +96,15 @@ export default function AdminPagesEdit({ page }: Props) {
                             onChange={(e) => setData('status', e.target.value)}
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                         >
-                            <option value="draft">{t(locale, 'status.draft')}</option>
-                            <option value="published">{t(locale, 'status.published')}</option>
-                            <option value="archived">{t(locale, 'status.archived')}</option>
+                            <option value="draft">
+                                {t(locale, 'status.draft')}
+                            </option>
+                            <option value="published">
+                                {t(locale, 'status.published')}
+                            </option>
+                            <option value="archived">
+                                {t(locale, 'status.archived')}
+                            </option>
                         </select>
                     </div>
 
@@ -90,9 +112,22 @@ export default function AdminPagesEdit({ page }: Props) {
                         <Label>{t(locale, 'common.translations')}</Label>
                         <TranslationTabs
                             fields={[
-                                { name: 'title', label: t(locale, 'common.title'), type: 'input', required: true },
-                                { name: 'content', label: t(locale, 'common.content'), type: 'richtext' },
-                                { name: 'meta_title', label: t(locale, 'common.metaTitle'), type: 'input' },
+                                {
+                                    name: 'title',
+                                    label: t(locale, 'common.title'),
+                                    type: 'input',
+                                    required: true,
+                                },
+                                {
+                                    name: 'content',
+                                    label: t(locale, 'common.content'),
+                                    type: 'richtext',
+                                },
+                                {
+                                    name: 'meta_title',
+                                    label: t(locale, 'common.metaTitle'),
+                                    type: 'input',
+                                },
                                 {
                                     name: 'meta_description',
                                     label: t(locale, 'common.metaDescription'),
@@ -107,14 +142,20 @@ export default function AdminPagesEdit({ page }: Props) {
 
                     <div className="flex gap-3">
                         <Button type="submit" disabled={processing}>
-                            {processing ? t(locale, 'admin.content.saving') : `${t(locale, 'common.update')} ${t(locale, 'admin.content.pages').slice(0, -1)}`}
+                            {processing
+                                ? t(locale, 'admin.content.saving')
+                                : `${t(locale, 'common.update')} ${t(locale, 'admin.content.pages').slice(0, -1)}`}
                         </Button>
                         <EditorialPreviewButton
                             endpoint="/admin/editorial-preview/pages"
                             payload={data}
                             disabled={processing}
                         />
-                        <Button type="button" variant="outline" onClick={() => history.back()}>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => history.back()}
+                        >
                             {t(locale, 'common.cancel')}
                         </Button>
                     </div>

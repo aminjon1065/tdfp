@@ -2,6 +2,7 @@
 
 namespace App\Core\Services;
 
+use App\ActivityStatus;
 use App\Models\Activity;
 use App\Models\News;
 use App\Models\Page;
@@ -78,7 +79,7 @@ class PublicSmokeAuditService
             ->each(fn (string $slug) => $urls[] = route('pages.show', ['slug' => $slug]));
 
         Activity::query()
-            ->whereIn('status', ['planned', 'in_progress', 'completed'])
+            ->whereIn('status', ActivityStatus::publicValues())
             ->pluck('slug')
             ->each(fn (string $slug) => $urls[] = route('activities.show', ['slug' => $slug]));
 

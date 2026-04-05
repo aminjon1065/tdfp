@@ -1,6 +1,12 @@
+import { usePage } from '@inertiajs/react';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table';
+import {
+    Table,
+    TableCell,
+    TableHeader,
+    TableRow,
+} from '@tiptap/extension-table';
 import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -15,14 +21,12 @@ import {
     Quote,
     Redo2,
     Table2,
-    Undo2,
     Underline as UnderlineIcon,
+    Undo2,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { usePage } from '@inertiajs/react';
 
 import { Button } from '@/components/ui/button';
-import { t } from '@/lib/i18n';
 import {
     Dialog,
     DialogContent,
@@ -33,6 +37,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { t } from '@/lib/i18n';
 import { SharedData } from '@/types';
 
 interface RichTextEditorProps {
@@ -41,11 +46,7 @@ interface RichTextEditorProps {
     onChange: (value: string) => void;
 }
 
-export function RichTextEditor({
-    id,
-    value,
-    onChange,
-}: RichTextEditorProps) {
+export function RichTextEditor({ id, value, onChange }: RichTextEditorProps) {
     const [previewMode, setPreviewMode] = useState(false);
     const [linkDialogOpen, setLinkDialogOpen] = useState(false);
     const [imageDialogOpen, setImageDialogOpen] = useState(false);
@@ -55,7 +56,9 @@ export function RichTextEditor({
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imageUploadError, setImageUploadError] = useState('');
     const [uploadingImage, setUploadingImage] = useState(false);
-    const { csrf_token: csrfToken, locale } = usePage<SharedData & { csrf_token?: string }>().props;
+    const { csrf_token: csrfToken, locale } = usePage<
+        SharedData & { csrf_token?: string }
+    >().props;
     const currentLocale = locale ?? 'en';
 
     const editor = useEditor({
@@ -117,7 +120,12 @@ export function RichTextEditor({
         if (sanitizedUrl === '') {
             editor.chain().focus().unsetLink().run();
         } else {
-            editor.chain().focus().extendMarkRange('link').setLink({ href: sanitizedUrl }).run();
+            editor
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .setLink({ href: sanitizedUrl })
+                .run();
         }
 
         setLinkDialogOpen(false);
@@ -190,7 +198,9 @@ export function RichTextEditor({
                 })
                 .run();
         } else {
-            setImageUploadError(t(currentLocale, 'admin.form.imageSourceRequired'));
+            setImageUploadError(
+                t(currentLocale, 'admin.form.imageSourceRequired'),
+            );
 
             return;
         }
@@ -223,7 +233,8 @@ export function RichTextEditor({
         {
             label: 'Heading',
             icon: Heading2,
-            action: () => editor?.chain().focus().toggleHeading({ level: 2 }).run(),
+            action: () =>
+                editor?.chain().focus().toggleHeading({ level: 2 }).run(),
             active: editor?.isActive('heading', { level: 2 }) ?? false,
         },
         {
@@ -259,7 +270,12 @@ export function RichTextEditor({
         {
             label: 'Table',
             icon: Table2,
-            action: () => editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+            action: () =>
+                editor
+                    ?.chain()
+                    .focus()
+                    .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+                    .run(),
             active: editor?.isActive('table') ?? false,
         },
     ];
@@ -293,7 +309,10 @@ export function RichTextEditor({
                         variant="outline"
                         size="sm"
                         onClick={() => editor?.chain().focus().undo().run()}
-                        disabled={!editor?.can().chain().focus().undo().run() || previewMode}
+                        disabled={
+                            !editor?.can().chain().focus().undo().run() ||
+                            previewMode
+                        }
                         aria-label="Undo"
                     >
                         <Undo2 className="h-4 w-4" />
@@ -303,7 +322,10 @@ export function RichTextEditor({
                         variant="outline"
                         size="sm"
                         onClick={() => editor?.chain().focus().redo().run()}
-                        disabled={!editor?.can().chain().focus().redo().run() || previewMode}
+                        disabled={
+                            !editor?.can().chain().focus().redo().run() ||
+                            previewMode
+                        }
                         aria-label="Redo"
                     >
                         <Redo2 className="h-4 w-4" />
@@ -348,14 +370,18 @@ export function RichTextEditor({
             <Dialog open={linkDialogOpen} onOpenChange={setLinkDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>{t(currentLocale, 'admin.form.insertLink')}</DialogTitle>
+                        <DialogTitle>
+                            {t(currentLocale, 'admin.form.insertLink')}
+                        </DialogTitle>
                         <DialogDescription>
                             {t(currentLocale, 'admin.form.linkDescription')}
                         </DialogDescription>
                     </DialogHeader>
 
                     <div className="space-y-2">
-                        <Label htmlFor={`${id}-link-url`}>{t(currentLocale, 'admin.form.url')}</Label>
+                        <Label htmlFor={`${id}-link-url`}>
+                            {t(currentLocale, 'admin.form.url')}
+                        </Label>
                         <Input
                             id={`${id}-link-url`}
                             value={linkUrl}
@@ -382,7 +408,9 @@ export function RichTextEditor({
             <Dialog open={imageDialogOpen} onOpenChange={setImageDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>{t(currentLocale, 'admin.form.insertImage')}</DialogTitle>
+                        <DialogTitle>
+                            {t(currentLocale, 'admin.form.insertImage')}
+                        </DialogTitle>
                         <DialogDescription>
                             {t(currentLocale, 'admin.form.imageDescription')}
                         </DialogDescription>
@@ -390,20 +418,26 @@ export function RichTextEditor({
 
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor={`${id}-image-file`}>{t(currentLocale, 'admin.form.uploadImage')}</Label>
+                            <Label htmlFor={`${id}-image-file`}>
+                                {t(currentLocale, 'admin.form.uploadImage')}
+                            </Label>
                             <Input
                                 id={`${id}-image-file`}
                                 type="file"
                                 accept="image/png,image/jpeg,image/webp"
                                 onChange={(event) => {
-                                    setImageFile(event.target.files?.[0] ?? null);
+                                    setImageFile(
+                                        event.target.files?.[0] ?? null,
+                                    );
                                     setImageUploadError('');
                                 }}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor={`${id}-image-url`}>{t(currentLocale, 'admin.form.imageUrl')}</Label>
+                            <Label htmlFor={`${id}-image-url`}>
+                                {t(currentLocale, 'admin.form.imageUrl')}
+                            </Label>
                             <Input
                                 id={`${id}-image-url`}
                                 value={imageUrl}
@@ -416,12 +450,19 @@ export function RichTextEditor({
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor={`${id}-image-alt`}>{t(currentLocale, 'admin.form.altText')}</Label>
+                            <Label htmlFor={`${id}-image-alt`}>
+                                {t(currentLocale, 'admin.form.altText')}
+                            </Label>
                             <Input
                                 id={`${id}-image-alt`}
                                 value={imageAlt}
-                                onChange={(event) => setImageAlt(event.target.value)}
-                                placeholder={t(currentLocale, 'admin.form.describeImage')}
+                                onChange={(event) =>
+                                    setImageAlt(event.target.value)
+                                }
+                                placeholder={t(
+                                    currentLocale,
+                                    'admin.form.describeImage',
+                                )}
                             />
                         </div>
 
@@ -445,7 +486,12 @@ export function RichTextEditor({
                             onClick={insertImage}
                             disabled={uploadingImage}
                         >
-                            {uploadingImage ? t(currentLocale, 'admin.form.currentlyUploading') : t(currentLocale, 'admin.form.insertImage')}
+                            {uploadingImage
+                                ? t(
+                                      currentLocale,
+                                      'admin.form.currentlyUploading',
+                                  )
+                                : t(currentLocale, 'admin.form.insertImage')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

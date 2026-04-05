@@ -33,7 +33,10 @@ export default function ProjectsIndex() {
                 description={t(locale, 'projects.description')}
                 compact
                 breadcrumbs={[
-                    { label: t(locale, 'nav.home'), href: localizedPublicHref('/', locale, defaultLocale) },
+                    {
+                        label: t(locale, 'nav.home'),
+                        href: localizedPublicHref('/', locale, defaultLocale),
+                    },
                     { label: t(locale, 'projects.title') },
                 ]}
             />
@@ -47,7 +50,7 @@ export default function ProjectsIndex() {
                             className="gov-panel flex flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-md"
                         >
                             <div className="flex flex-1 flex-col p-6">
-                                <h3 className="text-base font-semibold text-[var(--public-primary-hover)] leading-snug">
+                                <h3 className="text-base leading-snug font-semibold text-[var(--public-primary-hover)]">
                                     {t(locale, project.titleKey)}
                                 </h3>
                                 <div className="mt-4 flex flex-col gap-2 text-sm text-slate-500">

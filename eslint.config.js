@@ -57,6 +57,18 @@ export default [
         files: ['**/*.{ts,tsx}'],
     },
     {
+        files: ['resources/js/pages/**/*.{ts,tsx}'],
+        rules: {
+            '@typescript-eslint/no-explicit-any': 'off',
+        },
+    },
+    {
+        files: ['resources/js/lib/i18n.ts'],
+        rules: {
+            '@typescript-eslint/no-explicit-any': 'off',
+        },
+    },
+    {
         ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js'],
     },
     prettier, // Turn off all rules that might conflict with Prettier

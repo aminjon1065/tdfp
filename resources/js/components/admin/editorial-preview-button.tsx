@@ -1,8 +1,9 @@
+import { usePage } from '@inertiajs/react';
+import { useState } from 'react';
+
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { t } from '@/lib/i18n';
-import { usePage } from '@inertiajs/react';
-import { useState } from 'react';
 import { SharedData } from '@/types';
 
 interface EditorialPreviewButtonProps {
@@ -16,7 +17,9 @@ export function EditorialPreviewButton({
     payload,
     disabled = false,
 }: EditorialPreviewButtonProps) {
-    const { csrf_token: csrfToken, locale } = usePage<SharedData & { csrf_token?: string }>().props;
+    const { csrf_token: csrfToken, locale } = usePage<
+        SharedData & { csrf_token?: string }
+    >().props;
     const currentLocale = locale ?? 'en';
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -26,7 +29,10 @@ export function EditorialPreviewButton({
         setErrorMessage(null);
 
         try {
-            const formData = payload instanceof FormData ? cloneFormData(payload) : toFormData(payload);
+            const formData =
+                payload instanceof FormData
+                    ? cloneFormData(payload)
+                    : toFormData(payload);
 
             if (csrfToken && !formData.has('_token')) {
                 formData.append('_token', csrfToken);
@@ -49,7 +55,11 @@ export function EditorialPreviewButton({
                 return;
             }
 
-            window.open(responseBody.preview_url, '_blank', 'noopener,noreferrer');
+            window.open(
+                responseBody.preview_url,
+                '_blank',
+                'noopener,noreferrer',
+            );
         } catch {
             setErrorMessage(t(currentLocale, 'admin.form.previewError'));
         } finally {
@@ -65,11 +75,15 @@ export function EditorialPreviewButton({
                 onClick={handlePreview}
                 disabled={disabled || isLoading}
             >
-                {isLoading ? t(currentLocale, 'admin.form.preparingPreview') : t(currentLocale, 'admin.form.preview')}
+                {isLoading
+                    ? t(currentLocale, 'admin.form.preparingPreview')
+                    : t(currentLocale, 'admin.form.preview')}
             </Button>
             {errorMessage && (
                 <Alert className="border-amber-300 bg-amber-50 text-amber-900">
-                    <AlertTitle>{t(currentLocale, 'admin.form.previewUnavailable')}</AlertTitle>
+                    <AlertTitle>
+                        {t(currentLocale, 'admin.form.previewUnavailable')}
+                    </AlertTitle>
                     <AlertDescription>{errorMessage}</AlertDescription>
                 </Alert>
             )}
@@ -95,7 +109,11 @@ function toFormData(payload: Record<string, unknown>): FormData {
     return formData;
 }
 
-function appendValue(formData: FormData, value: unknown, parentKey?: string): void {
+function appendValue(
+    formData: FormData,
+    value: unknown,
+    parentKey?: string,
+): void {
     if (value === null || value === undefined) {
         return;
     }
@@ -117,15 +135,20 @@ function appendValue(formData: FormData, value: unknown, parentKey?: string): vo
     }
 
     if (typeof value === 'object') {
-        Object.entries(value as Record<string, unknown>).forEach(([key, nestedValue]) => {
-            const nextKey = parentKey ? `${parentKey}[${key}]` : key;
-            appendValue(formData, nestedValue, nextKey);
-        });
+        Object.entries(value as Record<string, unknown>).forEach(
+            ([key, nestedValue]) => {
+                const nextKey = parentKey ? `${parentKey}[${key}]` : key;
+                appendValue(formData, nestedValue, nextKey);
+            },
+        );
 
         return;
     }
 
     if (parentKey) {
-        formData.append(parentKey, typeof value === 'boolean' ? (value ? '1' : '0') : String(value));
+        formData.append(
+            parentKey,
+            typeof value === 'boolean' ? (value ? '1' : '0') : String(value),
+        );
     }
 }

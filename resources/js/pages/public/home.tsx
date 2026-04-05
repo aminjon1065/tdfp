@@ -6,6 +6,7 @@ import {
     MessageSquare,
     ShoppingBag,
 } from 'lucide-react';
+import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -53,7 +54,6 @@ interface Props {
     activities: ContentItem[];
     latestDocuments: Record<string, unknown>[];
     openProcurements: ProcurementItem[];
-    settings: Record<string, string>;
 }
 
 export default function Home({
@@ -63,7 +63,6 @@ export default function Home({
     activities,
     latestDocuments,
     openProcurements,
-    settings,
 }: Props) {
     const page = usePage<{ locale?: string; ziggy?: { location?: string } }>()
         .props;
@@ -71,12 +70,13 @@ export default function Home({
     const defaultLocale =
         (page as { localization?: { default_locale?: string } }).localization
             ?.default_locale ?? 'en';
+    const [currentTimestamp] = useState(() => Date.now());
     const currentUrl = page.ziggy?.location ?? '';
     const publicHref = (path: string) =>
         localizedPublicHref(path, locale, defaultLocale);
     const isRecent = (publishedAt?: string | null) =>
         publishedAt &&
-        (Date.now() - new Date(publishedAt).getTime()) /
+        (currentTimestamp - new Date(publishedAt).getTime()) /
             (1000 * 60 * 60 * 24) <=
             newsRecentWindowDays;
     const structuredData = [
@@ -382,7 +382,7 @@ export default function Home({
                                 <Link
                                     key={item.id}
                                     href={publicHref(`/news/${item.slug}`)}
-                                    className="gov-panel overflow-hidden p-5 block transition hover:-translate-y-0.5 hover:shadow-md"
+                                    className="gov-panel block overflow-hidden p-5 transition hover:-translate-y-0.5 hover:shadow-md"
                                 >
                                     <div className="flex items-center justify-between gap-3">
                                         <div className="flex items-center gap-2">

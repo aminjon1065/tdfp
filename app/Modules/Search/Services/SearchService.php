@@ -2,6 +2,7 @@
 
 namespace App\Modules\Search\Services;
 
+use App\ActivityStatus;
 use App\Models\Activity;
 use App\Models\Document;
 use App\Models\MediaItem;
@@ -207,7 +208,7 @@ class SearchService
         return match ($model::class) {
             Page::class => $model->status === 'published',
             News::class => $model->status === 'published',
-            Activity::class => in_array($model->status, ['planned', 'in_progress', 'completed'], true),
+            Activity::class => ActivityStatus::isPublic($model->status),
             Procurement::class => in_array($model->status, ['open', 'closed', 'awarded', 'archived'], true),
             Document::class => $model->published_at !== null,
             MediaItem::class => $model->is_public === true,

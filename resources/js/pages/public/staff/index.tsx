@@ -1,10 +1,11 @@
+import { Link, usePage } from '@inertiajs/react';
+import { ChevronRight, Mail, Phone } from 'lucide-react';
+
 import PageHero from '@/components/page-hero';
 import PublicImage from '@/components/public-image';
 import PublicLayout from '@/layouts/public-layout';
 import { getTranslation, t } from '@/lib/i18n';
 import { localizedPublicHref } from '@/lib/public-locale';
-import { Link, usePage } from '@inertiajs/react';
-import { ChevronRight, Mail, Phone } from 'lucide-react';
 
 interface StaffMemberNode {
     id: number;
@@ -23,7 +24,15 @@ interface StaffMemberNode {
     children: StaffMemberNode[];
 }
 
-function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; locale: string; level?: number }) {
+function StaffNode({
+    member,
+    locale,
+    level = 0,
+}: {
+    member: StaffMemberNode;
+    locale: string;
+    level?: number;
+}) {
     const translation = getTranslation(member, locale);
 
     return (
@@ -56,27 +65,42 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
                                 </span>
                             )}
                         </div>
-                        <p className="mt-1 font-medium text-slate-700">{translation.job_title}</p>
+                        <p className="mt-1 font-medium text-slate-700">
+                            {translation.job_title}
+                        </p>
                         {translation.department && (
-                            <p className="mt-1 text-sm text-slate-500">{translation.department}</p>
+                            <p className="mt-1 text-sm text-slate-500">
+                                {translation.department}
+                            </p>
                         )}
                         {translation.biography && (
-                            <p className="mt-4 text-sm leading-6 text-slate-600">{translation.biography}</p>
+                            <p className="mt-4 text-sm leading-6 text-slate-600">
+                                {translation.biography}
+                            </p>
                         )}
 
                         {(member.email || member.phone) && (
                             <div className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
                                 {member.email && (
                                     <div className="flex items-center gap-2">
-                                        <Mail className="h-4 w-4 text-[var(--public-accent)]" aria-hidden="true" />
-                                        <a href={`mailto:${member.email}`} className="hover:underline">
+                                        <Mail
+                                            className="h-4 w-4 text-[var(--public-accent)]"
+                                            aria-hidden="true"
+                                        />
+                                        <a
+                                            href={`mailto:${member.email}`}
+                                            className="hover:underline"
+                                        >
                                             {member.email}
                                         </a>
                                     </div>
                                 )}
                                 {member.phone && (
                                     <div className="flex items-center gap-2">
-                                        <Phone className="h-4 w-4 text-[var(--public-accent)]" aria-hidden="true" />
+                                        <Phone
+                                            className="h-4 w-4 text-[var(--public-accent)]"
+                                            aria-hidden="true"
+                                        />
                                         <span>{member.phone}</span>
                                     </div>
                                 )}
@@ -89,7 +113,12 @@ function StaffNode({ member, locale, level = 0 }: { member: StaffMemberNode; loc
             {member.children.length > 0 && (
                 <ol className={`space-y-4 ${level === 0 ? 'pl-0' : 'pl-6'}`}>
                     {member.children.map((child) => (
-                        <StaffNode key={child.id} member={child} locale={locale} level={level + 1} />
+                        <StaffNode
+                            key={child.id}
+                            member={child}
+                            locale={locale}
+                            level={level + 1}
+                        />
                     ))}
                 </ol>
             )}
@@ -105,7 +134,8 @@ export default function PublicStaffIndex({
     const page = usePage().props as any;
     const locale = page.locale ?? 'en';
     const defaultLocale = page.localization?.default_locale ?? 'en';
-    const publicHref = (path: string) => localizedPublicHref(path, locale, defaultLocale);
+    const publicHref = (path: string) =>
+        localizedPublicHref(path, locale, defaultLocale);
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
@@ -130,14 +160,20 @@ export default function PublicStaffIndex({
                 subtitle={t(locale, 'staff.title')}
                 description={t(locale, 'staff.description')}
             >
-                <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-1 text-xs text-blue-200">
-                        <Link href={publicHref('/')} className="hover:text-white transition-colors">
-                            {t(locale, 'common.home')}
-                        </Link>
-                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                        <span className="text-white" aria-current="page">
-                            {t(locale, 'staff.title')}
-                        </span>
+                <nav
+                    aria-label="Breadcrumb"
+                    className="mb-3 flex items-center gap-1 text-xs text-blue-200"
+                >
+                    <Link
+                        href={publicHref('/')}
+                        className="transition-colors hover:text-white"
+                    >
+                        {t(locale, 'common.home')}
+                    </Link>
+                    <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    <span className="text-white" aria-current="page">
+                        {t(locale, 'staff.title')}
+                    </span>
                 </nav>
             </PageHero>
 
@@ -145,7 +181,11 @@ export default function PublicStaffIndex({
                 {staffHierarchy.length > 0 ? (
                     <ol className="space-y-6">
                         {staffHierarchy.map((member) => (
-                            <StaffNode key={member.id} member={member} locale={locale} />
+                            <StaffNode
+                                key={member.id}
+                                member={member}
+                                locale={locale}
+                            />
                         ))}
                     </ol>
                 ) : (

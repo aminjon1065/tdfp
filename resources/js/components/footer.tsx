@@ -108,8 +108,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div
-                    className="flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-slate-500 md:flex-row">
+                <div className="flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-slate-500 md:flex-row">
                     <div>
                         © {`${new Date().getFullYear()}`} Основы цифровизации
                         Таджикистана. Все права защищены.
@@ -123,10 +122,13 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
-                <div
-                    className="flex flex-col items-center justify-center gap-4 pt-8 text-sm text-slate-500 md:flex-row">
+                <div className="flex flex-col items-center justify-center gap-4 pt-8 text-sm text-slate-500 md:flex-row">
                     <div>
-                        <img className={'w-150'} src={footerBackground} alt={'FooterBackground'} />
+                        <img
+                            className={'w-150'}
+                            src={footerBackground}
+                            alt={'FooterBackground'}
+                        />
                     </div>
                 </div>
             </div>

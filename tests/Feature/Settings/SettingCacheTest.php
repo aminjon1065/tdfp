@@ -47,3 +47,36 @@ test('Setting::set invalidates cache', function () {
 test('Setting::get returns default when key does not exist', function () {
     expect(Setting::get('nonexistent_key', 'default'))->toBe('default');
 });
+
+test('Setting::many returns cached values and per-key defaults', function () {
+    Setting::create(['key' => 'site_title', 'value' => 'PIC Portal', 'group' => 'general', 'type' => 'string']);
+    Setting::create(['key' => 'contact_email', 'value' => 'info@example.com', 'group' => 'contact', 'type' => 'string']);
+
+    $first = Setting::many([
+        'site_title',
+        'contact_email',
+        'contact_phone',
+    ], [
+        'contact_phone' => '+992 000 000 000',
+    ]);
+
+    expect($first)->toBe([
+        'site_title' => 'PIC Portal',
+        'contact_email' => 'info@example.com',
+        'contact_phone' => '+992 000 000 000',
+    ]);
+
+    DB::enableQueryLog();
+    $second = Setting::many([
+        'site_title',
+        'contact_email',
+        'contact_phone',
+    ], [
+        'contact_phone' => '+992 000 000 000',
+    ]);
+    $queries = DB::getQueryLog();
+    DB::disableQueryLog();
+
+    expect($second)->toBe($first);
+    expect($queries)->toBeEmpty();
+});

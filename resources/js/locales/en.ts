@@ -11,7 +11,8 @@ export default {
     'nav.home': 'Home',
     'nav.about': 'About PIC',
     'nav.theProject': 'The Project',
-    'nav.theProjectDescription': 'PDO, components, financing, and implementation timeline.',
+    'nav.theProjectDescription':
+        'PDO, components, financing, and implementation timeline.',
     'nav.grm': 'Complaints',
     'nav.domain1': 'Digital Infrastructure',
     'nav.domain2': 'Digital Public Services',
@@ -23,12 +24,16 @@ export default {
     'nav.viewAllActivities': 'View all activities',
     'nav.projects': 'Projects',
     'nav.projectActivities': 'Activities',
-    'nav.projectActivitiesDescription': 'Program milestones, implementation streams, and delivery updates.',
+    'nav.projectActivitiesDescription':
+        'Program milestones, implementation streams, and delivery updates.',
     'nav.projectDocuments': 'Project Documents',
-    'nav.projectDocumentsDescription': 'Frameworks, reports, and reference materials for implementation.',
+    'nav.projectDocumentsDescription':
+        'Frameworks, reports, and reference materials for implementation.',
     'nav.projectProcurement': 'Procurement',
-    'nav.projectProcurementDescription': 'Current notices, bidding opportunities, and procurement updates.',
-    'nav.projectPageDescription': 'Project page from the content management system.',
+    'nav.projectProcurementDescription':
+        'Current notices, bidding opportunities, and procurement updates.',
+    'nav.projectPageDescription':
+        'Project page from the content management system.',
     'nav.activities': 'Activities',
     'nav.news': 'News',
     'nav.announcements': 'Announcements',
@@ -92,7 +97,8 @@ export default {
     'common.noItemsFound': 'No items found.',
     'common.noContent': 'No content available for this page.',
     'common.notFound': 'Page Not Found',
-    'common.notFoundDescription': 'The page you are looking for does not exist or has been removed.',
+    'common.notFoundDescription':
+        'The page you are looking for does not exist or has been removed.',
     'common.returnHome': 'Return to Homepage',
     'common.navigation': 'Navigation',
     'common.resources': 'Resources',
@@ -130,10 +136,13 @@ export default {
     'admin.dashboard.openGrmCases': 'Open GRM Cases',
     'admin.dashboard.openProcurements': 'Open Procurements',
     'admin.dashboard.operationalReadiness': 'Operational Readiness',
-    'admin.dashboard.operationalReadinessDescription': 'Launch ownership, support, reporting, and backup governance baseline.',
+    'admin.dashboard.operationalReadinessDescription':
+        'Launch ownership, support, reporting, and backup governance baseline.',
     'admin.dashboard.operationsReady': 'Operations baseline is configured.',
-    'admin.dashboard.operationsMissing': 'readiness item(s) still need owner values.',
-    'admin.dashboard.operationsEvidenceNote': 'This is a product-side governance check, not infrastructure evidence.',
+    'admin.dashboard.operationsMissing':
+        'readiness item(s) still need owner values.',
+    'admin.dashboard.operationsEvidenceNote':
+        'This is a product-side governance check, not infrastructure evidence.',
     'admin.dashboard.notConfigured': 'Not configured',
     'admin.dashboard.ready': 'Ready',
     'admin.dashboard.missing': 'Missing',
@@ -168,7 +177,8 @@ export default {
     'admin.content.addProcurement': 'Add Procurement',
     'admin.content.uploadMedia': 'Upload Media',
     'admin.content.exportCsv': 'Export CSV',
-    'admin.content.reviewSubscriptions': 'Review confirmed, pending, and unsubscribed recipients.',
+    'admin.content.reviewSubscriptions':
+        'Review confirmed, pending, and unsubscribed recipients.',
     'admin.content.noMedia': 'No media items yet.',
     'admin.content.pageSummary': 'Page',
     'admin.content.of': 'of',
@@ -218,7 +228,8 @@ export default {
     'admin.form.topLevel': 'Top level',
     'admin.form.sortOrder': 'Sort order',
     'admin.form.leadership': 'Leadership',
-    'admin.form.leadershipHint': 'Highlight this profile in the leadership section.',
+    'admin.form.leadershipHint':
+        'Highlight this profile in the leadership section.',
     'admin.form.published': 'Published',
     'admin.form.publishedHint': 'Unpublished staff stay in admin only.',
     'admin.form.fullName': 'Full name',
@@ -228,9 +239,12 @@ export default {
     'admin.form.replaceFileOptional': 'Replace File (optional)',
     'admin.form.currentFile': 'Current file',
     'admin.form.currentPhotoUploaded': 'Current photo is already uploaded.',
-    'admin.form.staffCreateHint': 'Create a public profile and place it in the reporting hierarchy.',
-    'admin.form.staffEditHint': 'Update hierarchy, translations, and publication state.',
-    'admin.form.staffDirectoryHint': 'Maintain the public leadership and reporting structure.',
+    'admin.form.staffCreateHint':
+        'Create a public profile and place it in the reporting hierarchy.',
+    'admin.form.staffEditHint':
+        'Update hierarchy, translations, and publication state.',
+    'admin.form.staffDirectoryHint':
+        'Maintain the public leadership and reporting structure.',
     'admin.form.addStaffMember': 'Add staff member',
     'admin.form.deleteStaffRecord': 'Delete this staff record?',
     'admin.form.currentlyUploading': 'Uploading…',
@@ -239,7 +253,8 @@ export default {
     'admin.form.preview': 'Open Preview',
     'admin.form.preparingPreview': 'Preparing preview…',
     'admin.form.previewUnavailable': 'Preview unavailable',
-    'admin.form.previewError': 'Preview could not be generated. Check the form and try again.',
+    'admin.form.previewError':
+        'Preview could not be generated. Check the form and try again.',
     'admin.form.loadingEditor': 'Loading editor...',
     'admin.form.write': 'Write',
     'admin.form.previewTab': 'Preview',
@@ -249,7 +264,8 @@ export default {
     'admin.form.url': 'URL',
     'admin.form.saveLink': 'Save link',
     'admin.form.insertImage': 'Insert image',
-    'admin.form.imageDescription': 'Upload an image to the media library or provide a public URL.',
+    'admin.form.imageDescription':
+        'Upload an image to the media library or provide a public URL.',
     'admin.form.uploadImage': 'Upload image',
     'admin.form.imageUrl': 'Image URL',
     'admin.form.altText': 'Alt text',
@@ -266,17 +282,24 @@ export default {
     'admin.form.noHistory': 'No history yet.',
     'admin.form.submittedOn': 'Submitted',
     'admin.form.by': 'by',
-    'admin.form.contactMasked': 'Contact details are masked for read-only GRM access.',
-    'admin.form.messagingRestricted': 'Messaging is available only to GRM staff with operational permissions.',
-    'admin.form.attachmentsRestricted': 'Attachment downloads are restricted to GRM staff with operational permissions.',
-    'admin.form.statusRestricted': 'Status changes are restricted to GRM staff with operational permissions.',
+    'admin.form.contactMasked':
+        'Contact details are masked for read-only GRM access.',
+    'admin.form.messagingRestricted':
+        'Messaging is available only to GRM staff with operational permissions.',
+    'admin.form.attachmentsRestricted':
+        'Attachment downloads are restricted to GRM staff with operational permissions.',
+    'admin.form.statusRestricted':
+        'Status changes are restricted to GRM staff with operational permissions.',
     'grm.submit': 'Submit Complaint',
     'grm.track': 'Track Case',
     'grm.title': 'Grievance Redress Mechanism',
-    'grm.description': 'Have concerns about project implementation? Submit a complaint or track an existing case through our transparent GRM system.',
-    'grm.indexLead': 'The GRM provides a transparent, accessible, and accountable process for project-affected people to raise concerns and grievances.',
+    'grm.description':
+        'Have concerns about project implementation? Submit a complaint or track an existing case through our transparent GRM system.',
+    'grm.indexLead':
+        'The GRM provides a transparent, accessible, and accountable process for project-affected people to raise concerns and grievances.',
     'grm.cardSubmitTitle': 'Submit Complaint',
-    'grm.cardSubmitDescription': 'Have a grievance? Submit it online for review.',
+    'grm.cardSubmitDescription':
+        'Have a grievance? Submit it online for review.',
     'grm.cardSubmitAction': 'Submit Now',
     'grm.cardTrackTitle': 'Track Your Case',
     'grm.cardTrackDescription': 'Check the status of your existing complaint.',
@@ -291,43 +314,55 @@ export default {
     'grm.category.corruption': 'Corruption allegations',
     'grm.category.other': 'Other project-related concerns',
     'grm.submitTitle': 'Submit a Complaint',
-    'grm.submitLead': 'Please fill in the form below. All submissions are treated confidentially.',
+    'grm.submitLead':
+        'Please fill in the form below. All submissions are treated confidentially.',
     'grm.fullName': 'Full Name',
     'grm.phoneOptional': 'Phone (optional)',
     'grm.categoryLabel': 'Category',
     'grm.descriptionLabel': 'Description',
-    'grm.descriptionPlaceholder': 'Please describe your complaint in detail (minimum 20 characters)...',
-    'grm.descriptionHelp': 'Include enough detail for review. Minimum 20 characters.',
+    'grm.descriptionPlaceholder':
+        'Please describe your complaint in detail (minimum 20 characters)...',
+    'grm.descriptionHelp':
+        'Include enough detail for review. Minimum 20 characters.',
     'grm.attachmentsOptional': 'Attachments (optional, max 5 files)',
     'grm.attachmentsHelpPrefix': 'Allowed formats:',
     'grm.attachmentsHelpSuffix': 'files',
     'grm.privacyNoticeLabel': 'Privacy notice:',
-    'grm.privacyNoticeText': 'Your information will be handled confidentially and used only for processing this complaint.',
+    'grm.privacyNoticeText':
+        'Your information will be handled confidentially and used only for processing this complaint.',
     'grm.submitting': 'Submitting…',
     'grm.submittedPageTitle': 'Complaint Submitted',
-    'grm.submittedLead': 'Your complaint has been received. Keep your tracking details to follow the case securely.',
-    'grm.submittedEmailNotice': 'Your complaint has been received. A confirmation email has been sent.',
+    'grm.submittedLead':
+        'Your complaint has been received. Keep your tracking details to follow the case securely.',
+    'grm.submittedEmailNotice':
+        'Your complaint has been received. A confirmation email has been sent.',
     'grm.trackingDetails': 'Tracking details',
     'grm.ticketNumberLabel': 'Your ticket number:',
     'grm.trackingTokenLabel': 'Your tracking token:',
-    'grm.trackingSaveNotice': 'Save both values to track your complaint status securely.',
+    'grm.trackingSaveNotice':
+        'Save both values to track your complaint status securely.',
     'grm.trackStatusAction': 'Track Status',
     'grm.trackTitle': 'Track Your Complaint',
-    'grm.trackLead': 'Enter your ticket number and tracking token to check the current status of your complaint.',
+    'grm.trackLead':
+        'Enter your ticket number and tracking token to check the current status of your complaint.',
     'grm.ticketNumber': 'Ticket number',
     'grm.ticketFormatHelp': 'Format: GRM-YYYY-12345',
     'grm.trackingToken': 'Tracking token',
     'grm.trackingTokenPlaceholder': '32-character token',
     'grm.trackingTokenHelpPrefix': 'Use the',
-    'grm.trackingTokenHelpSuffix': 'character tracking token shown on submission confirmation.',
+    'grm.trackingTokenHelpSuffix':
+        'character tracking token shown on submission confirmation.',
     'grm.searching': 'Searching…',
-    'grm.notFound': 'No complaint matched the ticket number and tracking token provided. Please check both values and try again.',
-    'grm.trackingExpired': 'Public tracking for this closed complaint has expired. Please contact the GRM team if you need additional follow-up.',
+    'grm.notFound':
+        'No complaint matched the ticket number and tracking token provided. Please check both values and try again.',
+    'grm.trackingExpired':
+        'Public tracking for this closed complaint has expired. Please contact the GRM team if you need additional follow-up.',
     'grm.submittedOn': 'Submitted:',
     'grm.progress': 'Progress:',
     'grm.updates': 'updates',
     'grm.statusHistory': 'Status History',
-    'footer.description': 'The Projects Implementation Center oversees the Tajikistan Digital Foundations Project, strengthening digital infrastructure, e-government services, and digital skills across Tajikistan.',
+    'footer.description':
+        'The Projects Implementation Center oversees the Tajikistan Digital Foundations Project, strengthening digital infrastructure, e-government services, and digital skills across Tajikistan.',
     'footer.documentRepository': 'Document Repository',
     'footer.procurementNotices': 'Procurement Notices',
     'footer.mediaGallery': 'Media Gallery',
@@ -335,8 +370,10 @@ export default {
     'footer.rights': 'All rights reserved.',
     'footer.fundedBy': 'Funded by',
     'footer.kicker': 'Government Service Portal',
-    'footer.heading': 'Public information, services, and grievance access in one place.',
-    'footer.subheading': 'The portal provides official project updates, procurement notices, document access, and public-service channels for beneficiaries, citizens, and suppliers.',
+    'footer.heading':
+        'Public information, services, and grievance access in one place.',
+    'footer.subheading':
+        'The portal provides official project updates, procurement notices, document access, and public-service channels for beneficiaries, citizens, and suppliers.',
     'footer.sections': 'Sections',
     'footer.services': 'Services',
     'footer.contact': 'Contact',
@@ -344,7 +381,8 @@ export default {
     'footer.emailSubscriptions': 'Email subscriptions',
     'common.menu': 'Menu',
     'common.siteNavigation': 'Site navigation',
-    'common.navigationDescription': 'Browse public sections, switch language, or access search and grievance services.',
+    'common.navigationDescription':
+        'Browse public sections, switch language, or access search and grievance services.',
     'common.skipToContent': 'Skip to main content',
     'common.address': 'Address',
     'common.leadership': 'Leadership',
@@ -355,9 +393,11 @@ export default {
     'common.filterByFileType': 'Filter by file type',
     'home.badge': 'World Bank Funded Project',
     'home.title': 'Tajikistan Digital Foundations Project',
-    'home.description': "Strengthening Tajikistan's digital infrastructure through government e-services, digital authentication, cybersecurity and digital skills development.",
+    'home.description':
+        "Strengthening Tajikistan's digital infrastructure through government e-services, digital authentication, cybersecurity and digital skills development.",
     'home.heroTitle': 'Tajikistan Digital Foundations Project',
-    'home.heroDescription': 'The Projects Implementation Center, under the Executive Office of the President, implements this project with financing from the World Bank and the Swiss Development Cooperation. December 2024\u2013December 2030.',
+    'home.heroDescription':
+        'The Projects Implementation Center, under the Executive Office of the President, implements this project with financing from the World Bank and the Swiss Development Cooperation. December 2024\u2013December 2030.',
     'home.learnMore': 'View Project Activities',
     'home.contactAction': 'Submit a Complaint',
     'home.projectComponentsTitle': 'Project Components',
@@ -365,25 +405,32 @@ export default {
     'home.domainTilesSubtitle': '34 activities within the project.',
     'home.activitiesCount': 'activities',
     'home.component1.title': 'Digital Government Foundations',
-    'home.component1.desc': 'Digital public infrastructure, government services, interoperability, digital identity, and payments.',
+    'home.component1.desc':
+        'Digital public infrastructure, government services, interoperability, digital identity, and payments.',
     'home.component2.title': 'Digital Skills',
-    'home.component2.desc': 'Training programmes, public awareness campaigns, and school connectivity.',
+    'home.component2.desc':
+        'Training programmes, public awareness campaigns, and school connectivity.',
     'home.component3.title': 'Project Management',
-    'home.component3.desc': 'Coordination, fiduciary management, and monitoring and evaluation.',
+    'home.component3.desc':
+        'Coordination, fiduciary management, and monitoring and evaluation.',
     'footer.partners': 'Partners & Donors',
-    'footer.fundedByFull': 'Financed by the International Development Association (IDA) and the Swiss Development Cooperation (SDC).',
+    'footer.fundedByFull':
+        'Financed by the International Development Association (IDA) and the Swiss Development Cooperation (SDC).',
     'project.title': 'Tajikistan Digital Foundations Project',
     'project.worldBankRef': 'World Bank Project P180432',
     'project.pdo': 'Project Development Objective',
-    'project.pdoText': 'To improve delivery of digitally-enabled public services and enhance digital skills of the population.',
-    'project.pdoSource': 'Source: World Bank Project Appraisal Document, December 2024.',
+    'project.pdoText':
+        'To improve delivery of digitally-enabled public services and enhance digital skills of the population.',
+    'project.pdoSource':
+        'Source: World Bank Project Appraisal Document, December 2024.',
     'project.component1': 'Component 1: Digital Government Foundations',
     'project.component1.sub1': 'Sub 1.1: Digital Public Infrastructure',
     'project.component1.sub2': 'Sub 1.2: Digital Safeguards & Enablers',
     'project.component2': 'Component 2: Digital Skills',
     'project.component3': 'Component 3: Project Management',
     'project.totalFinancing': 'Total Financing',
-    'project.financingSources': 'IDA Grant (WB): $30M · SDC Grant: $9M · PPP: $5M · GoTJ: $1.4M',
+    'project.financingSources':
+        'IDA Grant (WB): $30M · SDC Grant: $9M · PPP: $5M · GoTJ: $1.4M',
     'project.timeline': 'Implementation Timeline',
     'project.results': 'Results Framework',
     'project.approvalDate': 'Approval Date',
@@ -396,13 +443,16 @@ export default {
     'project.indicator2.target': 'Target: 28,000 participants by December 2030',
     'project.relatedDocuments': 'Related Documents',
     'project.statusActive': 'Implementation',
-    'project.overview': 'The Tajikistan Digital Foundations Project (TDFP) is financed by a World Bank IDA Grant ($30M) and an SDC Trust Fund Grant ($9M), with additional private sector co-financing ($5M via PPP) and a Government of Tajikistan counterpart contribution ($1.4M). Total committed financing is $45.4M. The project is implemented by the Projects Implementation Center (PIC) under the Executive Office of the President of the Republic of Tajikistan. Implementation runs from December 2024 to December 2030.',
+    'project.overview':
+        'The Tajikistan Digital Foundations Project (TDFP) is financed by a World Bank IDA Grant ($30M) and an SDC Trust Fund Grant ($9M), with additional private sector co-financing ($5M via PPP) and a Government of Tajikistan counterpart contribution ($1.4M). Total committed financing is $45.4M. The project is implemented by the Projects Implementation Center (PIC) under the Executive Office of the President of the Republic of Tajikistan. Implementation runs from December 2024 to December 2030.',
     'project.componentLabel': 'Component',
     'project.financing': 'Financing',
-    'project.financingNote': 'IDA Grant (WB) $30M + SDC Grant $9M + PPP $5M + GoTJ $1.4M = $45.4M committed financing. Total operation cost $51.2M (includes $5.8M SDC financing gap planned for 2028–2031).',
+    'project.financingNote':
+        'IDA Grant (WB) $30M + SDC Grant $9M + PPP $5M + GoTJ $1.4M = $45.4M committed financing. Total operation cost $51.2M (includes $5.8M SDC financing gap planned for 2028–2031).',
     'project.timeline.step1': 'World Bank Board approval',
     'project.timeline.step2': 'PIC established, implementation teams recruited',
-    'project.timeline.step3': 'Phase 1 — digital infrastructure & public services',
+    'project.timeline.step3':
+        'Phase 1 — digital infrastructure & public services',
     'project.timeline.step4': 'Phase 2 — digital skills & school connectivity',
     'project.timeline.step5': 'Project closing',
     'project.idaCredit': 'IDA Grant (World Bank)',
@@ -410,16 +460,22 @@ export default {
     'project.privateFinancing': 'Private Sector (PPP)',
     'project.govContribution': 'Government of Tajikistan',
     'about.highlight1.title': 'Implementation Oversight',
-    'about.highlight1.description': 'Coordinates 34 project activities across 3 components under the Executive Office of the President.',
+    'about.highlight1.description':
+        'Coordinates 34 project activities across 3 components under the Executive Office of the President.',
     'about.highlight2.title': 'Procurement Management',
-    'about.highlight2.description': 'Issues and manages all procurement in compliance with World Bank and SDC fiduciary procedures.',
+    'about.highlight2.description':
+        'Issues and manages all procurement in compliance with World Bank and SDC fiduciary procedures.',
     'about.highlight3.title': 'Public Communication',
-    'about.highlight3.description': 'Official communications channel for project news, updates, documents, and event records.',
+    'about.highlight3.description':
+        'Official communications channel for project news, updates, documents, and event records.',
     'about.highlight4.title': 'Grievance Redress',
-    'about.highlight4.description': 'Operates the GRM mechanism accessible to all project-affected persons and citizens.',
-    'about.mandate': 'The Projects Implementation Center (PIC) is responsible for the day-to-day implementation, coordination, and administration of the Tajikistan Digital Foundations Project. PIC operates under the Executive Office of the President of the Republic of Tajikistan and reports to the project Steering Committee.',
+    'about.highlight4.description':
+        'Operates the GRM mechanism accessible to all project-affected persons and citizens.',
+    'about.mandate':
+        'The Projects Implementation Center (PIC) is responsible for the day-to-day implementation, coordination, and administration of the Tajikistan Digital Foundations Project. PIC operates under the Executive Office of the President of the Republic of Tajikistan and reports to the project Steering Committee.',
     'about.staffLink': 'Leadership & Staff Directory',
-    'about.partnerAcknowledgment': 'This project is financed by the International Development Association (World Bank) and the Swiss Development Cooperation (SDC).',
+    'about.partnerAcknowledgment':
+        'This project is financed by the International Development Association (World Bank) and the Swiss Development Cooperation (SDC).',
     'home.projectComponents': 'Project Components',
     'home.budget': 'Budget (USD)',
     'home.activities': 'Activities',
@@ -431,12 +487,16 @@ export default {
     'home.documentsCaption': 'Published documents',
     'home.contactLabel': 'Official contact',
     'home.metrics.contentUnits': 'Operational content units and updates',
-    'home.metrics.interactions': 'Stakeholder interactions and published records',
+    'home.metrics.interactions':
+        'Stakeholder interactions and published records',
     'home.metrics.materials': 'Project documents and notices in circulation',
-    'home.metrics.workstreams': 'Priority workstreams and procurement milestones',
+    'home.metrics.workstreams':
+        'Priority workstreams and procurement milestones',
     'home.mission': 'Our mission',
-    'home.missionTitle': 'A credible digital public portal with clear access to project information.',
-    'home.missionFallback': 'The portal supports public transparency, institutional communication, and accessible service delivery for project beneficiaries, partners, and citizens.',
+    'home.missionTitle':
+        'A credible digital public portal with clear access to project information.',
+    'home.missionFallback':
+        'The portal supports public transparency, institutional communication, and accessible service delivery for project beneficiaries, partners, and citizens.',
     'home.publicContentAreas': 'Public content areas',
     'home.visibleOperationalRecords': 'Visible operational records',
     'home.publishedReferenceMaterials': 'Published reference materials',
@@ -448,11 +508,14 @@ export default {
     'home.servicesTitle': 'Quick access to public services',
     'home.servicesOpenSection': 'Open section',
     'home.services.activitiesTitle': 'Project activities',
-    'home.services.activitiesDescription': 'Track implementation progress and published updates from the project.',
+    'home.services.activitiesDescription':
+        'Track implementation progress and published updates from the project.',
     'home.services.procurementTitle': 'Procurement notices',
-    'home.services.procurementDescription': 'Review open notices, references, and deadlines for suppliers.',
+    'home.services.procurementDescription':
+        'Review open notices, references, and deadlines for suppliers.',
     'home.services.documentsTitle': 'Public documents',
-    'home.services.documentsDescription': 'Access official project documents and published materials.',
+    'home.services.documentsDescription':
+        'Access official project documents and published materials.',
     'home.openProcurement': 'Open Procurement',
     'home.noOpenProcurement': 'No open procurement notices.',
     'home.procurement': 'Procurement',
@@ -460,22 +523,27 @@ export default {
     'home.grmService': 'GRM Service',
     'page.title': 'Page',
     'error.404.title': 'Page not found',
-    'error.404.description': 'The page you are looking for might have been moved, deleted, or never existed.',
+    'error.404.description':
+        'The page you are looking for might have been moved, deleted, or never existed.',
     'error.404.backHome': 'Back to homepage',
     'projects.title': 'Projects',
-    'projects.description': 'Projects implemented by the Project Implementation Center.',
+    'projects.description':
+        'Projects implemented by the Project Implementation Center.',
     'activities.title': 'Project Activities',
-    'activities.description': 'Key initiatives and components of the Tajikistan Digital Foundations Project',
+    'activities.description':
+        'Key initiatives and components of the Tajikistan Digital Foundations Project',
     'activities.back': 'Back to Activities',
     'activities.empty': 'No activities match your filters.',
     'activities.resetFilters': 'Reset filters',
     'news.title': 'News',
     'news.indexTitle': 'News & Events',
-    'news.indexDescription': 'Latest updates from the Tajikistan Digital Foundations Project',
+    'news.indexDescription':
+        'Latest updates from the Tajikistan Digital Foundations Project',
     'news.searchPlaceholder': 'Search news...',
     'news.empty': 'No news articles found.',
     'news.whatsNew': "What's New",
-    'news.whatsNewDescription': 'Time-sensitive project updates and official announcements.',
+    'news.whatsNewDescription':
+        'Time-sensitive project updates and official announcements.',
     'news.featured': 'Featured',
     'news.new': 'New',
     'news.category.project-updates': 'Project Updates',
@@ -486,10 +554,12 @@ export default {
     'news.category.government-initiatives': 'Government Initiatives',
     'news.category.press-releases': 'Press Releases',
     'media.title': 'Media Gallery',
-    'media.description': 'Photos and videos from project activities and public events.',
+    'media.description':
+        'Photos and videos from project activities and public events.',
     'media.empty': 'No media items found.',
     'search.title': 'Search',
-    'search.description': 'Search across public pages, news, activities, and procurement notices.',
+    'search.description':
+        'Search across public pages, news, activities, and procurement notices.',
     'search.placeholder': 'Search the public portal...',
     'search.filterByType': 'Filter by content type',
     'search.resultsFor': 'results for',
@@ -505,10 +575,12 @@ export default {
     'search.entity.media': 'Media',
     'documents.title': 'Documents',
     'documents.indexTitle': 'Document Repository',
-    'documents.indexDescription': 'Project documentation, reports, technical studies and policies',
+    'documents.indexDescription':
+        'Project documentation, reports, technical studies and policies',
     'documents.searchPlaceholder': 'Search documents...',
     'documents.empty': 'No documents found.',
-    'documents.previewUnavailable': 'Preview is not available for this file type. Please download the file to view it.',
+    'documents.previewUnavailable':
+        'Preview is not available for this file type. Please download the file to view it.',
     'procurement.title': 'Procurement',
     'procurement.notice': 'Procurement Notice',
     'procurement.indexDescription': 'Notices, RFQs, RFPs and contract awards',
@@ -517,10 +589,14 @@ export default {
     'procurement.empty': 'No procurement notices found.',
     'procurement.process': 'Process',
     'procurement.processSummaryOpen': 'Submission window is open.',
-    'procurement.processSummaryDeadlinePassed': 'Submission deadline has passed and the notice is pending formal closure.',
-    'procurement.processSummaryUnderEvaluation': 'Submission window is closed and the notice is under evaluation or administrative processing.',
-    'procurement.processSummaryAwarded': 'Procurement outcome has been published.',
-    'procurement.processSummaryArchived': 'This notice is kept for archive and reference purposes.',
+    'procurement.processSummaryDeadlinePassed':
+        'Submission deadline has passed and the notice is pending formal closure.',
+    'procurement.processSummaryUnderEvaluation':
+        'Submission window is closed and the notice is under evaluation or administrative processing.',
+    'procurement.processSummaryAwarded':
+        'Procurement outcome has been published.',
+    'procurement.processSummaryArchived':
+        'This notice is kept for archive and reference purposes.',
     'procurement.processState.submission_open': 'Submission Open',
     'procurement.processState.deadline_passed': 'Deadline Passed',
     'procurement.processState.under_evaluation': 'Under Evaluation',
@@ -533,44 +609,61 @@ export default {
     'procurement.documentsAttached': 'documents attached',
     'contact.title': 'Contact',
     'contact.heading': 'Contact Us',
-    'contact.description': 'Get in touch with the Projects Implementation Center',
+    'contact.description':
+        'Get in touch with the Projects Implementation Center',
     'staff.title': 'Staff Directory',
     'staff.heading': 'Leadership and Team Structure',
-    'staff.description': 'Meet the leadership team and reporting structure responsible for project delivery.',
+    'staff.description':
+        'Meet the leadership team and reporting structure responsible for project delivery.',
     'staff.empty': 'The staff directory will be published soon.',
     'subscriptions.title': 'Email Subscriptions',
     'subscriptions.heading': 'Subscribe to Project Updates',
-    'subscriptions.description': 'Receive official updates when new project news, documents, and procurement notices are published.',
+    'subscriptions.description':
+        'Receive official updates when new project news, documents, and procurement notices are published.',
     'subscriptions.emailLabel': 'Email address',
-    'subscriptions.notice': 'You will receive a confirmation email before your subscription becomes active.',
+    'subscriptions.notice':
+        'You will receive a confirmation email before your subscription becomes active.',
     'subscriptions.submit': 'Subscribe',
     'subscriptions.submitting': 'Submitting…',
     'subscriptions.confirmRequest': 'Confirm request',
     'subscriptions.unsubscribeRequest': 'Unsubscribe request',
-    'subscriptions.confirmReviewTitle': 'Review and confirm your email subscription',
-    'subscriptions.unsubscribeReviewTitle': 'Review and confirm unsubscribe request',
-    'subscriptions.confirmReviewBodyPrefix': 'Activate project update emails for',
-    'subscriptions.unsubscribeReviewBodyPrefix': 'Stop sending project update emails to',
+    'subscriptions.confirmReviewTitle':
+        'Review and confirm your email subscription',
+    'subscriptions.unsubscribeReviewTitle':
+        'Review and confirm unsubscribe request',
+    'subscriptions.confirmReviewBodyPrefix':
+        'Activate project update emails for',
+    'subscriptions.unsubscribeReviewBodyPrefix':
+        'Stop sending project update emails to',
     'subscriptions.processing': 'Processing…',
     'subscriptions.confirmAction': 'Confirm subscription',
     'subscriptions.unsubscribeAction': 'Unsubscribe',
     'subscriptions.status.confirmation-sent.title': 'Check your email',
-    'subscriptions.status.confirmation-sent.body': 'We sent a confirmation link to activate your subscription.',
+    'subscriptions.status.confirmation-sent.body':
+        'We sent a confirmation link to activate your subscription.',
     'subscriptions.status.confirmed.title': 'Subscription confirmed',
-    'subscriptions.status.confirmed.body': 'You are now subscribed to project updates.',
+    'subscriptions.status.confirmed.body':
+        'You are now subscribed to project updates.',
     'subscriptions.status.unsubscribed.title': 'You have been unsubscribed',
-    'subscriptions.status.unsubscribed.body': 'You will no longer receive project update emails.',
+    'subscriptions.status.unsubscribed.body':
+        'You will no longer receive project update emails.',
     'subscriptions.status.already-active.title': 'Already subscribed',
-    'subscriptions.status.already-active.body': 'This email address is already active in the mailing list.',
-    'subscriptions.status.invalid-confirmation.title': 'Confirmation link is invalid',
-    'subscriptions.status.invalid-confirmation.body': 'Request a new subscription confirmation if you still want to join the list.',
-    'subscriptions.status.invalid-unsubscribe.title': 'Unsubscribe link is invalid',
-    'subscriptions.status.invalid-unsubscribe.body': 'The management link is no longer valid.',
+    'subscriptions.status.already-active.body':
+        'This email address is already active in the mailing list.',
+    'subscriptions.status.invalid-confirmation.title':
+        'Confirmation link is invalid',
+    'subscriptions.status.invalid-confirmation.body':
+        'Request a new subscription confirmation if you still want to join the list.',
+    'subscriptions.status.invalid-unsubscribe.title':
+        'Unsubscribe link is invalid',
+    'subscriptions.status.invalid-unsubscribe.body':
+        'The management link is no longer valid.',
     'share.share': 'Share',
     'share.copy': 'Copy link',
     'share.copied': 'Copied',
     'share.title': 'Share this page',
-    'share.description': 'Send this page to colleagues or share it on your social channels.',
+    'share.description':
+        'Send this page to colleagues or share it on your social channels.',
     'status.planned': 'Planned',
     'status.in_progress': 'In Progress',
     'status.completed': 'Completed',

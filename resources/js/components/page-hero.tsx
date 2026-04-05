@@ -33,13 +33,20 @@ export default function PageHero({
                         <ol className="flex flex-wrap items-center gap-1 text-xs text-white/50">
                             {breadcrumbs.map((crumb, i) => (
                                 <li key={i} className="flex items-center gap-1">
-                                    {i > 0 && <ChevronRight className="h-3 w-3 shrink-0" />}
+                                    {i > 0 && (
+                                        <ChevronRight className="h-3 w-3 shrink-0" />
+                                    )}
                                     {crumb.href ? (
-                                        <Link href={crumb.href} className="hover:text-white/80 transition-colors">
+                                        <Link
+                                            href={crumb.href}
+                                            className="transition-colors hover:text-white/80"
+                                        >
                                             {crumb.label}
                                         </Link>
                                     ) : (
-                                        <span className="text-white/80">{crumb.label}</span>
+                                        <span className="text-white/80">
+                                            {crumb.label}
+                                        </span>
                                     )}
                                 </li>
                             ))}

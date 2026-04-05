@@ -1,9 +1,10 @@
+import { router, usePage } from '@inertiajs/react';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { t } from '@/lib/i18n';
-import { Search } from 'lucide-react';
-import { router, usePage } from '@inertiajs/react';
-import { useState } from 'react';
 import { type SharedData } from '@/types';
 
 interface Column<T> {
@@ -40,6 +41,16 @@ export function DataTable<T extends { id: number }>({
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         onSearch?.(search);
+    };
+
+    const getColumnValue = (row: T, key: Column<T>['key']): string => {
+        if (typeof key !== 'string' || !(key in row)) {
+            return '';
+        }
+
+        const value = row[key as keyof T];
+
+        return value == null ? '' : String(value);
     };
 
     return (
@@ -84,12 +95,18 @@ export function DataTable<T extends { id: number }>({
                             </tr>
                         ) : (
                             data.data.map((row) => (
-                                <tr key={row.id} className="border-b hover:bg-muted/25">
+                                <tr
+                                    key={row.id}
+                                    className="border-b hover:bg-muted/25"
+                                >
                                     {columns.map((col) => (
-                                        <td key={String(col.key)} className="px-4 py-3">
+                                        <td
+                                            key={String(col.key)}
+                                            className="px-4 py-3"
+                                        >
                                             {col.render
                                                 ? col.render(row)
-                                                : String((row as any)[col.key] ?? '')}
+                                                : getColumnValue(row, col.key)}
                                         </td>
                                     ))}
                                 </tr>
@@ -102,7 +119,10 @@ export function DataTable<T extends { id: number }>({
             {data.last_page > 1 && (
                 <div className="flex items-center justify-between">
                     <p className="text-sm text-muted-foreground">
-                        {t(locale, 'admin.content.pageSummary')} {data.current_page} {t(locale, 'admin.content.of')} {data.last_page} ({data.total} {t(locale, 'admin.content.total')})
+                        {t(locale, 'admin.content.pageSummary')}{' '}
+                        {data.current_page} {t(locale, 'admin.content.of')}{' '}
+                        {data.last_page} ({data.total}{' '}
+                        {t(locale, 'admin.content.total')})
                     </p>
                     <div className="flex gap-1">
                         {data.links.map((link, i) => (
@@ -111,7 +131,9 @@ export function DataTable<T extends { id: number }>({
                                 variant={link.active ? 'default' : 'outline'}
                                 size="sm"
                                 disabled={!link.url}
-                                onClick={() => link.url && router.visit(link.url)}
+                                onClick={() =>
+                                    link.url && router.visit(link.url)
+                                }
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />
                         ))}

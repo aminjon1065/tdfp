@@ -24,8 +24,8 @@ class PublicNewsController extends Controller
             'recentWindowDays' => $this->repository->recentWindowDays(),
 
             // Эти пропсы загрузятся вторым запросом (Deferred)
-            'news' => Inertia::defer(fn() => $this->repository->paginatePublishedWithTranslations(12, $filters)),
-            'featuredAnnouncements' => Inertia::defer(fn() => $this->repository->featuredAnnouncements(3)),
+            'news' => Inertia::defer(fn () => $this->repository->paginatePublishedWithTranslations(12, $filters)),
+            'featuredAnnouncements' => Inertia::defer(fn () => $this->repository->featuredAnnouncements(3)),
         ]);
     }
 

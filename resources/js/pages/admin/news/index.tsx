@@ -1,10 +1,11 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+
 import { DataTable } from '@/components/admin/data-table';
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
+import AdminLayout from '@/layouts/admin-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { NewsItem, Paginator, type SharedData } from '@/types';
 
 interface NewsCategory {
@@ -27,7 +28,8 @@ export default function AdminNewsIndex({ news }: Props) {
             key: 'title',
             header: t(locale, 'common.title'),
             render: (row: NewsItem) =>
-                getTranslation(row, locale).title ?? t(locale, 'admin.content.untitled'),
+                getTranslation(row, locale).title ??
+                t(locale, 'admin.content.untitled'),
         },
         {
             key: 'category',
@@ -43,7 +45,9 @@ export default function AdminNewsIndex({ news }: Props) {
             key: 'published_at',
             header: t(locale, 'admin.content.published'),
             render: (row: NewsItem) =>
-                row.published_at ? formatLocalizedDate(row.published_at, locale) : '—',
+                row.published_at
+                    ? formatLocalizedDate(row.published_at, locale)
+                    : '—',
         },
         {
             key: 'actions',
@@ -59,7 +63,11 @@ export default function AdminNewsIndex({ news }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm(t(locale, 'admin.content.deleteArticle'))) {
+                            if (
+                                confirm(
+                                    t(locale, 'admin.content.deleteArticle'),
+                                )
+                            ) {
                                 router.delete(`/admin/news/${row.id}`);
                             }
                         }}
@@ -72,11 +80,17 @@ export default function AdminNewsIndex({ news }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.news'), href: '/admin/news' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                { title: t(locale, 'admin.content.news'), href: '/admin/news' },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.news')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.news')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.content.news')}
+                    </h1>
                     <Button asChild>
                         <Link href="/admin/news/create">
                             <Plus className="mr-2 h-4 w-4" />

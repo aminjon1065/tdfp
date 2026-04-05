@@ -1,11 +1,12 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+
 import { DataTable } from '@/components/admin/data-table';
 import { StatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
+import AdminLayout from '@/layouts/admin-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
     procurements: any;
@@ -21,14 +22,17 @@ export default function AdminProcurementIndex({ procurements }: Props) {
             key: 'reference_number',
             header: t(locale, 'common.reference'),
             render: (row: any) => (
-                <span className="font-mono text-xs">{row.reference_number ?? '—'}</span>
+                <span className="font-mono text-xs">
+                    {row.reference_number ?? '—'}
+                </span>
             ),
         },
         {
             key: 'title',
             header: t(locale, 'common.title'),
             render: (row: any) =>
-                getTranslation(row, locale).title ?? t(locale, 'admin.content.untitled'),
+                getTranslation(row, locale).title ??
+                t(locale, 'admin.content.untitled'),
         },
         {
             key: 'status',
@@ -55,7 +59,14 @@ export default function AdminProcurementIndex({ procurements }: Props) {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                            if (confirm(t(locale, 'admin.content.deleteProcurement'))) {
+                            if (
+                                confirm(
+                                    t(
+                                        locale,
+                                        'admin.content.deleteProcurement',
+                                    ),
+                                )
+                            ) {
                                 router.delete(`/admin/procurement/${row.id}`);
                             }
                         }}
@@ -68,11 +79,20 @@ export default function AdminProcurementIndex({ procurements }: Props) {
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.procurement'), href: '/admin/procurement' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.procurement'),
+                    href: '/admin/procurement',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.procurement')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.procurement')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.content.procurement')}
+                    </h1>
                     <Button asChild>
                         <Link href="/admin/procurement/create">
                             <Plus className="mr-2 h-4 w-4" />
@@ -84,7 +104,9 @@ export default function AdminProcurementIndex({ procurements }: Props) {
                     data={procurements}
                     columns={columns}
                     searchable
-                    onSearch={(s) => router.get('/admin/procurement', { search: s })}
+                    onSearch={(s) =>
+                        router.get('/admin/procurement', { search: s })
+                    }
                 />
             </div>
         </AdminLayout>

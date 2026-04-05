@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\ActivityStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Activity extends Model
 {
@@ -21,10 +22,14 @@ class Activity extends Model
         'created_by',
     ];
 
-    protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'status' => ActivityStatus::class,
+            'start_date' => 'date',
+            'end_date' => 'date',
+        ];
+    }
 
     public function translations(): HasMany
     {
@@ -54,5 +59,10 @@ class Activity extends Model
     public function scopeByStatus(Builder $query, string $status): Builder
     {
         return $query->where('status', $status);
+    }
+
+    public function scopePubliclyVisible(Builder $query): Builder
+    {
+        return $query->whereIn('status', ActivityStatus::publicValues());
     }
 }

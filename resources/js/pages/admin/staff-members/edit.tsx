@@ -1,6 +1,7 @@
+import { Head, usePage } from '@inertiajs/react';
+
 import AdminLayout from '@/layouts/admin-layout';
 import { t } from '@/lib/i18n';
-import { Head, usePage } from '@inertiajs/react';
 import { type SharedData } from '@/types';
 
 import StaffMemberForm from './form';
@@ -30,14 +31,25 @@ export default function AdminStaffMembersEdit({
     return (
         <AdminLayout
             breadcrumbs={[
-                { title: t(locale, 'admin.nav.staff'), href: '/admin/staff-members' },
-                { title: t(locale, 'admin.form.edit'), href: `/admin/staff-members/${staffMember.id}/edit` },
+                {
+                    title: t(locale, 'admin.nav.staff'),
+                    href: '/admin/staff-members',
+                },
+                {
+                    title: t(locale, 'admin.form.edit'),
+                    href: `/admin/staff-members/${staffMember.id}/edit`,
+                },
             ]}
         >
-            <Head title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.nav.staff')}`} />
+            <Head
+                title={`${t(locale, 'admin.form.edit')} ${t(locale, 'admin.nav.staff')}`}
+            />
             <div className="max-w-4xl space-y-6">
                 <div>
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.form.edit')} {t(locale, 'admin.nav.staff')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.form.edit')}{' '}
+                        {t(locale, 'admin.nav.staff')}
+                    </h1>
                     <p className="text-sm text-muted-foreground">
                         {t(locale, 'admin.form.staffEditHint')}
                     </p>
@@ -58,9 +70,24 @@ export default function AdminStaffMembersEdit({
                         is_published: staffMember.is_published,
                         sort_order: staffMember.sort_order,
                         translations: {
-                            en: translations.en ?? { full_name: '', job_title: '', department: '', biography: '' },
-                            ru: translations.ru ?? { full_name: '', job_title: '', department: '', biography: '' },
-                            tj: translations.tj ?? { full_name: '', job_title: '', department: '', biography: '' },
+                            en: translations.en ?? {
+                                full_name: '',
+                                job_title: '',
+                                department: '',
+                                biography: '',
+                            },
+                            ru: translations.ru ?? {
+                                full_name: '',
+                                job_title: '',
+                                department: '',
+                                biography: '',
+                            },
+                            tj: translations.tj ?? {
+                                full_name: '',
+                                job_title: '',
+                                department: '',
+                                biography: '',
+                            },
                         },
                     }}
                 />

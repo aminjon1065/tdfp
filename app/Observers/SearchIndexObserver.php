@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\SyncSearchIndexJob;
 use App\Models\Activity;
 use App\Models\ActivityTranslation;
 use App\Models\Document;
@@ -14,14 +15,9 @@ use App\Models\Page;
 use App\Models\PageTranslation;
 use App\Models\Procurement;
 use App\Models\ProcurementTranslation;
-use App\Modules\Search\Services\SearchService;
 
 class SearchIndexObserver
 {
-    public function __construct(
-        private SearchService $searchService,
-    ) {}
-
     public function saved(mixed $model): void
     {
         $this->sync($model);
@@ -40,27 +36,28 @@ class SearchIndexObserver
     private function sync(mixed $model): void
     {
         if ($model instanceof Page || $model instanceof News || $model instanceof Activity || $model instanceof Procurement || $model instanceof Document || $model instanceof MediaItem) {
-            if ($model->exists) {
-                $this->searchService->syncModel($model);
-            } else {
-                $this->searchService->remove($model::class, (int) $model->getKey());
-            }
+            $this->dispatch($model::class, (int) $model->getKey());
 
             return;
         }
 
-        $parentModel = match (true) {
-            $model instanceof PageTranslation => $model->page()->with('translations')->first(),
-            $model instanceof NewsTranslation => $model->news()->with('translations')->first(),
-            $model instanceof ActivityTranslation => $model->activity()->with('translations')->first(),
-            $model instanceof ProcurementTranslation => $model->procurement()->with('translations')->first(),
-            $model instanceof DocumentTranslation => $model->document()->with('translations')->first(),
-            $model instanceof MediaItemTranslation => $model->mediaItem()->with('translations')->first(),
-            default => null,
+        [$entityType, $entityId] = match (true) {
+            $model instanceof PageTranslation => [Page::class, (int) $model->page_id],
+            $model instanceof NewsTranslation => [News::class, (int) $model->news_id],
+            $model instanceof ActivityTranslation => [Activity::class, (int) $model->activity_id],
+            $model instanceof ProcurementTranslation => [Procurement::class, (int) $model->procurement_id],
+            $model instanceof DocumentTranslation => [Document::class, (int) $model->document_id],
+            $model instanceof MediaItemTranslation => [MediaItem::class, (int) $model->media_item_id],
+            default => [null, null],
         };
 
-        if ($parentModel !== null) {
-            $this->searchService->syncModel($parentModel);
+        if (is_string($entityType) && is_int($entityId) && $entityId > 0) {
+            $this->dispatch($entityType, $entityId);
         }
+    }
+
+    private function dispatch(string $entityType, int $entityId): void
+    {
+        SyncSearchIndexJob::dispatch($entityType, $entityId);
     }
 }

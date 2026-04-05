@@ -1,10 +1,10 @@
-import PublicLayout from '@/layouts/public-layout';
-import { t } from '@/lib/i18n';
 import { Head, useForm, usePage } from '@inertiajs/react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import PublicLayout from '@/layouts/public-layout';
+import { t } from '@/lib/i18n';
 
 const statusTones: Record<string, string> = {
     'confirmation-sent': 'border-blue-200 bg-blue-50 text-blue-900',
@@ -35,11 +35,19 @@ export default function SubscriptionPage({
     });
     const actionForm = useForm({});
 
-    const statusTone = subscriptionStatus ? statusTones[subscriptionStatus] : null;
+    const statusTone = subscriptionStatus
+        ? statusTones[subscriptionStatus]
+        : null;
     const statusMessage = subscriptionStatus
         ? {
-              title: t(locale, `subscriptions.status.${subscriptionStatus}.title`),
-              body: t(locale, `subscriptions.status.${subscriptionStatus}.body`),
+              title: t(
+                  locale,
+                  `subscriptions.status.${subscriptionStatus}.title`,
+              ),
+              body: t(
+                  locale,
+                  `subscriptions.status.${subscriptionStatus}.body`,
+              ),
           }
         : null;
     const structuredData = {
@@ -76,7 +84,7 @@ export default function SubscriptionPage({
 
                 {subscriptionAction && (
                     <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">
+                        <p className="text-sm font-semibold tracking-[0.14em] text-slate-500 uppercase">
                             {subscriptionAction.intent === 'confirm'
                                 ? t(locale, 'subscriptions.confirmRequest')
                                 : t(locale, 'subscriptions.unsubscribeRequest')}
@@ -84,7 +92,10 @@ export default function SubscriptionPage({
                         <h2 className="mt-2 text-2xl font-semibold text-slate-900">
                             {subscriptionAction.intent === 'confirm'
                                 ? t(locale, 'subscriptions.confirmReviewTitle')
-                                : t(locale, 'subscriptions.unsubscribeReviewTitle')}
+                                : t(
+                                      locale,
+                                      'subscriptions.unsubscribeReviewTitle',
+                                  )}
                         </h2>
                         <p className="mt-3 text-sm leading-6 text-slate-600">
                             {subscriptionAction.intent === 'confirm'
@@ -95,38 +106,57 @@ export default function SubscriptionPage({
                             <Button
                                 type="button"
                                 disabled={actionForm.processing}
-                                onClick={() => actionForm.post(subscriptionAction.action_url)}
+                                onClick={() =>
+                                    actionForm.post(
+                                        subscriptionAction.action_url,
+                                    )
+                                }
                             >
                                 {actionForm.processing
                                     ? t(locale, 'subscriptions.processing')
                                     : subscriptionAction.intent === 'confirm'
                                       ? t(locale, 'subscriptions.confirmAction')
-                                      : t(locale, 'subscriptions.unsubscribeAction')}
+                                      : t(
+                                            locale,
+                                            'subscriptions.unsubscribeAction',
+                                        )}
                             </Button>
                         </div>
                     </div>
                 )}
 
                 {statusMessage && statusTone && (
-                    <div className={`mb-6 rounded-xl border px-4 py-4 ${statusTone}`}>
+                    <div
+                        className={`mb-6 rounded-xl border px-4 py-4 ${statusTone}`}
+                    >
                         <p className="font-semibold">{statusMessage.title}</p>
                         <p className="mt-1 text-sm">{statusMessage.body}</p>
                     </div>
                 )}
 
-                <form onSubmit={submit} className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" noValidate>
+                <form
+                    onSubmit={submit}
+                    className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                    noValidate
+                >
                     <div className="space-y-2">
-                        <Label htmlFor="subscription-email">{t(locale, 'subscriptions.emailLabel')}</Label>
+                        <Label htmlFor="subscription-email">
+                            {t(locale, 'subscriptions.emailLabel')}
+                        </Label>
                         <Input
                             id="subscription-email"
                             type="email"
                             autoComplete="email"
                             value={data.email}
-                            onChange={(event) => setData('email', event.target.value)}
+                            onChange={(event) =>
+                                setData('email', event.target.value)
+                            }
                             aria-invalid={!!errors.email}
                         />
                         {errors.email && (
-                            <p className="text-sm text-destructive">{errors.email}</p>
+                            <p className="text-sm text-destructive">
+                                {errors.email}
+                            </p>
                         )}
                     </div>
 
@@ -135,7 +165,9 @@ export default function SubscriptionPage({
                     </div>
 
                     <Button type="submit" disabled={processing}>
-                        {processing ? t(locale, 'subscriptions.submitting') : t(locale, 'subscriptions.submit')}
+                        {processing
+                            ? t(locale, 'subscriptions.submitting')
+                            : t(locale, 'subscriptions.submit')}
                     </Button>
                 </form>
             </div>

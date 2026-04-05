@@ -2,6 +2,7 @@
 
 namespace App\Modules\Activities\Repositories;
 
+use App\ActivityStatus;
 use App\Core\Repositories\BaseRepository;
 use App\Models\Activity;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,11 +10,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ActivityRepository extends BaseRepository
 {
-    /**
-     * @var list<string>
-     */
-    private array $publicStatuses = ['planned', 'in_progress', 'completed'];
-
     public function __construct()
     {
         parent::__construct(new Activity);
@@ -32,11 +28,15 @@ class ActivityRepository extends BaseRepository
     public function paginatePublicWithTranslations(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         $query = Activity::with('translations')
-            ->whereIn('status', $this->publicStatuses)
+            ->publiclyVisible()
             ->latest();
 
-        if (! empty($filters['status']) && in_array($filters['status'], $this->publicStatuses, true)) {
-            $query->where('status', $filters['status']);
+        $status = ! empty($filters['status'])
+            ? ActivityStatus::tryFrom((string) $filters['status'])
+            : null;
+
+        if ($status !== null) {
+            $query->where('status', $status->value);
         }
 
         if (! empty($filters['domain'])) {
@@ -60,14 +60,14 @@ class ActivityRepository extends BaseRepository
     {
         return Activity::with('translations', 'documents.translations', 'news.translations')
             ->where('slug', $slug)
-            ->whereIn('status', $this->publicStatuses)
+            ->publiclyVisible()
             ->first();
     }
 
     public function allPublicWithTranslations(): Collection
     {
         return Activity::with('translations')
-            ->whereIn('status', $this->publicStatuses)
+            ->publiclyVisible()
             ->orderBy('created_at', 'desc')
             ->get();
     }

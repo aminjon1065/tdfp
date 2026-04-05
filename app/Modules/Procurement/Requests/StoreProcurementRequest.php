@@ -1,10 +1,16 @@
 <?php
+
 namespace App\Modules\Procurement\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProcurementRequest extends FormRequest
 {
-    public function authorize(): bool { return true; }
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [

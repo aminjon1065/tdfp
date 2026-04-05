@@ -1,12 +1,24 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, usePage } from '@inertiajs/react';
+import {
+    Activity,
+    AlertTriangle,
+    CheckCircle2,
+    FileText,
+    MessageCircle,
+    Newspaper,
+    Plus,
+    ScrollText,
+    ShoppingBag,
+    Upload,
+} from 'lucide-react';
+
+import { StatusBadge } from '@/components/admin/status-badge';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AdminLayout from '@/layouts/admin-layout';
 import { getTranslation, t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { Activity, AlertTriangle, CheckCircle2, FileText, MessageCircle, Newspaper, Plus, ShoppingBag, Upload, ScrollText } from 'lucide-react';
-import { StatusBadge } from '@/components/admin/status-badge';
 
 interface Props {
     stats: {
@@ -62,13 +74,25 @@ export default function AdminDashboard({
     const locale = props.locale ?? 'en';
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.dashboard.title'), href: '/admin' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                { title: t(locale, 'admin.dashboard.title'), href: '/admin' },
+            ]}
+        >
             <Head title={t(locale, 'admin.dashboard.pageTitle')} />
             <div className="space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.dashboard.title')}</h1>
-                    <Badge variant={operational_audit.is_ready ? 'default' : 'outline'}>
-                        {t(locale, 'admin.dashboard.operationsAudit')}: {operational_audit.completion_percentage}% {t(locale, 'admin.dashboard.complete')}
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.dashboard.title')}
+                    </h1>
+                    <Badge
+                        variant={
+                            operational_audit.is_ready ? 'default' : 'outline'
+                        }
+                    >
+                        {t(locale, 'admin.dashboard.operationsAudit')}:{' '}
+                        {operational_audit.completion_percentage}%{' '}
+                        {t(locale, 'admin.dashboard.complete')}
                     </Badge>
                 </div>
 
@@ -95,7 +119,9 @@ export default function AdminDashboard({
                     <Button asChild size="sm" variant="outline">
                         <Link href="/admin/grm">
                             <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
-                            {t(locale, 'admin.nav.grm')} {stats.open_grm_cases > 0 && `(${stats.open_grm_cases})`}
+                            {t(locale, 'admin.nav.grm')}{' '}
+                            {stats.open_grm_cases > 0 &&
+                                `(${stats.open_grm_cases})`}
                         </Link>
                     </Button>
                     <Button asChild size="sm" variant="outline">
@@ -109,38 +135,54 @@ export default function AdminDashboard({
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.publishedNews')}</CardTitle>
+                            <CardTitle className="text-sm font-medium">
+                                {t(locale, 'admin.dashboard.publishedNews')}
+                            </CardTitle>
                             <FileText className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stats.news_count}</div>
+                            <div className="text-2xl font-bold">
+                                {stats.news_count}
+                            </div>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.documents')}</CardTitle>
+                            <CardTitle className="text-sm font-medium">
+                                {t(locale, 'admin.dashboard.documents')}
+                            </CardTitle>
                             <Activity className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stats.documents_count}</div>
+                            <div className="text-2xl font-bold">
+                                {stats.documents_count}
+                            </div>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.openGrmCases')}</CardTitle>
+                            <CardTitle className="text-sm font-medium">
+                                {t(locale, 'admin.dashboard.openGrmCases')}
+                            </CardTitle>
                             <MessageCircle className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-orange-600">{stats.open_grm_cases}</div>
+                            <div className="text-2xl font-bold text-orange-600">
+                                {stats.open_grm_cases}
+                            </div>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">{t(locale, 'admin.dashboard.openProcurements')}</CardTitle>
+                            <CardTitle className="text-sm font-medium">
+                                {t(locale, 'admin.dashboard.openProcurements')}
+                            </CardTitle>
                             <ShoppingBag className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stats.open_procurements}</div>
+                            <div className="text-2xl font-bold">
+                                {stats.open_procurements}
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
@@ -149,13 +191,28 @@ export default function AdminDashboard({
                     <Card>
                         <CardHeader className="flex flex-row items-start justify-between gap-4">
                             <div>
-                                <CardTitle>{t(locale, 'admin.dashboard.operationalReadiness')}</CardTitle>
+                                <CardTitle>
+                                    {t(
+                                        locale,
+                                        'admin.dashboard.operationalReadiness',
+                                    )}
+                                </CardTitle>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    {t(locale, 'admin.dashboard.operationalReadinessDescription')}
+                                    {t(
+                                        locale,
+                                        'admin.dashboard.operationalReadinessDescription',
+                                    )}
                                 </p>
                             </div>
-                            <Badge variant={operational_readiness.is_ready ? 'default' : 'outline'}>
-                                {operational_readiness.completion_percentage}% {t(locale, 'admin.dashboard.complete')}
+                            <Badge
+                                variant={
+                                    operational_readiness.is_ready
+                                        ? 'default'
+                                        : 'outline'
+                                }
+                            >
+                                {operational_readiness.completion_percentage}%{' '}
+                                {t(locale, 'admin.dashboard.complete')}
                             </Badge>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -168,26 +225,55 @@ export default function AdminDashboard({
                                 <div>
                                     <p className="text-sm font-medium">
                                         {operational_readiness.is_ready
-                                            ? t(locale, 'admin.dashboard.operationsReady')
+                                            ? t(
+                                                  locale,
+                                                  'admin.dashboard.operationsReady',
+                                              )
                                             : `${operational_readiness.missing_count} ${t(locale, 'admin.dashboard.operationsMissing')}`}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        {t(locale, 'admin.dashboard.operationsEvidenceNote')}
+                                        {t(
+                                            locale,
+                                            'admin.dashboard.operationsEvidenceNote',
+                                        )}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="space-y-3">
                                 {operational_readiness.items.map((item) => (
-                                    <div key={item.key} className="flex items-start justify-between gap-4 rounded-md border p-3">
+                                    <div
+                                        key={item.key}
+                                        className="flex items-start justify-between gap-4 rounded-md border p-3"
+                                    >
                                         <div className="min-w-0">
-                                            <p className="text-sm font-medium">{item.label}</p>
+                                            <p className="text-sm font-medium">
+                                                {item.label}
+                                            </p>
                                             <p className="truncate text-xs text-muted-foreground">
-                                                {item.value || t(locale, 'admin.dashboard.notConfigured')}
+                                                {item.value ||
+                                                    t(
+                                                        locale,
+                                                        'admin.dashboard.notConfigured',
+                                                    )}
                                             </p>
                                         </div>
-                                        <Badge variant={item.is_complete ? 'default' : 'outline'}>
-                                            {item.is_complete ? t(locale, 'admin.dashboard.ready') : t(locale, 'admin.dashboard.missing')}
+                                        <Badge
+                                            variant={
+                                                item.is_complete
+                                                    ? 'default'
+                                                    : 'outline'
+                                            }
+                                        >
+                                            {item.is_complete
+                                                ? t(
+                                                      locale,
+                                                      'admin.dashboard.ready',
+                                                  )
+                                                : t(
+                                                      locale,
+                                                      'admin.dashboard.missing',
+                                                  )}
                                         </Badge>
                                     </div>
                                 ))}
@@ -198,55 +284,106 @@ export default function AdminDashboard({
                     <div className="grid gap-6">
                         <Card>
                             <CardHeader>
-                                <CardTitle>{t(locale, 'admin.dashboard.automatedChecks')}</CardTitle>
+                                <CardTitle>
+                                    {t(
+                                        locale,
+                                        'admin.dashboard.automatedChecks',
+                                    )}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 {automated_checks.items.map((item) => (
-                                    <div key={item.key} className="rounded-md border p-3">
+                                    <div
+                                        key={item.key}
+                                        className="rounded-md border p-3"
+                                    >
                                         <div className="flex items-start justify-between gap-4">
                                             <div className="min-w-0">
-                                                <p className="text-sm font-medium">{item.label}</p>
-                                                <p className="text-xs text-muted-foreground">{item.summary}</p>
+                                                <p className="text-sm font-medium">
+                                                    {item.label}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {item.summary}
+                                                </p>
                                             </div>
-                                            <Badge variant={item.is_passing ? 'default' : 'outline'}>
-                                                {item.is_passing ? t(locale, 'admin.dashboard.pass') : t(locale, 'admin.dashboard.fail')}
+                                            <Badge
+                                                variant={
+                                                    item.is_passing
+                                                        ? 'default'
+                                                        : 'outline'
+                                                }
+                                            >
+                                                {item.is_passing
+                                                    ? t(
+                                                          locale,
+                                                          'admin.dashboard.pass',
+                                                      )
+                                                    : t(
+                                                          locale,
+                                                          'admin.dashboard.fail',
+                                                      )}
                                             </Badge>
                                         </div>
                                     </div>
                                 ))}
                             </CardContent>
                         </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>{t(locale, 'admin.dashboard.recentNews')}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-3">
-                                {recent_news.map((item) => (
-                                    <div key={item.id} className="flex items-center justify-between">
-                                        <span className="text-sm truncate max-w-[200px]">
-                                            {getTranslation(item, locale).title ?? t(locale, 'common.untitled')}
-                                        </span>
-                                        <StatusBadge status={item.status} />
-                                    </div>
-                                ))}
-                                {recent_news.length === 0 && (
-                                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.dashboard.noNews')}</p>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
                         <Card>
                             <CardHeader>
-                                <CardTitle>{t(locale, 'admin.dashboard.recentGrmCases')}</CardTitle>
+                                <CardTitle>
+                                    {t(locale, 'admin.dashboard.recentNews')}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-3">
+                                    {recent_news.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="flex items-center justify-between"
+                                        >
+                                            <span className="max-w-[200px] truncate text-sm">
+                                                {getTranslation(item, locale)
+                                                    .title ??
+                                                    t(
+                                                        locale,
+                                                        'common.untitled',
+                                                    )}
+                                            </span>
+                                            <StatusBadge status={item.status} />
+                                        </div>
+                                    ))}
+                                    {recent_news.length === 0 && (
+                                        <p className="text-sm text-muted-foreground">
+                                            {t(
+                                                locale,
+                                                'admin.dashboard.noNews',
+                                            )}
+                                        </p>
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>
+                                    {t(
+                                        locale,
+                                        'admin.dashboard.recentGrmCases',
+                                    )}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
                                     {recent_grm.map((item) => (
-                                        <div key={item.id} className="flex items-center justify-between">
+                                        <div
+                                            key={item.id}
+                                            className="flex items-center justify-between"
+                                        >
                                             <div>
-                                                <p className="text-sm font-medium">{item.ticket_number}</p>
-                                                <p className="text-xs text-muted-foreground truncate max-w-[180px]">
+                                                <p className="text-sm font-medium">
+                                                    {item.ticket_number}
+                                                </p>
+                                                <p className="max-w-[180px] truncate text-xs text-muted-foreground">
                                                     {item.complainant_name}
                                                 </p>
                                             </div>
@@ -254,7 +391,12 @@ export default function AdminDashboard({
                                         </div>
                                     ))}
                                     {recent_grm.length === 0 && (
-                                        <p className="text-sm text-muted-foreground">{t(locale, 'admin.dashboard.noCases')}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {t(
+                                                locale,
+                                                'admin.dashboard.noCases',
+                                            )}
+                                        </p>
                                     )}
                                 </div>
                             </CardContent>
@@ -270,23 +412,39 @@ export default function AdminDashboard({
                                 <ScrollText className="h-4 w-4 text-muted-foreground" />
                                 {t(locale, 'admin.nav.auditLogs')}
                             </CardTitle>
-                            <Link href="/admin/audit-logs" className="text-xs text-muted-foreground underline-offset-4 hover:underline">
+                            <Link
+                                href="/admin/audit-logs"
+                                className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+                            >
                                 {t(locale, 'common.viewAll')}
                             </Link>
                         </CardHeader>
                         <CardContent>
                             <ul className="divide-y text-sm">
                                 {recent_logs.slice(0, 5).map((log: any) => (
-                                    <li key={log.id} className="flex items-center justify-between gap-4 py-2">
+                                    <li
+                                        key={log.id}
+                                        className="flex items-center justify-between gap-4 py-2"
+                                    >
                                         <div className="min-w-0">
-                                            <span className="font-medium">{log.user?.name ?? t(locale, 'common.system')}</span>
+                                            <span className="font-medium">
+                                                {log.user?.name ??
+                                                    t(locale, 'common.system')}
+                                            </span>
                                             {' · '}
-                                            <span className="text-muted-foreground">{log.action}</span>
-                                            {' '}
-                                            <span className="text-muted-foreground">{log.entity_type}</span>
+                                            <span className="text-muted-foreground">
+                                                {log.action}
+                                            </span>{' '}
+                                            <span className="text-muted-foreground">
+                                                {log.entity_type}
+                                            </span>
                                         </div>
                                         <span className="shrink-0 text-xs text-muted-foreground">
-                                            {log.created_at ? new Date(log.created_at).toLocaleDateString() : ''}
+                                            {log.created_at
+                                                ? new Date(
+                                                      log.created_at,
+                                                  ).toLocaleDateString()
+                                                : ''}
                                         </span>
                                     </li>
                                 ))}

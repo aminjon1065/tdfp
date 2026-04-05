@@ -1,11 +1,12 @@
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Image, Plus, Trash2, Video } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import AdminLayout from '@/layouts/admin-layout';
 import { formatLocalizedDate, getTranslation, t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus, Trash2, Image, Video } from 'lucide-react';
 
 interface MediaItem {
     id: number;
@@ -38,11 +39,20 @@ export default function AdminMediaIndex({ media }: Props) {
     };
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.media'), href: '/admin/media' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.media'),
+                    href: '/admin/media',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.media')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">{t(locale, 'admin.content.media')}</h1>
+                    <h1 className="text-2xl font-bold">
+                        {t(locale, 'admin.content.media')}
+                    </h1>
                     <Button asChild>
                         <Link href="/admin/media/create">
                             <Plus className="mr-2 h-4 w-4" />
@@ -52,41 +62,63 @@ export default function AdminMediaIndex({ media }: Props) {
                 </div>
 
                 {media.data.length === 0 && (
-                    <p className="text-sm text-muted-foreground">{t(locale, 'admin.content.noMedia')}</p>
+                    <p className="text-sm text-muted-foreground">
+                        {t(locale, 'admin.content.noMedia')}
+                    </p>
                 )}
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {media.data.map((item) => {
-                        const title = getTranslation(item, locale).title ?? t(locale, 'admin.content.untitled');
+                        const title =
+                            getTranslation(item, locale).title ??
+                            t(locale, 'admin.content.untitled');
                         return (
                             <Card key={item.id} className="overflow-hidden">
-                                <div className="relative aspect-video bg-muted flex items-center justify-center">
+                                <div className="relative flex aspect-video items-center justify-center bg-muted">
                                     {item.type === 'image' && item.url ? (
                                         <img
                                             src={item.url}
                                             alt={title}
                                             className="h-full w-full object-cover"
                                         />
-                                    ) : item.type === 'video' && item.embed_url ? (
+                                    ) : item.type === 'video' &&
+                                      item.embed_url ? (
                                         <div className="flex flex-col items-center gap-2 text-muted-foreground">
                                             <Video className="h-8 w-8" />
-                                            <span className="text-xs">{t(locale, 'admin.content.video')}</span>
+                                            <span className="text-xs">
+                                                {t(
+                                                    locale,
+                                                    'admin.content.video',
+                                                )}
+                                            </span>
                                         </div>
                                     ) : (
                                         <Image className="h-8 w-8 text-muted-foreground" />
                                     )}
                                     <div className="absolute top-2 left-2">
-                                        <Badge variant={item.type === 'image' ? 'default' : 'secondary'}>
+                                        <Badge
+                                            variant={
+                                                item.type === 'image'
+                                                    ? 'default'
+                                                    : 'secondary'
+                                            }
+                                        >
                                             {item.type}
                                         </Badge>
                                     </div>
                                 </div>
                                 <CardContent className="p-3">
-                                    <p className="text-sm font-medium truncate" title={title}>
+                                    <p
+                                        className="truncate text-sm font-medium"
+                                        title={title}
+                                    >
                                         {title}
                                     </p>
-                                    <p className="text-xs text-muted-foreground mt-0.5">
-                                        {formatLocalizedDate(item.created_at, locale)}
+                                    <p className="mt-0.5 text-xs text-muted-foreground">
+                                        {formatLocalizedDate(
+                                            item.created_at,
+                                            locale,
+                                        )}
                                     </p>
                                     <Button
                                         variant="outline"
@@ -106,17 +138,26 @@ export default function AdminMediaIndex({ media }: Props) {
                 {media.last_page > 1 && (
                     <div className="flex items-center justify-between">
                         <p className="text-sm text-muted-foreground">
-                            {t(locale, 'admin.content.pageSummary')} {media.current_page} {t(locale, 'admin.content.of')} {media.last_page} ({media.total} {t(locale, 'admin.content.total')})
+                            {t(locale, 'admin.content.pageSummary')}{' '}
+                            {media.current_page} {t(locale, 'admin.content.of')}{' '}
+                            {media.last_page} ({media.total}{' '}
+                            {t(locale, 'admin.content.total')})
                         </p>
                         <div className="flex gap-1">
                             {media.links.map((link, i) => (
                                 <Button
                                     key={i}
-                                    variant={link.active ? 'default' : 'outline'}
+                                    variant={
+                                        link.active ? 'default' : 'outline'
+                                    }
                                     size="sm"
                                     disabled={!link.url}
-                                    onClick={() => link.url && router.visit(link.url)}
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                    onClick={() =>
+                                        link.url && router.visit(link.url)
+                                    }
+                                    dangerouslySetInnerHTML={{
+                                        __html: link.label,
+                                    }}
                                 />
                             ))}
                         </div>

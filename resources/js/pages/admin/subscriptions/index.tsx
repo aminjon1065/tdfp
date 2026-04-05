@@ -1,10 +1,10 @@
-import AdminLayout from '@/layouts/admin-layout';
-import { Button } from '@/components/ui/button';
-import { formatLocalizedDate, t } from '@/lib/i18n';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Download } from 'lucide-react';
 
 import { DataTable } from '@/components/admin/data-table';
+import { Button } from '@/components/ui/button';
+import AdminLayout from '@/layouts/admin-layout';
+import { formatLocalizedDate, t } from '@/lib/i18n';
 import { type SharedData } from '@/types';
 
 interface SubscriberRow {
@@ -35,7 +35,8 @@ export default function AdminSubscriptionsIndex({
         {
             key: 'status',
             header: t(locale, 'common.status'),
-            render: (row: SubscriberRow) => t(locale, `status.${row.status}`, row.status),
+            render: (row: SubscriberRow) =>
+                t(locale, `status.${row.status}`, row.status),
         },
         {
             key: 'locale',
@@ -45,23 +46,37 @@ export default function AdminSubscriptionsIndex({
         {
             key: 'confirmed_at',
             header: t(locale, 'common.confirmed'),
-            render: (row: SubscriberRow) => row.confirmed_at ? formatLocalizedDate(row.confirmed_at, locale) : '—',
+            render: (row: SubscriberRow) =>
+                row.confirmed_at
+                    ? formatLocalizedDate(row.confirmed_at, locale)
+                    : '—',
         },
     ];
 
     return (
-        <AdminLayout breadcrumbs={[{ title: t(locale, 'admin.content.subscriptions'), href: '/admin/subscriptions' }]}>
+        <AdminLayout
+            breadcrumbs={[
+                {
+                    title: t(locale, 'admin.content.subscriptions'),
+                    href: '/admin/subscriptions',
+                },
+            ]}
+        >
             <Head title={t(locale, 'admin.content.subscriptions')} />
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold">{t(locale, 'admin.content.subscriptions')}</h1>
+                        <h1 className="text-2xl font-bold">
+                            {t(locale, 'admin.content.subscriptions')}
+                        </h1>
                         <p className="text-sm text-muted-foreground">
                             {t(locale, 'admin.content.reviewSubscriptions')}
                         </p>
                     </div>
                     <Button asChild variant="outline">
-                        <Link href={`/admin/subscriptions/export?status=${filters.status ?? ''}&search=${filters.search ?? ''}`}>
+                        <Link
+                            href={`/admin/subscriptions/export?status=${filters.status ?? ''}&search=${filters.search ?? ''}`}
+                        >
                             <Download className="mr-2 h-4 w-4" />
                             {t(locale, 'admin.content.exportCsv')}
                         </Link>
@@ -69,27 +84,44 @@ export default function AdminSubscriptionsIndex({
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                    {['all', 'pending', 'active', 'unsubscribed'].map((status) => (
-                        <Button
-                            key={status}
-                            variant={filters.status === status || (status === 'all' && !filters.status) ? 'default' : 'outline'}
-                            onClick={() =>
-                                router.get('/admin/subscriptions', {
-                                    ...filters,
-                                    status: status === 'all' ? undefined : status,
-                                })
-                            }
-                        >
-                            {status === 'all' ? t(locale, 'common.all') : t(locale, `status.${status}`, status)}
-                        </Button>
-                    ))}
+                    {['all', 'pending', 'active', 'unsubscribed'].map(
+                        (status) => (
+                            <Button
+                                key={status}
+                                variant={
+                                    filters.status === status ||
+                                    (status === 'all' && !filters.status)
+                                        ? 'default'
+                                        : 'outline'
+                                }
+                                onClick={() =>
+                                    router.get('/admin/subscriptions', {
+                                        ...filters,
+                                        status:
+                                            status === 'all'
+                                                ? undefined
+                                                : status,
+                                    })
+                                }
+                            >
+                                {status === 'all'
+                                    ? t(locale, 'common.all')
+                                    : t(locale, `status.${status}`, status)}
+                            </Button>
+                        ),
+                    )}
                 </div>
 
                 <DataTable
                     data={subscribers}
                     columns={columns}
                     searchable
-                    onSearch={(search) => router.get('/admin/subscriptions', { ...filters, search })}
+                    onSearch={(search) =>
+                        router.get('/admin/subscriptions', {
+                            ...filters,
+                            search,
+                        })
+                    }
                 />
             </div>
         </AdminLayout>
